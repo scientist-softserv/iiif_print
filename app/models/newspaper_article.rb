@@ -19,7 +19,7 @@ class NewspaperArticle < ActiveFedora::Base
 
   # == Type-specific properties ==
 
-  # TODO: DRY on the indexing of fields, the index block is repetative...
+  # TODO: DRY on the indexing of fields, the index block is repetitive...
 
   #  - Section
   property(

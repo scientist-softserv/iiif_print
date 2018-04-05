@@ -13,7 +13,7 @@ module NewspaperWorks
         :held_by,
         predicate: ::RDF::Vocab::BF2.heldBy,
         multiple: false
-      ) do |index|
+      ) do |index|cd h
         index.as :stored_searchable
       end
 
