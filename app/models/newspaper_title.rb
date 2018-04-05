@@ -47,38 +47,11 @@ class NewspaperTitle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # - Type
-  property(
-  :type,
-  predicate: ::RDF::Vocab::DC.type,
-  multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Genre
-  property(
-    :genre,
-    predicate: ::RDF::Vocab::EDM.hasType,
-    multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
   # - Publication date
   property(
     :publication_date,
     predicate ::RDF::Vocab::DC.issued,
     multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Place of Publication
-  property(
-    :place_of_publication,
-    predicate ::RDF::Vocab::MARCRelators.pup,
-    multiple: true
   ) do |index|
     index.as :stored_searchable
   end
@@ -97,42 +70,6 @@ class NewspaperTitle < ActiveFedora::Base
     :frequency,
     predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/#P60538'),
     multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - ISSN
-  property(
-    :issn,
-    predicate: ::RDF::Vocab::Identifiers.issn,
-    multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - LCCN
-  property(
-      :lccn,
-      predicate: ::RDF::Vocab::Identifiers.lccn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - OCLC Number
-  property(
-      :oclcnum,
-      predicate: ::RDF::Vocab::BIBO.oclcnum,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Holding location
-  property(
-      :holding_location,
-      predicate: ::RDF::Vocab::BF2.heldBy,
-      multiple: false
   ) do |index|
     index.as :stored_searchable
   end

@@ -39,24 +39,6 @@ class NewspaperArticle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # - Creator
-  property(
-      :creator,
-      predicate: ::RDF::Vocab::DC.creator,
-      multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Contributor
-  property(
-      :contributor,
-      predicate: ::RDF::Vocab::DC.contributor,
-      multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
   # - Volume
   property(
       :volume,
@@ -84,56 +66,11 @@ class NewspaperArticle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # - Section
-  property(
-    :section,
-    predicate: ::RDF::Vocab::BIBO.section,
-    multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Subject
-  property(
-      :subject,
-      predicate: ::RDF::Vocab::DC.subject,
-      multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
   # - Geographic coverage
   property(
       :geographic_coverage,
       predicate: ::RDF::Vocab::DC.spatial,
       multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - ISSN
-  property(
-      :issn,
-      predicate: ::RDF::Vocab::Identifiers.issn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - LCCN
-  property(
-      :lccn,
-      predicate: ::RDF::Vocab::Identifiers.lccn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - OCLC Number
-  property(
-      :oclcnum,
-      predicate: ::RDF::Vocab::BIBO.oclcnum,
-      multiple: false
   ) do |index|
     index.as :stored_searchable
   end
@@ -147,23 +84,16 @@ class NewspaperArticle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # - Pagination
+  # - Subject
   property(
-      :pagination,
-      predicate: ::RDF::Vocab::SCHEMA.pagination,
-      multiple: false
-  )
-
-  # - Section
-  property(
-      :section,
-      predicate: ::RDF::Vocab::BIBO.section,
-      multiple: false
+      :subject,
+      predicate: ::RDF::Vocab::DC.subject,
+      multiple: true
   ) do |index|
     index.as :stored_searchable
   end
 
-  # TODO: Add Reel number
+  # TODO: Add Reel number: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
