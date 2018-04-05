@@ -17,19 +17,13 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title a title (publication name).'
   }
 
-  # TODO: determine if we want this to cause failed save, if validation
-  #       is a form/ingest concern or indeed a model/persistence concern.
-  #       For now, either save! or save methods would fail on presence,
-  #       and that breaks tests we have, so these are commented out until
-  #       we make some kind of call on this.
-  #       --- 
-  #validates :resource_type, presence: {
-  #    message: 'A newspaper title requires a type.'
-  #}
-  #
-  #validates :genre, presence: {
-  #    message: 'A newspaper title requires a genre.'
-  #}
+  validates :type, presence: {
+      message: 'A newspaper title requires a type.'
+  }
+
+  validates :genre, presence: {
+      message: 'A newspaper title requires a genre.'
+  }
 
   self.human_readable_type = 'Newspaper Title'
 
@@ -39,6 +33,60 @@ class NewspaperTitle < ActiveFedora::Base
   property(
     :edition,
     predicate: ::RDF::Vocab::BIBO.edition,
+    multiple: false
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Frequency
+  property(
+    :frequency,
+    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/#P60538'),
+    multiple: true
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Type
+  property(
+  :type,
+  predicate: ::RDF::Vocab::DC.type,
+  multiple: true
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Genre
+  property(
+    :genre,
+    predicate: ::RDF::Vocab::EDM.hasType,
+    multiple: true
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Publication date
+  property(
+    :publication_date,
+    predicate ::RDF::Vocab::DC.issued,
+    multiple: false
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Place of Publication
+  property(
+    :place_of_publication,
+    predicate ::RDF::Vocab::MARCRelators.pup,
+    multiple: true
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Edition
+  property(
+    :edition,
+    predicate ::RDF::Vocab::BIBO.edition,
     multiple: false
   ) do |index|
     index.as :stored_searchable
@@ -75,6 +123,15 @@ class NewspaperTitle < ActiveFedora::Base
   property(
       :oclcnum,
       predicate: ::RDF::Vocab::BIBO.oclcnum,
+      multiple: false
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Holding location
+  property(
+      :holding_location,
+      predicate: ::RDF::Vocab::BF2.heldBy,
       multiple: false
   ) do |index|
     index.as :stored_searchable
