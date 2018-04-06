@@ -17,7 +17,6 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title a title (publication name).'
   }
 
-
   validates :type, presence: {
       message: 'A newspaper title requires a type.'
   }
@@ -34,7 +33,7 @@ class NewspaperTitle < ActiveFedora::Base
   # - Edition
   property(
     :edition,
-    predicate ::RDF::Vocab::BIBO.edition,
+    predicate: ::RDF::Vocab::BIBO.edition,
     multiple: false
   ) do |index|
     index.as :stored_searchable
