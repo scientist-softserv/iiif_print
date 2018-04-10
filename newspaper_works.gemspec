@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
 SUMMARY
   spec.license     = "Apache-2.0"
   spec.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
-  spec.add_dependency "rails", "~> 5.0.6"
+  spec.add_dependency "rails", "~> 5.0.7"
+  spec.add_dependency "hyrax"
   spec.add_development_dependency "sqlite3"
 end
