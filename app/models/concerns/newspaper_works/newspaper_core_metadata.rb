@@ -19,7 +19,7 @@ module NewspaperWorks
 
       # - Type
       property(
-          :type,
+          :resource_type,
           predicate: ::RDF::Vocab::DC.type,
           multiple: true
       ) do |index|
@@ -58,7 +58,7 @@ module NewspaperWorks
         :held_by,
         predicate: ::RDF::Vocab::BF2.heldBy,
         multiple: false
-      ) do |index|cd h
+      ) do |index|
         index.as :stored_searchable
       end
 

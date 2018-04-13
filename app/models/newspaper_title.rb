@@ -17,7 +17,7 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title a title (publication name).'
   }
 
-  validates :type, presence: {
+  validates :resource_type, presence: {
       message: 'A newspaper title requires a type.'
   }
 
