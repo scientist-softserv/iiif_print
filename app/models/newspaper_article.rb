@@ -57,15 +57,6 @@ class NewspaperArticle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # - Type
-  property(
-      :type,
-      predicate: ::RDF::Vocab::DC.type,
-      multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
   # - Volume
   property(
       :volume,
