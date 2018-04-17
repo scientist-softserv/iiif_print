@@ -8,38 +8,56 @@ module NewspaperWorks
       # common metadata for Newspaper title, issue, article; fields
       # that are not in ::Hyrax::BasicMetadata are enumerated here.
 
-      # Holding location (held by):
+      #  - Alternative Title
       property(
-        :held_by,
-        predicate: ::RDF::Vocab::BF2.heldBy,
-        multiple: false
+          :alternative_title,
+          predicate: ::RDF::Vocab::DC.alternative,
+          multiple: true
       ) do |index|
         index.as :stored_searchable
       end
 
-      #  - Genre (of media and/or intellectual matter?)
+      # - Type
       property(
-        :genre,
-        predicate: ::RDF::URI.new('http://www.europeana.eu/schemas/edm/hasType'),
-        multiple: true
+          :resource_type,
+          predicate: ::RDF::Vocab::DC.type,
+          multiple: true
+      ) do |index|
+        index.as :stored_searchable
+      end
+
+      # - Genre
+      property(
+          :genre,
+          predicate: ::RDF::Vocab::EDM.hasType,
+          multiple: true
       ) do |index|
         index.as :stored_searchable
       end
 
       #  - Issued date
       property(
-        :issued,
-        predicate: ::RDF::Vocab::DC.issued,
-        multiple: false
+          :issued,
+          predicate: ::RDF::Vocab::DC.issued,
+          multiple: false
       ) do |index|
         index.as :stored_searchable
       end
 
       #  - Place of Publication
       property(
-        :place_of_publication,
-        predicate: ::RDF::Vocab::MARCRelators.pup,
-        multiple: true
+          :place_of_publication,
+          predicate: ::RDF::Vocab::MARCRelators.pup,
+          multiple: true
+      ) do |index|
+        index.as :stored_searchable
+      end
+
+      # Holding location (held by):
+      property(
+        :held_by,
+        predicate: ::RDF::Vocab::BF2.heldBy,
+        multiple: false
       ) do |index|
         index.as :stored_searchable
       end
