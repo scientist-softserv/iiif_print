@@ -17,15 +17,6 @@ module NewspaperWorks
         index.as :stored_searchable
       end
 
-      # - Type
-      property(
-          :resource_type,
-          predicate: ::RDF::Vocab::DC.type,
-          multiple: true
-      ) do |index|
-        index.as :stored_searchable
-      end
-
       # - Genre
       property(
           :genre,
