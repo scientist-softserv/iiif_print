@@ -1,10 +1,3 @@
-
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
-
-Rails.application.load_tasks
-
 begin
   require 'bundler/setup'
 rescue LoadError
