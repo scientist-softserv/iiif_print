@@ -5,4 +5,4 @@ instance_dir: tmp/solr-test
 collection:
     persist: false
     dir: config/test-fixture/solr-config
-    name: hydra-test
+    name: hydra-development
