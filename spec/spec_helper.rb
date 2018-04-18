@@ -1,3 +1,6 @@
+# testing environent:
+ENV['RAILS_ENV'] ||= 'test'
+
 # engine_cart:
 require 'engine_cart'
 EngineCart.load_application!
