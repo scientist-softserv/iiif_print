@@ -21,6 +21,8 @@ class NewspaperArticle < ActiveFedora::Base
 
   # TODO: DRY on the indexing of fields, the index block is repetitive...
 
+  # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
+
   # - Author
   property(
     :author,
@@ -80,15 +82,6 @@ class NewspaperArticle < ActiveFedora::Base
       :extent,
       predicate: ::RDF::Vocab::DC.extent,
       multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Subject
-  property(
-      :subject,
-      predicate: ::RDF::Vocab::DC.subject,
-      multiple: true
   ) do |index|
     index.as :stored_searchable
   end

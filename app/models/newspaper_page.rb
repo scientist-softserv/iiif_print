@@ -18,26 +18,24 @@ class NewspaperPage < ActiveFedora::Base
 
   # == Type-specific properties ==
 
-  # - Text Direction
-  property(
-      :text_direction,
-      predicate: ::RDF::Vocab::OA.textDirection,
-      multiple: false
-  )
 
-  # - Height
-  property(
-      :height,
-      predicate: ::RDF::URI.new('http://dbpedia.org/ontology/height'),
-      multiple: false
-  )
+  # # - Height
+  # property(
+  #   :height,
+  #   predicate: ::RDF::URI.new('http://dbpedia.org/ontology/height'),
+  #   multiple: false
+  # ) do |index|
+  #   index.as :stored_searchable
+  # end
 
-  # - Width
-  property(
-      :width,
-      predicate: ::RDF::URI.new('http://dbpedia.org/ontology/width'),
-      multiple: false
-  )
+  # # - Width
+  # property(
+  #   :width,
+  #   predicate: ::RDF::URI.new('http://dbpedia.org/ontology/width'),
+  #   multiple: false
+  # ) do |index|
+  #   index.as :stored_searchable
+  # end
 
   # - Page Number
   property(

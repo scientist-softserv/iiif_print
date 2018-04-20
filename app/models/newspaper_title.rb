@@ -41,7 +41,7 @@ class NewspaperTitle < ActiveFedora::Base
   # - Frequency
   property(
     :frequency,
-    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/#P60538'),
+    predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/#P60538'),
     multiple: true
   ) do |index|
     index.as :stored_searchable

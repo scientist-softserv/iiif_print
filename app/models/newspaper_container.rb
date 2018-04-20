@@ -22,40 +22,6 @@ class NewspaperContainer < ActiveFedora::Base
 
 
   #  - Type (TODO: make a behavior mixin for common fields)
-  property(
-    :resource_type,
-    predicate: ::RDF::Vocab::DC.type,
-    multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - ISSN
-  property(
-      :issn,
-      predicate: ::RDF::Vocab::Identifiers.issn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - LCCN
-  property(
-      :lccn,
-      predicate: ::RDF::Vocab::Identifiers.lccn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - OCLC Number
-  property(
-      :oclcnum,
-      predicate: ::RDF::Vocab::BIBO.oclcnum,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
 
   # - Extent
   property(
@@ -66,7 +32,7 @@ class NewspaperContainer < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # TODO: Reel #
+  # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
   # TODO: Titles on reel
 
   # BasicMetadata must be included last
