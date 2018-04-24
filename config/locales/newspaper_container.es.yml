@@ -1,0 +1,10 @@
+es:
+  hyrax:
+    icons:
+      newspaper_container:     'fa fa-file-text-o'
+    select_type:
+      newspaper_container:
+        # TODO: translate `human_name` into Spanish
+        name:               "Newspaper Container"
+        # TODO: translate `human_name` into Spanish
+        description:        "Newspaper container trabajos"

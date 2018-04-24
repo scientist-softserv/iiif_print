@@ -1,0 +1,8 @@
+pt-BR:
+  hyrax:
+    icons:
+      newspaper_issue:     'fa fa-file-text-o'
+    select_type:
+      newspaper_issue:
+        name:               "Newspaper Issue"
+        description:        "Newspaper issue trabalhos"

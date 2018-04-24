@@ -1,0 +1,10 @@
+es:
+  hyrax:
+    icons:
+      newspaper_page:     'fa fa-file-text-o'
+    select_type:
+      newspaper_page:
+        # TODO: translate `human_name` into Spanish
+        name:               "Newspaper Page"
+        # TODO: translate `human_name` into Spanish
+        description:        "Newspaper page trabajos"

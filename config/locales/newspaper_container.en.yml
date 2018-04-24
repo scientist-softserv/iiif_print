@@ -1,0 +1,8 @@
+en:
+  hyrax:
+    icons:
+      newspaper_container:     'fa fa-file-text-o'
+    select_type:
+      newspaper_container:
+        name:               "Newspaper Container"
+        description:        "Newspaper container works"

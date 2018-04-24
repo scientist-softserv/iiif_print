@@ -1,0 +1,8 @@
+en:
+  hyrax:
+    icons:
+      newspaper_article:     'fa fa-file-text-o'
+    select_type:
+      newspaper_article:
+        name:               "Newspaper Article"
+        description:        "Newspaper article works"
