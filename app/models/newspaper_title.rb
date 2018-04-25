@@ -32,33 +32,6 @@ class NewspaperTitle < ActiveFedora::Base
   # - Edition
   property(
     :edition,
-    predicate: ::RDF::Vocab::BIBO.edition,
-    multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Frequency
-  property(
-    :frequency,
-    predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/#P60538'),
-    multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Publication date
-  property(
-    :publication_date,
-    predicate ::RDF::Vocab::DC.issued,
-    multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - Edition
-  property(
-    :edition,
     predicate ::RDF::Vocab::BIBO.edition,
     multiple: false
   ) do |index|

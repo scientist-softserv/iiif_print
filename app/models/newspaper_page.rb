@@ -18,7 +18,6 @@ class NewspaperPage < ActiveFedora::Base
 
   # == Type-specific properties ==
 
-
   # # - Height
   # property(
   #   :height,
@@ -36,22 +35,6 @@ class NewspaperPage < ActiveFedora::Base
   # ) do |index|
   #   index.as :stored_searchable
   # end
-
-  # - Page Number
-  property(
-      :page_number,
-      predicate: ::RDF::Vocab::SCHEMA.pagination,
-      multiple: false
-  )
-
-  # - Section
-  property(
-      :section,
-      predicate: ::RDF::Vocab::BIBO.section,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
 
   # TODO: Add Reel number
 
