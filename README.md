@@ -9,6 +9,16 @@ functionality for Hyrax-based Samvera applications in the space
 of scanned newspaper media.  This gem can be included in a
 Digital Asset Management application based on Hyrax 2.x.
 
+### Purpose, Use, and Aims
+
+This gem, while not a stand-alone application, can be integrated into an
+application based on Hyrax 2.x easily to support a variety of cases for
+management and ingest of primarily scanned (historic) newspaper archives.
+
+### Status
+
+This gem/engine is in early development, but
+
 Requirements
 ------------
 
@@ -64,4 +74,30 @@ Development and Testing Setup
     - `cd .internal_test_app; rails c test`
 * For development, you may want to include a clone of `newspaper_works`
   in your app's Gemfile, either via `github:` or by `path:` in a local
-  Gemfile used only for local evelopment of your app.
+  Gemfile used only for local development of your app.
+
+Credits
+-------
+
+### Sponsoring Organizations
+
+This gem is part of a project developed in a collaboration between
+The University of Utah J. Willard Marriott Library and
+Boston Public Libray, as part of a "Newspapers in Samvera" project
+grant funded by the Institute for Museum and Library Services (imls.gov).
+
+The development team is grateful for input, collaboration, and support
+we receive from the Samvera Community, related working groups,
+and our project's advisory board.
+
+### Contributors and Project Team
+
+  * Eben English (BPL)
+  * Brian McBride (University of Utah)
+  * Jacob Reed (University of Utah)
+  * Sean Upton (University of Utah)
+
+### More Information / Contact
+
+  * Contact any contributors above by email, or ping us on
+    Samvera Community Slack channel(s).
