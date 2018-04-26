@@ -1,8 +1,8 @@
-require 'rails/generators/base'
+require 'rails/generators'
 
 module NewspaperWorks
 
-  class InstallGenerator < Rails::Generators::NamedBase
+  class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
     def register_worktypes
