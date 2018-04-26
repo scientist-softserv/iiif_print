@@ -17,5 +17,11 @@ module NewspaperWorks
       end
     end
 
+    def inject_routes
+      inject_into_file 'config/routes.rb', after: "Rails.application.routes.draw do\n" do
+        "\n  mount NewspaperWorks::Engine => '/'\n"
+      end
+    end
+
   end
 end
