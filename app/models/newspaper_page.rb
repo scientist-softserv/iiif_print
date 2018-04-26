@@ -36,7 +36,7 @@ class NewspaperPage < ActiveFedora::Base
   #   index.as :stored_searchable
   # end
 
-  # TODO: Add Reel number
+  # TODO: Add Reel number: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
