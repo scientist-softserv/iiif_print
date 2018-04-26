@@ -32,7 +32,7 @@ class NewspaperTitle < ActiveFedora::Base
   # - Edition
   property(
     :edition,
-    predicate ::RDF::Vocab::BIBO.edition,
+    predicate: ::RDF::Vocab::BIBO.edition,
     multiple: false
   ) do |index|
     index.as :stored_searchable
@@ -41,7 +41,7 @@ class NewspaperTitle < ActiveFedora::Base
   # - Frequency
   property(
     :frequency,
-    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/#P60538'),
+    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/P60538'),
     multiple: true
   ) do |index|
     index.as :stored_searchable
