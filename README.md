@@ -83,7 +83,7 @@ Credits
 
 This gem is part of a project developed in a collaboration between
 The University of Utah J. Willard Marriott Library and
-Boston Public Libray, as part of a "Newspapers in Samvera" project
+Boston Public Library, as part of a "Newspapers in Samvera" project
 grant funded by the Institute for Museum and Library Services (imls.gov).
 
 The development team is grateful for input, collaboration, and support
