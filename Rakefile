@@ -12,3 +12,6 @@ Bundler::GemHelper.install_tasks
 require 'engine_cart/rake_task'
 
 RSpec::Core::RakeTask.new(:spec)
+
+task :default => :spec
+RSpec::Core::RakeTask.new
