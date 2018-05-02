@@ -5,13 +5,13 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore Gemfile.lock
-/Gemfile.lock
+Gemfile.lock
 
 # Ignore bundler config.
-/.bundle
+.bundle
 
 # Ignore JetBrains IDE folder
-/.idea/*
+.idea/*
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

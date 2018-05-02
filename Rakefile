@@ -33,5 +33,5 @@ task :setup_test_server do
 end
 
 Dir.glob('tasks/*.rake').each { |r| import r }
-
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
 task default: :ci
