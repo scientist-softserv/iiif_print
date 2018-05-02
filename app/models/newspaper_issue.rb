@@ -15,19 +15,21 @@ class NewspaperIssue < ActiveFedora::Base
 
   self.human_readable_type = 'Newspaper Issue'
 
-  #  - Alternative Title
-  property(
-    :alternative_title,
-    predicate: ::RDF::Vocab::DC.alternative,
-    multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
+  # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   #  - Edition
   property(
     :edition,
     predicate: ::RDF::Vocab::BIBO.edition,
+    multiple: false
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Extent
+  property(
+    :extent,
+    predicate: ::RDF::Vocab::DC.extent,
     multiple: false
   ) do |index|
     index.as :stored_searchable

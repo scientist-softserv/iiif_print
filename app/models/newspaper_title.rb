@@ -17,14 +17,16 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title a title (publication name).'
   }
 
-  validates :resource_type, presence: {
-      message: 'A newspaper title requires a type.'
-  }
+  # validations below causing save failures
+  # TODO: get them working || enforce validation elsewhere || remove
 
-  validates :genre, presence: {
-      message: 'A newspaper title requires a genre.'
-  }
+  # validates :type, presence: {
+  #   message: 'A newspaper title requires a type.'
+  # }
 
+  # validates :genre, presence: {
+  #   message: 'A newspaper title requires a genre.'
+  # }
 
   self.human_readable_type = 'Newspaper Title'
 
@@ -42,35 +44,8 @@ class NewspaperTitle < ActiveFedora::Base
   # - Frequency
   property(
     :frequency,
-    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/#P60538'),
+    predicate: ::RDF::URI.new('http://www.rdaregistry.info/Elements/u/P60538'),
     multiple: true
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - ISSN
-  property(
-    :issn,
-    predicate: ::RDF::Vocab::Identifiers.issn,
-    multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - LCCN
-  property(
-      :lccn,
-      predicate: ::RDF::Vocab::Identifiers.lccn,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # - OCLC Number
-  property(
-      :oclcnum,
-      predicate: ::RDF::Vocab::BIBO.oclcnum,
-      multiple: false
   ) do |index|
     index.as :stored_searchable
   end

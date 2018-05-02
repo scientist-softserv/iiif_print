@@ -1,0 +1,10 @@
+zh:
+  hyrax:
+    icons:
+      newspaper_page:     'fa fa-file-text-o'
+    select_type:
+      newspaper_page:
+        # TODO: translate `human_name` into Chinese
+        name:               "Newspaper Page"
+        # TODO: translate `human_name` into Chinese
+        description:        "Newspaper page 作品"

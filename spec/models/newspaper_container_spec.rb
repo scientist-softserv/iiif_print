@@ -1,6 +1,6 @@
 # Generated via
 #  `rails generate hyrax:work NewspaperContainer`
-require 'rails_helper'
+require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperContainer do

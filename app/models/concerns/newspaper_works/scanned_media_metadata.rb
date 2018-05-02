@@ -22,38 +22,11 @@ module NewspaperWorks
         index.as :stored_searchable
       end
 
-      # - Height
-      property(
-        :height,
-        predicate: ::RDF::URI.new('http://dbpedia.org/ontology/height'),
-        multiple: false
-      ) do |index|
-        index.as :stored_searchable
-      end
-
-      # - Width
-      property(
-        :width,
-        predicate: ::RDF::URI.new('http://dbpedia.org/ontology/width'),
-        multiple: false
-      ) do |index|
-        index.as :stored_searchable
-      end
-
       # - Page Number
       property(
         :pagination,
         predicate: ::RDF::Vocab::SCHEMA.pagination,
         multiple: false
-      ) do |index|
-        index.as :stored_searchable
-      end
-
-      # - Identifier (local)
-      property(
-        :identifier,
-        predicate: ::RDF::Vocab::DC.identifier,
-        multiple: true
       ) do |index|
         index.as :stored_searchable
       end

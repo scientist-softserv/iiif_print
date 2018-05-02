@@ -18,44 +18,25 @@ class NewspaperPage < ActiveFedora::Base
 
   # == Type-specific properties ==
 
-  # - Text Direction
-  property(
-      :text_direction,
-      predicate: ::RDF::Vocab::OA.textDirection,
-      multiple: false
-  )
+  # # - Height
+  # property(
+  #   :height,
+  #   predicate: ::RDF::URI.new('http://dbpedia.org/ontology/height'),
+  #   multiple: false
+  # ) do |index|
+  #   index.as :stored_searchable
+  # end
 
-  # - Height
-  property(
-      :height,
-      predicate: ::RDF::URI.new('http://dbpedia.org/ontology/height'),
-      multiple: false
-  )
+  # # - Width
+  # property(
+  #   :width,
+  #   predicate: ::RDF::URI.new('http://dbpedia.org/ontology/width'),
+  #   multiple: false
+  # ) do |index|
+  #   index.as :stored_searchable
+  # end
 
-  # - Width
-  property(
-      :width,
-      predicate: ::RDF::URI.new('http://dbpedia.org/ontology/width'),
-      multiple: false
-  )
-
-  # - Page Number
-  property(
-      :page_number,
-      predicate: ::RDF::Vocab::SCHEMA.pagination,
-      multiple: false
-  )
-
-  # - Section
-  property(
-      :section,
-      predicate: ::RDF::Vocab::BIBO.section,
-      multiple: false
-  ) do |index|
-    index.as :stored_searchable
-  end
-
-  # TODO: Add Reel number
+  # TODO: Add Reel number: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata

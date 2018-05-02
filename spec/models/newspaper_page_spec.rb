@@ -1,6 +1,6 @@
 # Generated via
 #  `rails generate hyrax:work NewspaperPage`
-require 'rails_helper'
+require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperPage do
