@@ -6,9 +6,9 @@ require 'rspec/core/rake_task'
 require 'bundler/gem_tasks'
 require 'engine_cart/rake_task'
 
-Bundler.require(*Rails.groups)
+#Bundler.require(*Rails.groups)
 
-Rails.application.load_tasks
+#Rails.application.load_tasks
 
 begin
   require 'bundler/setup'

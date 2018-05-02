@@ -1,3 +1,10 @@
+PATH
+  remote: /home/brian/code/newspaper_works
+  specs:
+    newspaper_works (0.1.0)
+      hyrax (~> 2.0.0)
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -584,6 +591,10 @@ GEM
     rsolr (2.1.0)
       builder (>= 2.1.2)
       faraday (>= 0.9.0)
+    rspec (3.7.0)
+      rspec-core (~> 3.7.0)
+      rspec-expectations (~> 3.7.0)
+      rspec-mocks (~> 3.7.0)
     rspec-core (3.7.1)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
@@ -724,9 +735,11 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  newspaper_works!
   puma (~> 3.0)
   rails (~> 5.0.7)
   rsolr (>= 1.0)
+  rspec
   rspec-rails
   sass-rails (~> 5.0)
   solr_wrapper (>= 0.3)
@@ -739,4 +752,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
