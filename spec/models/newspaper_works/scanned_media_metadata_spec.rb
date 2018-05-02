@@ -17,16 +17,13 @@ RSpec.describe "ScannedMediaMetadata" do
     properties = ScannedMediaWork.properties
     expect(properties.keys).to include "text_direction"
     expect(properties.keys).to include "pagination"
-    expect(properties.keys).to include "identifier"
     expect(properties.keys).to include "section"
-    expect(properties.keys).to include "height"
-    expect(properties.keys).to include "width"
   end
 
   it "work can set/get properties" do
     work = ScannedMediaWork.new
-    work.identifier = ['e2c23fb8-f072-4f4f-bfd4-f907b45182be']
-    expect(work.identifier).to include 'e2c23fb8-f072-4f4f-bfd4-f907b45182be'
+    work.section = 'foo'
+    expect(work.section).to include 'foo'
   end
 
   it "work using mixin saves" do

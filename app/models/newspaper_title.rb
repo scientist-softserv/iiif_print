@@ -17,13 +17,16 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title a title (publication name).'
   }
 
-  validates :type, presence: {
-      message: 'A newspaper title requires a type.'
-  }
+  # validations below causing save failures
+  # TODO: get them working || enforce validation elsewhere || remove
 
-  validates :genre, presence: {
-      message: 'A newspaper title requires a genre.'
-  }
+  # validates :type, presence: {
+  #   message: 'A newspaper title requires a type.'
+  # }
+
+  # validates :genre, presence: {
+  #   message: 'A newspaper title requires a genre.'
+  # }
 
   self.human_readable_type = 'Newspaper Title'
 
