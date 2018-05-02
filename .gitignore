@@ -31,3 +31,6 @@
 
 # Ignore all RubyMine temp files
 .idea/
+
+# Ignore Gemfile.lock
+Gemfile.lock
