@@ -198,6 +198,9 @@ GEM
     ebnf (1.1.2)
       rdf (>= 2.2, < 4.0)
       sxp (~> 1.0)
+    engine_cart (2.0.1)
+      bundler (~> 1.5)
+      rails
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
@@ -715,13 +718,14 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   devise-guests (~> 0.6)
+  engine_cart
   fcrepo_wrapper
   hyrax (= 2.0.0)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
   puma (~> 3.0)
-  rails (~> 5.0.6)
+  rails (~> 5.0.7)
   rsolr (>= 1.0)
   rspec-rails
   sass-rails (~> 5.0)
