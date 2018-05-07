@@ -1,5 +1,6 @@
 newspaper_works — Newspaper Works for Hyrax/Samvera
 ===================================================
+[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works)
 
 Overview
 --------
