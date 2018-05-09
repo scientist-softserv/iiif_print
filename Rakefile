@@ -27,11 +27,13 @@ Bundler::GemHelper.install_tasks
 #task :default => :spec
 #RSpec::Core::RakeTask.new
 
+# Set up the test application prior to running jasmine tasks.
 task :setup_test_server do
   require 'engine_cart'
   EngineCart.load_application!
 end
 
 Dir.glob('tasks/*.rake').each { |r| import r }
+Dir.glob('lib/tasks/*.rake').each { |r| import r }
 
 task default: :ci

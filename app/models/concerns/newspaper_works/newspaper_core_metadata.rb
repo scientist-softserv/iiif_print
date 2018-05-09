@@ -26,15 +26,6 @@ module NewspaperWorks
         index.as :stored_searchable
       end
 
-      # - Genre
-      property(
-          :genre,
-          predicate: ::RDF::Vocab::EDM.hasType,
-          multiple: true
-      ) do |index|
-        index.as :stored_searchable
-      end
-
       #  - Issued date
       property(
           :issued,
