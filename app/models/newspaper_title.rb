@@ -1,4 +1,4 @@
- # NewspaperTitle: object for a publication/title
+# NewspaperTitle: object for a publication/title
 class NewspaperTitle < ActiveFedora::Base
   # WorkBehavior mixes in minimal ::Hyrax::CoreMetadata fields of
   # depositor, title, date_uploaded, and date_modified.
@@ -52,22 +52,21 @@ class NewspaperTitle < ActiveFedora::Base
 
   # Preceded by
   property(
-      :preceded_by,
-      predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60261'),
-      multiple: true
+    :preceded_by,
+    predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60261'),
+    multiple: true
   ) do |index|
     index.as :stored_searchable
   end
 
   # Succeeded by
   property(
-      :succeeded_by,
-      predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60278'),
-      multiple: true
+    :succeeded_by,
+    predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60278'),
+    multiple: true
   ) do |index|
     index.as :stored_searchable
   end
-
 
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
@@ -80,5 +79,4 @@ class NewspaperTitle < ActiveFedora::Base
   def containers
     self.members.select { |v| v.instance_of?(NewspaperContainer) }
   end
-
 end

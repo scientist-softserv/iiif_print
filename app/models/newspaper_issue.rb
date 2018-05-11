@@ -1,3 +1,4 @@
+# Newspaper Issue
 class NewspaperIssue < ActiveFedora::Base
   # WorkBehavior mixes in minimal ::Hyrax::CoreMetadata fields of
   # depositor, title, date_uploaded, and date_modified.
@@ -41,7 +42,7 @@ class NewspaperIssue < ActiveFedora::Base
   # relationship methods
   def publication
     result = self.member_of.select { |v| v.instance_of?(NewspaperTitle) }
-    result[0] unless result.length == 0
+    result[0] unless result.length.zero
   end
 
   def articles
@@ -51,5 +52,4 @@ class NewspaperIssue < ActiveFedora::Base
   def pages
     self.members.select { |v| v.instance_of?(NewspaperPage) }
   end
-
 end

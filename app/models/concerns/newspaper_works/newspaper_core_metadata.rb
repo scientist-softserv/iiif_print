@@ -10,36 +10,36 @@ module NewspaperWorks
 
       # - Alternative Title
       property(
-          :alternative_title,
-          predicate: ::RDF::Vocab::DC.alternative,
-          multiple: true
+        :alternative_title,
+        predicate: ::RDF::Vocab::DC.alternative,
+        multiple: true
       ) do |index|
         index.as :stored_searchable
       end
 
       # - Genre
       property(
-          :genre,
-          predicate: ::RDF::Vocab::EDM.hasType,
-          multiple: true
+        :genre,
+        predicate: ::RDF::Vocab::EDM.hasType,
+        multiple: true
       ) do |index|
         index.as :stored_searchable
       end
 
       #  - Issued date
       property(
-          :issued,
-          predicate: ::RDF::Vocab::DC.issued,
-          multiple: false
+        :issued,
+        predicate: ::RDF::Vocab::DC.issued,
+        multiple: false
       ) do |index|
         index.as :stored_searchable
       end
 
       #  - Place of Publication
       property(
-          :place_of_publication,
-          predicate: ::RDF::Vocab::MARCRelators.pup,
-          multiple: true
+        :place_of_publication,
+        predicate: ::RDF::Vocab::MARCRelators.pup,
+        multiple: true
       ) do |index|
         index.as :stored_searchable
       end
@@ -55,18 +55,18 @@ module NewspaperWorks
 
       # - LCCN
       property(
-          :lccn,
-          predicate: ::RDF::Vocab::Identifiers.lccn,
-          multiple: false
+        :lccn,
+        predicate: ::RDF::Vocab::Identifiers.lccn,
+        multiple: false
       ) do |index|
         index.as :stored_searchable
       end
 
       # - OCLC Number
       property(
-          :oclcnum,
-          predicate: ::RDF::Vocab::BIBO.oclcnum,
-          multiple: false
+        :oclcnum,
+        predicate: ::RDF::Vocab::BIBO.oclcnum,
+        multiple: false
       ) do |index|
         index.as :stored_searchable
       end

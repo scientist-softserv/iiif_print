@@ -1,3 +1,4 @@
+# Newspaper Container
 class NewspaperContainer < ActiveFedora::Base
   # WorkBehavior mixes in minimal ::Hyrax::CoreMetadata fields of
   # depositor, title, date_uploaded, and date_modified.
@@ -12,14 +13,14 @@ class NewspaperContainer < ActiveFedora::Base
 
   # Validation and required fields:
   # self.required_fields = [:resource_type, :genre, :language, :held_by]
-  validates :title, presence: { message: 'A newspaper container requires a title.' }
+  validates :title, presence: { message:
+                               'A newspaper container requires a title.' }
 
   self.human_readable_type = 'Newspaper Container'
 
   # == Type-specific properties ==
 
   # TODO: DRY on the indexing of fields, the index block is repetative...
-
 
   #  - Type (TODO: make a behavior mixin for common fields)
 
@@ -39,7 +40,7 @@ class NewspaperContainer < ActiveFedora::Base
   include ::Hyrax::BasicMetadata
 
   # relationship methods
-  
+
   def publication
     result = self.member_of.select { |v| v.instance_of?(NewspaperTitle) }
     result[0] unless result.length == 0
@@ -48,5 +49,4 @@ class NewspaperContainer < ActiveFedora::Base
   def pages
     self.members.select { |v| v.instance_of?(NewspaperPage) }
   end
-
 end
