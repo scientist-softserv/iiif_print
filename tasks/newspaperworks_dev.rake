@@ -20,7 +20,7 @@ task :spec_with_app_load do
 end
 
 desc 'Generate the engine_cart and spin up test servers and run specs'
-#task ci: ['rubocop', 'engine_cart:generate'] do
+# task ci: ['rubocop', 'engine_cart:generate'] do
 task ci: ['engine_cart:generate'] do
   puts 'running continuous integration'
   Rake::Task['spec_with_app_load'].invoke
