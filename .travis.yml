@@ -31,3 +31,6 @@ services:
   - redis-server
 before_script:
 - jdk_switcher use oraclejdk8
+
+script:
+  -- bundle exec rubocop
