@@ -1,7 +1,8 @@
+# Test App Generator
 require 'rails/generators'
 
 class TestAppGenerator < Rails::Generators::Base
-  source_root "./spec/test_app_templates"
+  source_root './spec/test_app_templates'
 
   def install_hyrax
     generate 'hyrax:install', '-f'
@@ -14,6 +15,4 @@ class TestAppGenerator < Rails::Generators::Base
   def db_migrations
     rake 'db:migrate'
   end
-
 end
-

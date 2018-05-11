@@ -4,29 +4,28 @@ require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperIssue do
-
   before(:all) do
     @fixture = model_fixtures(NewspaperIssue)
   end
 
   # shared behaviors
-  it_behaves_like("a work and PCDM object")
-  it_behaves_like("a persistent work type")
+  it_behaves_like('a work and PCDM object')
+  it_behaves_like('a persistent work type')
 
-  describe "Model behaviors and properties" do
-    it "has expected properties" do
+  describe 'Model behaviors and properties' do
+    it 'has expected properties' do
       properties = NewspaperIssue.properties
-      expect(properties.keys).to include "alternative_title"
-      expect(properties.keys).to include "edition"
+      expect(properties.keys).to include 'alternative_title'
+      expect(properties.keys).to include 'edition'
     end
   end
 
-  describe "Relationship methods" do
-    it "has expected test fixture" do
+  describe 'Relationship methods' do
+    it 'has expected test fixture' do
       expect(@fixture).to be_an_instance_of(NewspaperIssue)
     end
 
-    it "can get aggregating publication/title" do
+    it 'can get aggregating publication/title' do
       parent = @fixture.publication
       expect(parent).to_not be_nil
       expect(parent).to be_an_instance_of(NewspaperTitle)
@@ -34,7 +33,7 @@ RSpec.describe NewspaperIssue do
       expect(parent.issues).to include @fixture
     end
 
-    it "can get aggregated pages" do
+    it 'can get aggregated pages' do
       contained_pages = @fixture.pages
       expect(contained_pages).to be_an_instance_of(Array)
       expect(contained_pages.length).to be > 0
@@ -43,7 +42,7 @@ RSpec.describe NewspaperIssue do
       end
     end
 
-    it "can get aggregated articles" do
+    it 'can get aggregated articles' do
       contained_articles = @fixture.articles
       expect(contained_articles).to be_an_instance_of(Array)
       expect(contained_articles.length).to be > 0
@@ -52,5 +51,4 @@ RSpec.describe NewspaperIssue do
       end
     end
   end
-
 end

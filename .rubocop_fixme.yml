@@ -1,0 +1,202 @@
+Security/MarshalLoad:
+  Exclude:
+    - 'app/models/concerns/hyrax/user.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'app/controllers/hyrax/dashboard/collections_controller.rb'
+    - 'app/controllers/hyrax/admin/admin_sets_controller.rb'
+    - 'app/controllers/hyrax/batch_edits_controller.rb'
+    - 'app/controllers/hyrax/downloads_controller.rb'
+    - 'app/controllers/hyrax/file_sets_controller.rb'
+    - 'app/forms/hyrax/forms/permission_template_form.rb'
+    - 'app/presenters/hyrax/work_show_presenter.rb'
+    - 'app/presenters/hyrax/collection_presenter.rb'
+    - 'app/services/hyrax/user_stat_importer.rb'
+    - 'lib/generators/hyrax/templates/catalog_controller.rb'
+    - 'lib/generators/hyrax/install_generator.rb'
+    - 'lib/hyrax/configuration.rb'
+
+Metrics/ParameterLists:
+  Exclude:
+    - 'app/jobs/batch_create_job.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/indexers/hyrax/file_set_indexer.rb'
+    - 'app/services/hyrax/workflow/permission_query.rb'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'app/controllers/concerns/hyrax/works_controller_behavior.rb'
+    - 'app/helpers/hyrax/hyrax_helper_behavior.rb'
+    - 'app/models/concerns/hyrax/ability.rb'
+    - 'app/services/hyrax/workflow/permission_query.rb'
+    - 'spec/services/hyrax/workflow/permission_query_spec.rb'
+    # TODO:  extract CollectionAccessControls or something, so we don't have to skip this check?
+    - 'app/models/concerns/hyrax/collection_behavior.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/controllers/concerns/hyrax/api.rb'
+    - 'app/controllers/concerns/hyrax/works_controller_behavior.rb'
+    - 'app/indexers/hyrax/file_set_indexer.rb'
+    - 'app/inputs/multi_value_select_input.rb'
+    - 'app/models/concerns/hyrax/solr_document/export.rb'
+    - 'app/services/hyrax/workflow/permission_query.rb'
+    - 'lib/generators/hyrax/install_generator.rb'
+    - 'lib/hyrax/rails/routes.rb'
+    - 'spec/support/**/*'
+
+
+Naming/PredicateName:
+  Exclude:
+    - 'app/helpers/hyrax/collections_helper.rb'
+
+
+# TODO: remove when https://github.com/bbatsov/rubocop/issues/4539 is fixed
+Style/FormatStringToken:
+  Exclude:
+    - 'config/routes.rb'
+
+Style/DateTime:
+  Enabled: false
+
+# TODO: remove when https://github.com/bbatsov/rubocop/issues/5161 is fixed
+Style/CommentedKeyword:
+  Exclude:
+    - 'app/models/vocab/fedora_resource_status.rb'
+
+Style/SpecialGlobalVars:
+  Exclude:
+    - 'tasks/hyrax_dev.rake'
+
+Rails/Output:
+  Exclude:
+    - 'lib/generators/**/*'
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 9
+  Exclude:
+    - 'spec/actors/hyrax/actors/file_set_actor_spec.rb'
+    - 'spec/actors/hyrax/actors/generic_work_actor_spec.rb'
+    - 'spec/controllers/hyrax/api/items_controller_spec.rb'
+    - 'spec/controllers/hyrax/batch_edits_controller_spec.rb'
+    - 'spec/controllers/hyrax/batch_uploads_controller_spec.rb'
+    - 'spec/controllers/hyrax/file_sets_controller_spec.rb'
+    - 'spec/controllers/hyrax/generic_works_controller_spec.rb'
+    - 'spec/controllers/hyrax/my/highlights_controller_spec.rb'
+    - 'spec/controllers/hyrax/transfers_controller_spec.rb'
+    - 'spec/forms/hyrax/forms/collection_form_spec.rb'
+    - 'spec/forms/hyrax/forms/batch_edit_form_spec.rb'
+    - 'spec/forms/hyrax/forms/batch_upload_form_spec.rb'
+    - 'spec/forms/hyrax/forms/file_set_edit_form_spec.rb'
+    - 'spec/features/**/*'
+    - 'spec/helpers/hyrax/charts_helper_spec.rb'
+    - 'spec/helpers/dashboard_helper_spec.rb'
+    - 'spec/helpers/hyrax_helper_spec.rb'
+    - 'spec/indexers/hyrax/file_set_indexer_spec.rb'
+    - 'spec/javascripts/jasmine_spec.rb'
+    - 'spec/jobs/file_set_attached_event_job_spec.rb'
+    - 'spec/jobs/batch_create_job_spec.rb'
+    - 'spec/jobs/create_work_job_spec.rb'
+    - 'spec/jobs/content_update_event_job_spec.rb'
+    - 'spec/jobs/content_restored_version_event_job_spec.rb'
+    - 'spec/jobs/content_new_version_event_job_spec.rb'
+    - 'spec/jobs/content_depositor_change_event_job_spec.rb'
+    - 'spec/jobs/content_deposit_event_job_spec.rb'
+    - 'spec/jobs/content_delete_event_job_spec.rb'
+    - 'spec/jobs/ingest_file_job_spec.rb'
+    - 'spec/lib/hyrax/arkivo/actor_spec.rb'
+    - 'spec/lib/hyrax/resource_sync/capability_list_writer_spec.rb'
+    - 'spec/models/checksum_audit_log_spec.rb'
+    - 'spec/models/featured_work_spec.rb'
+    - 'spec/models/file_set_spec.rb'
+    - 'spec/models/generic_work_spec.rb'
+    - 'spec/presenters/hyrax/inspect_work_presenter_spec.rb'
+    - 'spec/services/hyrax/actor_factory_spec.rb'
+    - 'spec/services/hyrax/admin_set_create_service_spec.rb'
+    - 'spec/services/hyrax/default_middleware_stack_spec.rb'
+    - 'spec/services/hyrax/graph_exporter_spec.rb'
+    - 'spec/services/hyrax/user_stat_importer_spec.rb'
+    - 'spec/services/hyrax/workflow/activate_object_spec.rb'
+    - 'spec/services/hyrax/workflow/deactivate_object_spec.rb'
+    - 'spec/services/hyrax/workflow/permission_generator_spec.rb'
+    - 'spec/services/hyrax/workflow/permission_query_spec.rb'
+    - 'spec/services/hyrax/workflow/state_machine_generator_spec.rb'
+    - 'spec/services/hyrax/workflow/workflow_importer_spec.rb'
+    - 'spec/views/**/*'
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/SubjectStub:
+  Exclude:
+    - 'spec/actors/hyrax/actors/generic_work_actor_spec.rb'
+    - 'spec/controllers/hyrax/file_sets_controller_spec.rb'
+    - 'spec/models/file_set_spec.rb'
+    - 'spec/models/hyrax/work_behavior_spec.rb'
+    - 'spec/search_builders/hyrax/file_set_search_builder_spec.rb'
+    - 'spec/models/hyrax/operation_spec.rb'
+
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/actors/hyrax/actors/generic_work_actor_spec.rb'
+    - 'spec/controllers/hyrax/admin/admin_sets_controller_spec.rb'
+    - 'spec/controllers/hyrax/api/items_controller_spec.rb'
+    - 'spec/controllers/hyrax/api/zotero_controller_spec.rb'
+    - 'spec/controllers/hyrax/batch_edits_controller_spec.rb'
+    - 'spec/controllers/hyrax/dashboard_controller_spec.rb'
+    - 'spec/controllers/hyrax/stats_controller_spec.rb'
+    - 'spec/jobs/file_set_attached_event_job_spec.rb'
+    - 'spec/jobs/content_update_event_job_spec.rb'
+    - 'spec/jobs/content_restored_version_event_job_spec.rb'
+    - 'spec/jobs/content_new_version_event_job_spec.rb'
+    - 'spec/jobs/content_depositor_change_event_job_spec.rb'
+    - 'spec/jobs/content_deposit_event_job_spec.rb'
+    - 'spec/jobs/hyrax/grant_edit_to_members_job_spec.rb'
+    - 'spec/jobs/hyrax/grant_read_to_members_job_spec.rb'
+    - 'spec/jobs/hyrax/revoke_edit_from_members_job_spec.rb'
+    - 'spec/lib/hyrax/arkivo/actor_spec.rb'
+    - 'spec/lib/hyrax/arkivo/create_subscription_job_spec.rb'
+    - 'spec/presenters/hyrax/file_usage_spec.rb'
+    - 'spec/presenters/hyrax/work_usage_spec.rb'
+    - 'spec/services/hyrax/repository_fixity_check_service_spec.rb'
+    - 'spec/services/hyrax/workflow/permission_generator_spec.rb'
+    - 'spec/services/hyrax/workflow/sipity_actions_generator_spec.rb'
+    - 'spec/services/hyrax/workflow/state_machine_generator_spec.rb'
+    - 'spec/services/hyrax/workflow/workflow_permissions_generator_spec.rb'
+
+# Offense count: 51
+RSpec/ExpectInHook:
+  Enabled: false
+
+# Offense count: 31
+RSpec/LetBeforeExamples:
+  Exclude:
+    - 'spec/forms/hyrax/forms/collection_form_spec.rb'
+    - 'spec/presenters/hyrax/collection_presenter_spec.rb'
+    - 'spec/presenters/hyrax/trophy_presenter_spec.rb'
+    - 'spec/services/hyrax/workflow/action_taken_service_spec.rb'
+    - 'spec/services/hyrax/workflow/notification_service_spec.rb'
+
+# Offense count: 27
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+# SupportedStyles: and_return, block
+RSpec/ReturnFromStub:
+  Exclude:
+    - 'spec/controllers/hyrax/api/items_controller_spec.rb'
+    - 'spec/controllers/hyrax/file_sets_controller_spec.rb'
+    - 'spec/lib/hyrax/arkivo/create_subscription_job_spec.rb'
+    - 'spec/models/file_set_spec.rb'
+    - 'spec/presenters/hyrax/admin_set_options_presenter_spec.rb'
+    - 'spec/routing/api_route_spec.rb'
+    - 'spec/views/_user_util_links.html.erb_spec.rb'
+    - 'spec/views/hyrax/base/_attributes.html.erb_spec.rb'
+    - 'spec/views/hyrax/base/_form.html.erb_spec.rb'
+    - 'spec/views/hyrax/base/file_manager.html.erb_spec.rb'
+    - 'spec/views/hyrax/dashboard/profiles/edit.html.erb_spec.rb'
+    - 'spec/views/hyrax/users/_user_info.html.erb_spec.rb'

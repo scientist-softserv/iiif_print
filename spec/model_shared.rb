@@ -1,3 +1,4 @@
+# Shared Model
 RSpec.shared_examples 'a persistent work type' do
   before(:all) do
     @work = described_class.new
@@ -26,15 +27,13 @@ RSpec.shared_examples 'a persistent work type' do
     @work.delete
     expect(@cls.all.map { |w| w.id }).to_not include(@work.id)
   end
-
 end
 
 RSpec.shared_examples 'a PCDM file set' do
-
   before(:all) do
     @work = described_class.new
     @cls = described_class
-  end 
+  end
 
   it 'looks like a fileset by method introspection' do
     expect(@work.file_set?).to be true
@@ -47,16 +46,14 @@ RSpec.shared_examples 'a PCDM file set' do
   it 'still looks like a PCDM object, though' do
     expect(@work.pcdm_object?).to be true
   end
-
 end
 
 RSpec.shared_examples 'a work and PCDM object' do
-
   before(:all) do
     @work = described_class.new
     @cls = described_class
-  end 
-  
+  end
+
   it 'looks like a work' do
     expect(@work.work?).to be true
   end
@@ -68,20 +65,17 @@ RSpec.shared_examples 'a work and PCDM object' do
   it 'does not look like a fileset' do
     expect(@work.file_set?).to be false
   end
-
 end
 
-
 def model_fixtures(target_type)
-
   # set up graph of related objects, setting membership on aggregating
   # parents via members setter method, per PCDM Profile for Newspapers.
   publication = NewspaperTitle.new
   publication.title = ["Yesterday's News"]
-  #publication.save
+  # publication.save
   issue1 = NewspaperIssue.new
   issue1.title = ['December 7, 1941']
-  #issue1.save
+  # issue1.save
   publication.members.push issue1
   page1 = NewspaperPage.new
   page1.title = ['Page 1']
@@ -132,5 +126,4 @@ def model_fixtures(target_type)
   if target_type == NewspaperContainer
     return container
   end
-
 end

@@ -1,3 +1,4 @@
+# Newspaper Page
 class NewspaperPage < ActiveFedora::Base
   # WorkBehavior mixes in minimal ::Hyrax::CoreMetadata fields of
   # depositor, title, date_uploaded, and date_modified.
@@ -50,7 +51,7 @@ class NewspaperPage < ActiveFedora::Base
     if issues.length > 0
       return issues[0].publication
     end
-    # fallback to trying to see if there is an issue-less container with title: 
+    # fallback to trying to see if there is an issue-less container with title:
     containers = self.containers
     if containers.length > 0
       return containers[0].publication

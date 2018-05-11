@@ -1,3 +1,4 @@
+# Newspaper Article Cass
 class NewspaperArticle < ActiveFedora::Base
   # WorkBehavior mixes in minimal ::Hyrax::CoreMetadata fields of
   # depositor, title, date_uploaded, and date_modified.
@@ -13,7 +14,8 @@ class NewspaperArticle < ActiveFedora::Base
 
   # Validation and required fields:
   # self.required_fields = [:resource_type, :genre, :language, :held_by]
-  validates :title, presence: { message: 'A newspaper article requires a title.' }
+  validates :title, presence: { message:
+                                'A newspaper article requires a title.' }
 
   self.human_readable_type = 'Newspaper Article'
 
@@ -34,54 +36,54 @@ class NewspaperArticle < ActiveFedora::Base
 
   # - Photographer
   property(
-      :photographer,
-      predicate: ::RDF::Vocab::MARCRelators.pht,
-      multiple: true
+    :photographer,
+    predicate: ::RDF::Vocab::MARCRelators.pht,
+    multiple: true
   ) do |index|
     index.as :stored_searchable
   end
 
   # - Volume
   property(
-      :volume,
-      predicate: ::RDF::Vocab::BIBO.volume,
-      multiple: false
+    :volume,
+    predicate: ::RDF::Vocab::BIBO.volume,
+    multiple: false
   ) do |index|
     index.as :stored_searchable
   end
 
   # - Edition
   property(
-      :edition,
-      predicate: ::RDF::Vocab::BIBO.edition,
-      multiple: false
+    :edition,
+    predicate: ::RDF::Vocab::BIBO.edition,
+    multiple: false
   ) do |index|
     index.as :stored_searchable
   end
 
   # - Issue
   property(
-      :issue,
-      predicate: ::RDF::Vocab::BIBO.issue,
-      multiple: false
+    :issue,
+    predicate: ::RDF::Vocab::BIBO.issue,
+    multiple: false
   ) do |index|
     index.as :stored_searchable
   end
 
   # - Geographic coverage
   property(
-      :geographic_coverage,
-      predicate: ::RDF::Vocab::DC.spatial,
-      multiple: true
+    :geographic_coverage,
+    predicate: ::RDF::Vocab::DC.spatial,
+    multiple: true
   ) do |index|
     index.as :stored_searchable
   end
 
   # - Extent
   property(
-      :extent,
-      predicate: ::RDF::Vocab::DC.extent,
-      multiple: false
+    :extent,
+    predicate: ::RDF::Vocab::DC.extent,
+    multiple: false
   ) do |index|
     index.as :stored_searchable
   end
@@ -92,7 +94,7 @@ class NewspaperArticle < ActiveFedora::Base
   include ::Hyrax::BasicMetadata
 
   # relationship methods:
-  
+
   def pages
     self.members.select { |v| v.instance_of?(NewspaperPage) }
   end
