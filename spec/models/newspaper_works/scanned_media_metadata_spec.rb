@@ -1,5 +1,5 @@
-RSpec.describe "ScannedMediaMetadata" do
-
+# Scanned Media Metada Spec Tests
+RSpec.describe 'ScannedMediaMetadata' do
   before do
     class ScannedMediaWork < ActiveFedora::Base
       include ::Hyrax::WorkBehavior
@@ -8,25 +8,25 @@ RSpec.describe "ScannedMediaMetadata" do
     end
   end
 
-  it "creates work using mixin" do
+  it 'creates work using mixin' do
     work = ScannedMediaWork.new
     expect(work).to be_an_instance_of(ScannedMediaWork)
   end
 
-  it "has expected properties" do
+  it 'has expected properties' do
     properties = ScannedMediaWork.properties
-    expect(properties.keys).to include "text_direction"
-    expect(properties.keys).to include "pagination"
-    expect(properties.keys).to include "section"
+    expect(properties.keys).to include 'text_direction'
+    expect(properties.keys).to include 'pagination'
+    expect(properties.keys).to include 'section'
   end
 
-  it "work can set/get properties" do
+  it 'work can set/get properties' do
     work = ScannedMediaWork.new
     work.section = 'foo'
     expect(work.section).to include 'foo'
   end
 
-  it "work using mixin saves" do
+  it 'work using mixin saves' do
     work = ScannedMediaWork.new
     work.title = ['label able label']
     expect(work.id).to be_nil

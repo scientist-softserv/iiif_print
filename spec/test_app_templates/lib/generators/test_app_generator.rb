@@ -1,3 +1,4 @@
+# Test App Generator
 require 'rails/generators'
 
 class TestAppGenerator < Rails::Generators::Base
@@ -14,6 +15,4 @@ class TestAppGenerator < Rails::Generators::Base
   def db_migrations
     rake 'db:migrate'
   end
-
 end
-
