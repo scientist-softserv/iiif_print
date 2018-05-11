@@ -14,7 +14,7 @@ class NewspaperContainer < ActiveFedora::Base
   # Validation and required fields:
   # self.required_fields = [:resource_type, :genre, :language, :held_by]
   validates :title, presence: { message:
-                               'A newspaper container requires a title.' }
+                                'A newspaper container requires a title.' }
 
   self.human_readable_type = 'Newspaper Container'
 

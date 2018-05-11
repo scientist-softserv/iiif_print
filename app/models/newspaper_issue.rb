@@ -42,7 +42,7 @@ class NewspaperIssue < ActiveFedora::Base
   # relationship methods
   def publication
     result = self.member_of.select { |v| v.instance_of?(NewspaperTitle) }
-    result[0] unless result.length > 0
+    result[0] unless result.length == 0
   end
 
   def articles
