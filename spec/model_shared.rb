@@ -1,69 +1,72 @@
 # Shared Model
 RSpec.shared_examples 'a persistent work type' do
-  before(:all) do
-    @work = described_class.new
-    @cls = described_class
+  let(:work) { described_class.new }
+  let(:cls) { described_class }
+
+  describe 'class membership' do
+    it 'has correct instance type' do
+      expect(work).to be_an_instance_of(cls)
+    end
+
+    it 'initially has nil id' do
+      expect(work.id).to be_nil
+    end
   end
 
-  it 'is correct instance type' do
-    expect(@work).to be_an_instance_of(@cls)
-  end
-  it 'sets title' do
-    @work.title = ['San Diego Evening Tribune']
-  end
-  it 'initially has nil id' do
-    expect(@work.id).to be_nil
-  end
-  it 'saves' do
-    @work.save
-  end
-  it 'has non-nil id after save' do
-    expect(@work.id).to_not be_nil
-  end
-  it 'appears to be persisted in fcrepo' do
-    expect(@cls.all.map { |w| w.id }).to include(@work.id)
-  end
-  it 'deletes via delete' do
-    @work.delete
-    expect(@cls.all.map { |w| w.id }).to_not include(@work.id)
+  describe 'object persistence' do
+    before do
+      work.title = ['San Diego Evening Tribune']
+      work.save!
+    end
+
+    it 'has non-nil id after save' do
+      expect(work.id).not_to be_nil
+    end
+
+    it 'appears to be persisted in fcrepo' do
+      expect(cls.all.map(&:id)).to include(work.id)
+    end
+
+    describe 'deletion' do
+      it 'deletes via delete' do
+        work.delete
+        expect(cls.all.map(&:id)).not_to include(work.id)
+      end
+    end
   end
 end
 
 RSpec.shared_examples 'a PCDM file set' do
-  before(:all) do
-    @work = described_class.new
-    @cls = described_class
-  end
+  let(:work) { described_class.new }
+  let(:cls) { described_class }
 
   it 'looks like a fileset by method introspection' do
-    expect(@work.file_set?).to be true
+    expect(work.file_set?).to be true
   end
 
   it 'does not look like a work' do
-    expect(@work.work?).to be false
+    expect(work.work?).to be false
   end
 
   it 'still looks like a PCDM object, though' do
-    expect(@work.pcdm_object?).to be true
+    expect(work.pcdm_object?).to be true
   end
 end
 
 RSpec.shared_examples 'a work and PCDM object' do
-  before(:all) do
-    @work = described_class.new
-    @cls = described_class
-  end
+  let(:work) { described_class.new }
+  let(:cls) { described_class }
 
   it 'looks like a work' do
-    expect(@work.work?).to be true
+    expect(work.work?).to be true
   end
 
   it 'also looks like a PCDM object' do
-    expect(@work.pcdm_object?).to be true
+    expect(work.pcdm_object?).to be true
   end
 
   it 'does not look like a fileset' do
-    expect(@work.file_set?).to be false
+    expect(work.file_set?).to be false
   end
 end
 
@@ -102,28 +105,18 @@ def model_fixtures(target_type)
 
   # save swarm, persist all the things!
   issue1.save
+  container.save
   publication.save
   page1.save
   page2.save
   article1.save
   article2.save
-  container.save
 
   # return types appropriate to target class: return correct starting point
   # for the object graph of these fixtures, in the context of their use.
-  if target_type == NewspaperTitle
-    return publication
-  end
-  if target_type == NewspaperIssue
-    return issue1
-  end
-  if target_type == NewspaperPage
-    return page1
-  end
-  if target_type == NewspaperArticle
-    return article2
-  end
-  if target_type == NewspaperContainer
-    return container
-  end
+  return publication if target_type == NewspaperTitle
+  return issue1 if target_type == NewspaperIssue
+  return page1 if target_type == NewspaperPage
+  return article2 if target_type == NewspaperArticle
+  return container if target_type == NewspaperContainer
 end

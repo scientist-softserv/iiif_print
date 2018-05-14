@@ -4,28 +4,31 @@ require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperArticle do
-  before(:all) do
-    @fixture = model_fixtures(NewspaperArticle)
-  end
+  let(:fixture) { model_fixtures(described_class) }
 
   # shared behaviors
   it_behaves_like('a work and PCDM object')
   it_behaves_like('a persistent work type')
 
-  describe 'Model behaviors and properties' do
+  describe 'Metadata properties' do
     it 'has expected properties' do
-      properties = NewspaperArticle.properties
-      expect(properties.keys).to include 'section'
+      expect(fixture).to respond_to(:author)
+      expect(fixture).to respond_to(:photographer)
+      expect(fixture).to respond_to(:volume)
+      expect(fixture).to respond_to(:edition)
+      expect(fixture).to respond_to(:issue)
+      expect(fixture).to respond_to(:geographic_coverage)
+      expect(fixture).to respond_to(:extent)
     end
   end
 
   describe 'Relationship methods' do
     it 'has expected test fixture' do
-      expect(@fixture).to be_an_instance_of(NewspaperArticle)
+      expect(fixture).to be_an_instance_of(described_class)
     end
 
     it 'can get aggregated pages' do
-      pages = @fixture.pages
+      pages = fixture.pages
       expect(pages).to be_an_instance_of(Array)
       expect(pages.length).to be > 0
       pages.each do |e|
@@ -34,17 +37,17 @@ RSpec.describe NewspaperArticle do
     end
 
     it 'can get aggregating issue' do
-      issue = @fixture.issue
+      issue = fixture.issue
       expect(issue).to be_an_instance_of(NewspaperIssue)
     end
 
     it 'can get publicaiton (transitive)' do
-      publication = @fixture.publication
+      publication = fixture.publication
       expect(publication).to be_an_instance_of(NewspaperTitle)
     end
 
     it 'can get aggregating containers (transitive)' do
-      containers = @fixture.containers
+      containers = fixture.containers
       expect(containers).to be_an_instance_of(Array)
       expect(containers.length).to be > 0
       containers.each do |e|
