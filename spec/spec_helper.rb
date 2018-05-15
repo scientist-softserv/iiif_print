@@ -98,7 +98,7 @@ module SuccinctFormatterOverrides
   def dump_pending(_) end
 end
 
-if ENV['SUPPRESS_PENDING'] != nil
+unless ENV['SUPPRESS_PENDING'].nil?
   RSpec::Core::Formatters::DocumentationFormatter.prepend SuccinctFormatterOverrides
   RSpec::Core::Formatters::ProgressFormatter.prepend SuccinctFormatterOverrides
 end
