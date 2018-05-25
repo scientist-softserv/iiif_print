@@ -2,10 +2,10 @@
 #  `rails generate hyrax:work NewspaperTitle`
 module Hyrax
   # Newspaper Title Form Class
-  class NewspaperTitleForm < Hyrax::Forms::WorkForm
+  class NewspaperTitleForm < ::NewspaperWorks::NewspaperCoreFormData
     self.model_class = ::NewspaperTitle
-    self.terms += [:title, :resource_type, :genre, :language, :held_by, :issued,
-                   :place_of_publication, :alternative_title]
-    self.required_fields = [:title, :resource_type, :genre, :language, :held_by]
+    self.terms += [:alternative_title, :edition, :frequency, :preceded_by,
+                   :succeeded_by]
+    self.terms -= [:creator, :contributor, :description, :source, :subject]
   end
 end

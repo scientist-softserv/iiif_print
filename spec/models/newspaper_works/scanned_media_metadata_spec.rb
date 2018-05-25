@@ -14,7 +14,7 @@ RSpec.describe NewspaperWorks::ScannedMediaMetadata do
 
   it 'has expected properties' do
     expect(work).to respond_to(:text_direction)
-    expect(work).to respond_to(:pagination)
+    expect(work).to respond_to(:page_number)
     expect(work).to respond_to(:section)
   end
 

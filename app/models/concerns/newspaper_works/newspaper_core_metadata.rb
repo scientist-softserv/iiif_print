@@ -1,6 +1,6 @@
 # module comment...
 module NewspaperWorks
-  # core metdata for newspaper models
+  # core metadata for newspaper models
   module NewspaperCoreMetadata
     extend ActiveSupport::Concern
 
@@ -26,9 +26,9 @@ module NewspaperWorks
         index.as :stored_searchable
       end
 
-      #  - Issued date
+      #  - publication date
       property(
-        :issued,
+        :publication_date,
         predicate: ::RDF::Vocab::DC.issued,
         multiple: false
       ) do |index|

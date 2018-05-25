@@ -2,9 +2,9 @@
 #  `rails generate hyrax:work NewspaperContainer`
 module Hyrax
   # Newspaper Container Form Class
-  class NewspaperContainerForm < Hyrax::Forms::WorkForm
+  class NewspaperContainerForm < ::NewspaperWorks::NewspaperCoreFormData
     self.model_class = ::NewspaperContainer
-    self.required_fields = [:resource_type, :genre, :language, :held_by]
-    self.terms += [:resource_type]
+    self.terms += [:alternative_title, :extent]
+    self.terms -= [:creator, :contributor, :description, :subject]
   end
 end

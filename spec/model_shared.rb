@@ -78,14 +78,22 @@ def model_fixtures(target_type)
   # publication.save
   issue1 = NewspaperIssue.new
   issue1.title = ['December 7, 1941']
+  issue1.resource_type = ["newspaper"]
+  issue1.genre = ["text"]
+  issue1.language = ["eng"]
+  issue1.held_by = "Marriott Library"
   # issue1.save
   publication.members.push issue1
   page1 = NewspaperPage.new
   page1.title = ['Page 1']
-  page1.pagination = '1'
+  page1.page_number = '1'
+  page1.height = "200"
+  page1.width = "200"
   page2 = NewspaperPage.new
   page2.title = ['Page 2']
-  page2.pagination = '2'
+  page2.page_number = '2'
+  page2.height = "200"
+  page2.width = "200"
   issue1.members.push(page1, page2)
   article1 = NewspaperArticle.new
   article1.title = ['Happening now']

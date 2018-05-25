@@ -1,6 +1,6 @@
 # Scanned Media: Shared Metadata
 module NewspaperWorks
-  # scanned media metdata for newspaper models (e.g. page, article images)
+  # scanned media metadata for newspaper models (e.g. page, article images)
   module ScannedMediaMetadata
     extend ActiveSupport::Concern
 
@@ -21,12 +21,13 @@ module NewspaperWorks
 
       # - Page Number
       property(
-        :pagination,
+        :page_number,
         predicate: ::RDF::Vocab::SCHEMA.pagination,
         multiple: false
       ) do |index|
         index.as :stored_searchable
       end
+
       # - Section
       property(
         :section,
@@ -35,6 +36,8 @@ module NewspaperWorks
       ) do |index|
         index.as :stored_searchable
       end
+
+
       # - Reel # TBD TODO needs predicate TBD
     end
   end

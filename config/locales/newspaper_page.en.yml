@@ -6,3 +6,7 @@ en:
       newspaper_page:
         name:               "Newspaper Page"
         description:        "Newspaper page works"
+  simple_form:
+    labels:
+      newspaper_page:
+        title: "Label"
