@@ -76,7 +76,7 @@ class NewspaperArticle < ActiveFedora::Base
 
   # - Issue
   property(
-    :issue,
+    :issue_number,
     predicate: ::RDF::Vocab::BIBO.issue,
     multiple: false
   ) do |index|

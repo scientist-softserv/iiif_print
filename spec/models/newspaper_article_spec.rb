@@ -16,7 +16,7 @@ RSpec.describe NewspaperArticle do
       expect(fixture).to respond_to(:photographer)
       expect(fixture).to respond_to(:volume)
       expect(fixture).to respond_to(:edition)
-      expect(fixture).to respond_to(:issue)
+      expect(fixture).to respond_to(:issue_number)
       expect(fixture).to respond_to(:geographic_coverage)
       expect(fixture).to respond_to(:extent)
     end

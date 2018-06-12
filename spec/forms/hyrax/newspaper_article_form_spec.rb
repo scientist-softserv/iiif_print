@@ -26,7 +26,7 @@ RSpec.describe Hyrax::NewspaperArticleForm do
                           :rights_statement, :publisher, :subject, :identifier,
                           :publication_date, :place_of_publication, :issn,
                           :lccn, :oclcnum, :alternative_title, :author,
-                          :photographer, :volume, :edition, :issue,
+                          :photographer, :volume, :edition, :issue_number,
                           :geographic_coverage, :extent, :page_number,
                           :section])
     end
