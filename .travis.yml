@@ -4,6 +4,10 @@ dist: trusty
 
 addons:
   chrome: stable
+  apt:
+    packages:
+    - poppler-utils
+    - ghostscript
 cache:
   bundler: true
 

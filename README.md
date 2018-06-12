@@ -27,10 +27,13 @@ Requirements
   * Rails 5.x
   * [Bundler](http://bundler.io/)
   * [Hyrax](https://github.com/samvera/hyrax) 2.x
-    - ..._and various Samvera dependencies that entails_.
+    - ..._and all Samvera library and application dependencies that entails_.
   * A Hyrax-based Rails application.
     * `newspaper_works` is a gem/engine that can extend your application.
-
+  * Application packages (via apt, yum, or homebrew): 
+    - [poppler](https://poppler.freedesktop.org/) (e.g. `poppler-utils` package).
+    - ghostscript, e.g. [GPL Ghostscript](https://ghostscript.com/GPL_Ghostscript_9.06.html)
+    - [ImageMagick](https://www.imagemagick.org)
 
 Integrating newspaper_works in Your Application
 -----------------------------------------------
@@ -45,6 +48,10 @@ Your Hyrax 2.0 based application can extend and utilize `newspaper_works`
 ### Basic Model Use (console)
 
 _More here soon!_
+
+### Ingest, Application Interface
+
+_See [wiki](https://github.com/marriott-library/newspaper_works/wiki)_.
 
 ### Application/Site Specific Configuration
 
