@@ -9,7 +9,6 @@ RSpec.describe Hyrax::NewspaperContainerForm do
     subject { form.required_fields }
 
     it { is_expected.to eq [:title, :resource_type, :genre, :language, :held_by] }
-
   end
 
   describe "#primary_terms" do
@@ -22,9 +21,10 @@ RSpec.describe Hyrax::NewspaperContainerForm do
     subject { form.secondary_terms }
 
     it do
-      is_expected.to eq ([:license, :rights_statement, :publisher, :identifier,
-                          :publication_date, :place_of_publication, :issn,
-                          :lccn, :oclcnum, :alternative_title, :extent])
+      is_expected.to eq [:license, :rights_statement, :publisher, :identifier,
+                         :place_of_publication, :issn, :lccn, :oclcnum,
+                         :alternative_title, :extent,
+                         :publication_date_start, :publication_date_end]
     end
   end
 end

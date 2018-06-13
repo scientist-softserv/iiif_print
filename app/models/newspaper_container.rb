@@ -15,6 +15,9 @@ class NewspaperContainer < ActiveFedora::Base
   validates :title, presence: {
     message: 'A newspaper container requires a title.'
   }
+
+  validates_with NewspaperWorks::PublicationDateStartEndValidator
+
   # TODO: Implement validations
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
@@ -46,6 +49,24 @@ class NewspaperContainer < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  #  - publication date start
+  property(
+    :publication_date_start,
+    predicate: ::RDF::Vocab::SCHEMA.startDate,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
+  #  - publication date end
+  property(
+    :publication_date_end,
+    predicate: ::RDF::Vocab::SCHEMA.endDate,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
   # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
   # TODO: Titles on reel
 
@@ -55,11 +76,11 @@ class NewspaperContainer < ActiveFedora::Base
   # relationship methods
 
   def publication
-    result = self.member_of.select { |v| v.instance_of?(NewspaperTitle) }
-    result[0] unless result.length == 0
+    result = member_of.select { |v| v.instance_of?(NewspaperTitle) }
+    result[0] unless result.empty?
   end
 
   def pages
-    self.members.select { |v| v.instance_of?(NewspaperPage) }
+    members.select { |v| v.instance_of?(NewspaperPage) }
   end
 end
