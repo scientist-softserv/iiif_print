@@ -5,9 +5,14 @@ dist: trusty
 addons:
   chrome: stable
   apt:
+    sources:
+      - "trusty-media"
     packages:
     - poppler-utils
     - ghostscript
+    - tesseract-ocr
+    - imagemagick
+    - libreoffice
 cache:
   bundler: true
 
