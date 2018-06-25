@@ -28,6 +28,7 @@ SUMMARY
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'engine_cart', '~> 2.0'
   spec.add_development_dependency "factory_bot", '~> 4.4'
+  spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.1'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
@@ -35,5 +36,4 @@ SUMMARY
   spec.add_development_dependency 'sqlite3'
 
   spec.add_dependency 'simple_form', '~> 3.2', '<= 3.5.0'
-
 end

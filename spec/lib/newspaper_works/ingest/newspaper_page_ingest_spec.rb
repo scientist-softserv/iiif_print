@@ -16,7 +16,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
       adapter = build(:newspaper_page_ingest)
       # Rails.application.config.active_job.queue_adapter = :inline
       adapter.ingest(path)
-      # Rails.application.config.active_job.queue_adapter = :sidekiq
+      # Rails.application.config.active_job.queue_adapter = :async
       file_sets = adapter.work.members.select { |w| w.class == FileSet }
       expect(file_sets[0].title).to contain_exactly 'page1.tiff'
       expect(file_sets.size).to eq 1

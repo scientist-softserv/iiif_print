@@ -8,5 +8,11 @@ module NewspaperWorks
   # Engine Class
   class Engine < ::Rails::Engine
     isolate_namespace NewspaperWorks
+
+    config.to_prepare do
+      # Register actor to handle any NewspaperWorks upload behaviors before
+      #   CreateWithFilesActor gets to them:
+      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, NewspaperWorks::Actors::NewspaperWorksUploadActor
+    end
   end
 end

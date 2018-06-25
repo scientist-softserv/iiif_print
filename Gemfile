@@ -23,7 +23,9 @@ else
       gem 'rails', github: 'rails/rails'
       ENV['ENGINE_CART_RAILS_OPTIONS'] = '--edge --skip-turbolinks'
     else
+      # rubocop:disable Bundler/DuplicatedGem
       gem 'rails', ENV['RAILS_VERSION']
+      # rubocop:enable Bundler/DuplicatedGem
     end
   end
 
@@ -33,7 +35,9 @@ else
     gem 'responders', '~> 2.0'
     gem 'sass-rails', '>= 5.0'
   when /^4.[01]/
+    # rubocop:disable Bundler/DuplicatedGem
     gem 'sass-rails', '< 5.0'
+    # rubocop:enable Bundler/DuplicatedGem
   end
 end
 # END ENGINE_CART BLOCK
