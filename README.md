@@ -34,6 +34,8 @@ Requirements
     - [poppler](https://poppler.freedesktop.org/) (e.g. `poppler-utils` package).
     - ghostscript, e.g. [GPL Ghostscript](https://ghostscript.com/GPL_Ghostscript_9.06.html)
     - [ImageMagick](https://www.imagemagick.org)
+    - [GraphicsMagick](http://www.graphicsmagick.org/) is highly recommended,
+      and is required for development.
 
 Integrating newspaper_works in Your Application
 -----------------------------------------------

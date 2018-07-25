@@ -8,15 +8,20 @@ addons:
     sources:
       - "trusty-media"
     packages:
-    - poppler-utils
     - ghostscript
-    - tesseract-ocr
+    - graphicsmagick
     - imagemagick
     - libreoffice
+    - poppler-utils
+    - tesseract-ocr
 cache:
   bundler: true
 
 before_install:
+  # OpenJPEG 2000 2.x backport PPA
+  - sudo add-apt-repository ppa:aacid/openjp2trusty -y
+  - sudo apt-get update -q
+  - sudo apt-get install libopenjp2-tools -y
   - gem update --system
   - gem install bundler
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
