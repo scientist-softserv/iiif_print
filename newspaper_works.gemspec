@@ -22,8 +22,8 @@ SUMMARY
   spec.license = 'Apache-2.0'
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.add_dependency 'hyrax', '~> 2.0.0'
-  spec.add_dependency 'rails'
+  spec.add_dependency 'hyrax', '~> 2.0.1'
+  spec.add_dependency 'rails', '~> 5.0'
 
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'engine_cart', '~> 2.0'
