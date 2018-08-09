@@ -29,14 +29,21 @@ module NewspaperWorks
       Hyrax::DerivativePath
     end
 
-    # calculate and ensure directory components for @dest_path
-    def load_destpath
-      @dest_path = derivative_path_factory.derivative_path_for_reference(
+    # prepare full path for passed extension/destination name, return path
+    def prepare_path(extension)
+      dest_path = derivative_path_factory.derivative_path_for_reference(
         @file_set,
-        self.class.target_ext
+        extension
       )
-      dir = File.join(@dest_path.split('/')[0..-2])
+      dir = File.join(dest_path.split('/')[0..-2])
       FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+      dest_path
+    end
+
+    # calculate and ensure directory components for singular @dest_path
+    #   should only be used by subclasses producing a single derivative
+    def load_destpath
+      @dest_path = prepare_path(self.class.target_ext)
     end
 
     def identify
@@ -74,9 +81,10 @@ module NewspaperWorks
       load_destpath
     end
 
-    def cleanup_derivatives
+    def cleanup_derivatives(*args)
+      target_ext = args && args[0] ? args[0] : self.class.target_ext
       derivative_path_factory.derivatives_for_reference(file_set).each do |path|
-        FileUtils.rm_f(path) if path.ends_with?(self.class.target_ext)
+        FileUtils.rm_f(path) if path.ends_with?(target_ext)
       end
     end
 

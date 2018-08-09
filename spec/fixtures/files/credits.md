@@ -7,6 +7,8 @@
   - https://chroniclingamerica.loc.gov/data/batches/batch_dlc_harry_ver01/data/sn82016187/00211102366/1898111001/0528.pdf
   - `lowres-gray-via-ndnp-sample.tiff` based on this page image used as a
      low resolution 8 bit grayscale TIFF test image in derivative testing.
+  - `ocr_gray.tiff`, `ocr_color.tiff`, and `ocr_gray.jp2` are all derived
+     from this source.
 * `4.1.07.tiff` is a low-res color sample image from USC-SIPI Image Database
    and is licensed as "Free to use".  Via http://sipi.usc.edu/database/
   - 4.1.07.jp2 is a derivative of this made via opj_compress

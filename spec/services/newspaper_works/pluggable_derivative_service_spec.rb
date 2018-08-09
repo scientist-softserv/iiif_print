@@ -111,17 +111,26 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
       Hyrax::DerivativePath.derivatives_for_reference(file_set)
     end
 
+    def expected_plugins
+      [
+        Hyrax::FileSetDerivativesService,
+        NewspaperWorks::JP2DerivativeService,
+        NewspaperWorks::PDFDerivativeService,
+        NewspaperWorks::TextExtractionDerivativeService,
+        NewspaperWorks::TIFFDerivativeService
+      ]
+    end
+
+    # The expected set of Plugins that will run for file set
     it "has expected valid plugins configured" do
-      # Describe the expected set of Plugins that will run for file set
       plugins = described_class.plugins
       fs = persisted_file_set
       services = plugins.map { |plugin| plugin.new(fs) }.select(&:valid?)
-      expect(services.length).to eq 4
+      expect(services.length).to eq 5
       used_plugins = services.map(&:class)
-      expect(used_plugins).to include NewspaperWorks::JP2DerivativeService
-      expect(used_plugins).to include Hyrax::FileSetDerivativesService
-      expect(used_plugins).to include NewspaperWorks::PDFDerivativeService
-      expect(used_plugins).to include NewspaperWorks::TIFFDerivativeService
+      expected_plugins.each do |plugin|
+        expect(used_plugins).to include plugin
+      end
     end
 
     it "creates expected derivatives from TIFF source" do
