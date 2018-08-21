@@ -41,10 +41,10 @@ This gem is currently under development. The development team is actively workin
 
 ## Requirements
 ------------
-  * Ruby
-  * Rails 5.x
+  * [Ruby](https://rubyonrails.org/) 2.3
+  * [Rails](https://rubyonrails.org/) 5.0.6
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) 2.x
+  * [Hyrax](https://github.com/samvera/hyrax) 2.2.0
     - ..._and various Samvera dependencies that entails_.
   * A Hyrax-based Rails application.
     * `newspaper_works` is a gem/engine that can extend your application.
@@ -52,11 +52,13 @@ This gem is currently under development. The development team is actively workin
 # Installation/Testing
 Integrating newspaper_works in your application
 
-Your Hyrax 2.x based application can extend and utilize `newspaper_works`
+Your Hyrax 2.2.0 based application can extend and utilize `newspaper_works`
 
 ## Extending, Using
-  * Add `gem 'newspaper_works'` to your Gemfile.
-  * Run `bundle install`
+
+* Add `gem 'newspaper_works', :git => 'https://github.com/marriott-library/newspaper_works.git'`
+	to your Gemfile.
+* Run `bundle install`
 
 ## Basic Model Use (console)
 
@@ -71,8 +73,57 @@ _More here soon!_
     - This will help fields such as "Place of Publication" provide
       autocomplete using the Geonames service/vocabulary.
 
+## Development and Testing with Vagrant
+* clone samvera-vagrant
+
+```
+	git clone https://github.com/marriott-library/samvera-vagrant.git
+```
+
+* Start vagrant box provisioning
+
+```
+cd samvera-vagrant && vagrant up
+```
+
+* Shell into vagrant box **three times**
+
+```
+	vagrant ssh
+```
+
+* First shell (start fcrepo_wrapper)
+
+```
+cd /home/ubuntu/newspaper_works
+fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+```
+
+* Second shell (start solr_wrapper)
+
+```
+cd /home/ubuntu/newspaper_works
+solr_wrapper --config config/solr_wrapper_test.yml
+```
+
+* Third Shell Testing and Development
+
+* Run Rails console
+
+```
+cd /home/ubuntu/newspaper_works
+cd .internal_test_app; rails c test
+```
+
+* Run spec tests
+
+```
+cd /home/ubuntu/newspaper_works
+rake spec
+```
+
 ## Development and Testing Setup
-* Clone `newspaper_works`:
+* clone `newspaper_works`:
   - `git clone https://github.com/marriott-library/newspaper_works.git`
 * Install Gem and dependencies:
   - `bundle install`
@@ -94,8 +145,8 @@ _More here soon!_
 ## Sponsoring Organizations
 
 This gem is part of a project developed in a collaboration between
-The University of Utah J. Willard Marriott Library and
-Boston Public Library, as part of a "Newspapers in Samvera" project
+[The University of Utah](https://www.utah.edu/), [J. Willard Marriott Library](https://www.lib.utah.edu/ß) and
+[Boston Public Library](https://www.bpl.org/), as part of a "Newspapers in Samvera" project
 grant funded by the [Institute for Museum and Library Services](https:///imls.gov).
 
 The development team is grateful for input, collaboration, and support
@@ -104,11 +155,11 @@ and our project's advisory board.
 
 ## Contributors and Project Team
 
-  * [Eben English (Boston Public Library)](https://github.com/ebenenglish)
-  * [Brian McBride (University of Utah)](https://github.com/brianmcbride)
-  * [Jacob Reed (University of Utah)](https://github.com/JacobR)
-  * [Sean Upton (University of Utah)](https://github.com/seanupton)
-  * Harish Maringhanti
+  * [Eben English](https://github.com/ebenenglish) (Boston Public Library)
+  * [Brian McBride](https://github.com/brianmcbride) (University of Utah)
+  * [Jacob Reed](https://github.com/JacobR) (University of Utah)
+  * [Sean Upton](https://github.com/seanupton) (University of Utah)
+  * Harish Maringhanti (University of Utah)
 
 ## More Information
  * [Samvera Newspapers Group](https://wiki.duraspace.org/display/samvera/Samvera+Newspapers+Interest+Group) - The Samvera Newspapers Interest groups meets on the first Thursday of every month to discuss the Samvera newspapers project and general newspaper topics.
