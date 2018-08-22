@@ -139,20 +139,20 @@ cd /home/ubuntu/newspaper_works
 solr_wrapper --config config/solr_wrapper_test.yml
 ```
 
-* Third Shell Testing and Development
-
-* Run Rails console
-
-```
-cd /home/ubuntu/newspaper_works
-cd .internal_test_app; rails c test
-```
+* Third shell testing and development
 
 * Run spec tests
 
 ```
 cd /home/ubuntu/newspaper_works
 rake spec
+```
+
+* Run rails console
+
+```
+cd /home/ubuntu/newspaper_works
+rails s
 ```
 
 ## Development and Testing Setup
@@ -168,7 +168,7 @@ rake spec
 * Now you can either:
   - Run tests via `rake spec` in the root of the `newspaper_works` gem.
   - Run an interactive Rails console in the generated testing app:
-    - `cd .internal_test_app; rails c test`
+    - `rails`
 * For development, you may want to include a clone of `newspaper_works`
   in your app's Gemfile, either via `github:` or by `path:` in a local
   Gemfile used only for local development of your app.
