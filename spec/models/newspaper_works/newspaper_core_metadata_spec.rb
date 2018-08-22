@@ -15,7 +15,6 @@ RSpec.describe NewspaperWorks::NewspaperCoreMetadata do
   it 'has expected properties' do
     expect(work).to respond_to(:alternative_title)
     expect(work).to respond_to(:genre)
-    expect(work).to respond_to(:publication_date)
     expect(work).to respond_to(:place_of_publication)
     expect(work).to respond_to(:issn)
     expect(work).to respond_to(:lccn)

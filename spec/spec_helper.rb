@@ -7,6 +7,15 @@ require 'engine_cart'
 EngineCart.load_application!
 
 RSpec.configure do |config|
+  # enable FactoryBot:
+  require 'factory_bot'
+  config.include FactoryBot::Syntax::Methods
+  # auto-detect and load all factories in spec/factories:
+  FactoryBot.find_definitions
+
+  # require shared examples
+  require 'lib/newspaper_works/ingest/ingest_shared'
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

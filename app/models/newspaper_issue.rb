@@ -14,6 +14,9 @@ class NewspaperIssue < ActiveFedora::Base
   validates :title, presence: {
     message: 'Your work must have a title.'
   }
+
+  validates_with NewspaperWorks::PublicationDateValidator
+
   # TODO: Implement validations
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
@@ -52,7 +55,7 @@ class NewspaperIssue < ActiveFedora::Base
 
   #  - Issue
   property(
-    :issue,
+    :issue_number,
     predicate: ::RDF::Vocab::BIBO.issue,
     multiple: false
   ) do |index|
@@ -68,20 +71,29 @@ class NewspaperIssue < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  #  - publication date
+  property(
+    :publication_date,
+    predicate: ::RDF::Vocab::DC.issued,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
 
   # relationship methods
   def publication
-    result = self.member_of.select { |v| v.instance_of?(NewspaperTitle) }
-    result[0] unless result.length == 0
+    result = member_of.select { |v| v.instance_of?(NewspaperTitle) }
+    result[0] unless result.empty?
   end
 
   def articles
-    self.members.select { |v| v.instance_of?(NewspaperArticle) }
+    members.select { |v| v.instance_of?(NewspaperArticle) }
   end
 
   def pages
-    self.members.select { |v| v.instance_of?(NewspaperPage) }
+    members.select { |v| v.instance_of?(NewspaperPage) }
   end
 end

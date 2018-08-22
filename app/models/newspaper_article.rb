@@ -12,10 +12,13 @@ class NewspaperArticle < ActiveFedora::Base
   # containment/aggregation:
   self.valid_child_concerns = [NewspaperPage]
 
+  validates_with NewspaperWorks::PublicationDateValidator
+
   # Validation and required fields:
   validates :title, presence: {
     message: 'A newspaper article requires a title.'
   }
+
   # TODO: Implement validations
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
@@ -76,7 +79,7 @@ class NewspaperArticle < ActiveFedora::Base
 
   # - Issue
   property(
-    :issue,
+    :issue_number,
     predicate: ::RDF::Vocab::BIBO.issue,
     multiple: false
   ) do |index|
@@ -101,6 +104,15 @@ class NewspaperArticle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  #  - publication date
+  property(
+    :publication_date,
+    predicate: ::RDF::Vocab::DC.issued,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
   # TODO: Add Reel number: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   # BasicMetadata must be included last
@@ -109,12 +121,12 @@ class NewspaperArticle < ActiveFedora::Base
   # relationship methods:
 
   def pages
-    self.members.select { |v| v.instance_of?(NewspaperPage) }
+    members.select { |v| v.instance_of?(NewspaperPage) }
   end
 
   def issue
-    issues = self.member_of.select { |v| v.instance_of?(NewspaperIssue) }
-    issues[0] unless !issues.length
+    issues = member_of.select { |v| v.instance_of?(NewspaperIssue) }
+    issues[0] unless issues.empty?
   end
 
   def publication
@@ -124,8 +136,6 @@ class NewspaperArticle < ActiveFedora::Base
 
   def containers
     pages = self.pages
-    if pages.length > 0
-      return pages[0].member_of.select { |v| v.instance_of?(NewspaperContainer) }
-    end
+    return pages[0].member_of.select { |v| v.instance_of?(NewspaperContainer) } unless pages.empty?
   end
 end

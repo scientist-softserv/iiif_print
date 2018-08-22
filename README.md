@@ -93,6 +93,13 @@ Your Hyrax 2.2.0 based application can extend and utilize `newspaper_works`
 	to your Gemfile.
 * Run `bundle install`
 
+### Ingest, Application Interface
+
+_See [wiki](https://github.com/marriott-library/newspaper_works/wiki)_.
+
+### Application/Site Specific Configuration
+
+
 ## Basic Model Use (console)
 
 _More here soon!_
@@ -205,6 +212,6 @@ and our project's advisory board.
     [Samvera Community Slack channel(s).](http://slack.samvera.org/)
 
 
- ![Institute of Museum and Library Services Logo](https://imls.gov/sites/default/files/logo.png)
+![Institute of Museum and Library Services Logo](https://imls.gov/sites/default/files/logo.png)
 ![University of Utah Logo](http://www.utah.edu/_images/imagine_u.png)
 ![Boston Public Library Logo](https://cor-liv-cdn-static.bibliocommons.com/images/MA-BOSTON-BRANCH/logo.png?1528788420451)

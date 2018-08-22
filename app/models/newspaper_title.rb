@@ -13,8 +13,11 @@ class NewspaperTitle < ActiveFedora::Base
 
   # Validation and required fields:
   validates :title, presence: {
-    message: 'A newspaper title a title (publication name).'
+    message: 'A newspaper title requires a title (publication name).'
   }
+
+  validates_with NewspaperWorks::PublicationDateStartEndValidator
+
   # TODO: Implement validations
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
@@ -62,7 +65,7 @@ class NewspaperTitle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # Preceded by
+  # - Preceded by
   property(
     :preceded_by,
     predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60261'),
@@ -71,7 +74,7 @@ class NewspaperTitle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  # Succeeded by
+  # - Succeeded by
   property(
     :succeeded_by,
     predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60278'),
@@ -80,15 +83,33 @@ class NewspaperTitle < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  # - Publication date start
+  property(
+    :publication_date_start,
+    predicate: ::RDF::Vocab::SCHEMA.startDate,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
+  # - Publication date end
+  property(
+    :publication_date_end,
+    predicate: ::RDF::Vocab::SCHEMA.endDate,
+    multiple: false
+  ) do |index|
+    index.as :dateable
+  end
+
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
 
   # relationship methods:
   def issues
-    self.members.select { |v| v.instance_of?(NewspaperIssue) }
+    members.select { |v| v.instance_of?(NewspaperIssue) }
   end
 
   def containers
-    self.members.select { |v| v.instance_of?(NewspaperContainer) }
+    members.select { |v| v.instance_of?(NewspaperContainer) }
   end
 end

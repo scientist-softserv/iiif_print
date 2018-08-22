@@ -9,7 +9,6 @@ RSpec.describe Hyrax::NewspaperPageForm do
     subject { form.required_fields }
 
     it { is_expected.to eq [:title] }
-
   end
 
   describe "#primary_terms" do
@@ -22,8 +21,8 @@ RSpec.describe Hyrax::NewspaperPageForm do
     subject { form.secondary_terms }
 
     it do
-      is_expected.to eq ([:identifier, :height, :width, :text_direction,
-                          :page_number, :section])
+      is_expected.to eq [:identifier, :height, :width, :text_direction,
+                         :page_number, :section]
     end
   end
 end

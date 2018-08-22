@@ -22,6 +22,7 @@ Gemfile.lock
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+fits.log
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -34,3 +35,6 @@ Gemfile.lock
 
 # Ignore Gemfile.lock
 Gemfile.lock
+
+# Ignore wrapper downloads
+fcrepo-webapp-*
