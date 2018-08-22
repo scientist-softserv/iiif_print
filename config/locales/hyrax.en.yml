@@ -862,6 +862,8 @@ en:
         license:                   "License"
         member_of_collection_ids:  "Add as member of collection"
         oclcnum:                   "OCLC #"
+        publication_date_end:      "Publication date (end)"
+        publication_date_start:      "Publication date (start)"
         related_url:               "Related URL"
         title:                     "Title"
         visibility_after_embargo:  'then open it up to'

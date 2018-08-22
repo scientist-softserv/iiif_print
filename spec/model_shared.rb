@@ -75,7 +75,6 @@ def model_fixtures(target_type)
   # parents via members setter method, per PCDM Profile for Newspapers.
   publication = NewspaperTitle.new
   publication.title = ["Yesterday's News"]
-  # publication.save
   issue1 = NewspaperIssue.new
   issue1.title = ['December 7, 1941']
   issue1.resource_type = ["newspaper"]
@@ -112,13 +111,13 @@ def model_fixtures(target_type)
   container.members.push(page1, page2)
 
   # save swarm, persist all the things!
-  issue1.save
-  container.save
-  publication.save
-  page1.save
-  page2.save
-  article1.save
-  article2.save
+  issue1.save!
+  container.save!
+  publication.save!
+  page1.save!
+  page2.save!
+  article1.save!
+  article2.save!
 
   # return types appropriate to target class: return correct starting point
   # for the object graph of these fixtures, in the context of their use.

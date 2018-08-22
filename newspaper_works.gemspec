@@ -22,17 +22,20 @@ SUMMARY
   spec.license = 'Apache-2.0'
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.add_dependency 'hyrax', '~> 2.0.0'
-  spec.add_dependency 'rails'
+  spec.add_dependency 'hyrax', '~> 2.0.1'
+  spec.add_dependency 'nokogiri'
+  spec.add_dependency 'rails', '~> 5.0'
+  spec.add_dependency 'rtesseract', '~> 2.2.0'
 
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'engine_cart', '~> 2.0'
+  spec.add_development_dependency "factory_bot", '~> 4.4'
+  spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.1'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
-  spec.add_development_dependency 'solr_wrapper', '~> 0.4'
+  spec.add_development_dependency 'solr_wrapper', '~> 2.0'
   spec.add_development_dependency 'sqlite3'
 
   spec.add_dependency 'simple_form', '~> 3.2', '<= 3.5.0'
-
 end

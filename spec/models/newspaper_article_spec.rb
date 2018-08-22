@@ -16,9 +16,10 @@ RSpec.describe NewspaperArticle do
       expect(fixture).to respond_to(:photographer)
       expect(fixture).to respond_to(:volume)
       expect(fixture).to respond_to(:edition)
-      expect(fixture).to respond_to(:issue)
+      expect(fixture).to respond_to(:issue_number)
       expect(fixture).to respond_to(:geographic_coverage)
       expect(fixture).to respond_to(:extent)
+      expect(fixture).to respond_to(:publication_date)
     end
   end
 
@@ -53,6 +54,20 @@ RSpec.describe NewspaperArticle do
       containers.each do |e|
         expect(e).to be_an_instance_of(NewspaperContainer)
       end
+    end
+  end
+
+  describe 'publication_date' do
+    it "is not valid with bad date format" do
+      na = described_class.new(title: ["Breaking News!"],
+                               publication_date: "06/21/1978")
+      expect(na).not_to be_valid
+    end
+
+    it "is valid with proper date format" do
+      na = described_class.new(title: ["Breaking News!"],
+                               publication_date: "1978-06-21")
+      expect(na).to be_valid
     end
   end
 end

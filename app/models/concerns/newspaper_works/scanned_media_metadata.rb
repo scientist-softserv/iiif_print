@@ -37,7 +37,6 @@ module NewspaperWorks
         index.as :stored_searchable
       end
 
-
       # - Reel # TBD TODO needs predicate TBD
     end
   end

@@ -14,8 +14,8 @@ class NewspaperPage < ActiveFedora::Base
   # Validation and required fields:
   validates :title, presence: { message: 'A newspaper page requires a label.' }
   # TODO: Implement validations
-  #validates :height, presence: { message: 'A newspaper page requires a height.' }
-  #validates :width, presence: { message: 'A newspaper page requires a width.' }
+  # validates :height, presence: { message: 'A newspaper page requires a height.' }
+  # validates :width, presence: { message: 'A newspaper page requires a width.' }
 
   self.human_readable_type = 'Newspaper Page'
 
@@ -50,26 +50,21 @@ class NewspaperPage < ActiveFedora::Base
   def publication
     # try transitive relation via issue first:
     issues = self.issues
-    if issues.length > 0
-      return issues[0].publication
-    end
+    return issues[0].publication unless issues.empty?
     # fallback to trying to see if there is an issue-less container with title:
     containers = self.containers
-    if containers.length > 0
-      return containers[0].publication
-    end
+    return containers[0].publication unless containers.empty?
   end
 
   def articles
-    self.member_of.select { |v| v.instance_of?(NewspaperArticle) }
+    member_of.select { |v| v.instance_of?(NewspaperArticle) }
   end
 
   def issues
-    self.member_of.select { |v| v.instance_of?(NewspaperIssue) }
+    member_of.select { |v| v.instance_of?(NewspaperIssue) }
   end
 
   def containers
-    self.member_of.select { |v| v.instance_of?(NewspaperContainer) }
+    member_of.select { |v| v.instance_of?(NewspaperContainer) }
   end
-
 end
