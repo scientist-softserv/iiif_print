@@ -1,10 +1,25 @@
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+newspaper_works — Newspaper Works for Samvera
+===================================================
+Code:
+[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works)
 
+Docs:
+[![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
+[![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./.github/CONTRIBUTING.md)
+
+Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samvera.org/)
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+# Table of Contents
+---
 - [Introduction](#introduction)
+  - [Documentation](#documentation)
 - [Overview](#overview)
 	- [Purpose, Use, and Aims](#purpose-use-and-aims)
 	- [Development Status](#development-status)
 	- [Requirements](#requirements)
+	  - [Newspaper Works Dependencies](#newspaper-works-dependencies)
+	- [PCDM metadata Model](#Newspapers-PCDM-metadata-model)
 - [Installation/Testing](#installationtesting)
 	- [Extending, Using](#extending-using)
 	- [Basic Model Use (console)](#basic-model-use-console)
@@ -17,12 +32,12 @@
 
 <!-- /TOC -->
 
-newspaper_works — Newspaper Works for Samvera   
-===================================================
-[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works)
-
 # Introduction
 The Newspapers in Samvera is an IMLS grant funded project to develop newspaper specific functionality for the [Samvera](http://samvera.org/) Hyrax framework.
+
+## Documentation
+
+[Newspapers_Works Wiki](https://github.com/marriott-library/newspaper_works/wiki)
 
 # Overview
 The Newspaper Works gem provides work type models and administrative
@@ -40,14 +55,33 @@ management, ingest, and archiving of primarily scanned (historic) newspaper arch
 This gem is currently under development. The development team is actively working on this project and expects to have an alpha release of the application later this Summer.
 
 ## Requirements
-------------
+---
   * [Ruby](https://rubyonrails.org/) 2.3
   * [Rails](https://rubyonrails.org/) 5.0.6
   * [Bundler](http://bundler.io/)
   * [Hyrax](https://github.com/samvera/hyrax) 2.2.0
     - ..._and various Samvera dependencies that entails_.
   * A Hyrax-based Rails application.
-    * `newspaper_works` is a gem/engine that can extend your application.
+    * newspaper_works is a gem/engine that can extend your application.
+
+## Newspaper_Works Dependencies
+
+  * [FITS](https://projects.iq.harvard.edu/fits/home)
+  * [Tesseract-ocr](https://github.com/tesseract-ocr/)
+  * [LibreOffice](https://www.libreoffice.org/)
+  * [ghostscript](https://www.ghostscript.com/)
+  * [poppler-utils](https://poppler.freedesktop.org/)
+  * [GraphicsMagick](http://www.graphicsmagick.org/)
+  * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
+
+
+## Newspapers PCDM metadata model
+
+This model describes digitized newspaper content modeled using the PCDM ontology, and is intended to inform the development of RDF-based models for all types of newspaper content objects (titles, containers, issues, pages, articles, files), such as would be used in Samvera- or Islandora-based digital asset management applications.
+
+This model was greatly informed by earlier efforts from National Library of Wales and University of Maryland, as well as discussions of the Samvera Newspapers Interest Group. This is essentially an attempt to reconcile these efforts and express them as a formal PCDM profile.
+
+[Detailed metadata model documents](https://wiki.duraspace.org/display/samvera/PCDM+metadata+model+for+Newspapers)
 
 # Installation/Testing
 Integrating newspaper_works in your application
