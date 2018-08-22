@@ -11,7 +11,6 @@ Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samv
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 # Table of Contents
----
 - [Introduction](#introduction)
   - [Documentation](#documentation)
 - [Overview](#overview)
@@ -55,12 +54,12 @@ management, ingest, and archiving of primarily scanned (historic) newspaper arch
 This gem is currently under development. The development team is actively working on this project and expects to have an alpha release of the application later this Summer.
 
 ## Requirements
----
+
   * [Ruby](https://rubyonrails.org/) 2.3
   * [Rails](https://rubyonrails.org/) 5.0.6
   * [Bundler](http://bundler.io/)
   * [Hyrax](https://github.com/samvera/hyrax) 2.2.0
-    - ..._and various Samvera dependencies that entails_.
+    - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
   * A Hyrax-based Rails application.
     * newspaper_works is a gem/engine that can extend your application.
 
