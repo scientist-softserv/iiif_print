@@ -1,3 +1,4 @@
+require 'json'
 require 'open3'
 require 'rtesseract'
 
@@ -42,6 +43,24 @@ module NewspaperWorks
       def words
         @words = load_box.words if @words.nil?
         @words
+      end
+
+      def normalized_coordinate(word)
+        {
+          word: word[:word],
+          coordinates: [
+            word[:x_start],
+            word[:y_start],
+            (word[:x_end] - word[:x_start]),
+            (word[:y_end] - word[:y_start])
+          ]
+        }
+      end
+
+      def word_json
+        save_words = words.map { |w| normalized_coordinate(w) }
+        payload = { words: save_words }
+        JSON.generate(payload)
       end
 
       def plain
