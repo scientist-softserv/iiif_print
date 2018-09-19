@@ -83,6 +83,9 @@ class NewspaperIssue < ActiveFedora::Base
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
 
+  # for GeoNames autocomplete lookup
+  include NewspaperWorks::PlaceOfPublicationBehavior
+
   # relationship methods
   def publication
     result = member_of.select { |v| v.instance_of?(NewspaperTitle) }

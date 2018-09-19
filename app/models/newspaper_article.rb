@@ -118,6 +118,9 @@ class NewspaperArticle < ActiveFedora::Base
   # BasicMetadata must be included last
   include ::Hyrax::BasicMetadata
 
+  # for GeoNames autocomplete lookup
+  include NewspaperWorks::PlaceOfPublicationBehavior
+
   # relationship methods:
 
   def pages

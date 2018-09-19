@@ -28,6 +28,7 @@ SUMMARY
   spec.add_dependency 'rtesseract', '~> 2.2.0'
 
   spec.add_development_dependency 'bixby'
+  spec.add_development_dependency 'capybara', '~> 2.4'
   spec.add_development_dependency 'engine_cart', '~> 2.0'
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency "faraday"

@@ -30,7 +30,8 @@ module NewspaperWorks
       property(
         :place_of_publication,
         predicate: ::RDF::Vocab::MARCRelators.pup,
-        multiple: true
+        multiple: true,
+        class_name: Hyrax::ControlledVocabularies::Location
       ) do |index|
         index.as :stored_searchable
       end
@@ -70,9 +71,6 @@ module NewspaperWorks
       ) do |index|
         index.as :stored_searchable
       end
-
-      class_attribute :controlled_properties
-      self.controlled_properties = []
     end
   end
 end

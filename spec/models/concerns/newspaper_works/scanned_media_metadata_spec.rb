@@ -1,4 +1,6 @@
-# Scanned Media Metada Spec Tests
+require 'spec_helper'
+
+# Scanned Media Metadata Spec Tests
 RSpec.describe NewspaperWorks::ScannedMediaMetadata do
   class ScannedMediaWork < ActiveFedora::Base
     include ::Hyrax::WorkBehavior

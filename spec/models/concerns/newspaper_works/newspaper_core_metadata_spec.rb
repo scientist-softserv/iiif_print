@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 # Core Metadata Spec Tests
 RSpec.describe NewspaperWorks::NewspaperCoreMetadata do
   class NewspaperishWork < ActiveFedora::Base
@@ -20,6 +22,10 @@ RSpec.describe NewspaperWorks::NewspaperCoreMetadata do
     expect(work).to respond_to(:lccn)
     expect(work).to respond_to(:oclcnum)
     expect(work).to respond_to(:held_by)
+  end
+
+  it 'uses correct class for place_of_publication' do
+    expect(work.class.properties['place_of_publication'].class_name).to eq Hyrax::ControlledVocabularies::Location
   end
 
   it 'work can set/get properties' do

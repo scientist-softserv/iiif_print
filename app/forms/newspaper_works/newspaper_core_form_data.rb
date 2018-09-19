@@ -5,5 +5,14 @@ module NewspaperWorks
     self.terms -= [:based_near, :date_created, :keyword, :related_url, :source]
     self.required_fields += [:resource_type, :genre, :language, :held_by]
     self.required_fields -= [:creator, :keyword, :rights_statement]
+
+    def self.build_permitted_params
+      super + [
+        {
+          place_of_publication_attributes: [:id, :_destroy]
+        }
+      ]
+    end
+
   end
 end

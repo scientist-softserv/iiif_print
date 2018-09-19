@@ -6,6 +6,13 @@ require 'bundler/setup'
 require 'engine_cart'
 EngineCart.load_application!
 
+# test account for Geonames-related specs
+Qa::Authorities::Geonames.username = 'newspaper_works'
+
+require 'rspec/rails'
+
+ActiveJob::Base.queue_adapter = :test
+
 RSpec.configure do |config|
   # enable FactoryBot:
   require 'factory_bot'
@@ -13,8 +20,26 @@ RSpec.configure do |config|
   # auto-detect and load all factories in spec/factories:
   FactoryBot.find_definitions
 
+  config.infer_spec_type_from_file_location!
+
   # require shared examples
   require 'lib/newspaper_works/ingest/ingest_shared'
+
+  config.infer_spec_type_from_file_location!
+
+  # :perform_enqueued config setting below copied from Hyrax spec_helper.rb
+  config.before(:example, :perform_enqueued) do |example|
+    ActiveJob::Base.queue_adapter.filter = example.metadata[:perform_enqueued].try(:to_a)
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+    ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = true
+  end
+  config.after(:example, :perform_enqueued) do
+    ActiveJob::Base.queue_adapter.filter = nil
+    ActiveJob::Base.queue_adapter.enqueued_jobs = []
+    ActiveJob::Base.queue_adapter.performed_jobs = []
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = false
+    ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
+  end
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
