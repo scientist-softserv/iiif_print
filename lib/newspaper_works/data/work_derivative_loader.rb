@@ -3,10 +3,25 @@ require 'hyrax'
 module NewspaperWorks
   module Data
     class WorkDerivativeLoader
+      include Enumerable
+
       def initialize(work)
+        # context usually work, may be FileSet, may be string id of FileSet
         @context = work
         # storage for computed paths are memoized as used, here:
         @paths = {}
+      end
+
+      # all paths for work derivatives
+      def paths
+        path_factory.derivatives_for_reference(fileset_id)
+      end
+
+      # enumerates available file extensions
+      def each
+        paths.each do |e|
+          yield(e.split('.')[-1])
+        end
       end
 
       def path_factory
@@ -22,6 +37,11 @@ module NewspaperWorks
       end
 
       def fileset_id
+        # if context is itself a string, presume it is a file set id
+        return @context if @context.class == String
+        # context might be a FileSet...
+        return @context if @context.class == FileSet
+        # ...or a work:
         filesets = @context.members.select { |m| m.class == FileSet }
         filesets.empty? ? nil : filesets[0].id
       end
