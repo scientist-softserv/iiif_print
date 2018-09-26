@@ -113,6 +113,10 @@ _More here soon!_
     - This will help fields such as "Place of Publication" provide
       autocomplete using the Geonames service/vocabulary.
 
+  * NewspaperWorks requires that your application's `config/initializers/hyrax.rb`
+    be edited to make uploads optional for (all) work types, by setting
+    `config.work_requires_files = false`.
+
 ## Development and Testing with Vagrant
 * clone samvera-vagrant
 
