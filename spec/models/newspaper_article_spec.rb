@@ -42,18 +42,14 @@ RSpec.describe NewspaperArticle do
       expect(issue).to be_an_instance_of(NewspaperIssue)
     end
 
-    it 'can get publicaiton (transitive)' do
+    it 'can get publication (transitive)' do
       publication = fixture.publication
       expect(publication).to be_an_instance_of(NewspaperTitle)
     end
 
-    it 'can get aggregating containers (transitive)' do
-      containers = fixture.containers
-      expect(containers).to be_an_instance_of(Array)
-      expect(containers.length).to be > 0
-      containers.each do |e|
-        expect(e).to be_an_instance_of(NewspaperContainer)
-      end
+    it 'can get aggregating container (transitive)' do
+      container = fixture.container
+      expect(container).to be_an_instance_of(NewspaperContainer)
     end
   end
 

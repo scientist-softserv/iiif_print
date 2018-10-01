@@ -23,22 +23,14 @@ RSpec.describe NewspaperPage do
       end
     end
 
-    it 'can get aggregating issues for page' do
-      issues = fixture.issues
-      expect(issues).to be_an_instance_of(Array)
-      expect(issues.length).to be > 0
-      issues.each do |e|
-        expect(e).to be_an_instance_of(NewspaperIssue)
-      end
+    it 'can get aggregating issue for page' do
+      issue = fixture.issue
+      expect(issue).to be_an_instance_of(NewspaperIssue)
     end
 
-    it 'can get aggregating containers for page' do
-      containers = fixture.containers
-      expect(containers).to be_an_instance_of(Array)
-      expect(containers.length).to be > 0
-      containers.each do |e|
-        expect(e).to be_an_instance_of(NewspaperContainer)
-      end
+    it 'can get aggregating container for page' do
+      container = fixture.container
+      expect(container).to be_an_instance_of(NewspaperContainer)
     end
 
     it 'can get publication (transitive)' do

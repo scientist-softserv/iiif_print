@@ -13,7 +13,8 @@ RSpec.describe NewspaperWorks::IndexesPlaceOfPublication do
     let(:solr_doc) { {} }
     before do
       allow(test_indexer).to receive(:get_geodata).and_return(geodata)
-      test_indexer.index_pop([pop], solr_doc)
+      ntitle.place_of_publication = pop
+      test_indexer.index_pop(ntitle, solr_doc)
     end
     it 'sets the geodata fields correctly' do
       expect(solr_doc['place_of_publication_state_ssim'].first).not_to be_falsey

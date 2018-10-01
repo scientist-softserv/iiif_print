@@ -49,22 +49,24 @@ class NewspaperPage < ActiveFedora::Base
   # get publication (transitive)
   def publication
     # try transitive relation via issue first:
-    issues = self.issues
-    return issues[0].publication unless issues.empty?
+    issue = self.issue
+    return issue.publication unless issue.nil?
     # fallback to trying to see if there is an issue-less container with title:
-    containers = self.containers
-    return containers[0].publication unless containers.empty?
+    container = self.container
+    return container.publication unless container.nil?
   end
 
   def articles
     member_of.select { |v| v.instance_of?(NewspaperArticle) }
   end
 
-  def issues
-    member_of.select { |v| v.instance_of?(NewspaperIssue) }
+  def issue
+    result = member_of.select { |v| v.instance_of?(NewspaperIssue) }
+    result[0] unless result.empty?
   end
 
-  def containers
-    member_of.select { |v| v.instance_of?(NewspaperContainer) }
+  def container
+    result = member_of.select { |v| v.instance_of?(NewspaperContainer) }
+    result[0] unless result.empty?
   end
 end

@@ -137,8 +137,8 @@ class NewspaperArticle < ActiveFedora::Base
     issue.publication unless issue.nil?
   end
 
-  def containers
+  def container
     pages = self.pages
-    return pages[0].member_of.select { |v| v.instance_of?(NewspaperContainer) } unless pages.empty?
+    pages.first.container unless pages.empty?
   end
 end
