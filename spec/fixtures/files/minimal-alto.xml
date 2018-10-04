@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v2#">
+  <!-- Minimal ALTO 2.0 (per NDNP 2018 guidelines) example should comply
+       with schema@ https://www.loc.gov/standards/alto/v2/alto-2-0.xsd
+    -->
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+  </Description>
+  <!-- no Styles element in this minimal ALTO -->
+  <Layout>
+    <Page ID="ID1" PHYSICAL_IMG_NR="1">
+      <!-- coordinates as float -->
+      <PrintSpace HEIGHT="" WIDTH="" HPOS="" VPOS="">
+        <!-- if we do not have block/line positioning, and only have
+             word coordinates, we end up with something a bit messy
+             treating the whole document as one big line of text to
+             simply comply with ALTO schema.
+           -->
+        <TextBlock HEIGHT="" WIDTH="" HPOS="" VPOS="">
+          <TextLine HEIGHT="" WIDTH="" HPOS="" VPOS="">
+            <String HEIGHT="" WIDTH="" HPOS="" VPOS="" CONTENT="This"></String>
+            <String HEIGHT="" WIDTH="" HPOS="" VPOS="" CONTENT="is"></String>
+            <String HEIGHT="" WIDTH="" HPOS="" VPOS="" CONTENT="only"></String>
+            <String HEIGHT="" WIDTH="" HPOS="" VPOS="" CONTENT="a"></String>
+            <String HEIGHT="" WIDTH="" HPOS="" VPOS="" CONTENT="test."></String>
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>
