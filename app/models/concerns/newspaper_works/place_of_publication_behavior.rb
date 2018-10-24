@@ -7,7 +7,9 @@ module NewspaperWorks
 
     included do
       self.controlled_properties = [:place_of_publication]
-      accepts_nested_attributes_for :place_of_publication, allow_destroy: true
+      accepts_nested_attributes_for :place_of_publication,
+                                    reject_if: proc { |attributes| attributes[:id].blank? },
+                                    allow_destroy: true
     end
   end
 end
