@@ -12,6 +12,8 @@ module NewspaperWorks
         adapter.load(path)
         adapter.create_child_pages
       end
+      # re-save pages so that parent and sibling relationships are indexed
+      work.pages.each(&:save)
     end
   end
 end

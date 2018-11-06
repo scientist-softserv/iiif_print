@@ -2,6 +2,8 @@ module NewspaperWorks
   module Actors
     class NewspaperWorksUploadActor < Hyrax::Actors::BaseActor
       def create(env)
+        # Ensure that work has title from form data
+        env.curation_concern.title = env.attributes['title']
         # If NewspaperIssue, we might have a PDF to split...
         handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
         # pass to next actor
@@ -9,6 +11,8 @@ module NewspaperWorks
       end
 
       def update(env)
+        # Ensure that work has title from form data
+        env.curation_concern.title = env.attributes['title']
         handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
         # pass to next actor
         next_actor.update(env)

@@ -99,4 +99,12 @@ class NewspaperIssue < ActiveFedora::Base
   def pages
     members.select { |v| v.instance_of?(NewspaperPage) }
   end
+
+  def ordered_pages
+    ordered_members.to_a.select { |v| v.instance_of?(NewspaperPage) }
+  end
+
+  def ordered_page_ids
+    ordered_pages.map(&:id)
+  end
 end

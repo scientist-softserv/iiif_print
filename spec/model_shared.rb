@@ -93,7 +93,8 @@ def model_fixtures(target_type)
   page2.page_number = '2'
   page2.height = "200"
   page2.width = "200"
-  issue1.members.push(page1, page2)
+  issue1.ordered_members << page1
+  issue1.ordered_members << page2
   article1 = NewspaperArticle.new
   article1.title = ['Happening now']
   article2 = NewspaperArticle.new
@@ -126,4 +127,7 @@ def model_fixtures(target_type)
   return page1 if target_type == NewspaperPage
   return article2 if target_type == NewspaperArticle
   return container if target_type == NewspaperContainer
+
+  # return multiple objects as needed for testing
+  return [page1, page2] if target_type == :newspaper_pages
 end

@@ -6,7 +6,7 @@ RSpec.describe NewspaperWorks::Actors::NewspaperWorksUploadActor, :perform_enque
   let(:ability) { build(:ability) }
   let(:uploaded_pdf_file) { create(:uploaded_pdf_file) }
   let(:uploaded_file_ids) { [uploaded_pdf_file.id] }
-  let(:attributes) { { uploaded_files: uploaded_file_ids } }
+  let(:attributes) { { title: ['foo'], uploaded_files: uploaded_file_ids } }
   let(:terminator) { Hyrax::Actors::Terminator.new }
   let(:env) { Hyrax::Actors::Environment.new(issue, ability, attributes) }
   let(:middleware) do

@@ -16,7 +16,7 @@ module NewspaperWorks
         pages = NewspaperWorks::Ingest::PdfPages.new(path).to_a
         pages.each_with_index do |tiffpath, idx|
           page = new_child_page_with_file(tiffpath, idx)
-          @work.members.push(page)
+          @work.ordered_members << page
         end
         @work.save!(validate: false) unless pages.empty?
       end

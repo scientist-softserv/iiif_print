@@ -42,6 +42,24 @@ RSpec.describe NewspaperIssue do
       end
     end
 
+    it 'can get ordered pages' do
+      ordered_pages = fixture.ordered_pages
+      expect(ordered_pages).to be_an_instance_of(Array)
+      expect(ordered_pages.length).to be > 0
+      ordered_pages.each do |e|
+        expect(e).to be_an_instance_of(NewspaperPage)
+      end
+    end
+
+    it 'can get ordered page ids' do
+      ordered_page_ids = fixture.ordered_page_ids
+      expect(ordered_page_ids).to be_an_instance_of(Array)
+      expect(ordered_page_ids.length).to be > 0
+      ordered_page_ids.each do |e|
+        expect(e).to be_an_instance_of(String)
+      end
+    end
+
     it 'can get aggregated articles' do
       contained_articles = fixture.articles
       expect(contained_articles).to be_an_instance_of(Array)

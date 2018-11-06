@@ -12,6 +12,7 @@ module NewspaperWorks
         index_issue(object, solr_doc)
         index_container(object, solr_doc)
         index_articles(object, solr_doc)
+        index_siblings(object, solr_doc)
       when NewspaperArticle
         index_issue(object, solr_doc)
         index_pages(object, solr_doc)
@@ -70,6 +71,23 @@ module NewspaperWorks
         solr_doc['page_ids_ssim'] << n_page.id
         solr_doc['page_titles_ssim'] << n_page.title.first
       end
+    end
+
+    # index previous/next siblings info
+    #
+    # @param page [NewspaperPage]
+    # @param solr_doc [Hash] the hash of field data to be pushed to Solr
+    def index_siblings(page, solr_doc)
+      newspaper_issue = page.issue
+      return unless newspaper_issue.is_a?(NewspaperIssue)
+      page_ids = newspaper_issue.ordered_page_ids
+      return unless page_ids.length > 1
+      this_page_index = page_ids.index(page.id)
+      return unless this_page_index
+      unless this_page_index.zero?
+        solr_doc['is_following_page_of_ssi'] = page_ids[this_page_index - 1].presence
+      end
+      solr_doc['is_preceding_page_of_ssi'] = page_ids[this_page_index + 1].presence
     end
 
     # index the articles info
