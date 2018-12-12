@@ -15,4 +15,8 @@ class TestAppGenerator < Rails::Generators::Base
   def db_migrations
     rake 'db:migrate'
   end
+
+  def configure_browse_everything
+    generate 'browse_everything:config'
+  end
 end

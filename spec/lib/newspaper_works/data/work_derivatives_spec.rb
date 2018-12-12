@@ -1,0 +1,182 @@
+# encoding: UTF-8
+
+require 'spec_helper'
+require 'misc_shared'
+
+RSpec.describe NewspaperWorks::Data::WorkDerivatives do
+  include_context "shared setup"
+
+  let(:bare_work) do
+    work = NewspaperPage.new
+    work.title = ['Another one']
+    work.save!
+    work
+  end
+
+  let(:work) do
+    # sample work comes from shared setup, but we need derivative, save...
+    mk_txt_derivative(sample_work)
+    sample_work.save!(validate: false)
+    sample_work
+  end
+
+  let(:adapter) { described_class.new(work) }
+
+  let(:txt1) do
+    file = Tempfile.new('txt1.txt')
+    file.write('hello')
+    file.close
+    file.path
+  end
+
+  let(:txt2) do
+    file = Tempfile.new('txt2.txt')
+    file.write('bye')
+    file.close
+    file.path
+  end
+
+  let(:encoded_text) do
+    file = Tempfile.new('txt_encoded.txt', encoding: 'UTF-8')
+    file.write('Gorgonzola Dolce® — on sale for £12.50/kg')
+    file.close
+    file.path
+  end
+
+  describe "enumerates available derivatives like hash" do
+    it "includes expected derivative path for work" do
+      expect(adapter.keys).to include 'txt'
+    end
+
+    it "can be introspected for quantity of derivatives" do
+      # `size` method without argument is count of derivatives,
+      #   functions equivalently to adapter.keys.size
+      expect(adapter.size).to eq adapter.keys.size
+    end
+
+    it "enumerates expected derivative extension for work" do
+      ext_found = adapter.keys
+      expect(ext_found).to include 'txt'
+    end
+
+    it "enumerates expected derivative extension for file set" do
+      file_set = work.members.select { |m| m.class == FileSet }[0]
+      adapter = described_class.new(file_set)
+      ext_found = adapter.keys
+      expect(ext_found).to include 'txt'
+    end
+
+    it "enumerates expected derivative extension for file set id" do
+      file_set = work.members.select { |m| m.class == FileSet }[0]
+      adapter = described_class.new(file_set.id)
+      ext_found = adapter.keys
+      expect(ext_found).to include 'txt'
+    end
+  end
+
+  describe "loads derivatives for a work" do
+    it "Loads text derivative path" do
+      expect(File.exist?(adapter.path('txt'))).to be true
+      expect(adapter.exist?('txt')).to be true
+    end
+
+    it "Loads text derivative data" do
+      expect(adapter.data('txt')).to include 'mythical'
+    end
+
+    it "Handles character encoding on read" do
+      # replace fixture text derivative for work with encoded text
+      adapter.attach(encoded_text, 'txt')
+      data = adapter.data('txt')
+      expect(data).to include '—' # em-dash
+      expect(data).to include '£' # gb-pound sign
+      expect(data.encoding.to_s).to eq 'UTF-8'
+    end
+
+    it "Loads thumbnail derivative data" do
+      mk_thumbnail_derivative(work)
+      # get size by loading data
+      expect(adapter.data('thumbnail').bytes.size).to eq 16_743
+      # get size by File.size via .size method
+      expect(adapter.size('thumbnail')).to eq 16_743
+    end
+
+    it "Can access jp2 derivative" do
+      mk_jp2_derivative(work)
+      expect(File.exist?(adapter.path('jp2'))).to be true
+      expect(adapter.exist?('jp2')).to be true
+    end
+  end
+
+  describe "create, update, delete derivatives" do
+    it "will queue derivative file assignment" do
+      adapter = described_class.new(bare_work)
+      adapter.assign(example_gray_jp2)
+      expect(adapter.assigned).to include example_gray_jp2
+    end
+
+    it "will remove file assignment from queue" do
+      adapter = described_class.new(bare_work)
+      expect(adapter.state).to eq 'empty'
+      adapter.assign(example_gray_jp2)
+      expect(adapter.assigned).to include example_gray_jp2
+      expect(adapter.state).to eq 'dirty'
+      adapter.unassign(example_gray_jp2)
+      expect(adapter.assigned).not_to include example_gray_jp2
+      expect(adapter.state).to eq 'empty'
+    end
+
+    it "will queue a deletion" do
+      # Given a work with a derivative (txt) already assigned
+      expect(adapter.state).to eq 'saved'
+      # unassigning path...
+      adapter.unassign('txt')
+      # will lead to queued unassignment (intent to delete)...
+      expect(adapter.unassigned).to include 'txt'
+      # and a 'dirty' adapter state (unflushed changes):
+      expect(adapter.state).to eq 'dirty'
+    end
+
+    it "will flush a removal and addition on commit!" do
+      # Given a work with a derivative (txt) already assigned
+      expect(adapter.keys).to include 'txt'
+      expect(adapter.keys).not_to include 'jp2'
+      # unassigning path...
+      adapter.unassign('txt')
+      # and assigning another attachment:
+      adapter.assign(example_gray_jp2)
+      # ...committing these will flush the changes (synchronously):
+      adapter.commit!
+      expect(adapter.keys).not_to include 'txt'
+      expect(adapter.keys).to include 'jp2'
+      expect(adapter.size('jp2')).to eq 27_703
+    end
+
+    it "can attach derivative from file" do
+      expect(adapter.keys).not_to include 'jp2'
+      adapter.attach(example_gray_jp2, 'jp2')
+      expect(adapter.exist?('jp2')).to be true
+      expect(adapter.path('jp2')).not_to be nil
+      expect(File.size(adapter.path('jp2'))).to eq File.size(example_gray_jp2)
+      expect(adapter.keys).to include 'jp2'
+      d_path = path_factory.derivative_path_for_reference(adapter.fileset_id, 'jp2')
+      expect(adapter.values).to include d_path
+    end
+
+    it "can replace a derivative with new attachment" do
+      adapter.attach(txt1, 'txt')
+      expect(adapter.data('txt')).to eq 'hello'
+      adapter.attach(txt2, 'txt')
+      expect(adapter.data('txt')).to eq 'bye'
+    end
+
+    it "can delete an attached derivative" do
+      adapter.attach(txt1, 'txt')
+      expect(adapter.keys).to include 'txt'
+      expect(adapter.data('txt')).to eq 'hello'
+      adapter.delete('txt')
+      expect(adapter.path('txt')).to be nil
+      expect(adapter.keys).not_to include 'txt'
+    end
+  end
+end

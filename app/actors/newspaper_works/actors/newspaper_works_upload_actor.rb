@@ -2,17 +2,26 @@ module NewspaperWorks
   module Actors
     class NewspaperWorksUploadActor < Hyrax::Actors::BaseActor
       def create(env)
-        # Ensure that work has title from form data
-        env.curation_concern.title = env.attributes['title']
+        # Ensure that work has title, set from form data if present
+        ensure_title(env)
         # If NewspaperIssue, we might have a PDF to split...
         handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
         # pass to next actor
         next_actor.create(env)
       end
 
+      # Work must have a title to save, and this actor's .create/.update
+      #   methods run prior to the setting of form data.  This ensures
+      #   appropriate title is set on model.
+      def ensure_title(env)
+        form_title = env.attributes['title']
+        return if form_title.nil?
+        env.curation_concern.title = form_title
+      end
+
       def update(env)
-        # Ensure that work has title from form data
-        env.curation_concern.title = env.attributes['title']
+        # Ensure that work has title, set from form data if present
+        ensure_title(env)
         handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
         # pass to next actor
         next_actor.update(env)

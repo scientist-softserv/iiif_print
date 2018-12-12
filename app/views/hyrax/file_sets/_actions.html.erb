@@ -32,11 +32,10 @@
       <%= link_to 'Download', hyrax.download_path(file_set),
         title: "Download #{file_set.to_s.inspect}", target: "_blank" %>
     </li>
-    <% NewspaperWorks::Data::WorkDerivativeLoader.new(file_set.id).to_a.each do |ext| %>
+    <% NewspaperWorks::Data::WorkDerivatives.new(file_set.id).keys.each do |name| %>
       <li role="menuitem" tabindex="-1">
-        <% ext = (ext == 'jpeg') ? 'thumbnail' : ext %>
-        <a href="<%= "/downloads/#{file_set.id}?locale=en&file=#{ext}" %>">
-          Download <em>(as <%= ext %>)</em>
+        <a href="<%= "/downloads/#{file_set.id}?locale=en&file=#{name}" %>">
+          Download <em>(as <%= name %>)</em>
         </a>
       </li>
     <% end %>

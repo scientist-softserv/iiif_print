@@ -1,4 +1,8 @@
-require 'newspaper_works/data/work_derivative_loader'
+require 'newspaper_works/data/fileset_helper'
+require 'newspaper_works/data/path_helper'
+require 'newspaper_works/data/work_derivatives'
+require 'newspaper_works/data/work_files'
+require 'newspaper_works/data/work_file'
 
 module NewspaperWorks
   # Module for data access helper / adapter classes supporting, enhancing
