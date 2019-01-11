@@ -183,10 +183,14 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
     it "gets derivatives for first fileset" do
       fileset = work.members.select { |m| m.class == FileSet }[0]
       adapter = described_class.of(work)
-      expect(adapter.derivatives.fileset).to be fileset
+      # adapts same context(s):
+      expect(adapter.derivatives.fileset.id).to eq fileset.id
       expect(adapter.derivatives.work).to be work
       expect(adapter.derivatives.class).to eq \
         NewspaperWorks::Data::WorkDerivatives
+      # transitive parent/child relationship, can traverse to adapter from
+      # derivatives:
+      expect(adapter.derivatives.parent.parent).to be adapter
     end
   end
 end

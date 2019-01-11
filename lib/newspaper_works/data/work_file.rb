@@ -22,7 +22,7 @@ module NewspaperWorks
         @work = work
         # If fileset is nil, presume *first* fileset of work, as in
         #   the single-file-per-work use-case:
-        @fileset = fileset.nil? ? first_fileset : fileset
+        @fileset = fileset
         # Parent is WorkFiles (container) object, if applciable:
         @parent = parent
       end
@@ -30,10 +30,12 @@ module NewspaperWorks
       # Get original repository object representing file (not fileset).
       # @return [ActiveFedora::File] repository file persistence object
       def unwrapped
+        return nil if @fileset.nil?
         @fileset.original_file
       end
 
       def ==(other)
+        return false if @fileset.nil?
         unwrapped.id == other.unwrapped.id
       end
 
@@ -41,6 +43,7 @@ module NewspaperWorks
       #   checkout file from repository/source as needed.
       # @return [String] path to working copy of binary
       def path
+        return nil if @fileset.nil?
         checkout
       end
 
@@ -48,6 +51,7 @@ module NewspaperWorks
       #   checkout file from repository/source as needed.
       # @return [String] byte data of binary/file payload
       def data
+        return '' if @fileset.nil?
         File.read(path, mode: 'rb')
       end
 
@@ -63,21 +67,17 @@ module NewspaperWorks
       # Get filename from stored metadata
       # @return [String] file name stored in repository metadata for file
       def name
+        return nil if @fileset.nil?
         unwrapped.original_name
       end
 
       # Derivatives for fileset associated with this primary file object
       # @return [NewspaperWorks::Data::WorkDerviatives] derivatives adapter
       def derivatives
-        NewspaperWorks::Data::WorkDerivatives.of(work, fileset)
+        NewspaperWorks::Data::WorkDerivatives.of(work, fileset, self)
       end
 
       private
-
-        def first_fileset
-          filesets = @work.members.select { |m| m.class == FileSet }
-          filesets.empty? ? nil : filesets[0]
-        end
 
         def checkout
           file = @fileset.original_file

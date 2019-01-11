@@ -23,9 +23,9 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
   let(:adapter) { described_class.new(work) }
 
   let(:txt1) do
-    file = Tempfile.new('txt1.txt')
+    file = Tempfile.new(['txt1', '.txt'])
     file.write('hello')
-    file.close
+    file.flush
     file.path
   end
 
@@ -178,5 +178,57 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       expect(adapter.path('txt')).to be nil
       expect(adapter.keys).not_to include 'txt'
     end
+
+    it "persists log of attachment to RDBMS" do
+      adapter.assign(txt1)
+      result = NewspaperWorks::DerivativeAttachment.find_by(
+        fileset_id: adapter.fileset.id,
+        path: txt1,
+        destination_name: 'txt'
+      )
+      expect(result).not_to be_nil
+    end
+
+    it "persists a log of path relation to primary file" do
+      # this is an integration test by practical necessity, with
+      #   WorkFiles adapting a bare work with no fileset.
+      work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
+      work_files.assign(example_gray_jp2)
+      adapter = work_files.derivatives
+      adapter.assign(txt1)
+      result = NewspaperWorks::IngestFileRelation.find_by(
+        derivative_path: txt1,
+        file_path: example_gray_jp2
+      )
+      expect(result).not_to be_nil
+    end
+
+    # rubocop:disable RSpec/ExampleLength
+    it "commits queued derivatives" do
+      NewspaperWorks::IngestFileRelation.where(file_path: example_gray_jp2).delete_all
+      work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
+      work_files.assign(example_gray_jp2)
+      adapter = work_files.derivatives
+      adapter.assign(txt1)
+      expect(adapter.keys.size).to eq 0
+      # we need a fileset, saved with import_url, attached to work:
+      fileset = valid_file_set
+      fileset.import_url = 'file://' + example_gray_jp2
+      fileset.save!
+      bare_work.members.push(fileset)
+      bare_work.save!
+      # with a new adapter instance...
+      adapter2 = described_class.of(bare_work)
+      # call .commit_queued! with our fileset...
+      adapter2.commit_queued!(fileset)
+      # ...which should result in saved, reloaded derivative...
+      expect(adapter2.keys.size).to eq 1
+      expect(File.size(adapter2.values[0])).to eq File.size(txt1)
+      # ...also found via Hyrax::DerviativePath:
+      found = Hyrax::DerivativePath.derivatives_for_reference(fileset.id)
+      expect(found.size).to eq 1
+      expect(File.size(found[0])).to eq File.size(txt1)
+    end
+    # rubocop:enable RSpec/ExampleLength
   end
 end

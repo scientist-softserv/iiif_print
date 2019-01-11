@@ -20,6 +20,10 @@ module NewspaperWorks
       # @return [FileSet] fileset for work, with regard to these derivatives
       attr_accessor :fileset
 
+      # Parent pointer to WorkFile object representing fileset
+      # @return [NewspaperWorks::Data::WorkFile] WorkFile for fileset, work pair
+      attr_accessor :parent
+
       # Assigned attachment queue (of paths)
       # @return [Array<String>] list of paths queued for attachment
       attr_accessor :assigned
@@ -37,12 +41,12 @@ module NewspaperWorks
       end
 
       # alternate constructor spelling:
-      def self.of(work, fileset = nil)
-        new(work, fileset)
+      def self.of(work, fileset = nil, parent = nil)
+        new(work, fileset, parent)
       end
 
       # Adapt work and either specific or first fileset
-      def initialize(work, fileset = nil)
+      def initialize(work, fileset = nil, parent = nil)
         # adapted context usually work, may be string id of FileSet
         @work = work
         @fileset = fileset.nil? ? first_fileset : fileset
@@ -52,6 +56,8 @@ module NewspaperWorks
         @assigned = []
         # un-assignments for deletion
         @unassigned = []
+        # parent is NewspaperWorks::Data::WorkFile object for derivatives
+        @parent = parent
       end
 
       # Assignment state
@@ -69,6 +75,9 @@ module NewspaperWorks
         path = normalize_path(path)
         validate_path(path)
         @assigned.push(path)
+        # We are keeping assignment both in ephemeral, transient @assigned
+        #   and mirroring to db to share context with other components:
+        log_assignment(path, path_destination_name(path))
       end
 
       # Assign a destination name to unassigned queue for deletion -- OR --
@@ -77,7 +86,10 @@ module NewspaperWorks
       #   or source path
       def unassign(name)
         # if name is queued path, remove from @assigned queue:
-        @assigned.delete(name) if @assigned.include?(name)
+        if @assigned.include?(name)
+          @assigned.delete(name)
+          unlog_assignment(name, path_destination_name(name))
+        end
         # if name is known destination name, remove
         @unassigned.push(name) if exist?(name)
       end
@@ -94,10 +106,35 @@ module NewspaperWorks
         @unassigned = []
       end
 
+      # Given a fileset meeting both of the following conditions:
+      #   1. a non-nil import_url value;
+      #   2. is attached to a work (persisted in Fedora, if not yet in Solr)...
+      # ...this method gets associated derivative paths queued and attach all.
+      # @param file_set [FileSet] saved file set, attached to work,
+      #   with identifier, and a non-nil import_url
+      def commit_queued!(file_set)
+        raise ArgumentError('No FileSet import_url') if file_set.import_url.nil?
+        import_path = file_url_to_path(file_set.import_url)
+        work = file_set.member_of.select(&:work?)[0]
+        raise ArgumentError('Work not found for fileset') if work.nil?
+        derivatives = WorkDerivatives.of(work, file_set)
+        IngestFileRelation.derivatives_for_file(import_path).each do |path|
+          next unless File.exist?(path)
+          attachment_record = DerivativeAttachment.where(path: path).first
+          derivatives.attach(path, attachment_record.destination_name)
+          # update previously nil fileset id
+          attachment_record.fileset_id = file_set.id
+          attachment_record.save!
+        end
+        @fileset ||= file_set
+        load_paths
+      end
+
       # attach a single derivative file to work
       # @param file [String, IO] path to file or IO object
       # @param name [String] destination name, usually file extension
       def attach(file, name)
+        raise RuntimeError('Cannot save for nil fileset') if fileset.nil?
         mkdir_pairtree
         path = path_factory.derivative_path_for_reference(fileset, name)
         # if file argument is path, copy file
@@ -119,6 +156,7 @@ module NewspaperWorks
       # Delete a derivative file from work, by destination name
       # @param name [String] destination name, usually file extension
       def delete(name, force: nil)
+        raise RuntimeError('Cannot save for nil fileset') if fileset.nil?
         path = path_factory.derivative_path_for_reference(fileset, name)
         # will remove file, if it exists; won't remove pairtree, even
         #   if it becomes empty, as that is excess scope.
@@ -176,6 +214,59 @@ module NewspaperWorks
       end
 
       private
+
+        def primary_file_path
+          if fileset.nil?
+            # if there is a nil fileset, we look for *intent* in the form
+            #   of the first assigned file path for single-file work.
+            work_file = parent
+            return if work_file.nil?
+            work_files = work_file.parent
+            return if work_files.nil?
+            work_files.assigned[0]
+          else
+            file_url_to_path(fileset.import_url) unless fileset.import_url.nil?
+          end
+        end
+
+        def file_url_to_path(url)
+          url.gsub('file://', '')
+        end
+
+        def log_primary_file_relation(path)
+          file_path = primary_file_path
+          return if file_path.nil?
+          NewspaperWorks::IngestFileRelation.create!(
+            file_path: file_path,
+            derivative_path: path
+          )
+        end
+
+        def log_assignment(path, name)
+          NewspaperWorks::DerivativeAttachment.create!(
+            fileset_id: fileset_id,
+            path: path,
+            destination_name: name
+          )
+          log_primary_file_relation(path)
+        end
+
+        def unlog_assignment(path, name)
+          if fileset_id.nil?
+            NewspaperWorks::DerivativeAttachment.where(
+              path: path,
+              destination_name: name
+            ).destroy_all
+          else
+            NewspaperWorks::DerivativeAttachment.where(
+              fileset_id: fileset_id,
+              path: path,
+              destination_name: name
+            ).destroy_all
+          end
+          # note: there is deliberately no attempt to "unlog" primary
+          #   file relation, as leaving it should have no side-effect.
+        end
 
         # Load all paths/names to @paths once, upon first access
         def load_paths
