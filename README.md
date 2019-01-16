@@ -116,6 +116,10 @@ _More here soon!_
   * NewspaperWorks requires that your application's `config/initializers/hyrax.rb`
     be edited to make uploads optional for (all) work types, by setting
     `config.work_requires_files = false`.
+    
+  * NewspaperWorks expects that your application's `config/initializers/hyrax.rb`
+    be edited to enable a IIIF viewer, by setting
+    `config.iiif_image_server = true`.    
 
   * NewspaperWorks overrides Hyrax's default `:after_create_fileset` event
     handler, in order to attach pre-existing derivatives in some ingest

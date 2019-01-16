@@ -1,5 +1,6 @@
 require 'active_fedora'
 require 'hyrax'
+require 'blacklight_iiif_search'
 
 module NewspaperWorks
   # module constants:
