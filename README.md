@@ -152,14 +152,14 @@ cd samvera-vagrant && vagrant up
 * First shell (start fcrepo_wrapper)
 
 ```
-cd /home/ubuntu/newspaper_works
+cd /home/vagrant/newspaper_works
 fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
 ```
 
 * Second shell (start solr_wrapper)
 
 ```
-cd /home/ubuntu/newspaper_works
+cd /home/vagrant/newspaper_works
 solr_wrapper --config config/solr_wrapper_test.yml
 ```
 
@@ -168,14 +168,14 @@ solr_wrapper --config config/solr_wrapper_test.yml
 * Run spec tests
 
 ```
-cd /home/ubuntu/newspaper_works
+cd /home/vagrant/newspaper_works
 rake spec
 ```
 
 * Run rails console
 
 ```
-cd /home/ubuntu/newspaper_works
+cd /home/vagrant/newspaper_works
 rails s
 ```
 
