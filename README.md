@@ -55,7 +55,7 @@ This gem is currently under development. The development team is actively workin
 
 ## Requirements
 
-  * [Ruby](https://rubyonrails.org/) 2.3
+  * [Ruby](https://rubyonrails.org/) 2.4+
   * [Rails](https://rubyonrails.org/) 5.0.6
   * [Bundler](http://bundler.io/)
   * [Hyrax](https://github.com/samvera/hyrax) 2.2.0
@@ -83,8 +83,7 @@ This model was greatly informed by earlier efforts from National Library of Wale
 [Detailed metadata model documents](https://wiki.duraspace.org/display/samvera/PCDM+metadata+model+for+Newspapers)
 
 # Installation/Testing
-Integrating newspaper_works in your application
-
+Integrating Newspaper_Works in your application.
 Your Hyrax 2.2.0 based application can extend and utilize `newspaper_works`
 
 ## Extending, Using
@@ -105,13 +104,12 @@ _See [wiki](https://github.com/marriott-library/newspaper_works/wiki)_.
 _More here soon!_
 
 ## Application/Site Specific Configuration
-  * In order to use some fields in forms, you will want to make sure you
-    have a [username for Geonames](http://www.geonames.org/login),
-    and configure that username in the `config.geonames_username`
-    value in `config/intitializers/hyrax.rb` of your app.
+* In order to use some fields in forms, you will want to make sure you
+have a [username for Geonames](http://www.geonames.org/login),
+and configure that username in the
+`config.geonames_username` value in `config/intitializers/hyrax.rb` of your app.
 
-    - This will help fields such as "Place of Publication" provide
-      autocomplete using the Geonames service/vocabulary.
+- This will help fields such as "Place of Publication" provide autocomplete using the Geonames service/vocabulary.
 
   * NewspaperWorks requires that your application's `config/initializers/hyrax.rb`
     be edited to make uploads optional for (all) work types, by setting
@@ -137,51 +135,26 @@ _More here soon!_
 ## Development and Testing with Vagrant
 * clone samvera-vagrant
 
-```
-	git clone https://github.com/marriott-library/samvera-vagrant.git
-```
+`
+git clone https://github.com/marriott-library/samvera-vagrant.git
+`
 
-* Start vagrant box provisioning
+* Start vagrant box provisioning: `cd samvera-vagrant && vagrant up`
 
-```
-cd samvera-vagrant && vagrant up
-```
-
-* Shell into vagrant box **three times**
-
-```
-	vagrant ssh
-```
+* Shell into vagrant box **three times** `vagrant ssh`
 
 * First shell (start fcrepo_wrapper)
-
-```
-cd /home/vagrant/newspaper_works
-fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
-```
+`cd /home/ubuntu/newspaper_works && fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
 
 * Second shell (start solr_wrapper)
-
-```
-cd /home/vagrant/newspaper_works
-solr_wrapper --config config/solr_wrapper_test.yml
-```
-
+`cd /home/ubuntu/newspaper_works && solr_wrapper --config config/solr_wrapper_test.yml`
 * Third shell testing and development
 
 * Run spec tests
-
-```
-cd /home/vagrant/newspaper_works
-rake spec
-```
+`cd /home/ubuntu/newspaper_works && rake spec`
 
 * Run rails console
-
-```
-cd /home/vagrant/newspaper_works
-rails s
-```
+`cd /home/ubuntu/newspaper_works && rails s`
 
 ## Development and Testing Setup
 * clone `newspaper_works`:
