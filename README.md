@@ -46,7 +46,7 @@ Digital Asset Management application based on Hyrax 2.x.
 
 ## Purpose, Use, and Aims
 This gem, while not a stand-alone application, can be integrated into an
-application based on Hyrax 2.x easily to support a variety of cases for
+application based on Hyrax 2.3.3 easily to support a variety of cases for
 management, ingest, and archiving of primarily scanned (historic) newspaper archives.
 
 ## Development Status
@@ -56,9 +56,9 @@ This gem is currently under development. The development team is actively workin
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) 2.4+
-  * [Rails](https://rubyonrails.org/) 5.0.6
+  * [Rails](https://rubyonrails.org/) 5.0.*
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) 2.2.0
+  * [Hyrax](https://github.com/samvera/hyrax) 2.3.3
     - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
   * A Hyrax-based Rails application.
     * newspaper_works is a gem/engine that can extend your application.
@@ -84,13 +84,15 @@ This model was greatly informed by earlier efforts from National Library of Wale
 
 # Installation/Testing
 Integrating Newspaper_Works in your application.
-Your Hyrax 2.2.0 based application can extend and utilize `newspaper_works`
+
+Your Hyrax 2.3.3 based application can extend and utilize `newspaper_works`
 
 ## Extending, Using
 
 * Add `gem 'newspaper_works', :git => 'https://github.com/marriott-library/newspaper_works.git'`
 	to your Gemfile.
 * Run `bundle install`
+* Run `rake newspaper_works:generate`
 
 ### Ingest, Application Interface
 
@@ -114,7 +116,7 @@ and configure that username in the
   * NewspaperWorks requires that your application's `config/initializers/hyrax.rb`
     be edited to make uploads optional for (all) work types, by setting
     `config.work_requires_files = false`.
-    
+
   * NewspaperWorks expects that your application's `config/initializers/hyrax.rb`
     be edited to enable a IIIF viewer, by setting
     `config.iiif_image_server = true`.    
@@ -133,28 +135,45 @@ and configure that username in the
     desired run after this object lifecycle event.
 
 ## Development and Testing with Vagrant
-* clone samvera-vagrant
+### Host System Requirements (install these before proceeding)
 
-`
-git clone https://github.com/marriott-library/samvera-vagrant.git
-`
+* [Vagrant](https://www.vagrantup.com/) version 1.8.3+
+* [VirtualBox](https://www.virtualbox.org/) version 5.1.38+
 
-* Start vagrant box provisioning: `cd samvera-vagrant && vagrant up`
+### Test Environment Setup (provisioning of virtual machine)
+
+1. `git clone https://github.com/marriott-library/samvera-vagrant.git`
+2. `cd samvera-vagrant`
+3. `vagrant up`
+
+You can shell into the machine with `vagrant ssh` or `ssh -p 2222 vagrant@localhost`
+
+### Using/testing the Newspaper_works Application
+
+* Ensure you're in the samvera-vagrant directory
 
 * Shell into vagrant box **three times** `vagrant ssh`
 
 * First shell (start fcrepo_wrapper)
-`cd /home/ubuntu/newspaper_works && fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
+`cd /home/vagrant/newspaper_works && fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
 
 * Second shell (start solr_wrapper)
-`cd /home/ubuntu/newspaper_works && solr_wrapper --config config/solr_wrapper_test.yml`
+`cd /home/vagrant/newspaper_works && solr_wrapper --config config/solr_wrapper_test.yml`
 * Third shell testing and development
 
+* **before running tests ensure the previous two tasks have completed and you see the following text in the shell windows**
+  * first shell `http://127.0.0.1:8986/`
+  * second shell `http://127.0.0.1:8985/solr/`
+
+
 * Run spec tests
-`cd /home/ubuntu/newspaper_works && rake spec`
+`cd /home/vagrant/newspaper_works && rake spec`
+
+* Run rails server
+`cd /home/vagrant/newspaper_works/.internal_test_app && rails s`
 
 * Run rails console
-`cd /home/ubuntu/newspaper_works && rails s`
+`cd /home/vagrant/newspaper_works/.internal_test_app && rails c`
 
 ## Development and Testing Setup
 * clone `newspaper_works`:
