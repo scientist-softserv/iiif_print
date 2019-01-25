@@ -1,8 +1,28 @@
 require 'spec_helper'
+require_relative '../newspaper_works/newspaper_core_presenter_spec'
+
 RSpec.describe Hyrax::NewspaperIssuePresenter do
   let(:ability) { double 'Ability' }
   let(:solr_document) { SolrDocument.new('id' => '123456') }
   let(:presenter) { described_class.new(SolrDocument.new('id' => 'abc123'), nil) }
+
+  let(:attributes) do
+    { "volume" => '888888',
+      "edition" => '1st issue',
+      "issue_number" => ['1st issue'],
+      "extent" => ["1st"],
+      "publication_date" => ["2017-08-25"] }
+  end
+
+  it_behaves_like "a newspaper core presenter"
+
+  subject { described_class.new(double, double) }
+
+  it { is_expected.to delegate_method(:volume).to(:solr_document) }
+  it { is_expected.to delegate_method(:edition).to(:solr_document) }
+  it { is_expected.to delegate_method(:issue_number).to(:solr_document) }
+  it { is_expected.to delegate_method(:extent).to(:solr_document) }
+  it { is_expected.to respond_to(:publication_date) }
 
   describe '#universal_viewer?' do
     let(:current_ability) { ability }
