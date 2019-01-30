@@ -148,7 +148,7 @@ and configure that username in the
 
 You can shell into the machine with `vagrant ssh` or `ssh -p 2222 vagrant@localhost`
 
-### Using/testing the Newspaper_works Application
+### Using/testing the Newspaper_works Application with Vagrant
 
 * Ensure you're in the samvera-vagrant directory
 
@@ -168,6 +168,25 @@ You can shell into the machine with `vagrant ssh` or `ssh -p 2222 vagrant@localh
 
 * Run spec tests
 `cd /home/vagrant/newspaper_works && rake spec`
+
+* Run rails server
+`cd /home/vagrant/newspaper_works/.internal_test_app && rails s`
+
+* Run rails console
+`cd /home/vagrant/newspaper_works/.internal_test_app && rails c`
+
+## Evaluation Environment for Newspaper_works with Vagrant
+
+* Ensure you're in the samvera-vagrant directory
+
+* Shell into vagrant box **three times** `vagrant ssh`
+
+* First shell (start fcrepo_wrapper)
+`cd /home/vagrant/newspaper_works/.internal_test_app && fcrepo_wrapper`
+
+* Second shell (start solr_wrapper)
+`cd /home/vagrant/newspaper_works/.internal_test_app && solr_wrapper`
+* Third shell testing and development
 
 * Run rails server
 `cd /home/vagrant/newspaper_works/.internal_test_app && rails s`
@@ -212,7 +231,7 @@ and our project's advisory board.
   * [Brian McBride](https://github.com/brianmcbride) (University of Utah)
   * [Jacob Reed](https://github.com/JacobR) (University of Utah)
   * [Sean Upton](https://github.com/seanupton) (University of Utah)
-  * Harish Maringhanti (University of Utah)
+  * Harish Maringanti (University of Utah)
 
 ## More Information
  * [Samvera Newspapers Group](https://wiki.duraspace.org/display/samvera/Samvera+Newspapers+Interest+Group) - The Samvera Newspapers Interest groups meets on the first Thursday of every month to discuss the Samvera newspapers project and general newspaper topics.
