@@ -22,9 +22,6 @@ class NewspaperContainer < ActiveFedora::Base
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
   # }
-  # validates :genre, presence: {
-  #   message: 'A newspaper article requires a genre.'
-  # }
   # validates :language, presence: {
   #   message: 'A newspaper article requires a language.'
   # }

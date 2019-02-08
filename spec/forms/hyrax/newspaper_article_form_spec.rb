@@ -8,13 +8,13 @@ RSpec.describe Hyrax::NewspaperArticleForm do
   describe "#required_fields" do
     subject { form.required_fields }
 
-    it { is_expected.to eq [:title, :resource_type, :genre, :language, :held_by] }
+    it { is_expected.to eq [:title, :resource_type, :language, :held_by] }
   end
 
   describe "#primary_terms" do
     subject { form.primary_terms }
 
-    it { is_expected.to eq [:title, :resource_type, :genre, :language, :held_by] }
+    it { is_expected.to eq [:title, :resource_type, :language, :held_by] }
   end
 
   describe "#secondary_terms" do
@@ -24,10 +24,9 @@ RSpec.describe Hyrax::NewspaperArticleForm do
       is_expected.to eq [:creator, :contributor, :description, :license,
                          :rights_statement, :publisher, :subject, :identifier,
                          :place_of_publication, :issn, :lccn, :oclcnum,
-                         :alternative_title, :author, :photographer,
+                         :alternative_title, :genre, :author, :photographer,
                          :publication_date, :volume, :edition, :issue_number,
-                         :geographic_coverage, :extent, :page_number,
-                         :section]
+                         :geographic_coverage, :extent, :page_number, :section]
     end
   end
 end

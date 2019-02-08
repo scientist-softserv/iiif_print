@@ -22,9 +22,6 @@ class NewspaperTitle < ActiveFedora::Base
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
   # }
-  # validates :genre, presence: {
-  #   message: 'A newspaper article requires a genre.'
-  # }
   # validates :language, presence: {
   #   message: 'A newspaper article requires a language.'
   # }
@@ -37,10 +34,6 @@ class NewspaperTitle < ActiveFedora::Base
 
   # validates :type, presence: {
   #   message: 'A newspaper title requires a type.'
-  # }
-
-  # validates :genre, presence: {
-  #   message: 'A newspaper title requires a genre.'
   # }
 
   self.human_readable_type = 'Newspaper Title'

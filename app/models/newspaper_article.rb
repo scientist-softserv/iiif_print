@@ -23,9 +23,6 @@ class NewspaperArticle < ActiveFedora::Base
   # validates :resource_type, presence: {
   #   message: 'A newspaper article requires a resource type.'
   # }
-  # validates :genre, presence: {
-  #   message: 'A newspaper article requires a genre.'
-  # }
   # validates :language, presence: {
   #   message: 'A newspaper article requires a language.'
   # }
@@ -40,6 +37,15 @@ class NewspaperArticle < ActiveFedora::Base
   # TODO: DRY on the indexing of fields, the index block is repetitive...
 
   # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
+
+  # - Genre
+  property(
+    :genre,
+    predicate: ::RDF::Vocab::EDM.hasType,
+    multiple: true
+  ) do |index|
+    index.as :stored_searchable
+  end
 
   # - Author
   property(

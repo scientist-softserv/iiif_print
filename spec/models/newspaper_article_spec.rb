@@ -14,6 +14,7 @@ RSpec.describe NewspaperArticle do
     it 'has expected properties' do
       expect(fixture).to respond_to(:author)
       expect(fixture).to respond_to(:photographer)
+      expect(fixture).to respond_to(:genre)
       expect(fixture).to respond_to(:volume)
       expect(fixture).to respond_to(:edition)
       expect(fixture).to respond_to(:issue_number)

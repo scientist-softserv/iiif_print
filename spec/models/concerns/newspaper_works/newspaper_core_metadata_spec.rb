@@ -16,7 +16,6 @@ RSpec.describe NewspaperWorks::NewspaperCoreMetadata do
 
   it 'has expected properties' do
     expect(work).to respond_to(:alternative_title)
-    expect(work).to respond_to(:genre)
     expect(work).to respond_to(:place_of_publication)
     expect(work).to respond_to(:issn)
     expect(work).to respond_to(:lccn)
@@ -25,18 +24,19 @@ RSpec.describe NewspaperWorks::NewspaperCoreMetadata do
   end
 
   it 'uses correct class for place_of_publication' do
-    expect(work.class.properties['place_of_publication'].class_name).to eq Hyrax::ControlledVocabularies::Location
+    pop_class = work.class.properties['place_of_publication'].class_name
+    expect(pop_class).to eq Hyrax::ControlledVocabularies::Location
   end
 
   it 'work can set/get properties' do
-    genre_uri = 'http://cv.iptc.org/newscodes/genre/Opinion'
-    work.genre = [genre_uri]
-    expect(work.genre).to include genre_uri
+    issn_value = '0000-1111'
+    work.issn = issn_value
+    expect(work.issn).to eq issn_value
   end
 
   it 'work using mixin saves' do
     work.place_of_publication = ['http://www.geonames.org/5780993/about.rdf']
-    work.genre = ['http://cv.iptc.org/newscodes/genre/Opinion']
+    work.alternative_title = ['The alt title']
     expect(work.id).to be_nil
     work.save!
     expect(work.id).not_to be_nil

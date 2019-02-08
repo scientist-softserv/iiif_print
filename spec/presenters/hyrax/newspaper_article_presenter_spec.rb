@@ -6,6 +6,7 @@ RSpec.describe Hyrax::NewspaperArticlePresenter do
   let(:attributes) do
     { "author" => '888888',
       "photographer" => ['foo', 'bar'],
+      "genre" => ["Editorials"],
       "volume" => ["volume 1"],
       "edition" => ["1st"],
       "issue_number" => ['1'],
@@ -21,6 +22,7 @@ RSpec.describe Hyrax::NewspaperArticlePresenter do
 
   it { is_expected.to delegate_method(:author).to(:solr_document) }
   it { is_expected.to delegate_method(:photographer).to(:solr_document) }
+  it { is_expected.to delegate_method(:genre).to(:solr_document) }
   it { is_expected.to delegate_method(:volume).to(:solr_document) }
   it { is_expected.to delegate_method(:edition).to(:solr_document) }
   it { is_expected.to delegate_method(:issue_number).to(:solr_document) }

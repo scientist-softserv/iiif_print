@@ -6,7 +6,7 @@ module Hyrax
     include NewspaperWorks::ScannedMediaPresenter
     include NewspaperWorks::IiifSearchPresenterBehavior
     delegate :author, :photographer, :volume, :edition, :issue_number,
-             :geographic_coverage, :extent, to: :solr_document
+             :geographic_coverage, :extent, :genre, to: :solr_document
 
     def publication_date
       solr_document["publication_date_dtsim"]

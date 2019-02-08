@@ -30,7 +30,7 @@ SUMMARY
 
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'capybara', '~> 2.4', '< 2.18.0'
-  spec.add_development_dependency 'engine_cart', '~> 2.0'
+  spec.add_development_dependency 'engine_cart', '~> 2.2'
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'

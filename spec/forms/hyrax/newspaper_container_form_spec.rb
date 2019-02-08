@@ -8,13 +8,13 @@ RSpec.describe Hyrax::NewspaperContainerForm do
   describe "#required_fields" do
     subject { form.required_fields }
 
-    it { is_expected.to eq [:title, :resource_type, :genre, :language, :held_by] }
+    it { is_expected.to eq [:title, :resource_type, :language, :held_by] }
   end
 
   describe "#primary_terms" do
     subject { form.primary_terms }
 
-    it { is_expected.to eq [:title, :resource_type, :genre, :language, :held_by] }
+    it { is_expected.to eq [:title, :resource_type, :language, :held_by] }
   end
 
   describe "#secondary_terms" do
