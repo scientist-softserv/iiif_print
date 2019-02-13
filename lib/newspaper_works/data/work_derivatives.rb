@@ -165,6 +165,19 @@ module NewspaperWorks
         load_paths
       end
 
+      # Load all paths/names to @paths once, upon first access
+      def load_paths
+        fsid = fileset_id
+        if fsid.nil?
+          @paths = {}
+          return
+        end
+        # list of paths
+        paths = path_factory.derivatives_for_reference(fsid)
+        # names from paths
+        @paths = paths.map { |e| [path_destination_name(e), e] }.to_h
+      end
+
       # path to existing derivative file for destination name
       # @param name [String] destination name, usually file extension
       # @return [String, NilClass] path (or nil)
@@ -266,19 +279,6 @@ module NewspaperWorks
           end
           # note: there is deliberately no attempt to "unlog" primary
           #   file relation, as leaving it should have no side-effect.
-        end
-
-        # Load all paths/names to @paths once, upon first access
-        def load_paths
-          fsid = fileset_id
-          if fsid.nil?
-            @paths = {}
-            return
-          end
-          # list of paths
-          paths = path_factory.derivatives_for_reference(fsid)
-          # names from paths
-          @paths = paths.map { |e| [path_destination_name(e), e] }.to_h
         end
 
         def path_destination_name(path)

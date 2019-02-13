@@ -6,7 +6,15 @@ module NewspaperWorks
       @txt_path = nil
     end
 
-    def create_derivatives(filename)
+    def create_derivatives(src)
+      from_alto = NewspaperWorks::TextFormatsFromALTOService.new(
+        file_set
+      )
+      return from_alto.create_derivatives(src) unless from_alto.alto_path.nil?
+      create_derivatives_from_ocr(src)
+    end
+
+    def create_derivatives_from_ocr(filename)
       @source_path = filename
       # prepare destination directory for ALTO (as .xml files):
       @alto_path = prepare_path('xml')
