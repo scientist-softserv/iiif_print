@@ -44,7 +44,7 @@ class NewspaperArticle < ActiveFedora::Base
     predicate: ::RDF::Vocab::EDM.hasType,
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Author
@@ -53,7 +53,7 @@ class NewspaperArticle < ActiveFedora::Base
     predicate: ::RDF::Vocab::MARCRelators.aut,
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Photographer
@@ -62,7 +62,7 @@ class NewspaperArticle < ActiveFedora::Base
     predicate: ::RDF::Vocab::MARCRelators.pht,
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Volume
@@ -98,7 +98,7 @@ class NewspaperArticle < ActiveFedora::Base
     predicate: ::RDF::Vocab::DC.spatial,
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Extent

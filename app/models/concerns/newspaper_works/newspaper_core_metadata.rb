@@ -33,7 +33,7 @@ module NewspaperWorks
         predicate: ::RDF::Vocab::Identifiers.issn,
         multiple: false
       ) do |index|
-        index.as :stored_searchable
+        index.as :stored_searchable, :facetable
       end
 
       # - LCCN
@@ -42,7 +42,7 @@ module NewspaperWorks
         predicate: ::RDF::Vocab::Identifiers.lccn,
         multiple: false
       ) do |index|
-        index.as :stored_searchable
+        index.as :stored_searchable, :facetable
       end
 
       # - OCLC Number
@@ -51,7 +51,7 @@ module NewspaperWorks
         predicate: ::RDF::Vocab::BIBO.oclcnum,
         multiple: false
       ) do |index|
-        index.as :stored_searchable
+        index.as :stored_searchable, :facetable
       end
 
       # Holding location (held by):
@@ -60,7 +60,7 @@ module NewspaperWorks
         predicate: ::RDF::Vocab::BF2.heldBy,
         multiple: false
       ) do |index|
-        index.as :stored_searchable
+        index.as :stored_searchable, :facetable
       end
     end
   end

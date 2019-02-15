@@ -64,7 +64,7 @@ class NewspaperTitle < ActiveFedora::Base
     predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60261'),
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Succeeded by
@@ -73,7 +73,7 @@ class NewspaperTitle < ActiveFedora::Base
     predicate: ::RDF::URI.new('http://rdaregistry.info/Elements/u/P60278'),
     multiple: true
   ) do |index|
-    index.as :stored_searchable
+    index.as :stored_searchable, :facetable
   end
 
   # - Publication date start

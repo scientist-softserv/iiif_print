@@ -22,9 +22,10 @@ module NewspaperWorks
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def add_geodata_fields(solr_doc)
       %w[city county state country].each do |place|
-        solr_doc["place_of_publication_#{place}_ssim"] ||= []
+        solr_doc["place_of_publication_#{place}_sim"] ||= []
       end
       solr_doc['place_of_publication_label_tesim'] ||= []
+      solr_doc['place_of_publication_label_sim'] ||= []
       solr_doc['place_of_publication_llsim'] ||= []
     end
 
@@ -38,12 +39,13 @@ module NewspaperWorks
       county = geodata['adminName2']
       state = geodata['adminName1']
       country = geodata['countryName']
-      solr_doc['place_of_publication_city_ssim'] << city
-      solr_doc['place_of_publication_county_ssim'] << county
-      solr_doc['place_of_publication_state_ssim'] << state
-      solr_doc['place_of_publication_country_ssim'] << country
+      solr_doc['place_of_publication_city_sim'] << city
+      solr_doc['place_of_publication_county_sim'] << county
+      solr_doc['place_of_publication_state_sim'] << state
+      solr_doc['place_of_publication_country_sim'] << country
       display_name = [city, state, country].compact.join(', ')
       solr_doc['place_of_publication_label_tesim'] << display_name
+      solr_doc['place_of_publication_label_sim'] << display_name
       return unless geodata['lat'] && geodata['lng']
       # TODO: this should use a Solr location_rpt field type
       solr_doc['place_of_publication_llsim'] << "#{geodata['lat']},#{geodata['lng']}"

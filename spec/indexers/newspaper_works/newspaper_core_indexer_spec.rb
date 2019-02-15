@@ -16,8 +16,8 @@ RSpec.describe NewspaperWorks::NewspaperCoreIndexer do
     subject { indexer.generate_solr_document }
     it 'processes place_of_publication field' do
       expect(subject['place_of_publication_tesim']).to include(geonames_uri)
-      expect(subject['place_of_publication_city_ssim']).to include('Salem')
-      expect(subject['place_of_publication_state_ssim']).to include('Massachusetts')
+      expect(subject['place_of_publication_city_sim']).to include('Salem')
+      expect(subject['place_of_publication_state_sim']).to include('Massachusetts')
     end
   end
 end
