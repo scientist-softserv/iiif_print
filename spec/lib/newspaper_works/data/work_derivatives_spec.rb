@@ -26,21 +26,21 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
     file = Tempfile.new(['txt1', '.txt'])
     file.write('hello')
     file.flush
-    file.path
+    file
   end
 
   let(:txt2) do
     file = Tempfile.new('txt2.txt')
     file.write('bye')
-    file.close
-    file.path
+    file.flush
+    file
   end
 
   let(:encoded_text) do
     file = Tempfile.new('txt_encoded.txt', encoding: 'UTF-8')
     file.write('Gorgonzola Dolce® — on sale for £12.50/kg')
-    file.close
-    file.path
+    file.flush
+    file
   end
 
   describe "enumerates available derivatives like hash" do
@@ -86,7 +86,7 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
 
     it "Handles character encoding on read" do
       # replace fixture text derivative for work with encoded text
-      adapter.attach(encoded_text, 'txt')
+      adapter.attach(encoded_text.path, 'txt')
       data = adapter.data('txt')
       expect(data).to include '—' # em-dash
       expect(data).to include '£' # gb-pound sign
@@ -163,15 +163,15 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       expect(adapter.values).to include d_path
     end
 
-    it "can replace a derivative with new attachment" do
-      adapter.attach(txt1, 'txt')
+    it "can replace aderivative with new attachment" do
+      adapter.attach(txt1.path, 'txt')
       expect(adapter.data('txt')).to eq 'hello'
-      adapter.attach(txt2, 'txt')
+      adapter.attach(txt2.path, 'txt')
       expect(adapter.data('txt')).to eq 'bye'
     end
 
     it "can delete an attached derivative" do
-      adapter.attach(txt1, 'txt')
+      adapter.attach(txt1.path, 'txt')
       expect(adapter.keys).to include 'txt'
       expect(adapter.data('txt')).to eq 'hello'
       adapter.delete('txt')
@@ -180,10 +180,10 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
     end
 
     it "persists log of attachment to RDBMS" do
-      adapter.assign(txt1)
+      adapter.assign(txt1.path)
       result = NewspaperWorks::DerivativeAttachment.find_by(
         fileset_id: adapter.fileset.id,
-        path: txt1,
+        path: txt1.path,
         destination_name: 'txt'
       )
       expect(result).not_to be_nil
@@ -195,9 +195,9 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
       work_files.assign(example_gray_jp2)
       adapter = work_files.derivatives
-      adapter.assign(txt1)
+      adapter.assign(txt1.path)
       result = NewspaperWorks::IngestFileRelation.find_by(
-        derivative_path: txt1,
+        derivative_path: txt1.path,
         file_path: example_gray_jp2
       )
       expect(result).not_to be_nil
@@ -209,7 +209,8 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
       work_files.assign(example_gray_jp2)
       adapter = work_files.derivatives
-      adapter.assign(txt1)
+      adapter.assign(txt1.path)
+      expect(File.exist?(txt1.path)).to be true
       expect(adapter.keys.size).to eq 0
       # we need a fileset, saved with import_url, attached to work:
       fileset = valid_file_set
@@ -217,17 +218,20 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       fileset.save!
       bare_work.members.push(fileset)
       bare_work.save!
+      fileset.reload
+      expect(fileset.member_of[0].id).to eq bare_work.id
       # with a new adapter instance...
       adapter2 = described_class.of(bare_work)
       # call .commit_queued! with our fileset...
+      expect(File.exist?(txt1.path)).to be true
       adapter2.commit_queued!(fileset)
       # ...which should result in saved, reloaded derivative...
       expect(adapter2.keys.size).to eq 1
-      expect(File.size(adapter2.values[0])).to eq File.size(txt1)
+      expect(File.size(adapter2.values[0])).to eq File.size(txt1.path)
       # ...also found via Hyrax::DerviativePath:
       found = Hyrax::DerivativePath.derivatives_for_reference(fileset.id)
       expect(found.size).to eq 1
-      expect(File.size(found[0])).to eq File.size(txt1)
+      expect(File.size(found[0])).to eq File.size(txt1.path)
     end
     # rubocop:enable RSpec/ExampleLength
   end

@@ -24,12 +24,18 @@ RSpec.describe NewspaperWorks::Actors::NewspaperWorksUploadActor, :perform_enque
   end
 
   describe "NewspaperIssue upload of PDF" do
+    do_now_jobs = [
+      NewspaperWorks::CreateIssuePagesJob,
+      IngestLocalFileJob,
+      IngestJob
+    ]
+
     # we over-burden one example, because sadly RSpec does not do well with
     #   shared state across examples (without use of `before(:all)` which is
     #   mutually exclusive with `let` in practice, and ruffles rubocop's
     #   overzealous sense of moral duty, speaking of which:
     # rubocop:disable RSpec/ExampleLength
-    it "correctly creates child pages for issue" do
+    it "creates child pages for issue", perform_enqueued: do_now_jobs do
       pages = uploaded_issue.members.select { |w| w.class == NewspaperPage }
       expect(pages.size).to eq 2
       page = pages[0]

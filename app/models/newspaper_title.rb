@@ -36,8 +36,6 @@ class NewspaperTitle < ActiveFedora::Base
   #   message: 'A newspaper title requires a type.'
   # }
 
-  self.human_readable_type = 'Newspaper Title'
-
   # == Type-specific properties ==
 
   # - Edition

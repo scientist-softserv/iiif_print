@@ -30,8 +30,6 @@ class NewspaperArticle < ActiveFedora::Base
   #   message: 'A newspaper article requires a holding location.'
   # }
 
-  self.human_readable_type = 'Newspaper Article'
-
   # == Type-specific properties ==
 
   # TODO: DRY on the indexing of fields, the index block is repetitive...

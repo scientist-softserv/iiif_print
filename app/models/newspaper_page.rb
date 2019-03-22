@@ -17,8 +17,6 @@ class NewspaperPage < ActiveFedora::Base
   # validates :height, presence: { message: 'A newspaper page requires a height.' }
   # validates :width, presence: { message: 'A newspaper page requires a width.' }
 
-  self.human_readable_type = 'Newspaper Page'
-
   # == Type-specific properties ==
 
   # - Height

@@ -28,8 +28,6 @@ class NewspaperIssue < ActiveFedora::Base
   #   message: 'A newspaper article requires a holding location.'
   # }
 
-  self.human_readable_type = 'Newspaper Issue'
-
   # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2
 
   #  - Volume

@@ -139,6 +139,7 @@ module NewspaperWorks
         end
 
         def user
+          return User.find_by(email: work.depositor) unless work.depositor.nil?
           defined?(current_user) ? current_user : User.batch_user
         end
 

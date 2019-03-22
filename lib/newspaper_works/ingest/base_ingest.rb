@@ -1,7 +1,11 @@
+require 'newspaper_works/data'
+
 module NewspaperWorks
   module Ingest
     # base class for ingesting works, implements, as-needed, temp files
     class BaseIngest
+      include NewspaperWorks::Data::PathHelper
+
       attr_accessor :work, :io, :path, :filename
 
       def initialize(work)
@@ -47,8 +51,13 @@ module NewspaperWorks
       # default handler attaches file to work's file set, subclasses
       #   may overwride or wrap this.
       def import
-        upload = Hyrax::UploadedFile.new(file: @io)
-        AttachFilesToWorkJob.perform_now(@work, [upload])
+        files = NewspaperWorks::Data::WorkFiles.new(work)
+        files.assign(path)
+        files.commit!
+      end
+
+      def user
+        defined?(current_user) ? current_user : User.batch_user
       end
 
       def ingest(source, filename: nil)

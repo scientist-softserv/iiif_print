@@ -1,8 +1,0 @@
-it:
-  hyrax:
-    icons:
-      newspaper_article_file_set:     'fa fa-file-text-o'
-    select_type:
-      newspaper_article_file_set:
-        name:               "Newspaper Article File Set"
-        description:        "Newspaper article file set opere"

@@ -135,11 +135,20 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
 
   describe "commits changes" do
     # These jobs we need whitelisted to run now, at minimum:
-    do_now_jobs = [IngestLocalFileJob, IngestJob]
+    do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
     # These we skip: [CharacterizeJob, CreateDerivativesJob]
     #   -- skipping these saves 10-15 seconds on attachment example
 
-    def bare_work
+    permission_methods = [
+      :edit_users,
+      :read_users,
+      :discover_users,
+      :edit_groups,
+      :read_groups,
+      :discover_groups
+    ]
+
+    let(:bare_work) do
       bare_work = NewspaperPage.new
       bare_work.title = ['No files to see here']
       bare_work.save!
@@ -176,6 +185,18 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
       expect(adapter.keys.size).to eq 1
       expect(work.members.select { |m| m.class == FileSet }.size).to eq 1
       expect(adapter.names).to include 'ocr_gray.tiff'
+    end
+
+    it "copies work perimssions to fileset", perform_enqueued: do_now_jobs do
+      adapter = described_class.of(bare_work)
+      adapter.assign(tiff_path)
+      adapter.commit!
+      bare_work.reload
+      fileset = bare_work.members.select { |w| w.class == FileSet }[0]
+      permission_methods.each do |m|
+        expect(fileset.send(m)).to match_array bare_work.send(m)
+      end
+      expect(fileset.visibility).to eq bare_work.visibility
     end
   end
 
