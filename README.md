@@ -46,7 +46,7 @@ Digital Asset Management application based on Hyrax 2.x.
 
 ## Purpose, Use, and Aims
 This gem, while not a stand-alone application, can be integrated into an
-application based on Hyrax 2.3.3 easily to support a variety of cases for
+application based on Hyrax 2.5 easily to support a variety of cases for
 management, ingest, and archiving of primarily scanned (historic) newspaper archives.
 
 ## Development Status
@@ -56,9 +56,9 @@ This gem is currently under development. The development team is actively workin
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) 2.4+
-  * [Rails](https://rubyonrails.org/) 5.0.*
+  * [Rails](https://rubyonrails.org/) 5.1.6+
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) 2.3.3
+  * [Hyrax](https://github.com/samvera/hyrax) 2.5
     - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
   * A Hyrax-based Rails application.
     * newspaper_works is a gem/engine that can extend your application.
@@ -85,14 +85,14 @@ This model was greatly informed by earlier efforts from National Library of Wale
 # Installation/Testing
 Integrating Newspaper_Works in your application.
 
-Your Hyrax 2.3.3 based application can extend and utilize `newspaper_works`
+Your Hyrax 2.5 based application can extend and utilize `newspaper_works`
 
 ## Extending, Using
 
 * Add `gem 'newspaper_works', :git => 'https://github.com/marriott-library/newspaper_works.git'`
 	to your Gemfile.
 * Run `bundle install`
-* Run `rake newspaper_works:generate`
+* Run `rails generate newspaper_works:generate`
 
 ### Ingest, Application Interface
 
@@ -120,6 +120,14 @@ and configure that username in the
   * NewspaperWorks expects that your application's `config/initializers/hyrax.rb`
     be edited to enable a IIIF viewer, by setting
     `config.iiif_image_server = true`.    
+
+  * NewspaperWorks expects that your application's `config/initializers/hyrax.rb`
+    be edited to set the FITS path, by setting
+    `config.fits_path = /location/of/fits.sh`
+
+  * NewspaperWorks expects that your application's `config/environments/production.rb`
+    be edited to set file server to public, by setting
+    `config.public_file_server.enabled = true`
 
   * NewspaperWorks overrides Hyrax's default `:after_create_fileset` event
     handler, in order to attach pre-existing derivatives in some ingest
