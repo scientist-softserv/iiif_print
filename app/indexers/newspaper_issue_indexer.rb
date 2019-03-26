@@ -10,9 +10,11 @@ class NewspaperIssueIndexer < NewspaperWorks::NewspaperCoreIndexer
   # include Hyrax::IndexesLinkedMetadata
 
   # Uncomment this block if you want to add custom indexing behavior:
-  # def generate_solr_document
-  #  super.tap do |solr_doc|
-  #    solr_doc['my_custom_field_ssim'] = object.my_custom_property
-  #  end
-  # end
+  def generate_solr_document
+    super.tap do |solr_doc|
+      # if edition is not set, add a default
+      # to support ChronAm-style URL pattern linking
+      solr_doc['edition_tesim'] ||= '1'
+    end
+  end
 end
