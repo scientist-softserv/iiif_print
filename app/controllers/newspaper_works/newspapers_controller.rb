@@ -1,36 +1,62 @@
 module NewspaperWorks
   class NewspapersController < ApplicationController
-    include NewspaperWorks::PageOrder
     # Adds Hyrax behaviors to the controller.
-    #include Hyrax::WorksControllerBehavior
-    #include Hyrax::BreadcrumbsForWorks
-    #self.curation_concern_type = ::NewspaperArticle
+    include Hyrax::WorksControllerBehavior
+    include Hyrax::BreadcrumbsForWorks
 
-    # Use this line if you want to use a custom presenter
-    #self.show_presenter = Hyrax::NewspaperArticlePresenter
+    include NewspaperWorks::PageOrder
 
-    # TODO: use a SearchBuilder for this?
-    # might be needed for permissions checking, etc.
-    before_action :title_id
-    before_action :issue_id, only: [:issue, :page]
+    before_action :find_title
+    before_action :find_issue, only: [:issue, :page]
+    before_action :build_breadcrumbs
 
     def title
-      redirect_to_object(@title_id, 'hyrax_newspaper_title_path')
+      if @title
+        params[:id] = @title['id']
+        @presenter = Hyrax::NewspaperTitlePresenter.new(@title, current_ability, request)
+        render 'hyrax/newspaper_titles/show'
+      else
+        bad_url_handler
+      end
     end
 
     def issue
-      redirect_to_object(@issue_id, 'hyrax_newspaper_issue_path')
+      if @issue
+        params[:id] = @issue['id']
+        @presenter = Hyrax::NewspaperIssuePresenter.new(@issue, current_ability, request)
+        render 'hyrax/newspaper_issues/show'
+      else
+        bad_url_handler
+      end
     end
 
     def page
-      @page_id = page_id(@issue_id, params[:page])
-      redirect_to_object(@page_id, 'hyrax_newspaper_page_path')
+      @page = find_page
+      if @page
+        params[:id] = @page['id']
+        @presenter = Hyrax::NewspaperPagePresenter.new(@page, current_ability, request)
+        render 'hyrax/newspaper_pages/show'
+      else
+        bad_url_handler
+      end
     end
 
     private
 
-    def redirect_to_object(id, path)
-      id ? redirect_to(main_app.send(path, id)) : bad_url_handler
+    # override from Hyrax::WorksControllerBehavior
+    # or else this evals to 'dashboard'
+    def decide_layout
+      File.join(theme, '1_column')
+    end
+
+    # override from Hyrax::BreadcrumbsForWorks; copy of Hyrax::Breadcrumbs
+    # so method gets called despite action_name != 'show'
+    def build_breadcrumbs
+      if request.referer
+        trail_from_referer
+      else
+        default_trail
+      end
     end
 
     def bad_url_handler
@@ -40,47 +66,54 @@ module NewspaperWorks
                   status: 404
     end
 
-    def title_id
+    def find_title
       unique_id_field = 'lccn_sim' # TODO set unique_id_field from config
       solr_params = ["has_model_ssim:\"NewspaperTitle\""]
       solr_params << "#{unique_id_field}:\"#{params[:unique_id]}\""
-      @title_id = find_object_id(solr_params.join(' AND '))
+      @title = find_object(solr_params.join(' AND '))
     end
 
-    def issue_id
+    def find_issue
+      return nil unless @title
       solr_params = ["has_model_ssim:\"NewspaperIssue\""]
-      solr_params << "publication_id_ssi:\"#{@title_id}\""
+      solr_params << "publication_id_ssi:\"#{@title['id']}\""
       solr_params << "publication_date_dtsim:\"#{params[:date]}T00:00:00Z\""
-      solr_params << "edition_tesim:\"#{edition_for_search(params[:edition])}\""
-      @issue_id = find_object_id(solr_params.join(' AND '))
+      solr_params << "edition_tesim:\"#{edition_for_search}\""
+      @issue = find_object(solr_params.join(' AND '))
     end
 
-    def page_id(issue_id, pagenum)
-      page_index = pagenum_to_index(pagenum)
+    def find_page
+      return nil unless @issue
+      page_index = pagenum_to_index
       solr_params = ["has_model_ssim:\"NewspaperPage\""]
-      solr_params << "issue_id_ssi:\"#{issue_id}\""
+      solr_params << "issue_id_ssi:\"#{@issue['id']}\""
       solr_resp = Blacklight.default_index.search(fq: solr_params.join(' AND '))
       docs = solr_resp.documents
       return nil if docs.blank? || docs[page_index].blank?
       pages = ordered_pages(solr_resp.documents)
-      pages[page_index]['id']
+      search_result_document(id: pages[page_index]['id'])
     end
 
-    def find_object_id(solr_params)
+    def find_object(solr_params)
       solr_resp = Blacklight.default_index.search(fq: solr_params)
       return nil unless solr_resp.documents.count == 1
-      solr_resp.documents.first['id']
+      object_id = solr_resp.documents.first['id']
+      # we run the search again, to add permissions/access filters
+      # invoked by Hyrax::WorkSearchBuilder
+      search_result_document(id: object_id)
     end
 
-    def edition_for_search(edition)
-      return '1' if edition.nil?
+    def edition_for_search
+      edition = params[:edition]
+      default = '1'
+      return default if edition.nil?
       edition = edition.gsub(/\Aed-/, '')
-      return '1' unless edition.to_i.positive?
+      return default unless edition.to_i.positive?
       edition
     end
 
-    def pagenum_to_index(pagenum)
-      page_i = pagenum.gsub(/\Aseq-/, '').to_i
+    def pagenum_to_index
+      page_i = params[:page].gsub(/\Aseq-/, '').to_i
       (page_i - 1).negative? ? 0 : (page_i - 1)
     end
   end
