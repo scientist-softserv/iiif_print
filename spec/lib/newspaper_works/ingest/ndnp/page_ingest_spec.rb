@@ -51,4 +51,18 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
       check_expected_files(page, ['tif', 'jp2', 'pdf', 'xml'])
     end
   end
+
+  describe "sample fixture reel xml" do
+    let(:page) { described_class.new(reel1, 'targetModsBib1') }
+
+    it "gets metadata" do
+      expect(page.metadata).to be_a NewspaperWorks::Ingest::NDNP::PageMetadata
+      # uses same Nokogiri document context:
+      expect(page.metadata.doc).to be page.doc
+    end
+
+    it "gets expected files" do
+      check_expected_files(page, ['tif', 'jp2', 'pdf', 'xml'])
+    end
+  end
 end

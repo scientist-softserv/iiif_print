@@ -57,4 +57,28 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
       expect(page.identifier).to eq "././0225.tif"
     end
   end
+
+  describe "sample fixture via Reel XML" do
+    let(:page) { described_class.new(reel1, nil, 'targetModsBib1') }
+
+    it "returns nil page number for page without one" do
+      expect(page.page_number).to eq nil
+    end
+
+    it "gets expected sequence number as Integer" do
+      expect(page.page_sequence_number).to eq nil
+    end
+
+    it "gets expected width from ALTO as Integer " do
+      expect(page.width).to eq 30_176
+    end
+
+    it "gets expected height from ALTO as Integer " do
+      expect(page.height).to eq 29_152
+    end
+
+    it "gets identifier from ALTO as primary file name" do
+      expect(page.identifier).to eq "./0001.tif"
+    end
+  end
 end

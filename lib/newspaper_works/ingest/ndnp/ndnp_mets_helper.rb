@@ -7,8 +7,11 @@ module NewspaperWorks
       module NDNPMetsHelper
         XML_NS = {
           mets: 'http://www.loc.gov/METS/',
+          METS: 'http://www.loc.gov/METS/',
           mods: 'http://www.loc.gov/mods/v3',
-          MODS: 'http://www.loc.gov/mods/v3'
+          MODS: 'http://www.loc.gov/mods/v3',
+          ndnp: 'http://www.loc.gov/ndnp',
+          NDNP: 'http://www.loc.gov/ndnp'
         }.freeze
 
         # DRY XPath without repeatedly specifying default namespace urlmap

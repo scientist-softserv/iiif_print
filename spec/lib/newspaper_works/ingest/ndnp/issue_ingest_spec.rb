@@ -15,6 +15,11 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
       expect(issue.identifier).to eq issue.metadata.lccn
     end
 
+    it "gets nil container for issue without reel XML" do
+      reel = issue.container
+      expect(reel).to be_nil
+    end
+
     it "gets page by dmdid" do
       page = issue.page_by_dmdid('pageModsBib8')
       expect(page).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
@@ -53,6 +58,12 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
 
   describe "sample fixture 'batch_test_ver01'" do
     let(:issue) { described_class.new(issue2) }
+
+    it "gets a ContainerIngest for reel providing issue" do
+      reel = issue.container
+      expect(reel).to be_a NewspaperWorks::Ingest::NDNP::ContainerIngest
+      expect(reel.path).to end_with '_1.xml'
+    end
 
     it "gets metadata" do
       expect(issue.metadata).to be_a NewspaperWorks::Ingest::NDNP::IssueMetadata

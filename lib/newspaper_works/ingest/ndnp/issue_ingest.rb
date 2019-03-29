@@ -60,6 +60,18 @@ module NewspaperWorks
           )
         end
 
+        def container_path
+          reel_dir = File.expand_path('..', File.dirname(path))
+          reel_base = File.basename(reel_dir)
+          File.join(reel_dir, "#{reel_base}_1.xml")
+        end
+
+        def container
+          reel_path = container_path
+          return unless File.exist?(reel_path)
+          NewspaperWorks::Ingest::NDNP::ContainerIngest.new(reel_path)
+        end
+
         private
 
           def load_doc

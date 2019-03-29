@@ -45,16 +45,17 @@ module NewspaperWorks
           detail.xpath("mods:number", **XML_NS).first.text
         end
 
-        # Mandatory page sequence number, indexical to order in issue.
+        # Page sequence number, indexical to order in issue.
         #   "Number" here is one-indexed positive integer, position in
-        #   issue.
-        # @return [Integer] Page sequence number, positive integer
+        #   issue.  Mandatory for page of issue, nil for page of reel.
+        # @return [Integer,NilClass] Page sequence number, positive integer
         def page_sequence_number
           detail = dmd_node.xpath(
             ".//mods:mods//mods:extent[@unit='pages']",
             **XML_NS
           )
-          detail.xpath("mods:start", **XML_NS).first.text.to_i
+          node = detail.xpath("mods:start", **XML_NS).first
+          node.text.to_i unless node.nil?
         end
 
         # Extract identifier from page ALTO, based on file name.
