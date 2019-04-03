@@ -60,10 +60,7 @@ module NewspaperWorks
     end
 
     def bad_url_handler
-      #raise(ActionController::RoutingError, 'Not Found')
-      redirect_to main_app.root_path,
-                  alert: "Item not found",
-                  status: 404
+      raise(ActionController::RoutingError, 'Not Found')
     end
 
     def find_title
@@ -95,7 +92,11 @@ module NewspaperWorks
     end
 
     def find_object(solr_params)
-      solr_resp = Blacklight.default_index.search(fq: solr_params)
+      begin
+        solr_resp = Blacklight.default_index.search(fq: solr_params)
+      rescue # in case of RSolr::Error, etc.
+        return nil
+      end
       return nil unless solr_resp.documents.count == 1
       object_id = solr_resp.documents.first['id']
       # we run the search again, to add permissions/access filters
