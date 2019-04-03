@@ -16,10 +16,17 @@ EngineCart.load_application!
 # test account for Geonames-related specs
 Qa::Authorities::Geonames.username = 'newspaper_works'
 
+require 'rails-controller-testing'
 require 'rspec/rails'
 require 'rspec/active_model/mocks'
 
 ActiveJob::Base.queue_adapter = :test
+
+module EngineRoutes
+  def self.included(base)
+    base.routes { NewspaperWorks::Engine.routes }
+  end
+end
 
 RSpec.configure do |config|
   # enable FactoryBot:
@@ -32,11 +39,14 @@ RSpec.configure do |config|
 
   # Transactional
   config.use_transactional_fixtures = false
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   # require shared examples
   require 'lib/newspaper_works/ingest/ingest_shared'
 
   config.infer_spec_type_from_file_location!
+
+  config.include EngineRoutes, type: :controller
 
   # :perform_enqueued config setting below copied from Hyrax spec_helper.rb
   config.before(:example, :perform_enqueued) do |example|
