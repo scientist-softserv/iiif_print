@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::PageOrder do
+RSpec.describe NewspaperWorks::PageFinder do
   let(:page1) do
     SolrDocument.new('id' => 'page1',
                      'has_model_ssim' => ['NewspaperPage'],

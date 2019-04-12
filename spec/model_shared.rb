@@ -76,6 +76,7 @@ def model_fixtures(target_type)
   # parents via members setter method, per PCDM Profile for Newspapers.
   publication = NewspaperTitle.new
   publication.title = ["Yesterday's News"]
+  publication.lccn = 'sn1234567'
   issue1 = NewspaperIssue.new
   issue1.title = ['December 7, 1941']
   issue1.resource_type = ["newspaper"]

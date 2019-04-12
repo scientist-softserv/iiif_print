@@ -35,3 +35,5 @@
 <%= presenter.attribute_to_html(:identifier, html_dl: true) %>
 <%= presenter.attribute_to_html(:resource_type, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
+<%# newspaper_works persistent url %>
+<%= render 'newspaper_works/base/persistent_url', presenter: presenter %>

@@ -18,11 +18,12 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
     end
   end
 
-  describe '#index_publication_title' do
-    before { page_indexer.index_publication_title(@page_for_indexrel, solr_doc) }
+  describe '#index_publication' do
+    before { page_indexer.index_publication(@page_for_indexrel, solr_doc) }
     it 'sets the publication title fields correctly' do
       expect(solr_doc['publication_id_ssi']).not_to be_falsey
       expect(solr_doc['publication_title_ssi']).to eq("Yesterday's News")
+      expect(solr_doc['publication_unique_id_ssi']).to eq("sn1234567")
     end
   end
 
