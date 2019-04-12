@@ -42,13 +42,17 @@ module NewspaperWorks
     ##
     # return the index of the current page
     # @param page_id [String] id of the NewspaperPage
+    # @param issue_id [String] id of the parent NewspaperIssue
     # @return [Integer] the page's index
-    def get_page_index(page_id)
+    def get_page_index(page_id, issue_id = nil)
       default_index = 0
-      page_doc = SolrDocument.find(page_id)
-      return default_index unless page_doc &&
-          page_doc['issue_id_ssi'] && page_doc['is_following_page_of_ssi']
-      all_pages = pages_for_issue(page_doc['issue_id_ssi'])
+      unless issue_id
+        page_doc = SolrDocument.find(page_id)
+        return default_index unless page_doc &&
+            page_doc['issue_id_ssi'] && page_doc['is_following_page_of_ssi']
+        issue_id = page_doc['issue_id_ssi']
+      end
+      all_pages = pages_for_issue(issue_id)
       return default_index if all_pages.blank?
       all_pages.index { |page| page['id'] == page_id }
     end

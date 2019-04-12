@@ -10,6 +10,7 @@ module Hyrax
     delegate :height, :width, to: :solr_document
 
     def persistent_url
+      return nil unless publication_unique_id && issue_date_for_url
       NewspaperWorks::Engine.routes.url_helpers.newspaper_page_url(unique_id: publication_unique_id,
                                                                    date: issue_date_for_url,
                                                                    edition: edition_for_url,
@@ -20,12 +21,12 @@ module Hyrax
     private
 
       def publication_unique_id
-        solr_document['publication_unique_id_ssi']
+        solr_document['publication_unique_id_ssi'] || nil
       end
 
       def issue_date_for_url
-        return '0000-00-00' unless solr_document['issue_pubdate_dtsi']
-        solr_document['issue_pubdate_dtsi'].match(/\A[0-9]{4}-[0-3]{2}-[0-9]{2}/).to_s
+        return nil unless solr_document['issue_pubdate_dtsi']
+        solr_document['issue_pubdate_dtsi'].match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
       end
 
       def edition_for_url
@@ -33,7 +34,7 @@ module Hyrax
       end
 
       def page_index_for_url
-        "seq-#{(get_page_index(id) + 1)}"
+        "seq-#{(get_page_index(id, solr_document['issue_id_ssi']) + 1)}"
       end
   end
 end

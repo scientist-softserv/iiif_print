@@ -1,9 +1,9 @@
 # mixin to provide persistent URL methods
 module NewspaperWorks
   module PersistentUrlPresenterBehavior
-    # default for NewspaperContainer and NewspaperArticle,
-    # since we don't support ChronAm-style URLs for those object types
-    # to be overridden in individual presenters as needed
+    # Default for NewspaperContainer and NewspaperArticle,
+    # since we don't support ChronAm-style URLs for those object types.
+    # Override in individual presenters as needed.
     def persistent_url
       nil
     end
