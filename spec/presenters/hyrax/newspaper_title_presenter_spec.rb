@@ -5,6 +5,11 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   let!(:publication) do
     publication = NewspaperTitle.new
     publication.title = ["Wall Street Journal"]
+    publication.edition = "1st"
+    publication.frequency = "often"
+    publication.preceded_by = ["Something"]
+    publication.succeeded_by = ["Something Else"]
+    publication.lccn = "sn1234567"
     # publication.save
     publication
   end
@@ -52,7 +57,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   let(:ability) { double Ability }
   let(:presenter) { described_class.new(solr_document, ability, request) }
 
-  subject { described_class.new(solr_document, ability, request) }
+  subject { presenter }
 
   it { is_expected.to delegate_method(:alternative_title).to(:solr_document) }
   it { is_expected.to delegate_method(:issn).to(:solr_document) }
@@ -126,5 +131,15 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     it 'will return a all member issues' do
       expect(subject.pluck("id")).to contain_exactly(issues[0].id, issues[1].id, issues[2].id)
     end
+  end
+
+  describe '#publication_unique_id' do
+    subject { presenter.publication_unique_id }
+    it { is_expected.to eq ['sn1234567'] }
+  end
+
+  describe '#persistent_url' do
+    subject { presenter.persistent_url }
+    it { is_expected.to include '/newspapers/sn1234567' }
   end
 end

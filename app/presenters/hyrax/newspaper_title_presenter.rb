@@ -50,7 +50,8 @@ module Hyrax
     end
 
     def persistent_url
-      NewspaperWorks::Engine.routes.url_helpers.newspaper_title_url(unique_id: publication_unique_id,
+      return nil unless publication_unique_id
+      NewspaperWorks::Engine.routes.url_helpers.newspaper_title_url(unique_id: publication_unique_id.first,
                                                                     host: request.host)
     end
 

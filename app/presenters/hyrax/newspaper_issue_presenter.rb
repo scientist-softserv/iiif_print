@@ -16,6 +16,7 @@ module Hyrax
     end
 
     def persistent_url
+      return nil unless publication_unique_id && issue_date_for_url
       NewspaperWorks::Engine.routes.url_helpers.newspaper_issue_edition_url(unique_id: publication_unique_id,
                                                                             date: issue_date_for_url,
                                                                             edition: edition_for_url,
@@ -35,16 +36,16 @@ module Hyrax
       end
 
       def publication_unique_id
-        solr_document['publication_unique_id_ssi']
+        solr_document['publication_unique_id_ssi'] || nil
       end
 
       def issue_date_for_url
-        return '0000-00-00' unless publication_date
-        publication_date.first.match(/\A[0-9]{4}-[0-3]{2}-[0-9]{2}/).to_s
+        return nil unless publication_date
+        publication_date.first.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
       end
 
       def edition_for_url
-        "ed-#{edition.first || '1'}"
+        "ed-#{edition ? edition.first : '1'}"
       end
   end
 end

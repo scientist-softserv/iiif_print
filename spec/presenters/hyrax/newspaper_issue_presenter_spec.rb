@@ -3,15 +3,18 @@ require_relative '../newspaper_works/newspaper_core_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperIssuePresenter do
   let(:ability) { double 'Ability' }
-  let(:solr_document) { SolrDocument.new('id' => '123456') }
-  let(:presenter) { described_class.new(SolrDocument.new('id' => 'abc123'), nil) }
+  let(:request) { double(host: 'example.org') }
+  let(:solr_document) { SolrDocument.new(attributes) }
+  let(:presenter) { described_class.new(solr_document, ability, request) }
 
   let(:attributes) do
-    { "volume" => '888888',
-      "edition" => '1st issue',
-      "issue_number" => ['1st issue'],
-      "extent" => ["1st"],
-      "publication_date" => ["2017-08-25"] }
+    { "id" => '123456',
+      "volume_tesim" => ['8'],
+      "edition_tesim" => ['1'],
+      "issue_number_tesim" => ['1st issue'],
+      "extent_tesim" => ["4 pages"],
+      "publication_date_dtsim" => ["2017-08-25T00:00:00Z"],
+      "publication_unique_id_ssi" => "sn1234567" }
   end
 
   it_behaves_like "a newspaper core presenter"
@@ -53,5 +56,10 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
       let(:work_model_name) { 'foo' }
       it { is_expected.to be false }
     end
+  end
+
+  describe '#persistent_url' do
+    subject { presenter.persistent_url }
+    it { is_expected.to include '/newspapers/sn1234567/2017-08-25/ed-1' }
   end
 end
