@@ -4,7 +4,7 @@ module NewspaperWorks
     include Hyrax::WorksControllerBehavior
     include Hyrax::BreadcrumbsForWorks
 
-    include NewspaperWorks::PageOrder
+    include NewspaperWorks::PageFinder
 
     before_action :find_title
     before_action :find_issue, only: [:issue, :page]
@@ -64,7 +64,7 @@ module NewspaperWorks
     end
 
     def find_title
-      unique_id_field = NewspaperWorks.config.title_unique_id_field
+      unique_id_field = NewspaperWorks.config.publication_unique_id_field
       solr_params = ["has_model_ssim:\"NewspaperTitle\""]
       solr_params << "#{unique_id_field}:\"#{params[:unique_id]}\""
       @title = find_object(solr_params.join(' AND '))
@@ -82,12 +82,8 @@ module NewspaperWorks
     def find_page
       return nil unless @issue
       page_index = pagenum_to_index
-      solr_params = ["has_model_ssim:\"NewspaperPage\""]
-      solr_params << "issue_id_ssi:\"#{@issue['id']}\""
-      solr_resp = Blacklight.default_index.search(fq: solr_params.join(' AND '))
-      docs = solr_resp.documents
-      return nil if docs.blank? || docs[page_index].blank?
-      pages = ordered_pages(solr_resp.documents)
+      pages = pages_for_issue(@issue['id'])
+      return nil if pages.blank? || pages[page_index].blank?
       search_result_document(id: pages[page_index]['id'])
     end
 

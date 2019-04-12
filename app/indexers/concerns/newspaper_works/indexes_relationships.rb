@@ -6,7 +6,7 @@ module NewspaperWorks
     # @param object [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_relationships(object, solr_doc)
-      index_publication_title(object, solr_doc) unless object.is_a?(NewspaperTitle)
+      index_publication(object, solr_doc) unless object.is_a?(NewspaperTitle)
       case object
       when NewspaperPage
         index_issue(object, solr_doc)
@@ -23,11 +23,13 @@ module NewspaperWorks
     #
     # @param object [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
-    def index_publication_title(object, solr_doc)
+    def index_publication(object, solr_doc)
       newspaper_title = object.publication
       return unless newspaper_title.is_a?(NewspaperTitle)
       solr_doc['publication_id_ssi'] = newspaper_title.id
       solr_doc['publication_title_ssi'] = newspaper_title.title.first
+      publication_unique_id = newspaper_title.send(NewspaperWorks.config.publication_unique_id_property)
+      solr_doc['publication_unique_id_ssi'] = publication_unique_id
     end
 
     # index the container info
