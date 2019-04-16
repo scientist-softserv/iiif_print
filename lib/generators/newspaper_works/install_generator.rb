@@ -85,11 +85,11 @@ module NewspaperWorks
         "    config.add_facet_field solr_name('succeeded_by', :facetable), label: 'Succeeded by', if: false\n"
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def inject_configuration
       copy_file 'config/initializers/newspaper_works.rb'
     end
-    # rubocop:enable Metrics/MethodLength
 
     def add_helper
       copy_file "newspaper_works_helper.rb", "app/helpers/newspaper_works_helper.rb"

@@ -2,28 +2,24 @@ require 'spec_helper'
 require_relative '../newspaper_works/newspaper_core_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperTitlePresenter do
-  let!(:publication) do
-    publication = NewspaperTitle.new
-    publication.title = ["Wall Street Journal"]
-    publication.edition = "1st"
-    publication.frequency = "often"
-    publication.preceded_by = ["Something"]
-    publication.succeeded_by = ["Something Else"]
-    publication.lccn = "sn1234567"
-    # publication.save
-    publication
-  end
+  # use before(:all) so we only create fixtures once
+  # rubocop:disable RSpec/InstanceVariable
+  before(:all) do
+    @publication = NewspaperTitle.new
+    @publication.title = ["Wall Street Journal"]
+    @publication.edition = "1st"
+    @publication.frequency = ["often"]
+    @publication.preceded_by = ["Something"]
+    @publication.succeeded_by = ["Something Else"]
+    @publication.lccn = "sn1234567"
 
-  let!(:issues) do
-    issues = []
     issue1 = NewspaperIssue.new
     issue1.title = ['February 13, 2016']
     issue1.resource_type = ["newspaper"]
     issue1.language = ["eng"]
     issue1.held_by = "Marriott Library"
     issue1.publication_date = '2016-02-13'
-    publication.members.push issue1
-    issues.push(issue1)
+    @publication.members.push issue1
 
     issue2 = NewspaperIssue.new
     issue2.title = ['February 13, 2019']
@@ -31,8 +27,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     issue2.language = ["eng"]
     issue2.held_by = "Marriott Library"
     issue2.publication_date = '2019-02-13'
-    publication.members.push issue2
-    issues.push(issue2)
+    @publication.members.push issue2
 
     issue3 = NewspaperIssue.new
     issue3.title = ['March 5, 2019']
@@ -40,18 +35,16 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     issue3.language = ["eng"]
     issue3.held_by = "Marriott Library"
     issue3.publication_date = '2019-03-05'
-    publication.members.push issue3
-    issues.push(issue3)
+    @publication.members.push issue3
 
     issue1.save!
     issue2.save!
     issue3.save!
-    publication.save!
-
-    issues
+    @publication.save!
+    @issues = [issue1, issue2, issue3]
   end
 
-  let(:solr_document) { SolrDocument.find(publication.id) }
+  let(:solr_document) { SolrDocument.find(@publication.id) }
   let(:request) { double(host: 'example.org', base_url: 'http://example.org', params: {}) }
   let(:user_key) { 'a_user_key' }
   let(:ability) { double Ability }
@@ -73,12 +66,12 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   describe '#issues' do
     subject { presenter.issues }
     it 'will return a all member issues for the earliest year when no year param is provided' do
-      expect(subject.pluck("id")).to contain_exactly(issues[0].id)
+      expect(subject.pluck("id")).to contain_exactly(@issues[0].id)
     end
 
     it 'will return all member issues for a given year when a year param is provided' do
       allow(request).to receive(:params).and_return(year: 2019)
-      expect(subject.pluck("id")).to contain_exactly(issues[1].id, issues[2].id)
+      expect(subject.pluck("id")).to contain_exactly(@issues[1].id, @issues[2].id)
     end
   end
 
@@ -129,7 +122,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   describe '#all_title_issues' do
     subject { presenter.all_title_issues }
     it 'will return a all member issues' do
-      expect(subject.pluck("id")).to contain_exactly(issues[0].id, issues[1].id, issues[2].id)
+      expect(subject.pluck("id")).to contain_exactly(@issues[0].id, @issues[1].id, @issues[2].id)
     end
   end
 
@@ -142,4 +135,5 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     subject { presenter.persistent_url }
     it { is_expected.to include '/newspapers/sn1234567' }
   end
+  # rubocop:enable RSpec/InstanceVariable
 end
