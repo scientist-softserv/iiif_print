@@ -1,0 +1,38 @@
+<div id="issues_calendar" class="row">
+  <div id="issues_calendar_title">
+  <h2 align="center">
+    <%= link_to("<<", main_app.hyrax_newspaper_title_path(params[:id], year: years[:previous])) if years[:previous] %>
+    Issues: <%= years[:current] %>
+    <%= link_to(">>", main_app.hyrax_newspaper_title_path(params[:id], year: years[:next])) if years[:next] %>
+  </h2>
+  </div>
+  <div id="issues_calendar_body">
+  <% for month in 1..12 %>
+    <div class="clndr-month col-xs-12 col-md-2 no-padding">
+      <h2 class="text-center"><%= Date::MONTHNAMES[month] %></h2>
+      <% for day_name in 0..6 %>
+        <div class="calendar_day">
+          <%= Date::DAYNAMES[day_name][0..1] %>
+        </div>
+      <% end %>
+    <% month_start = Date.new(years[:current], month) %>
+    <% month_end = ((month_start>>1)-1) %>
+    <% month_start_print = month_start - month_start.wday %>
+    <% month_end_print = (month_end + 6) - (month_end.wday) %>
+    <% (month_start_print).upto(month_end_print) do |d| %>
+      <div class="day calendar_day <%= "calendar_day_inactive" if d.month != month  %> <%= "adjacent_month" if d.month != month %> <%= "cal-#{d.strftime("%Y-%m-%d")}" %>">
+        <% issue = issues.select {|issue| Date.parse(issue["publication_date_dtsim"].first) == d }.first %>
+        <% if issue %>
+          <strong><%= link_to d.day, main_app.hyrax_newspaper_issue_path(issue) %></strong>
+        <% else %>
+          <%= d.day %>
+        <% end %>
+      </div>
+      <% if d.wday == 6 %>
+        <br>
+      <% end %>
+    <% end %>
+    </div>
+  <% end %>
+  </div>
+</div>

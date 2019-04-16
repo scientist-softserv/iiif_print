@@ -1,6 +1,5 @@
 # Generated via
 #  `rails generate hyrax:work NewspaperTitle`
-
 module Hyrax
   class NewspaperTitlesController < ApplicationController
     # Adds Hyrax behaviors to the controller.

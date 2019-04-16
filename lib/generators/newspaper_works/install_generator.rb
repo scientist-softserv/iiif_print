@@ -86,5 +86,9 @@ module NewspaperWorks
       end
     end
     # rubocop:enable Metrics/MethodLength
+
+    def inject_assets
+      generate 'newspaper_works:assets'
+    end
   end
 end

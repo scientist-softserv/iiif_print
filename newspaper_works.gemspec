@@ -36,6 +36,7 @@ SUMMARY
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'
   spec.add_development_dependency 'newspaper_works_fixtures'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
+  spec.add_development_dependency 'rspec-activemodel-mocks'
   spec.add_development_dependency 'solr_wrapper', '>= 1.1', '< 3.0'
 
   spec.add_development_dependency 'shoulda-matchers', '~> 3.1'

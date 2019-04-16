@@ -1,0 +1,10 @@
+.calendar_day {
+  display: inline-block;
+  width: 17px;
+  height: 10px;
+  text-align: center;
+}
+
+.calendar_day_inactive {
+  color: gray;
+}

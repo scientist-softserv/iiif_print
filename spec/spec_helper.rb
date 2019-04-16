@@ -17,6 +17,7 @@ EngineCart.load_application!
 Qa::Authorities::Geonames.username = 'newspaper_works'
 
 require 'rspec/rails'
+require 'rspec/active_model/mocks'
 
 ActiveJob::Base.queue_adapter = :test
 
