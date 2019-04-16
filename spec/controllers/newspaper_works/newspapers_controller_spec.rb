@@ -9,7 +9,7 @@ RSpec.describe NewspaperWorks::NewspapersController do
   # use before(:all) so we only create fixtures once
   # rubocop:disable RSpec/InstanceVariable
   before(:all) do
-    @lccn = "sn#{rand(10000).to_s}"
+    @lccn = "sn#{rand(10_000)}"
 
     title = NewspaperTitle.new
     title.title = ["Yesterday's News"]
@@ -103,10 +103,10 @@ RSpec.describe NewspaperWorks::NewspapersController do
         expect do
           get :page,
               params: {
-                  unique_id: @lccn,
-                  date: pubdate,
-                  edition: 'ed-1',
-                  page: 'seq-3'
+                unique_id: @lccn,
+                date: pubdate,
+                edition: 'ed-1',
+                page: 'seq-3'
               }
         end.to raise_error ActionController::RoutingError
       end

@@ -40,7 +40,6 @@ RSpec.describe NewspaperWorks::PageFinder do
       expect(subject[1]['id']).to eq ordered_pages_array[1]['id']
       expect(subject[2]['id']).to eq ordered_pages_array[2]['id']
     end
-
   end
 
   describe '#ordered_pages' do

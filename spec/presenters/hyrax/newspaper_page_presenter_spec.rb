@@ -12,8 +12,7 @@ RSpec.describe Hyrax::NewspaperPagePresenter do
       "issue_id_ssi" => "issue1",
       "issue_edition_ssi" => '1',
       "issue_pubdate_dtsi" => "2017-08-25T00:00:00Z",
-      "publication_unique_id_ssi" => "sn1234567"
-    }
+      "publication_unique_id_ssi" => "sn1234567" }
   end
   let(:presenter) { described_class.new(solr_document, ability, request) }
 

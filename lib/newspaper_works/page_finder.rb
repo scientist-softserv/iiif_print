@@ -18,6 +18,7 @@ module NewspaperWorks
     # return an ordered array of NewspaperPage documents
     # @param documents [Array] NewspaperPage SolrDocuments for an issue
     # @return [Array] ordered NewspaperPage SolrDocuments for an issue
+    # rubocop:disable Metrics/MethodLength
     def ordered_pages(documents)
       return documents if documents.length <= 1
       ordered_list = []
@@ -38,6 +39,7 @@ module NewspaperWorks
       end
       ordered_list
     end
+    # rubocop:enable Metrics/MethodLength
 
     ##
     # return the index of the current page
@@ -49,7 +51,8 @@ module NewspaperWorks
       unless issue_id
         page_doc = SolrDocument.find(page_id)
         return default_index unless page_doc &&
-            page_doc['issue_id_ssi'] && page_doc['is_following_page_of_ssi']
+                                    page_doc['issue_id_ssi'] &&
+                                    page_doc['is_following_page_of_ssi']
         issue_id = page_doc['issue_id_ssi']
       end
       all_pages = pages_for_issue(issue_id)
