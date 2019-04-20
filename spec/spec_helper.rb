@@ -17,6 +17,7 @@ EngineCart.load_application!
 Qa::Authorities::Geonames.username = 'newspaper_works'
 
 require 'rspec/rails'
+require 'support/controller_level_helpers'
 require 'rspec/active_model/mocks'
 
 ActiveJob::Base.queue_adapter = :test
@@ -36,7 +37,11 @@ RSpec.configure do |config|
   # require shared examples
   require 'lib/newspaper_works/ingest/ingest_shared'
 
-  config.infer_spec_type_from_file_location!
+  config.include(ControllerLevelHelpers, type: :helper)
+  config.before(:each, type: :helper) { initialize_controller_helpers(helper) }
+
+  config.include(ControllerLevelHelpers, type: :view)
+  config.before(:each, type: :view) { initialize_controller_helpers(view) }
 
   # :perform_enqueued config setting below copied from Hyrax spec_helper.rb
   config.before(:example, :perform_enqueued) do |example|
