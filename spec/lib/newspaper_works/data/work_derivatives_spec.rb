@@ -23,6 +23,8 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
   let(:adapter) { described_class.new(work) }
 
   let(:txt1) do
+    whitelist = Hyrax.config.whitelisted_ingest_dirs
+    whitelist.push('/tmp') unless whitelist.include?('/tmp')
     file = Tempfile.new(['txt1', '.txt'])
     file.write('hello')
     file.flush
@@ -113,6 +115,13 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       adapter = described_class.new(bare_work)
       adapter.assign(example_gray_jp2)
       expect(adapter.assigned).to include example_gray_jp2
+    end
+
+    it "will fail to assign file in non-whitelisted dir" do
+      adapter = described_class.new(bare_work)
+      # need a non-whitlisted file that exists:
+      bad_path = File.expand_path("../../spec_helper.rb", fixture_path)
+      expect { adapter.assign(bad_path) }.to raise_error(SecurityError)
     end
 
     it "will remove file assignment from queue" do

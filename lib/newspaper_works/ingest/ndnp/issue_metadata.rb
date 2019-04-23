@@ -4,7 +4,7 @@ module NewspaperWorks
       class IssueMetadata
         include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
 
-        attr_accessor :path, :doc
+        attr_accessor :path, :doc, :parent
 
         def initialize(path, parent = nil)
           @path = path
@@ -37,7 +37,7 @@ module NewspaperWorks
 
         # Issue number (optional)
         # @return [String,NilClass]
-        def issue
+        def issue_number
           result = xpath("//mods:detail[@type='issue']/mods:number")
           return if result.size.zero?
           result.text
@@ -62,6 +62,20 @@ module NewspaperWorks
         # @return [String] (ISO-8601 date) publication date
         def publication_date
           xpath("//mods:originInfo/mods:dateIssued").text
+        end
+
+        def publication_title
+          # try from reel first
+          reel = parent.nil? ? nil : parent.container
+          return reel.metadata.title unless reel.nil?
+          # fallback to parsing //mets/@LABEL
+          label = xpath('//mets:mets/@LABEL').first
+          v = label.nil? ? '' : label.value.split(/[,] [0-9]/)[0]
+          # based on label convention:
+          #   "ACME Times (Springfield, UT), 1911-01-25, First Edition"
+          #   Returns the name and (*for now TBD*) place of publication
+          #   as a string in parentheses.
+          v.split(/, [0-9]/)[0]
         end
 
         # Original Source Repository (NDNP-mandatory)

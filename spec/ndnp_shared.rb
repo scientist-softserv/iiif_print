@@ -2,7 +2,10 @@ require 'newspaper_works_fixtures'
 
 RSpec.shared_context "ndnp fixture setup", shared_context: :metadata do
   let(:ndnp_fixture_path) do
-    File.join(NewspaperWorksFixtures.file_fixtures, 'ndnp')
+    path = File.join(NewspaperWorksFixtures.file_fixtures, 'ndnp')
+    whitelist = Hyrax.config.whitelisted_ingest_dirs
+    whitelist.push(path) unless whitelist.include?(path)
+    path
   end
 
   # `batch_local` example issue:
@@ -25,6 +28,14 @@ RSpec.shared_context "ndnp fixture setup", shared_context: :metadata do
     File.join(
       ndnp_fixture_path,
       'batch_test_ver01/data/sn84038814/00279557177/00279557177.xml'
+    )
+  end
+
+  # reel with no explicit reel number, but containing it in mets/@LABEL
+  let(:reel2) do
+    File.join(
+      ndnp_fixture_path,
+      'batch_test_ver01/data/sn85025202/00279557281/00279557281_1.xml'
     )
   end
 

@@ -25,13 +25,22 @@ module NewspaperWorks
         # @return [String] a serial number string for reel, may correspond
         #   to an issued barcode
         def reel_number
-          xpath("//mods:identifier[@type='reel number']").first.text
+          v = xpath("//mods:identifier[@type='reel number']").first
+          return v.text unless v.nil?
+          xpath('//mets:mets/@LABEL').first.value
         end
 
         # Original Source Repository (NDNP-mandatory)
         # @return [String]
         def held_by
-          xpath("//mods:physicalLocation").first['displayLabel']
+          v = xpath("//mods:physicalLocation").first
+          return v['displayLabel'] unless v.nil?
+          # fallback to look at mods:note/@displayLabel, when the
+          #   @type="agencyResponsibleForReproduction"
+          xpath(
+            '//mods:note[@type="agencyResponsibleForReproduction"]' \
+            '/@displayLabel'
+          ).first.value
         end
 
         # Media genre/form (Page Physical Description, e.g. "microform")

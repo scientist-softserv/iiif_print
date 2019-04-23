@@ -36,6 +36,11 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
     it "gets expected files" do
       check_expected_files(page, ['tif', 'jp2', 'pdf', 'xml'])
     end
+
+    it "gets nil container for page without reel XML" do
+      reel = page.container
+      expect(reel).to be_nil
+    end
   end
 
   describe "sample fixture 'batch_test_ver01'" do
@@ -50,9 +55,15 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
     it "gets expected files" do
       check_expected_files(page, ['tif', 'jp2', 'pdf', 'xml'])
     end
+
+    it "gets a ContainerIngest for reel providing page" do
+      reel = page.container
+      expect(reel).to be_a NewspaperWorks::Ingest::NDNP::ContainerIngest
+      expect(reel.path).to end_with '_1.xml'
+    end
   end
 
-  describe "sample fixture reel xml" do
+  describe "sample fixture reel xml (for control images)" do
     let(:page) { described_class.new(reel1, 'targetModsBib1') }
 
     it "gets metadata" do

@@ -4,7 +4,7 @@ module NewspaperWorks
       class PageIngest
         include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
 
-        attr_accessor :path, :dmdid, :doc
+        attr_accessor :path, :dmdid, :doc, :files
 
         def initialize(path = nil, dmdid = nil, parent = nil)
           raise ArgumentError('No path provided') if path.nil?
@@ -14,6 +14,7 @@ module NewspaperWorks
           @parent = parent
           @metadata = nil
           load_doc
+          @files = page_files.values.map(&method(:normalize_path))
         end
 
         def inspect
@@ -23,10 +24,6 @@ module NewspaperWorks
               "\tdmdid: '#{dmdid}' ...>",
             oid: object_id << 1
           )
-        end
-
-        def files
-          page_files.values.map(&method(:normalize_path))
         end
 
         def metadata

@@ -29,6 +29,13 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
       expect(adapter.assigned).to include tiff_path
     end
 
+    it "will fail to assign file in non-whitelisted dir" do
+      adapter = described_class.new(work)
+      # need a non-whitlisted file that exists:
+      bad_path = File.expand_path("../../spec_helper.rb", fixture_path)
+      expect { adapter.assign(bad_path) }.to raise_error(SecurityError)
+    end
+
     it "queues a file:/// URI" do
       adapter = described_class.of(work)
       expect(adapter.assigned).to be_empty

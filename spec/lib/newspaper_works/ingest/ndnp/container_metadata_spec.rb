@@ -6,9 +6,11 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerMetadata do
 
   describe "sample fixture 'batch_test_ver01'" do
     let(:meta) { described_class.new(reel1) }
+    let(:meta2) { described_class.new(reel2) }
 
     it "gets reel_number" do
       expect(meta.reel_number).to eq "00279557177"
+      expect(meta2.reel_number).to eq "00279557281"
     end
 
     it "gets held_by" do
