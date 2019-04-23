@@ -7,7 +7,7 @@ module Hyrax
     delegate :volume, :edition, :issue_number, :extent, to: :solr_document
 
     # @return [Boolean] render the UniversalViewer
-    def universal_viewer?
+    def iiif_viewer?
       Hyrax.config.iiif_image_server? && members_include_viewable_page?
     end
 
@@ -30,7 +30,7 @@ module Hyrax
       def members_include_viewable_page?
         work_presenters.any? do |presenter|
           presenter.model_name == 'NewspaperPage' &&
-            presenter.universal_viewer? &&
+            presenter.iiif_viewer? &&
             current_ability.can?(:read, presenter.id)
         end
       end
