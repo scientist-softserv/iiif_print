@@ -3,15 +3,18 @@ require_relative '../newspaper_works/newspaper_core_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperIssuePresenter do
   let(:ability) { double 'Ability' }
-  let(:solr_document) { SolrDocument.new('id' => '123456') }
-  let(:presenter) { described_class.new(SolrDocument.new('id' => 'abc123'), nil) }
+  let(:request) { double(host: 'example.org') }
+  let(:solr_document) { SolrDocument.new(attributes) }
+  let(:presenter) { described_class.new(solr_document, ability, request) }
 
   let(:attributes) do
-    { "volume" => '888888',
-      "edition" => '1st issue',
-      "issue_number" => ['1st issue'],
-      "extent" => ["1st"],
-      "publication_date" => ["2017-08-25"] }
+    { "id" => '123456',
+      "volume_tesim" => ['8'],
+      "edition_tesim" => ['1'],
+      "issue_number_tesim" => ['1st issue'],
+      "extent_tesim" => ["4 pages"],
+      "publication_date_dtsim" => ["2017-08-25T00:00:00Z"],
+      "publication_unique_id_ssi" => "sn1234567" }
   end
 
   it_behaves_like "a newspaper core presenter"
@@ -24,7 +27,7 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
   it { is_expected.to delegate_method(:extent).to(:solr_document) }
   it { is_expected.to respond_to(:publication_date) }
 
-  describe '#universal_viewer?' do
+  describe '#iiif_viewer?' do
     let(:current_ability) { ability }
     let(:work_presenter) { Hyrax::NewspaperPagePresenter.new(solr_document, nil) }
     let(:work_presenters) { [work_presenter] }
@@ -35,12 +38,12 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
       allow(Hyrax.config).to receive(:iiif_image_server?).and_return(iiif_enabled)
       allow(presenter).to receive(:work_presenters).and_return(work_presenters)
       allow(presenter).to receive(:current_ability).and_return(current_ability)
-      allow(work_presenter).to receive(:universal_viewer?).and_return(true)
+      allow(work_presenter).to receive(:iiif_viewer?).and_return(true)
       allow(work_presenter).to receive(:model_name).and_return(work_model_name)
       allow(current_ability).to receive(:can?).with(:read, solr_document.id).and_return(true)
     end
 
-    subject { presenter.universal_viewer? }
+    subject { presenter.iiif_viewer? }
 
     it { is_expected.to be true }
 
@@ -53,5 +56,10 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
       let(:work_model_name) { 'foo' }
       it { is_expected.to be false }
     end
+  end
+
+  describe '#persistent_url' do
+    subject { presenter.persistent_url }
+    it { is_expected.to include '/newspapers/sn1234567/2017-08-25/ed-1' }
   end
 end

@@ -18,11 +18,12 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
     end
   end
 
-  describe '#index_publication_title' do
-    before { page_indexer.index_publication_title(@page_for_indexrel, solr_doc) }
+  describe '#index_publication' do
+    before { page_indexer.index_publication(@page_for_indexrel, solr_doc) }
     it 'sets the publication title fields correctly' do
       expect(solr_doc['publication_id_ssi']).not_to be_falsey
       expect(solr_doc['publication_title_ssi']).to eq("Yesterday's News")
+      expect(solr_doc['publication_unique_id_ssi']).to eq("sn1234567")
     end
   end
 
@@ -39,6 +40,7 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
     it 'sets the issue fields correctly' do
       expect(solr_doc['issue_id_ssi']).not_to be_falsey
       expect(solr_doc['issue_title_ssi']).to eq('December 7, 1941')
+      expect(solr_doc['issue_edition_ssi']).to eq('1')
     end
   end
 
@@ -61,6 +63,7 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
     it 'sets the prev/next fields correctly' do
       expect(solr_doc['is_preceding_page_of_ssi']).not_to be_falsey
       expect(solr_doc['is_following_page_of_ssi']).to be_nil
+      expect(solr_doc['first_page_bsi']).to be_truthy
       expect(solr_doc_2['is_preceding_page_of_ssi']).to be_nil
       expect(solr_doc_2['is_following_page_of_ssi']).not_to be_falsey
     end

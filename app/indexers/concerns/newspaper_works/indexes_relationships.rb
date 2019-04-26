@@ -6,7 +6,7 @@ module NewspaperWorks
     # @param object [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_relationships(object, solr_doc)
-      index_publication_title(object, solr_doc) unless object.is_a?(NewspaperTitle)
+      index_publication(object, solr_doc) unless object.is_a?(NewspaperTitle)
       case object
       when NewspaperPage
         index_issue(object, solr_doc)
@@ -23,11 +23,13 @@ module NewspaperWorks
     #
     # @param object [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
-    def index_publication_title(object, solr_doc)
+    def index_publication(object, solr_doc)
       newspaper_title = object.publication
       return unless newspaper_title.is_a?(NewspaperTitle)
       solr_doc['publication_id_ssi'] = newspaper_title.id
       solr_doc['publication_title_ssi'] = newspaper_title.title.first
+      publication_unique_id = newspaper_title.send(NewspaperWorks.config.publication_unique_id_property)
+      solr_doc['publication_unique_id_ssi'] = publication_unique_id
     end
 
     # index the container info
@@ -54,7 +56,7 @@ module NewspaperWorks
         solr_doc['issue_pubdate_dtsi'] = "#{newspaper_issue.publication_date}T00:00:00Z"
       end
       solr_doc['issue_volume_ssi'] = newspaper_issue.volume
-      solr_doc['issue_edition_ssi'] = newspaper_issue.edition
+      solr_doc['issue_edition_ssi'] = newspaper_issue.edition || '1'
       solr_doc['issue_number_ssi'] = newspaper_issue.issue_number
     end
 
@@ -81,13 +83,13 @@ module NewspaperWorks
       newspaper_issue = page.issue
       return unless newspaper_issue.is_a?(NewspaperIssue)
       page_ids = newspaper_issue.ordered_page_ids
-      return unless page_ids.length > 1
       this_page_index = page_ids.index(page.id)
       return unless this_page_index
       unless this_page_index.zero?
         solr_doc['is_following_page_of_ssi'] = page_ids[this_page_index - 1].presence
       end
       solr_doc['is_preceding_page_of_ssi'] = page_ids[this_page_index + 1].presence
+      solr_doc['first_page_bsi'] = true if this_page_index.zero?
     end
 
     # index the articles info

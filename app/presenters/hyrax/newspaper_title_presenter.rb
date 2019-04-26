@@ -45,6 +45,16 @@ module Hyrax
       issue_query.documents
     end
 
+    def publication_unique_id
+      solr_document[NewspaperWorks.config.publication_unique_id_field]
+    end
+
+    def persistent_url
+      return nil unless publication_unique_id
+      NewspaperWorks::Engine.routes.url_helpers.newspaper_title_url(unique_id: publication_unique_id.first,
+                                                                    host: request.host)
+    end
+
     private
 
       def all_title_issue_dates
