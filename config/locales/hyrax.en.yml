@@ -20,6 +20,9 @@ en:
           resource_type_sim: "Resource type"
       filters:
         title:    "Filtering by:"
+      form:
+        collection: "Search within this newspaper"
+        pages:    "Search within this newspaper"
       start_over: Clear filters
   errors:
     messages:

@@ -5,39 +5,40 @@
 
 <div class="row work-type">
   <div class="col-xs-12">
-    <%= render 'work_type', presenter: @presenter %>
+    <%= render 'hyrax/base/work_type', presenter: @presenter %>
   </div>
   <div class="col-xs-12">&nbsp;</div>
   <div itemscope itemtype="http://schema.org/CreativeWork" class="col-xs-12">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <%= render 'work_title', presenter: @presenter %>
+        <%= render 'hyrax/base/work_title', presenter: @presenter %>
       </div>
       <div class="panel-body">
+        <%= render partial: "issue_search_form", presenter: @presenter %>
         <% if @presenter.year %>
             <%= render partial: "hyrax/newspaper_titles/issues_calendar",
                                  locals: { issues: @presenter.issues,
                                            years: { current: @presenter.year, previous: @presenter.prev_year, next: @presenter.next_year } } %>
         <% end %>
         <div class="row">
-          <%= render 'workflow_actions_widget', presenter: @presenter %>
+          <%= render 'hyrax/base/workflow_actions_widget', presenter: @presenter %>
           <% if @presenter.iiif_viewer? %>
             <div class="col-sm-12">
-              <%= render 'representative_media', presenter: @presenter, viewer: true %>
+              <%= render 'hyrax/base/representative_media', presenter: @presenter, viewer: true %>
             </div>
           <% end %>
           <div class="col-sm-3 text-center">
-            <%= render 'representative_media', presenter: @presenter, viewer: false unless @presenter.iiif_viewer? %>
-            <%= render 'citations', presenter: @presenter %>
-            <%= render 'social_media' %>
+            <%= render 'hyrax/base/representative_media', presenter: @presenter, viewer: false unless @presenter.iiif_viewer? %>
+            <%= render 'hyrax/base/citations', presenter: @presenter %>
+            <%= render 'hyrax/base/social_media' %>
           </div>
           <div class="col-sm-9">
-            <%= render 'work_description', presenter: @presenter %>
+            <%= render 'hyrax/base/work_description', presenter: @presenter %>
             <%= render 'newspaper_works/base/metadata', presenter: @presenter %>
           </div>
           <div class="col-sm-12">
-            <%= render 'relationships', presenter: @presenter %>
-            <%= render 'items', presenter: @presenter %>
+            <%= render 'hyrax/base/relationships', presenter: @presenter %>
+            <%= render 'hyrax/base/items', presenter: @presenter %>
             <%# TODO: we may consider adding these partials in the future %>
             <%#= render 'sharing_with', presenter: @presenter %>
             <%#= render 'user_activity', presenter: @presenter %>
