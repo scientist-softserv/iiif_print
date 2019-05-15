@@ -9,6 +9,10 @@ module Hyrax
       { f: { "publication_title_ssi" => title } }
     end
 
+    def front_page_search_params
+      { f: { "publication_title_ssi" => title, "first_page_bsi" => [true] } }
+    end
+
     def issues
       all_title_issues.select { |issue| year_or_nil(issue["publication_date_dtsim"]) == year }
     end

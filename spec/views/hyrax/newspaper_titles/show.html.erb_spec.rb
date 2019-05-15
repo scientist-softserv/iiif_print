@@ -75,6 +75,11 @@ RSpec.describe 'hyrax/newspaper_titles/show.html.erb', type: :view do
     expect(rendered).to render_template(partial: 'hyrax/newspaper_titles/_issue_search_form')
   end
 
+  it 'shows the front page search form partial' do
+    render
+    expect(rendered).to render_template(partial: 'hyrax/newspaper_titles/_all_front_pages_form')
+  end
+
   it 'shows the issue calendar partial' do
     render
     expect(rendered).to render_template(partial: '_issues_calendar')

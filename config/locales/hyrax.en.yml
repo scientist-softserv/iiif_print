@@ -22,7 +22,8 @@ en:
         title:    "Filtering by:"
       form:
         collection: "Search within this newspaper"
-        pages:    "Search within this newspaper"
+        pages: "Search within this newspaper"
+        front_pages: "View all front pages"
       start_over: Clear filters
   errors:
     messages:

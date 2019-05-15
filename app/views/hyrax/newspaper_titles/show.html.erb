@@ -15,6 +15,7 @@
       </div>
       <div class="panel-body">
         <%= render partial: "issue_search_form", presenter: @presenter %>
+        <%= render partial: "all_front_pages_form", presenter: @presenter %>
         <% if @presenter.year %>
             <%= render partial: "hyrax/newspaper_titles/issues_calendar",
                                  locals: { issues: @presenter.issues,
