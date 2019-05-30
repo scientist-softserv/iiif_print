@@ -2,6 +2,9 @@ it:
   hyrax:
     icons:
       newspaper_page:     'fa fa-file-text-o'
+    newspaper_page:
+      previous_page: 'Precedente'
+      next_page: 'Prossimo'
     select_type:
       newspaper_page:
         name:               "Newspaper Page"

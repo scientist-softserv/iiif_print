@@ -14,6 +14,7 @@
         <%= render 'work_title', presenter: @presenter %>
       </div>
       <div class="panel-body">
+        <%= render 'newspaper_works/base/newspaper_hierarchy', presenter: @presenter %>
         <div class="row">
           <%= render 'workflow_actions_widget', presenter: @presenter %>
           <% if @presenter.iiif_viewer? %>

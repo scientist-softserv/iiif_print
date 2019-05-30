@@ -6,6 +6,9 @@ en:
       newspaper_page:
         name:               "Newspaper Page"
         description:        "Newspaper page works"
+    newspaper_page:
+      previous_page: 'Previous'
+      next_page: 'Next'
   simple_form:
     labels:
       newspaper_page:

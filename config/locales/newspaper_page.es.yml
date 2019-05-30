@@ -2,6 +2,9 @@ es:
   hyrax:
     icons:
       newspaper_page:     'fa fa-file-text-o'
+    newspaper_page:
+      previous_page: 'Anterior'
+      next_page: 'Siguiente'
     select_type:
       newspaper_page:
         # TODO: translate `human_name` into Spanish

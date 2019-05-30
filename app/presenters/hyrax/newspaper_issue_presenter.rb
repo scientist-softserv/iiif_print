@@ -3,6 +3,7 @@
 module Hyrax
   class NewspaperIssuePresenter < Hyrax::WorkShowPresenter
     include NewspaperWorks::NewspaperCorePresenter
+    include NewspaperWorks::TitleInfoPresenter
     include NewspaperWorks::IiifSearchPresenterBehavior
     delegate :volume, :edition, :issue_number, :extent, to: :solr_document
 
