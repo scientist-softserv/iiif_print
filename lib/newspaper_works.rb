@@ -4,6 +4,7 @@ require "newspaper_works/text_extraction"
 require "newspaper_works/data"
 require "newspaper_works/configuration"
 require "newspaper_works/page_finder"
+require "newspaper_works/logging"
 
 # Newspaper works modules
 module NewspaperWorks

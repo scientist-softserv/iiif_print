@@ -31,9 +31,9 @@ module NewspaperWorks
         #   "Number" is used liberaly, and may contain both alpha
         #   and numeric characters.  As such, return value is String.
         #
-        #   Recommendation: callers may (strongly recommended) fall back to:
-        #   `page.page_number || page.page_sequence_number.to_s`,
-        #   however, this is not implemented automatically by this class.
+        #   If NDNP issue data fails to provide an explicitly
+        #   human-readable page number, fallback to sequence
+        #   number, in String form.
         #
         # @return [String, NilClass] Page "number" string
         def page_number
@@ -41,7 +41,10 @@ module NewspaperWorks
             ".//mods:mods//mods:detail[@type='page number']",
             **XML_NS
           )
-          return nil if detail.size.zero?
+          if detail.size.zero?
+            fallback = page_sequence_number
+            return fallback.nil? ? nil : fallback.to_s
+          end
           detail.xpath("mods:number", **XML_NS).first.text
         end
 

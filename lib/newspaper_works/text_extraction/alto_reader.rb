@@ -14,8 +14,11 @@ module NewspaperWorks
       class AltoDocStream < Nokogiri::XML::SAX::Document
         attr_accessor :text, :words
 
-        def initialize
-          super
+        def initialize(image_width = nil)
+          super()
+          # scaling matters:
+          @image_width = image_width
+          @scaling = 1.0 # pt to px, if ALTO using points
           # plain text buffer:
           @text = ''
           # list of word hash, containing word+coord:
@@ -27,11 +30,24 @@ module NewspaperWorks
         # @param attrs [Hash] hash containing ALTO `String` element attributes.
         # @return [Array] Array of position x, y, width, height in px.
         def s_coords(attrs)
-          height = (attrs['HEIGHT'] || 0).to_i
-          width = (attrs['WIDTH'] || 0).to_i
-          hpos = (attrs['HPOS'] || 0).to_i
-          vpos = (attrs['VPOS'] || 0).to_i
+          height = scale_value((attrs['HEIGHT'] || 0).to_i)
+          width = scale_value((attrs['WIDTH'] || 0).to_i)
+          hpos = scale_value((attrs['HPOS'] || 0).to_i)
+          vpos = scale_value((attrs['VPOS'] || 0).to_i)
           [hpos, vpos, width, height]
+        end
+
+        def compute_scaling(attrs)
+          return if @image_width.nil?
+          match = attrs.select { |e| e[0].casecmp?('WIDTH') }[0]
+          return if match.empty?
+          page_width = match[1].to_i
+          return if @image_width == page_width
+          @scaling = page_width / @image_width.to_f
+        end
+
+        def scale_value(v)
+          (v / @scaling).to_i
         end
 
         # Callback for element start, implementation of which ignores
@@ -41,6 +57,7 @@ module NewspaperWorks
         # @param attrs [Array] Array of key, value pair Arrays.
         def start_element(name, attrs = [])
           values = attrs.to_h
+          compute_scaling(attrs) if name == 'Page'
           return if name != 'String'
           token = values['CONTENT']
           @text << token
@@ -73,9 +90,9 @@ module NewspaperWorks
       # Construct with either path
       #
       # @param xml [String], and process document
-      def initialize(xml)
+      def initialize(xml, image_width = nil)
         @source = isxml?(xml) ? xml : File.read(xml)
-        @doc_stream = AltoDocStream.new
+        @doc_stream = AltoDocStream.new(image_width)
         parser = Nokogiri::XML::SAX::Parser.new(doc_stream)
         parser.parse(@source)
       end

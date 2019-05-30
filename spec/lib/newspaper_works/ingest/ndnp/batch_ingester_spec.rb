@@ -20,6 +20,15 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
   end
 
   describe "ingests issues" do
+    def expect_start_finish_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Beginning NDNP batch ingest') }
+      ).once
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('NDNP batch ingest complete') }
+      ).once
+    end
+
     it "calls ingest for all issues in batch" do
       adapter = described_class.new(batch1)
       issue_ingest_call_count = 0
@@ -27,8 +36,60 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
       allow_any_instance_of(NewspaperWorks::Ingest::NDNP::IssueIngester).to \
         receive(:ingest) { issue_ingest_call_count += 1 }
       # rubocop:enable RSpec/AnyInstance
+      expect_start_finish_logging(adapter)
       adapter.ingest
       expect(issue_ingest_call_count).to eq 4
+    end
+  end
+
+  describe "command invocation" do
+    def construct(args)
+      described_class.from_command(
+        args,
+        'rake newspaper_works:ingest_ndnp --'
+      )
+    end
+
+    it "creates ingester from command arguments" do
+      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=#{batch1}"]
+      adapter = construct(fake_argv)
+      expect(adapter).to be_a described_class
+      expect(adapter.path).to eq batch1
+    end
+
+    it "creates ingester from command with dir path" do
+      # command can accept a parent directory for batch:
+      base_path = File.dirname(batch1)
+      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=#{base_path}"]
+      adapter = construct(fake_argv)
+      expect(adapter).to be_a described_class
+      # adapter.path is path to actual XML
+      expect(adapter.path).to eq batch1
+    end
+
+    it "exits on file not found for batch" do
+      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=123/45/5678"]
+      begin
+        construct(fake_argv)
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+      end
+    end
+
+    it "exits on missing path for batch" do
+      fake_argv = ['newspaper_works:ingest_ndnp', '--']
+      begin
+        construct(fake_argv)
+      rescue SystemExit => e
+        expect(e.status).to eq(1)
+      end
+    end
+
+    it "exits on unexpected arguments" do
+      fake_argv = ['newspaper_works:ingest_ndnp', '--', '--foo=bar']
+      expect { construct(fake_argv) }.to raise_error(
+        OptionParser::InvalidOption
+      )
     end
   end
 end

@@ -4,9 +4,10 @@ module NewspaperWorks
   # Module for text extraction (OCR or otherwise)
   module TextExtraction
     class RenderAlto
-      def initialize(width, height)
+      def initialize(width, height, scaling = 1.0)
         @height = height
         @width = width
+        @scaling = scaling
       end
 
       def to_alto(words)
@@ -14,10 +15,10 @@ module NewspaperWorks
           words.each do |word|
             xml.String(
               CONTENT: word[:word],
-              HEIGHT: (word[:y_end] - word[:y_start]).to_s,
-              WIDTH: (word[:x_end] - word[:x_start]).to_s,
-              HPOS: word[:x_start].to_s,
-              VPOS: word[:y_start].to_s
+              HEIGHT: scale_point(word[:y_end] - word[:y_start]).to_s,
+              WIDTH: scale_point(word[:x_end] - word[:x_start]).to_s,
+              HPOS: scale_point(word[:x_start]).to_s,
+              VPOS: scale_point(word[:y_start]).to_s
             ) { xml.text '' }
           end
         end
@@ -39,12 +40,19 @@ module NewspaperWorks
           builder
         end
 
+        def scale_point(value)
+          # note: presuming non-fractional, even though ALTO 2.1
+          #   specifies coordinates are xsd:float, not xsd:int,
+          #   simplify to integer value for output:
+          (value * @scaling).to_i
+        end
+
         # return layout for page
         def alto_layout(xml, pxwidth, pxheight, &block)
           xml.Layout do
             xml.Page(ID: 'ID1',
                      PHYSICAL_IMG_NR: '1',
-                     HEIGHT: pxwidth.to_i,
+                     HEIGHT: pxheight.to_i,
                      WIDTH: pxwidth.to_i) do
               xml.PrintSpace(HEIGHT: pxheight.to_i,
                              WIDTH: pxwidth.to_i,

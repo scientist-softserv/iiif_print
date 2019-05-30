@@ -15,6 +15,12 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
   let(:adapter) { described_class.new(issue_data) }
 
   describe "adapter and asset construction" do
+    def expect_issue_import_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Saved metadata to new NewspaperIssue') }
+      ).once
+    end
+
     it "constructs adapter with issue source" do
       expect(adapter.issue).to be issue_data
       expect(adapter.path).to eq issue_data.path
@@ -30,10 +36,21 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       expect(adapter.batch).to be batch
     end
 
+    # rubocop:disable RSpec/ExampleLength
     it "constructs NewspaperIssue with adapter" do
       # construct_issue is only the first part of ingest, create issue
       #   and find-or-link publication NewspaperTitle;
       #   this does not trigger creation of child pages.
+      expect_issue_import_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy do |v|
+          v.include?('Created NewspaperTitle work') ||
+          v.include?('Found existing NewspaperTitle')
+        end
+      ).once
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Linked NewspaperIssue') }
+      ).once
       adapter.construct_issue
       issue = adapter.target
       expect(issue).to be_a NewspaperIssue
@@ -43,6 +60,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       expect(publication.lccn).to eq issue_data.metadata.lccn
       expect(publication.title).to contain_exactly 'The Park Record'
     end
+    # rubocop:enable RSpec/ExampleLength
 
     it "creates new NewspaperTitle without place of publication" do
       # clear any existing publications from previous testing

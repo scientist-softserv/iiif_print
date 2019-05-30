@@ -26,7 +26,7 @@ module NewspaperWorks
         # Link a page to target container
         # @param page [NewspaperPage]
         def link(page)
-          @target.members << page
+          @target.ordered_members << page
           # save each link attempt (for now no deferring/bundling)
           @target.save!
         end
@@ -69,7 +69,7 @@ module NewspaperWorks
 
           def link_publication
             return unless @target.publication.nil?
-            @publication.members << @target
+            @publication.ordered_members << @target
             @publication.save!
           end
       end

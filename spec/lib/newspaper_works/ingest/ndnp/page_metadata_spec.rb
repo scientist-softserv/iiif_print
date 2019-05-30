@@ -37,8 +37,8 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
   describe "sample fixture 'batch_test_ver01" do
     let(:page) { described_class.new(issue2, nil, 'pageModsBib1') }
 
-    it "returns nil page number for page without one" do
-      expect(page.page_number).to eq nil
+    it "fallback to sequence number on page without page number" do
+      expect(page.page_number).to eq page.page_sequence_number.to_s
     end
 
     it "gets expected sequence number as Integer" do
@@ -61,8 +61,9 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
   describe "sample fixture via Reel XML" do
     let(:page) { described_class.new(reel1, nil, 'targetModsBib1') }
 
-    it "returns nil page number for page without one" do
+    it "return nil page number when page and sequence missing" do
       expect(page.page_number).to eq nil
+      expect(page.page_sequence_number).to eq nil
     end
 
     it "gets expected sequence number as Integer" do

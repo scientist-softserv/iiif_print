@@ -33,6 +33,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
       expect(page).to be_a NewspaperPage
       expect(page.id).not_to be_nil
       expect(issue.members).to include page
+      expect(issue.ordered_members.to_a).to include page
     end
   end
 
@@ -84,24 +85,74 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
       page = adapter.target
       page.reload
       expect(page.container).not_to be_nil
-      expect(page.container.members.map(&:id)).to include page.id
+      expect(page.container.ordered_members.to_a.map(&:id)).to include page.id
     end
   end
 
   describe "file import integration" do
     do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
 
-    it "attaches primary, derivative files", perform_enqueued: do_now_jobs do
-      adapter.ingest
-      page = adapter.target
+    let(:issue_data) do
+      NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue2)
+    end
+
+    let(:page_data_minus_tiff) { issue_data.to_a[0] }
+
+    def check_fileset(page)
       fileset = page.members.select { |m| m.class == FileSet }[0]
       # Reload fileset because jobs have modified:
       fileset.reload
       expect(fileset).not_to be_nil
       expect(fileset.original_file).not_to be_nil
       expect(fileset.original_file.mime_type).to eq 'image/tiff'
-      derivatives = NewspaperWorks::Data::WorkDerivatives.new(page, fileset)
+      expect(fileset.original_file.size).to be > 0
+    end
+
+    def expect_file_assignment_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Assigned primary file to work') }
+      ).once
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Assigned derivative file to work') }
+      ).exactly(3).times
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Beginning file attachment') }
+      ).once
+    end
+
+    def expect_page_import_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Created NewspaperPage work') }
+      ).once
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Saved metadata to NewspaperPage work') }
+      ).once
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |v| v.include?('Linked NewspaperIssue') }
+      ).once
+    end
+
+    it "attaches primary, derivative files", perform_enqueued: do_now_jobs do
+      expect_page_import_logging(adapter)
+      expect_file_assignment_logging(adapter)
+      adapter.ingest
+      page = adapter.target
+      check_fileset(page)
+      derivatives = NewspaperWorks::Data::WorkDerivatives.new(page)
       expect(derivatives.keys).to match_array ["jp2", "xml", "pdf"]
+    end
+
+    # support this use-case for evaluation purposes
+    it "generates TIFF when missing from page", perform_enqueued: do_now_jobs do
+      adapter = described_class.new(page_data_minus_tiff, issue)
+      expect_page_import_logging(adapter)
+      expect(adapter).to receive(:write_log).with(
+        satisfy { |arg| arg.include?('Creating TIFF') },
+        Logger::WARN
+      ).exactly(1).times
+      expect_file_assignment_logging(adapter)
+      expect { adapter.ingest }.not_to raise_error
+      check_fileset(adapter.target)
     end
   end
 end

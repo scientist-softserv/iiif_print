@@ -12,6 +12,8 @@ RSpec.describe NewspaperWorks::TextExtraction::RenderAlto do
     Nokogiri::XML::Schema(File.read(xsdpath))
   end
 
+  let(:page_prefix) { '<Page ID="ID1" PHYSICAL_IMG_NR="1"' }
+
   let(:words) do
     [
       { word: 'If',  x_start: 52, y_start: 13, x_end: 63, y_end: 27 },
@@ -38,6 +40,7 @@ RSpec.describe NewspaperWorks::TextExtraction::RenderAlto do
       expect(output.class).to be String
       expect(output).to include '<alto'
       expect(output).to include '<String'
+      expect(output).to include page_prefix + ' HEIGHT="9600" WIDTH="12000"'
       expect(Nokogiri::XML(output).errors.empty?).to be true
     end
 

@@ -32,6 +32,7 @@ module NewspaperWorks
           final_page_id = doc['id']
         end
       end
+      return documents if next_page_id.nil?
       while next_page_id != final_page_id
         next_page = documents.select { |doc| doc['id'] == next_page_id }.first
         ordered_list.insert(-2, next_page)

@@ -3,6 +3,9 @@ inherit_gem:
 
 inherit_from: .rubocop_fixme.yml
 
+RSpec/ExampleLength:
+  Max: 15
+
 AllCops:
   TargetRubyVersion: 2.1
   DisplayCopNames: true

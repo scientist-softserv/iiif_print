@@ -2,6 +2,8 @@ module NewspaperWorks
   module Ingest
     module NDNP
       class IssueIngester
+        include NewspaperWorks::Logging
+
         attr_accessor :batch, :issue, :target
 
         delegate :path, to: :issue
@@ -23,6 +25,7 @@ module NewspaperWorks
           @issue = issue
           @batch = batch
           @target = nil
+          configure_logger('ingest')
         end
 
         def ingest
@@ -37,13 +40,13 @@ module NewspaperWorks
 
         def ingest_pages
           issue.each do |page|
-            NewspaperWorks::Ingest::NDNP::PageIngester.new(page, @target).ingest
+            page_ingest(page)
           end
         end
 
         private
 
-          def page_ingester(page_data)
+          def page_ingest(page_data)
             NewspaperWorks::Ingest::NDNP::PageIngester.new(
               page_data,
               @target
@@ -70,6 +73,7 @@ module NewspaperWorks
             @target = NewspaperIssue.create
             copy_issue_metadata
             @target.save!
+            write_log("Saved metadata to new NewspaperIssue #{@target.id}")
           end
 
           # @param lccn [String] Library of Congress Control Number
@@ -87,14 +91,32 @@ module NewspaperWorks
             publication.place_of_publication = [uri] unless uri.nil?
           end
 
+          def create_publication(lccn)
+            publication = NewspaperTitle.create
+            copy_publication_title(publication)
+            publication.lccn ||= lccn
+            publication.save!
+            write_log(
+              "Created NewspaperTitle work #{publication.id} for LCCN #{lccn}"
+            )
+            publication
+          end
+
           def find_or_create_linked_publication
             lccn = issue.metadata.lccn
             publication = find_publication(lccn)
-            publication = NewspaperTitle.create if publication.nil?
-            copy_publication_title(publication)
-            publication.lccn ||= lccn
-            publication.members << @target
+            unless publication.nil?
+              write_log(
+                "Found existing NewspaperTitle #{publication.id}, LCCN #{lccn}"
+              )
+            end
+            publication = create_publication(lccn) if publication.nil?
+            publication.ordered_members << @target
             publication.save!
+            write_log(
+              "Linked NewspaperIssue #{@target.id} to "\
+              "NewspaperTitle work #{publication.id}"
+            )
           end
       end
     end
