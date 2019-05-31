@@ -2,6 +2,6 @@
   <h4 class="search-result-title">
     <%= link_to document.title_or_label,
                 hyrax_newspaper_article_path(document.id,
-                                             anchor: iiif_search_anchor(current_search_session.query_params[:q])) %>
+                                             anchor: iiif_search_anchor(current_search_session.query_params)) %>
   </h4>
 </div>

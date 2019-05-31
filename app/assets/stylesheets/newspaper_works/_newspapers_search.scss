@@ -1,0 +1,38 @@
+#newspapers_search_form_wrapper {
+
+  #newspapers_search_form{
+    margin-top: 25px;
+
+    #keyword_input {
+      padding-bottom: 20px;
+    }
+
+    #date_range_limit_wrapper {
+      padding-bottom: 10px;
+
+      .date_input {
+        float: left;
+        margin-right: 20px;
+      }
+    }
+
+    .facet_scrollbox_wrapper {
+      margin-left: 15px;
+    }
+  }
+
+}
+
+#newspapers_search_help_wrapper {
+
+  ul.newspapers_help {
+    font-size: 12px;
+    padding-left: 24px;
+
+    li {
+      padding-bottom:10px;
+    }
+
+  }
+
+}

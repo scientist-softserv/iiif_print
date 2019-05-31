@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# specs to test that install generators have correctly modified CatalogController
 RSpec.describe CatalogController do
   describe 'NewspaperWorks::InstallGenerator#add_facets_to_catalog_controller' do
     subject { described_class.blacklight_config.facet_fields }
@@ -24,5 +25,22 @@ RSpec.describe CatalogController do
       expect(subject['succeeded_by_sim']).not_to be_falsey
     end
     # rubocop:enable RSpec/ExampleLength
+  end
+
+  describe 'NewspaperWorks::BlacklightAdvancedSearchGenerator' do
+    subject { described_class.blacklight_config }
+
+    describe '#update_search_builder' do
+      it 'sets the default SearchBuilder' do
+        expect(subject.search_builder_class).to eq CustomSearchBuilder
+      end
+    end
+
+    describe '#add_newspapers_advanced_config' do
+      it 'adds the advanced_search[:newspapers_search] config' do
+        expect(subject.advanced_search[:newspapers_search]).not_to be_falsey
+        expect(subject.advanced_search[:newspapers_search][:form_solr_parameters]['facet.field']).not_to be_blank
+      end
+    end
   end
 end

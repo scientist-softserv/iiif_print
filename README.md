@@ -94,17 +94,25 @@ _See [wiki](https://github.com/marriott-library/newspaper_works/wiki)_.
 _More here soon!_
 
 ## Application/Site Specific Configuration
+
+#### Config changes made by the installer:
+* In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features
+* Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`
+* Newspaper resource types added to `config/authorities/resource_types.yml`
+
+(It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
+
+#### Config changes you should make after running the installer:
 * In order to use some fields in forms, you will want to make sure you
 have a [username for Geonames](http://www.geonames.org/login),
 and configure that username in the
 `config.geonames_username` value in `config/intitializers/hyrax.rb` of your app.
-- This will help fields such as "Place of Publication" provide autocomplete using the Geonames service/vocabulary.
-  * NewspaperWorks requires that your application's `config/initializers/hyrax.rb` be edited to make uploads optional for (all) work types, by setting `config.work_requires_files = false`.
-  * NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to enable a IIIF viewer, by setting` config.iiif_image_server = true`.    
-  * NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to set the FITS path, by setting `config.fits_path = /location/of/fits.sh`
-  * NewspaperWorks expects that your application's `config/environments/production.rb` be edited to set file server to public, by setting `config.public_file_server.enabled = true`
-  * NewspaperWorks overrides Hyrax's default `:after_create_fileset` event
-handler, in order to attach pre-existing derivatives in some ingest use cases.  The file attachment adapters for NewspaperWorks use this callback to allow programmatic assignment of pre-existing derivative files before the primary file's file set has been created for a new work.  The callback ensures that derivative files are attached, stored using Hyrax file/path naming conventions, once the file set has been created.  Because the Hyrax callback registry only allows single subscribers to any event, application developers who overwrite this handler, or integrate other gems that do likewise, must take care to create a custom composition that ensures all work and queued jobs desired run after this object lifecycle event.
+  * This will help fields such as "Place of Publication" provide autocomplete using the Geonames service/vocabulary.
+* NewspaperWorks requires that your application's `config/initializers/hyrax.rb` be edited to make uploads optional for (all) work types, by setting `config.work_requires_files = false`.
+* NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to enable a IIIF viewer, by setting` config.iiif_image_server = true`.    
+* NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to set the FITS path, by setting `config.fits_path = /location/of/fits.sh`
+* NewspaperWorks expects that your application's `config/environments/production.rb` be edited to set file server to public, by setting `config.public_file_server.enabled = true`
+* NewspaperWorks overrides Hyrax's default `:after_create_fileset` event handler, in order to attach pre-existing derivatives in some ingest use cases.  The file attachment adapters for NewspaperWorks use this callback to allow programmatic assignment of pre-existing derivative files before the primary file's file set has been created for a new work.  The callback ensures that derivative files are attached, stored using Hyrax file/path naming conventions, once the file set has been created.  Because the Hyrax callback registry only allows single subscribers to any event, application developers who overwrite this handler, or integrate other gems that do likewise, must take care to create a custom composition that ensures all work and queued jobs desired run after this object lifecycle event.
 
 ## Development and Testing with Vagrant
 

@@ -23,6 +23,7 @@ SUMMARY
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search'
+  spec.add_dependency 'blacklight_advanced_search', '6.4.1'
   spec.add_dependency 'hyrax', '2.5'
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'rails', '~> 5.0'

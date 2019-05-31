@@ -76,5 +76,12 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
       expect(solr_doc['article_titles_ssim'].first).to eq('Happening now')
     end
   end
+
+  describe '#index_parent_facets' do
+    before { page_indexer.index_parent_facets(@page_for_indexrel.issue, solr_doc) }
+    it 'sets the facet fields correctly' do
+      expect(solr_doc['language_sim']).not_to be_blank
+    end
+  end
   # rubocop:enable RSpec/InstanceVariable
 end

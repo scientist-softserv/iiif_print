@@ -42,4 +42,11 @@ RSpec.describe 'Routes', type: :routing do
       end
     end
   end
+
+  describe 'newspapers_search' do
+    it 'routes to the NewspapersSearch#search page' do
+      expect(get: '/newspapers_search').to route_to(controller: 'newspaper_works/newspapers_search',
+                                                    action: 'search')
+    end
+  end
 end

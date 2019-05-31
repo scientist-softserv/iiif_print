@@ -30,6 +30,7 @@ module NewspaperWorks
       solr_doc['publication_title_ssi'] = newspaper_title.title.first
       publication_unique_id = newspaper_title.send(NewspaperWorks.config.publication_unique_id_property)
       solr_doc['publication_unique_id_ssi'] = publication_unique_id
+      index_parent_facets(newspaper_title, solr_doc)
     end
 
     # index the container info
@@ -58,6 +59,7 @@ module NewspaperWorks
       solr_doc['issue_volume_ssi'] = newspaper_issue.volume
       solr_doc['issue_edition_ssi'] = newspaper_issue.edition || '1'
       solr_doc['issue_number_ssi'] = newspaper_issue.issue_number
+      index_parent_facets(newspaper_issue, solr_doc)
     end
 
     # index the pages info
@@ -104,6 +106,23 @@ module NewspaperWorks
       newspaper_articles.each do |n_article|
         solr_doc['article_ids_ssim'] << n_article.id
         solr_doc['article_titles_ssim'] << n_article.title.first
+      end
+    end
+
+    # index common facet properties
+    # TODO: this could probably be DRY'd out a bit,
+    # overlaps with IndexesPlaceOfPublication#index_pop
+    #
+    # @param parent [NewspaperTitle||NewspaperIssue]
+    # @param solr_doc [Hash] the hash of field data to be pushed to Solr
+    def index_parent_facets(parent, solr_doc)
+      parent_doc = parent.to_solr
+      fields = %w[language_sim place_of_publication_label_sim
+                  place_of_publication_city_sim place_of_publication_county_sim
+                  place_of_publication_state_sim place_of_publication_country_sim
+                  place_of_publication_llsim]
+      fields.each do |field|
+        solr_doc[field] ||= parent_doc[field]
       end
     end
   end
