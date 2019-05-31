@@ -1,7 +1,7 @@
 pt-BR:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-file-text-o'
+      newspaper_page:     'fa fa-newspaper-o'
     select_type:
       newspaper_page:
         name:               "Newspaper Page"

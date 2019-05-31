@@ -1,7 +1,7 @@
 de:
   hyrax:
     icons:
-      newspaper_article:     'fa fa-file-text-o'
+      newspaper_article:     'fa fa-newspaper-o'
     select_type:
       newspaper_article:
         name:               "Newspaper Article"

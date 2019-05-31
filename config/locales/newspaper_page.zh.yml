@@ -1,7 +1,7 @@
 zh:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-file-text-o'
+      newspaper_page:     'fa fa-newspaper-o'
     select_type:
       newspaper_page:
         # TODO: translate `human_name` into Chinese

@@ -4,7 +4,8 @@ module Hyrax
   class NewspaperIssuePresenter < Hyrax::WorkShowPresenter
     include NewspaperWorks::NewspaperCorePresenter
     include NewspaperWorks::TitleInfoPresenter
-    include NewspaperWorks::IiifSearchPresenterBehavior
+    include NewspaperWorks::IiifManifestPresenterBehavior
+
     delegate :volume, :edition, :issue_number, :extent, to: :solr_document
 
     # @return [Boolean] render the UniversalViewer
@@ -47,6 +48,14 @@ module Hyrax
 
       def edition_for_url
         "ed-#{edition ? edition.first : '1'}"
+      end
+
+      def iiif_metadata_fields
+        [:title, :alternative_title, :place_of_publication_label, :issn, :lccn,
+         :oclcnum, :held_by, :volume, :edition, :issue_number, :extent,
+         :publication_date, :resource_type, :creator, :contributor,
+         :description, :license, :rights_statement, :publisher, :language,
+         :identifier]
       end
   end
 end

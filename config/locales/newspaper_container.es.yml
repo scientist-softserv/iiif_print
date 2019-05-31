@@ -1,7 +1,7 @@
 es:
   hyrax:
     icons:
-      newspaper_container:     'fa fa-file-text-o'
+      newspaper_container:     'fa fa-newspaper-o'
     select_type:
       newspaper_container:
         # TODO: translate `human_name` into Spanish

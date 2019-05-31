@@ -1,7 +1,7 @@
 fr:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-file-text-o'
+      newspaper_page:     'fa fa-newspaper-o'
     newspaper_page:
       previous_page: 'Antérieur'
       next_page: 'Suivant'

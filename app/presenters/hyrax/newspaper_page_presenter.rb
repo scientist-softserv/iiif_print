@@ -5,7 +5,7 @@ module Hyrax
     include NewspaperWorks::ScannedMediaPresenter
     include NewspaperWorks::TitleInfoPresenter
     include NewspaperWorks::IssueInfoPresenter
-    include NewspaperWorks::IiifSearchPresenterBehavior
+    include NewspaperWorks::IiifManifestPresenterBehavior
     include NewspaperWorks::PersistentUrlPresenterBehavior
     include NewspaperWorks::PageFinder
 
@@ -61,6 +61,11 @@ module Hyrax
 
       def page_index_for_url
         "seq-#{(get_page_index(id, solr_document['issue_id_ssi']) + 1)}"
+      end
+
+      def iiif_metadata_fields
+        [:title, :text_direction, :page_number, :section, :resource_type,
+         :license, :rights_statement, :identifier]
       end
   end
 end
