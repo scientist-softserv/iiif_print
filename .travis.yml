@@ -33,7 +33,7 @@ before_install:
   - sudo wget -q -O /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/marriott-library/newspaper_works/7052ff3bf58022572870a0720d8c5a705090a833/config/vendor/imagemagick-6-policy.xml
   - sudo wget -q -O /opt/install/fits-1.3.0/xml/fits.xml https://gist.githubusercontent.com/brianmcbride/af3fb21fb50a1331d84eca9a9a170f8f/raw/ebb1a285726e4f5c2309b4f6eceed29fa1369538/fits.xml
 rvm:
-  - 2.5.3
+  - 2.5.5
 
 env:
   global:
@@ -44,7 +44,7 @@ env:
   # It should be sufficient to test only the latest of the patch versions for a minor version, they
   # should be compatible across patch versions (only bug fixes are released in patch versions).
   matrix:
-    - "RAILS_VERSION=5.1.6"
+    - "RAILS_VERSION=5.1.7"
     - "RAILS_VERSION=5.0.7"
 
 services:
