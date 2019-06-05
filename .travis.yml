@@ -26,12 +26,12 @@ before_install:
   - gem update --system
   - gem install bundler
   - google-chrome-stable --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 http://localhost &
-  - sudo wget -P /opt/install https://brussels.lib.utah.edu/FITS/fits-1.3.0.zip
-  - sudo unzip /opt/install/fits-1.3.0.zip -d /opt/install/fits-1.3.0
-  - sudo chmod +x /opt/install/fits-1.3.0/*.sh
-  - sudo ln -s /opt/install/fits-1.3.0/fits.sh /usr/local/bin/fits.sh
+  - sudo wget -P /opt/install https://brussels.lib.utah.edu/FITS/fits-1.4.1.zip
+  - sudo unzip /opt/install/fits-1.4.1.zip -d /opt/install/fits-1.4.1
+  - sudo chmod +x /opt/install/fits-1.4.1/*.sh
+  - sudo ln -s /opt/install/fits-1.4.1/fits.sh /usr/local/bin/fits.sh
   - sudo wget -q -O /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/marriott-library/newspaper_works/7052ff3bf58022572870a0720d8c5a705090a833/config/vendor/imagemagick-6-policy.xml
-  - sudo wget -q -O /opt/install/fits-1.3.0/xml/fits.xml https://gist.githubusercontent.com/brianmcbride/af3fb21fb50a1331d84eca9a9a170f8f/raw/ebb1a285726e4f5c2309b4f6eceed29fa1369538/fits.xml
+  - sudo wget -q -O /opt/install/fits-1.4.1/xml/fits.xml https://gist.githubusercontent.com/brianmcbride/af3fb21fb50a1331d84eca9a9a170f8f/raw/ebb1a285726e4f5c2309b4f6eceed29fa1369538/fits.xml
 rvm:
   - 2.5.5
 
