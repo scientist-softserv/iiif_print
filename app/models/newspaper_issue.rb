@@ -39,10 +39,19 @@ class NewspaperIssue < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  #  - Edition
+  # - Edition name
   property(
-    :edition,
-    predicate: ::RDF::Vocab::BIBO.edition,
+    :edition_name,
+    predicate: ::RDF::Vocab::BF2.editionStatement,
+    multiple: false
+  ) do |index|
+    index.as :stored_searchable
+  end
+
+  # - Edition number / enumeration
+  property(
+    :edition_number,
+    predicate: ::RDF::Vocab::BF2.editionEnumeration,
     multiple: false
   ) do |index|
     index.as :stored_searchable

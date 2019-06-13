@@ -3,7 +3,8 @@
 module Hyrax
   class NewspaperTitlePresenter < Hyrax::WorkShowPresenter
     include NewspaperWorks::NewspaperCorePresenter
-    delegate :edition, :frequency, :preceded_by, :succeeded_by, to: :solr_document
+    delegate :edition_number, :edition_name, :frequency, :preceded_by,
+             :succeeded_by, to: :solr_document
 
     def title_search_params
       { f: { "publication_title_ssi" => title } }

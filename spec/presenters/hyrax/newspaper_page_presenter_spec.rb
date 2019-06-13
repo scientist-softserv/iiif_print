@@ -10,7 +10,7 @@ RSpec.describe Hyrax::NewspaperPagePresenter do
       "height" => "1000px",
       "width" => "800px",
       "issue_id_ssi" => "issue1",
-      "issue_edition_ssi" => '1',
+      "issue_edition_number_ssi" => '1',
       "issue_pubdate_dtsi" => "2017-08-25T00:00:00Z",
       "publication_unique_id_ssi" => "sn1234567",
       'is_following_page_of_ssi' => 'foo',

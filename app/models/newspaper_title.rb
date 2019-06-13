@@ -38,10 +38,10 @@ class NewspaperTitle < ActiveFedora::Base
 
   # == Type-specific properties ==
 
-  # - Edition
+  # - Edition name
   property(
-    :edition,
-    predicate: ::RDF::Vocab::BIBO.edition,
+    :edition_name,
+    predicate: ::RDF::Vocab::BF2.editionStatement,
     multiple: false
   ) do |index|
     index.as :stored_searchable

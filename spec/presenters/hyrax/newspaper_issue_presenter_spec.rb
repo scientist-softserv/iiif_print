@@ -10,7 +10,7 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
   let(:attributes) do
     { "id" => '123456',
       "volume_tesim" => ['8'],
-      "edition_tesim" => ['1'],
+      "edition_number_tesim" => ['1'],
       "issue_number_tesim" => ['1st issue'],
       "extent_tesim" => ["4 pages"],
       "publication_date_dtsim" => ["2017-08-25T00:00:00Z"],
@@ -22,7 +22,7 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
   subject { described_class.new(double, double) }
 
   it { is_expected.to delegate_method(:volume).to(:solr_document) }
-  it { is_expected.to delegate_method(:edition).to(:solr_document) }
+  it { is_expected.to delegate_method(:edition_number).to(:solr_document) }
   it { is_expected.to delegate_method(:issue_number).to(:solr_document) }
   it { is_expected.to delegate_method(:extent).to(:solr_document) }
   it { is_expected.to respond_to(:publication_date) }

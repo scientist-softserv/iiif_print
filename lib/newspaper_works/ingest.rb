@@ -29,5 +29,29 @@ module NewspaperWorks
       return if geonames_id.nil?
       "http://sws.geonames.org/#{geonames_id.text}/"
     end
+
+    def self.find_admin_set(admin_set = nil)
+      return admin_set if admin_set.class == AdminSet
+      admin_set = AdminSet::DEFAULT_ID if admin_set.nil?
+      begin
+        AdminSet.find(admin_set)
+      rescue
+        # only create if default admin set
+        raise unless admin_set == AdminSet::DEFAULT_ID
+        AdminSet.find(AdminSet.find_or_create_default_admin_set_id)
+      end
+    end
+
+    def self.assign_administrative_metadata(work, opts = {})
+      work.depositor = opts.fetch(:email, User.batch_user.user_key)
+      work.admin_set = find_admin_set(opts.fetch(:admin_set, nil))
+      work.visibility = opts.fetch(:visibility, 'open')
+      work.resource_type = ['Newspapers']
+      work.date_modified ||= Hyrax::TimeService.time_in_utc
+      work.date_uploaded ||= work.date_modified
+      work.state = RDF::URI(
+        'http://fedora.info/definitions/1/0/access/ObjState#active'
+      )
+    end
   end
 end

@@ -17,6 +17,15 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
       expect(adapter.path).to eq batch1
       expect(adapter.batch.path).to eq adapter.path
     end
+
+    it "constructs adapter with hash options" do
+      user = User.batch_user.user_key
+      adapter = described_class.new(
+        batch1,
+        depositor: user
+      )
+      expect(adapter.opts[:depositor]).to eq user
+    end
   end
 
   describe "ingests issues" do
@@ -50,11 +59,38 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
       )
     end
 
+    let(:fake_argv) do
+      [
+        'newspaper_works:ingest_ndnp',
+        '--',
+        "--path=#{batch1}"
+      ]
+    end
+
+    let(:fake_argv2) do
+      [
+        'newspaper_works:ingest_ndnp',
+        '--',
+        "--path=#{batch1}",
+        "--admin_set=admin_set/default",
+        "--depositor=#{User.batch_user.user_key}",
+        "--visibility=open"
+      ]
+    end
+
     it "creates ingester from command arguments" do
-      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=#{batch1}"]
       adapter = construct(fake_argv)
       expect(adapter).to be_a described_class
       expect(adapter.path).to eq batch1
+    end
+
+    it "creates ingester from expanded command arguments" do
+      adapter = construct(fake_argv2)
+      expect(adapter).to be_a described_class
+      expect(adapter.path).to eq batch1
+      expect(adapter.opts[:depositor]).to eq User.batch_user.user_key
+      expect(adapter.opts[:visibility]).to eq 'open'
+      expect(adapter.opts[:admin_set]).to eq 'admin_set/default'
     end
 
     it "creates ingester from command with dir path" do

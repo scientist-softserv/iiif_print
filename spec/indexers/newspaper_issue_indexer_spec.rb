@@ -13,7 +13,7 @@ RSpec.describe NewspaperIssueIndexer do
     subject { indexer.generate_solr_document }
 
     it 'adds the default edition field to the Solr document' do
-      expect(subject['edition_tesim']).to eq('1')
+      expect(subject['edition_number_tesim']).to eq('1')
     end
   end
 end

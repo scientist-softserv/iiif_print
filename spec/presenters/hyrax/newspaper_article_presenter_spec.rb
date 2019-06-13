@@ -13,7 +13,7 @@ RSpec.describe Hyrax::NewspaperArticlePresenter do
       "photographer" => ['foo', 'bar'],
       "genre" => ["Editorials"],
       "volume" => ["volume 1"],
-      "edition" => ["1st"],
+      "edition_number" => ["1"],
       "issue_number" => ['1'],
       "geographic_coverage" => ["wide"],
       "extent" => ["vast"],
@@ -31,7 +31,7 @@ RSpec.describe Hyrax::NewspaperArticlePresenter do
   it { is_expected.to delegate_method(:photographer).to(:solr_document) }
   it { is_expected.to delegate_method(:genre).to(:solr_document) }
   it { is_expected.to delegate_method(:volume).to(:solr_document) }
-  it { is_expected.to delegate_method(:edition).to(:solr_document) }
+  it { is_expected.to delegate_method(:edition_number).to(:solr_document) }
   it { is_expected.to delegate_method(:issue_number).to(:solr_document) }
   it { is_expected.to delegate_method(:geographic_coverage).to(:solr_document) }
   it { is_expected.to delegate_method(:extent).to(:solr_document) }

@@ -75,7 +75,7 @@ module NewspaperWorks
         solr_params = ["has_model_ssim:\"NewspaperIssue\""]
         solr_params << "publication_id_ssi:\"#{@title['id']}\""
         solr_params << "publication_date_dtsim:\"#{params[:date]}T00:00:00Z\""
-        solr_params << "edition_tesim:\"#{edition_for_search}\""
+        solr_params << "edition_number_tesim:\"#{edition_for_search}\""
         @issue = find_object(solr_params.join(' AND '))
       end
 

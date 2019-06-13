@@ -67,7 +67,7 @@ module NewspaperWorks
         # @return [String,NilClass] file name or path, or nil.
         def identifier
           matches = page_alto.scan(/<fileName>([^<]*)<\/fileName>/).first
-          matches.size.zero? ? nil : matches[0]
+          matches.size.zero? ? nil : stripped_filename(matches[0])
         end
 
         def height
@@ -79,6 +79,11 @@ module NewspaperWorks
         end
 
         private
+
+          # filename stripped of base path and file extension
+          def stripped_filename(path)
+            File.basename(path).split('.')[0]
+          end
 
           def load_doc
             @doc = @parent.doc unless @parent.nil?

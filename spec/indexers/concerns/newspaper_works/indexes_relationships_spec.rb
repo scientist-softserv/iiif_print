@@ -40,7 +40,7 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
     it 'sets the issue fields correctly' do
       expect(solr_doc['issue_id_ssi']).not_to be_falsey
       expect(solr_doc['issue_title_ssi']).to eq('December 7, 1941')
-      expect(solr_doc['issue_edition_ssi']).to eq('1')
+      expect(solr_doc['issue_edition_number_ssi']).to eq('1')
     end
   end
 

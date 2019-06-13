@@ -7,7 +7,7 @@ RSpec.describe NewspaperWorks::IssueInfoPresenter do
       'issue_title_ssi' => 'bar',
       'issue_pubdate_dtsi' => 'baz',
       'issue_volume_ssi' => 'quux',
-      'issue_edition_ssi' => '123',
+      'issue_edition_number_ssi' => '123',
       'issue_number_ssi' => '456'
     }
   end

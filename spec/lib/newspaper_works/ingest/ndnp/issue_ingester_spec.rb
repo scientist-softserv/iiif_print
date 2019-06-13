@@ -24,16 +24,17 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
     it "constructs adapter with issue source" do
       expect(adapter.issue).to be issue_data
       expect(adapter.path).to eq issue_data.path
-      # default nil batch value when optional value omitted from construction:
-      expect(adapter.batch).to be_nil
       # initially nil target:
       expect(adapter.target).to be_nil
     end
 
-    it "constructs with optional batch reference" do
-      batch = NewspaperWorks::Ingest::NDNP::BatchXMLIngest.new(batch1)
-      adapter = described_class.new(issue_data, batch)
-      expect(adapter.batch).to be batch
+    it "constructs adapter with hash options" do
+      user = User.batch_user.user_key
+      adapter = described_class.new(
+        issue_data,
+        depositor: user
+      )
+      expect(adapter.opts[:depositor]).to eq user
     end
 
     # rubocop:disable RSpec/ExampleLength
@@ -87,16 +88,49 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
   end
 
   describe "metadata access/setting" do
+    def normalized_pubtitle(issue_data)
+      issue_data.metadata.publication_title.strip.split(/ \(/)[0]
+    end
+
+    def expected_title(issue_data)
+      metadata = issue_data.metadata
+      d = DateTime.iso8601(metadata.publication_date).strftime('%B %-d, %Y')
+      "#{normalized_pubtitle(issue_data)}: #{d}"
+    end
+
     it "copies metadata to NewspaperIssue" do
       adapter.construct_issue
       issue = adapter.target
       metadata = issue_data.metadata
-      title = "#{metadata.publication_title} (#{metadata.publication_date})"
-      expect(issue.title).to contain_exactly title
+      expect(issue.title).to contain_exactly expected_title(issue_data)
       expect(issue.lccn).to eq metadata.lccn
       expect(issue.volume).to eq metadata.volume
       expect(issue.publication_date).to eq metadata.publication_date
       expect(issue.issue_number).to eq metadata.issue_number
+    end
+
+    it "sets default administrative metadata with default construction" do
+      adapter.construct_issue
+      issue_asset = adapter.target
+      expect(issue_asset.depositor).to eq User.batch_user.user_key
+      expect(issue_asset.admin_set).to eq AdminSet.find(AdminSet::DEFAULT_ID)
+      expect(issue_asset.visibility).to eq 'open'
+    end
+
+    it "sets custom administrative metadata for issue" do
+      # test one exemplary/representative option:
+      adapter = described_class.new(issue_data, visibility: 'open')
+      adapter.construct_issue
+      expect(adapter.target.visibility).to eq 'open'
+    end
+
+    it "sets custom administrative metadata for constructed publication" do
+      # test one exemplary/representative option:
+      adapter = described_class.new(issue_data, visibility: 'open')
+      adapter.construct_issue
+      publication_asset = adapter.target.publication
+      expect(publication_asset).not_to be_nil
+      expect(publication_asset.visibility).to eq 'open'
     end
   end
 

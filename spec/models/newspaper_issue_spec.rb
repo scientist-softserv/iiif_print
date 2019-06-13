@@ -13,7 +13,8 @@ RSpec.describe NewspaperIssue do
   describe 'Metadata properties' do
     it 'has expected properties' do
       expect(fixture).to respond_to(:volume)
-      expect(fixture).to respond_to(:edition)
+      expect(fixture).to respond_to(:edition_number)
+      expect(fixture).to respond_to(:edition_name)
       expect(fixture).to respond_to(:issue_number)
       expect(fixture).to respond_to(:extent)
       expect(fixture).to respond_to(:publication_date)

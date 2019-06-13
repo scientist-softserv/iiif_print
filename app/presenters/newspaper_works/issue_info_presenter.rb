@@ -19,7 +19,7 @@ module NewspaperWorks
     end
 
     def issue_edition
-      solr_document['issue_edition_ssi']
+      solr_document['issue_edition_number_ssi']
     end
 
     def issue_number

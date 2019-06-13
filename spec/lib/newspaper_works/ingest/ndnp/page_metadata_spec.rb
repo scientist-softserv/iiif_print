@@ -29,8 +29,8 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
     end
 
     it "gets identifier from ALTO as primary file name" do
-      expect(page1.identifier).to eq "/mnt/nash.iarchives.com/data01/jobq/root/projects/production/LeanProcessing/UofU/Park_Record/Park_Record_Set01/tpr_19350705-19380630/ocr/0657b.tif"
-      expect(page2.identifier).to eq "/mnt/nash.iarchives.com/data01/jobq/root/projects/production/LeanProcessing/UofU/Park_Record/Park_Record_Set01/tpr_19350705-19380630/ocr/0656a.tif"
+      expect(page1.identifier).to eq "0657b"
+      expect(page2.identifier).to eq "0656a"
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
     end
 
     it "gets identifier from ALTO as primary file name" do
-      expect(page.identifier).to eq "././0225.tif"
+      expect(page.identifier).to eq "0225"
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
     end
 
     it "gets identifier from ALTO as primary file name" do
-      expect(page.identifier).to eq "./0001.tif"
+      expect(page.identifier).to eq "0001"
     end
   end
 end

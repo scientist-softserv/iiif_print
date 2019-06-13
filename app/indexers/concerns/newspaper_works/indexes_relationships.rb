@@ -57,7 +57,7 @@ module NewspaperWorks
         solr_doc['issue_pubdate_dtsi'] = "#{newspaper_issue.publication_date}T00:00:00Z"
       end
       solr_doc['issue_volume_ssi'] = newspaper_issue.volume
-      solr_doc['issue_edition_ssi'] = newspaper_issue.edition || '1'
+      solr_doc['issue_edition_number_ssi'] = newspaper_issue.edition_number || '1'
       solr_doc['issue_number_ssi'] = newspaper_issue.issue_number
       index_parent_facets(newspaper_issue, solr_doc)
     end

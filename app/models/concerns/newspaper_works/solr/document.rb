@@ -4,8 +4,9 @@ module NewspaperWorks::Solr::Document
                 "page_number", "section", "author", "photographer",
                 "volume", "issue_number", "geographic_coverage",
                 "extent", "publication_date", "height", "width",
-                "edition", "frequency", "preceded_by", "succeeded_by",
-                "publication_date_start", "publication_date_end"].freeze
+                "edition_number", "edition_name", "frequency", "preceded_by",
+                "succeeded_by", "publication_date_start",
+                "publication_date_end"].freeze
 
   def method_missing(m, *args, &block)
     super unless SOLR_NAMES.include? m.to_s

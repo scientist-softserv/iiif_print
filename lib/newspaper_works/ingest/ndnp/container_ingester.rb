@@ -6,14 +6,19 @@ module NewspaperWorks
       #   Responsibile for creating/finding container, linking
       #   to (parent) publication and (child) pages.
       class ContainerIngester
-        attr_accessor :source, :target, :publication
+        include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
+
+        attr_accessor :source, :target, :publication, :opts
 
         # Create ingester in context of source reel data, NewspaperTitle
         # @param source [NewspaperWorks::Ingest::NDNP::ContainerIngest]
         # @param publication [NewspaperTitle] Required publication to link to
-        def initialize(source, publication)
+        # @param opts [Hash]
+        #   ingest options, e.g. administrative metadata
+        def initialize(source, publication, opts = {})
           @source = source
           @publication = publication
+          @opts = opts
           # initially nil, populate w/ NewspaperContainer object via .ingest
           @target = nil
         end
@@ -49,6 +54,7 @@ module NewspaperWorks
           def create_container
             @target = NewspaperContainer.create
             copy_metadata
+            assign_administrative_metadata
             @target.save!
           end
 

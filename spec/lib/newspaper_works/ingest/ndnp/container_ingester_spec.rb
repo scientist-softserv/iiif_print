@@ -88,6 +88,26 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngester do
       expect(reel.publication_date_end).to eq metadata.publication_date_end
     end
 
+    it "sets default administrative metadata with default construction" do
+      adapter = described_class.new(reel_data, linked_publication)
+      adapter.ingest
+      asset = adapter.target
+      expect(asset.depositor).to eq User.batch_user.user_key
+      expect(asset.admin_set).to eq AdminSet.find(AdminSet::DEFAULT_ID)
+      expect(asset.visibility).to eq 'open'
+    end
+
+    it "sets custom administrative metadata" do
+      # test one exemplary/representative option:
+      adapter = described_class.new(
+        reel_data,
+        linked_publication,
+        visibility: 'open'
+      )
+      adapter.ingest
+      expect(adapter.target.visibility).to eq 'open'
+    end
+
     it "finds or creates container asset for reel" do
       # No initial container for thre reel id, per before block above:
       expect(NewspaperContainer.where(identifier: sn).size).to eq 0

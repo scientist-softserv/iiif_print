@@ -1,16 +1,19 @@
 module NewspaperWorks
   module Ingest
     module NDNP
+      # rubocop:disable Metrics/ClassLength
       class IssueIngester
         include NewspaperWorks::Logging
+        include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
 
-        attr_accessor :batch, :issue, :target
+        attr_accessor :issue, :target, :opts
 
         delegate :path, to: :issue
 
         COPY_FIELDS = [
           :lccn,
-          :edition,
+          :edition_number,
+          :edition_name,
           :volume,
           :publication_date,
           :held_by,
@@ -19,11 +22,11 @@ module NewspaperWorks
 
         # @param issue [NewspaperWorks::Ingest::NDNP::IssueIngest]
         #   source issue data
-        # @param batch [NewspaperWorks::Ingest::NDNP::BatchIngest, NilClass]
-        #   source batch data (optional)
-        def initialize(issue, batch = nil)
+        # @param opts [Hash]
+        #   ingest options, e.g. administrative metadata
+        def initialize(issue, opts = {})
           @issue = issue
-          @batch = batch
+          @opts = opts
           @target = nil
           configure_logger('ingest')
         end
@@ -40,22 +43,27 @@ module NewspaperWorks
 
         def ingest_pages
           issue.each do |page|
-            page_ingest(page)
+            page_ingester(page).ingest
           end
         end
 
         private
 
-          def page_ingest(page_data)
+          def page_ingester(page_data)
             NewspaperWorks::Ingest::NDNP::PageIngester.new(
               page_data,
-              @target
-            ).ingest
+              @target,
+              @opts
+            )
+          end
+
+          def publication_date
+            parsed = DateTime.iso8601(issue.metadata.publication_date)
+            parsed.strftime('%B %-d, %Y')
           end
 
           def issue_title
-            meta = issue.metadata
-            "#{meta.publication_title} (#{meta.publication_date})"
+            "#{publication_title(issue)}: #{publication_date}"
           end
 
           def copy_issue_metadata
@@ -72,6 +80,7 @@ module NewspaperWorks
           def create_issue
             @target = NewspaperIssue.create
             copy_issue_metadata
+            assign_administrative_metadata
             @target.save!
             write_log("Saved metadata to new NewspaperIssue #{@target.id}")
           end
@@ -83,9 +92,15 @@ module NewspaperWorks
             NewspaperTitle.where(lccn: lccn).first
           end
 
+          # Singular string title for publication, without place description
+          # @return [String]
+          def publication_title(issue)
+            issue.metadata.publication_title.strip.split(/ \(/)[0]
+          end
+
           def copy_publication_title(publication)
             complete_pubtitle = issue.metadata.publication_title.strip
-            publication.title = [complete_pubtitle.split(/ \(/)[0]]
+            publication.title = [publication_title(issue)]
             place_name = complete_pubtitle.split(/ [\(]/)[1].split(')')[0]
             uri = NewspaperWorks::Ingest.geonames_place_uri(place_name)
             publication.place_of_publication = [uri] unless uri.nil?
@@ -95,6 +110,7 @@ module NewspaperWorks
             publication = NewspaperTitle.create
             copy_publication_title(publication)
             publication.lccn ||= lccn
+            assign_administrative_metadata(publication)
             publication.save!
             write_log(
               "Created NewspaperTitle work #{publication.id} for LCCN #{lccn}"
@@ -119,6 +135,7 @@ module NewspaperWorks
             )
           end
       end
+      # rubocop:enable Metrics/ClassLength
     end
   end
 end

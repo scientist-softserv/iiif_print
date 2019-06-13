@@ -35,11 +35,36 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
       expect(issue.members).to include page
       expect(issue.ordered_members.to_a).to include page
     end
+
+    it "constructs adapter with hash options" do
+      user = User.batch_user.user_key
+      adapter = described_class.new(
+        page_data,
+        issue,
+        depositor: user
+      )
+      expect(adapter.opts[:depositor]).to eq user
+    end
   end
 
   describe "metadata access/setting" do
     let(:expected_title) do
       "#{issue.title.first}: Page #{metadata.page_number}"
+    end
+
+    it "sets default administrative metadata with default construction" do
+      adapter.construct_page
+      asset = adapter.target
+      expect(asset.depositor).to eq User.batch_user.user_key
+      expect(asset.admin_set).to eq AdminSet.find(AdminSet::DEFAULT_ID)
+      expect(asset.visibility).to eq 'open'
+    end
+
+    it "sets custom administrative metadata" do
+      # test one exemplary/representative option:
+      adapter = described_class.new(page_data, issue, visibility: 'open')
+      adapter.construct_page
+      expect(adapter.target.visibility).to eq 'open'
     end
 
     it "copies metadata to NewspaperPage" do

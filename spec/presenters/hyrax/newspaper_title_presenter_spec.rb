@@ -7,7 +7,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   before(:all) do
     @publication = NewspaperTitle.new
     @publication.title = ["Wall Street Journal"]
-    @publication.edition = "1st"
+    @publication.edition_name = "1st"
     @publication.frequency = ["often"]
     @publication.preceded_by = ["Something"]
     @publication.succeeded_by = ["Something Else"]
@@ -58,7 +58,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   it { is_expected.to delegate_method(:oclcnum).to(:solr_document) }
   it { is_expected.to delegate_method(:held_by).to(:solr_document) }
 
-  it { is_expected.to delegate_method(:edition).to(:solr_document) }
+  it { is_expected.to delegate_method(:edition_name).to(:solr_document) }
   it { is_expected.to delegate_method(:frequency).to(:solr_document) }
   it { is_expected.to delegate_method(:preceded_by).to(:solr_document) }
   it { is_expected.to delegate_method(:succeeded_by).to(:solr_document) }

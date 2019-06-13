@@ -1,4 +1,5 @@
 require 'newspaper_works/ingest/ndnp/ndnp_mets_helper'
+require 'newspaper_works/ingest/ndnp/ndnp_asset_helper'
 require 'newspaper_works/ingest/ndnp/page_ingest'
 require 'newspaper_works/ingest/ndnp/page_ingester'
 require 'newspaper_works/ingest/ndnp/page_metadata'

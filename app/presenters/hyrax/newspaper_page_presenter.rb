@@ -56,7 +56,7 @@ module Hyrax
       end
 
       def edition_for_url
-        "ed-#{solr_document['issue_edition_ssi'] || '1'}"
+        "ed-#{solr_document['issue_edition_number_ssi'] || '1'}"
       end
 
       def page_index_for_url

@@ -43,18 +43,18 @@ module NewspaperWorks
           result.text
         end
 
-        # Edition name, with fallback to edition number
-        #   Edition name is optional ("caption" / "label"), but is
-        #     the preferred notion of "edition" field in newspaper_works,
-        #     and for the bibo:edition predicate.
-        #   Edition number (aka "Edition Order" in NDNP specs) is mandatory
-        #     but also arbitrary. We only use this as a fallback value,
-        #     represented in String form, only when edition name is unavailable.
-        # @return [String]
-        def edition
+        # Edition name
+        #   Edition name is optional ("caption" / "label") is optional
+        #     in NDNP, but as it may be used as a label for readability.
+        # @return [String,NilClass]
+        def edition_name
           ed_name = xpath("//mods:detail[@type='edition']/mods:caption")
           return ed_name.text unless ed_name.size.zero?
-          # fallback to edition number if name unavailable:
+        end
+
+        # Edition name, with fallback to edition number (mandatory)
+        # @return [String]
+        def edition_number
           xpath("//mods:detail[@type='edition']/mods:number").text
         end
 

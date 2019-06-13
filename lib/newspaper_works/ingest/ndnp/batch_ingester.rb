@@ -8,17 +8,17 @@ module NewspaperWorks
       class BatchIngester
         include NewspaperWorks::Logging
 
-        attr_accessor :path, :batch
+        attr_accessor :path, :batch, :opts
 
         # alternate constructor from ARGV
         # @param options [Array<String>]
         def self.from_command(options, cmd_name)
-          path = batch_path(options, cmd_name)
+          path, opts = batch_path(options, cmd_name)
           missing_path(cmd_name) if path.nil?
           path = xml_path(path)
           missing_path(cmd_name, "Not found: #{path}") unless File.exist?(path)
           Hyrax.config.whitelisted_ingest_dirs.push(File.dirname(path))
-          new(path)
+          new(path, opts)
         end
 
         def self.missing_path(cmd_name, msg = "Missing path argument")
@@ -31,14 +31,18 @@ module NewspaperWorks
 
         def self.batch_path(options, cmd_name)
           path = nil
+          params = {}
           parser = OptionParser.new
           args = parser.order!(options) {}
           parser.banner = "Usage: #{cmd_name} -- --path=PATH"
           parser.on('-i PATH', '--path PATH') do |p|
             path = p
           end
-          parser.parse!(args)
-          path
+          parser.on('--admin_set=ADMIN_SET')
+          parser.on('--depositor=DEPOSITOR')
+          parser.on('--visibility=VISIBILITY')
+          parser.parse!(args, into: params)
+          [path, params]
         end
 
         def self.xml_path(path)
@@ -49,9 +53,14 @@ module NewspaperWorks
           batch_xml_path.find { |f| f.end_with?('_1.xml') } || batch_xml_path[0]
         end
 
-        def initialize(path)
+        # @param path [String] path to batch xml or directory
+        # @param opts [Hash]
+        #   global ingest options, to be passed to ingester components,
+        #   may include administrative metadata.
+        def initialize(path, opts = {})
           @path = self.class.xml_path(path)
           raise IOError, "No batch file found: #{path}" if @path.empty?
+          @opts = opts
           @batch = batch_enumerator
           configure_logger('ingest')
         end
@@ -74,7 +83,7 @@ module NewspaperWorks
           end
 
           def issue_ingester(issue)
-            NewspaperWorks::Ingest::NDNP::IssueIngester.new(issue, batch)
+            NewspaperWorks::Ingest::NDNP::IssueIngester.new(issue, @opts)
           end
 
           def normalize_date(v)

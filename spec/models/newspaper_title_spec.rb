@@ -12,7 +12,7 @@ RSpec.describe NewspaperTitle do
 
   describe 'Metadata and properties' do
     it 'class has expected properties' do
-      expect(fixture).to respond_to(:edition)
+      expect(fixture).to respond_to(:edition_name)
       expect(fixture).to respond_to(:frequency)
       expect(fixture).to respond_to(:preceded_by)
       expect(fixture).to respond_to(:succeeded_by)

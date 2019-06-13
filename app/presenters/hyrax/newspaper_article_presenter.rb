@@ -8,8 +8,9 @@ module Hyrax
     include NewspaperWorks::IssueInfoPresenter
     include NewspaperWorks::IiifManifestPresenterBehavior
 
-    delegate :author, :photographer, :volume, :edition, :issue_number,
-             :geographic_coverage, :extent, :genre, to: :solr_document
+    delegate :author, :photographer, :volume, :edition_number,
+             :edition_name, :issue_number, :geographic_coverage, :extent,
+             :genre, to: :solr_document
 
     def publication_date
       solr_document["publication_date_dtsim"]

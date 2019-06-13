@@ -12,9 +12,9 @@ class NewspaperIssueIndexer < NewspaperWorks::NewspaperCoreIndexer
   # Uncomment this block if you want to add custom indexing behavior:
   def generate_solr_document
     super.tap do |solr_doc|
-      # if edition is not set, add a default
+      # if edition number is not set, add a default
       # to support ChronAm-style URL pattern linking
-      solr_doc['edition_tesim'] ||= '1'
+      solr_doc['edition_number_tesim'] ||= '1'
     end
   end
 end

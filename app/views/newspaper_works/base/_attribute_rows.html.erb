@@ -20,7 +20,8 @@
 <%= presenter.attribute_to_html(:extent, html_dl: true) %>
 <%= presenter.attribute_to_html(:publication_date, render_as: :date, html_dl: true) %>
 <%# newspaper_title attributes %>
-<%= presenter.attribute_to_html(:edition, html_dl: true) %>
+<%= presenter.attribute_to_html(:edition_number, html_dl: true) %>
+<%= presenter.attribute_to_html(:edition_name, html_dl: true) %>
 <%= presenter.attribute_to_html(:frequency, html_dl: true) %>
 <%= presenter.attribute_to_html(:preceded_by, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:succeeded_by, render_as: :faceted, html_dl: true) %>

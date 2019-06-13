@@ -23,7 +23,7 @@ RSpec.describe Hyrax::NewspaperTitleForm do
     it do
       is_expected.to eq [:license, :rights_statement, :publisher, :identifier,
                          :place_of_publication, :issn, :lccn, :oclcnum,
-                         :alternative_title, :edition, :frequency,
+                         :alternative_title, :edition_name, :frequency,
                          :preceded_by, :succeeded_by,
                          :publication_date_start, :publication_date_end]
     end
