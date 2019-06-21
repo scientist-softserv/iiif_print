@@ -38,7 +38,7 @@ The Newspapers in Samvera is an IMLS grant funded project to develop newspaper s
 We are currently working on adding and updating documentation on our [Project Wiki](https://github.com/marriott-library/newspaper_works/wiki)
 
 # Overview
-The Newspaper Works gem provides work type models and administrative functionality for Hyrax-based Samvera applications in the space of scanned newspaper media.  This gem can be included in a Digital Asset Management application based on Hyrax 2.5
+The Newspaper Works gem provides work type models and administrative functionality for Hyrax-based Samvera applications in the space of scanned newspaper media.  This gem can be included in a Digital Asset Management application based on Hyrax 2.5.1
 
 ## Purpose, Use, and Aims
 This gem, while not a stand-alone application, can be integrated into an application based on Hyrax 2.5 easily to support a variety of cases for management, ingest, and archiving of primarily scanned (historic) newspaper archives.
@@ -51,9 +51,9 @@ A public testing site is available for those interested in testing out the newsp
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) >=2.4
-  * [Rails](https://rubyonrails.org/) 5.1.6
+  * [Rails](https://rubyonrails.org/) 5.1.7
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) 2.5
+  * [Hyrax](https://github.com/samvera/hyrax) 2.5.1
     - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
   * A Hyrax-based Rails application.
     * newspaper_works is a gem/engine that can extend your application.
@@ -77,7 +77,7 @@ This model was greatly informed by earlier efforts from National Library of Wale
 [Detailed metadata model documents](https://wiki.duraspace.org/display/samvera/PCDM+metadata+model+for+Newspapers)
 
 # Installing, Developing, and Testing
-Newspaper_works easily integrates with your Hyrax 2.5 applications.
+Newspaper_works easily integrates with your Hyrax 2.5.1 applications.
 
 ## Extending and Using
 
@@ -125,26 +125,26 @@ Additional information regarding development and testing environments setup and 
 
 ### Test Environment Setup (provisioning of virtual machine)
 
-1. Clone newspaper works samvera-vagrant `git clone https://github.com/marriott-library/samvera-vagrant.git`
-2. Change the directory to the repository `cd samvera-vagrant`
+1. Clone newspaper works samvera-newspapers-vagrant `git clone https://github.com/marriott-library/samvera-newspapers-vagrant.git`
+2. Change the directory to the repository `cd samvera-newspapers-vagrant`
 3. Provision vagrant box by running `vagrant up`
 4. Shell into the machine with `vagrant ssh` or `ssh -p 2222 vagrant@localhost`
 
 ### Using/testing the Newspaper_works application with Vagrant
-* Ensure you're in the samvera-vagrant directory
+* Ensure you're in the samvera-newspapers-vagrant directory
 * Start vagrant box provisioning (incase you have not provisioned the virtual machine)
   - `vagrant up`
 * Shell into vagrant box **three times**
   - `vagrant ssh`
 * First shell (start fcrepo_wrapper)
-  - `cd /home/ubuntu/newspaper_works fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
+  - `cd /home/vagrant/newspaper_works fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
 * Second shell (start solr_wrapper)
-  - `cd /home/ubuntu/newspaper_works solr_wrapper --config config/solr_wrapper_test.yml`
+  - `cd /home/vagrant/newspaper_works solr_wrapper --config config/solr_wrapper_test.yml`
 * Third shell testing and development
 * Run spec tests
-  - `cd /home/ubuntu/newspaper_works rake spec`
+  - `cd /home/vagrant/newspaper_works rake spec`
 * Run rails console
-  - `cd /home/ubuntu/newspaper_works rails s`
+  - `cd /home/vagrant/newspaper_works rails s`
 
 ## Development and testing setup
 
