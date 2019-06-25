@@ -58,7 +58,7 @@ module NewspaperWorks
       return if IO.read('app/controllers/catalog_controller.rb').include?('include BlacklightAdvancedSearch::Controller')
       say_status('info', 'INSTALLING BLACKLIGHT ADVANCED SEARCH', :blue)
       search_form_path = 'app/views/catalog/_search_form.html.erb'
-      existing_search_form = File.exists?(search_form_path) ? true : false
+      existing_search_form = File.exist?(search_form_path) ? true : false
       generate 'blacklight_advanced_search:install', '--force'
       remove_file search_form_path unless existing_search_form
     end
@@ -102,6 +102,15 @@ module NewspaperWorks
       end
     end
     # rubocop:enable Metrics/MethodLength
+
+    def add_pubdate_sort_to_catalog_controller
+      marker = 'config.add_sort_field "#{modified_field} asc", label: "date modified \u25B2"'
+      inject_into_file 'app/controllers/catalog_controller.rb', after: marker do
+        "\n\n    # NewspaperWorks sort fields\n"\
+        '    config.add_sort_field "publication_date_dtsim desc", label: "publication date \u25BC"
+    config.add_sort_field "publication_date_dtsim asc", label: "publication date \u25B2"'
+      end
+    end
 
     def inject_configuration
       copy_file 'config/initializers/newspaper_works.rb'

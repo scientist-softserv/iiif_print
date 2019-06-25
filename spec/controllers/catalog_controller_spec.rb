@@ -11,7 +11,6 @@ RSpec.describe CatalogController do
       expect(subject['genre_sim'].label).to eq('Article type')
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it 'has definitions for non-displaying facet fields' do
       expect(subject['place_of_publication_label_sim']).not_to be_falsey
       expect(subject['issn_sim']).not_to be_falsey
@@ -24,7 +23,15 @@ RSpec.describe CatalogController do
       expect(subject['preceded_by_sim']).not_to be_falsey
       expect(subject['succeeded_by_sim']).not_to be_falsey
     end
-    # rubocop:enable RSpec/ExampleLength
+  end
+
+  describe 'NewspaperWorks::InstallGenerator#add_pubdate_sort_to_catalog_controller' do
+    subject { described_class.blacklight_config.sort_fields }
+
+    it 'has NewspaperWorks sort fields' do
+      expect(subject['publication_date_dtsim asc'].class).to eq Blacklight::Configuration::SortField
+      expect(subject['publication_date_dtsim desc'].field).to eq 'publication_date_dtsim desc'
+    end
   end
 
   describe 'NewspaperWorks::BlacklightAdvancedSearchGenerator' do

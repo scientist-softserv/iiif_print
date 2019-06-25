@@ -5,7 +5,7 @@ RSpec.describe NewspaperWorks::IssueInfoPresenter do
     {
       'issue_id_ssi' => 'foo',
       'issue_title_ssi' => 'bar',
-      'issue_pubdate_dtsi' => 'baz',
+      'publication_date_dtsim' => ['baz'],
       'issue_volume_ssi' => 'quux',
       'issue_edition_number_ssi' => '123',
       'issue_number_ssi' => '456'
@@ -25,9 +25,9 @@ RSpec.describe NewspaperWorks::IssueInfoPresenter do
     end
   end
 
-  describe '#issue_pubdate' do
+  describe '#publication_date' do
     it 'returns the correct value' do
-      expect(subject.issue_pubdate).to eq 'baz'
+      expect(subject.publication_date).to eq 'baz'
     end
   end
 

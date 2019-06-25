@@ -13,7 +13,7 @@ module Hyrax
              :genre, to: :solr_document
 
     def publication_date
-      solr_document["publication_date_dtsim"]
+      solr_document["publication_date_dtsim"]&.first
     end
 
     def page_ids

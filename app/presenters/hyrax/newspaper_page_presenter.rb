@@ -51,8 +51,8 @@ module Hyrax
       end
 
       def issue_date_for_url
-        return nil unless solr_document['issue_pubdate_dtsi']
-        solr_document['issue_pubdate_dtsi'].match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
+        return nil unless publication_date
+        publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
       end
 
       def edition_for_url

@@ -79,6 +79,7 @@ def model_fixtures(target_type)
   publication.lccn = 'sn1234567'
   issue1 = NewspaperIssue.new
   issue1.title = ['December 7, 1941']
+  issue1.publication_date = '1941-12-07'
   issue1.resource_type = ["newspaper"]
   issue1.language = ["eng"]
   issue1.held_by = "Marriott Library"

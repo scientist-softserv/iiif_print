@@ -11,7 +11,7 @@ module Hyrax
     end
 
     def front_page_search_params
-      { f: { "publication_title_ssi" => title, "first_page_bsi" => [true] } }
+      { f: { "publication_title_ssi" => title, "first_page_bsi" => [true] }, sort: 'publication_date_dtsim asc' }
     end
 
     def issues

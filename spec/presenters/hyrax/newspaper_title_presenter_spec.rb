@@ -74,7 +74,8 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     subject { presenter.front_page_search_params }
     it 'will return solr query parameters for locating every first page associated with the title' do
       expect(subject).to contain_exactly([:f, "publication_title_ssi" => ["Wall Street Journal"],
-                                              "first_page_bsi" => [true]])
+                                              "first_page_bsi" => [true]],
+                                         [:sort, "publication_date_dtsim asc"])
     end
   end
 

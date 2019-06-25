@@ -54,7 +54,7 @@ module NewspaperWorks
       solr_doc['issue_id_ssi'] = newspaper_issue.id
       solr_doc['issue_title_ssi'] = newspaper_issue.title.first
       if newspaper_issue.publication_date.present?
-        solr_doc['issue_pubdate_dtsi'] = "#{newspaper_issue.publication_date}T00:00:00Z"
+        solr_doc['publication_date_dtsim'] ||= ["#{newspaper_issue.publication_date}T00:00:00Z"]
       end
       solr_doc['issue_volume_ssi'] = newspaper_issue.volume
       solr_doc['issue_edition_number_ssi'] = newspaper_issue.edition_number || '1'

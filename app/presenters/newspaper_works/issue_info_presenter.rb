@@ -10,8 +10,8 @@ module NewspaperWorks
       solr_document['issue_title_ssi']
     end
 
-    def issue_pubdate
-      solr_document['issue_pubdate_dtsi']
+    def publication_date
+      solr_document['publication_date_dtsim']&.first
     end
 
     def issue_volume
