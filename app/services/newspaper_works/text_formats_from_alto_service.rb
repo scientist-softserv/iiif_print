@@ -58,10 +58,12 @@ module NewspaperWorks
       # Image width from characterized primary file helps ensure proper scaling:
       file = @file_set.original_file
       width = file.nil? ? nil : file.width[0].to_i
+      height = file.nil? ? nil : file.height[0].to_i
       # ALTOReader is responsible for transcoding, this class just saves result
       reader = NewspaperWorks::TextExtraction::AltoReader.new(
         source_file,
-        width
+        width,
+        height
       )
       save_derivative('json', reader.json)
       save_derivative('txt', reader.text)

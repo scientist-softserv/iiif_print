@@ -1,5 +1,5 @@
 <div class="col-md-2">
-  <div class="list-thumbnail">
+  <div class="list-thumbnail" data-fileset="<%= document.file_set_ids&.first %>" data-query="<%= highlight_matches(document, 'all_text_tsimv', 'em') || search_query(current_search_session.query_params) %>">
     <%= render_newspaper_thumbnail_tag(document,
                                        current_search_session.query_params) %>
   </div>

@@ -25,27 +25,39 @@ module NewspaperWorks
         ##
         # return a string like "#xywh=100,100,250,20"
         # corresponding to coordinates of query term on image
-        # local implementation expected, value returned below is just a placeholder
         # @return [String]
         def coordinates
-          default_coords = '#xywh=0,0,0,0'
-          coords_data = coordinates_raw
-          return default_coords if query.blank? || coords_data.blank?
-          coords_json = JSON.parse(coords_data)
-          return default_coords unless coords_json['words']
-          matches = coords_json['words'].select do |k, _v|
-            k['word'].downcase =~ /#{query.downcase}/
+          return default_coords if query.blank?
+          coords_json = fetch_and_parse_coords
+          return default_coords unless coords_json && coords_json['coords']
+          query_terms = query.split(' ').map(&:downcase)
+          matches = coords_json['coords'].select do |k, _v|
+            k.downcase =~ /(#{query_terms.join('|')})/
           end
           return default_coords if matches.blank?
-          coords_array = matches[hl_index]['coordinates']
+          coords_array = matches.values.flatten(1)[hl_index]
+          return default unless coords_array
           "#xywh=#{coords_array.join(',')}"
         end
 
         ##
         # return the JSON word-coordinates file contents
+        # @return [JSON]
+        def fetch_and_parse_coords
+          coords = NewspaperWorks::Data::WorkDerivatives.new(file_set_id).data('json')
+          return nil if coords.blank?
+          begin
+            JSON.parse(coords)
+          rescue JSON::ParserError
+            nil
+          end
+        end
+
+        ##
+        # a default set of coordinates
         # @return [String]
-        def coordinates_raw
-          NewspaperWorks::Data::WorkDerivatives.new(file_set_id).data('json')
+        def default_coords
+          '#xywh=0,0,0,0'
         end
 
         ##

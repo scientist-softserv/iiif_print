@@ -59,8 +59,10 @@ module NewspaperWorks
 
       def word_json
         save_words = words.map { |w| normalized_coordinate(w) }
-        payload = { words: save_words }
-        JSON.generate(payload)
+        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(save_words,
+                                                                        width,
+                                                                        height)
+        builder.to_json
       end
 
       def plain

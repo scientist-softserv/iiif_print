@@ -12,6 +12,7 @@ RSpec.describe 'catalog/_index_gallery_newspaper_page_wrapper.html.erb', type: :
   end
 
   before do
+    allow(document).to receive(:has_highlight_field?).and_return(false)
     # we need without_partial_double_verification or we get error:
     # View doesn't implement #current_search_session
     without_partial_double_verification do
@@ -26,5 +27,10 @@ RSpec.describe 'catalog/_index_gallery_newspaper_page_wrapper.html.erb', type: :
   it 'renders links with the IIIF search anchor' do
     expect(page).to have_link(document[:title_tesim].first,
                               href: "/concern/newspaper_pages/#{document[:id]}#?h=#{query}")
+  end
+
+  it 'has data attributes for thumbnail highlighting' do
+    expect(page).to have_selector("div[data-fileset='#{document[:file_set_ids_ssim].first}']")
+    expect(page).to have_selector("div[data-query='#{query}']")
   end
 end

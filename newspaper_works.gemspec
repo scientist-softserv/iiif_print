@@ -31,6 +31,7 @@ SUMMARY
 
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'capybara', '~> 2.4', '< 2.18.0'
+  spec.add_development_dependency 'chromedriver-helper', '~> 2.1'
   spec.add_development_dependency 'engine_cart', '~> 2.2'
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency "faraday"
@@ -39,6 +40,8 @@ SUMMARY
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
   spec.add_development_dependency 'rspec-activemodel-mocks'
+  spec.add_development_dependency 'selenium-webdriver'
   spec.add_development_dependency 'shoulda-matchers', '~> 3.1'
   spec.add_development_dependency 'solr_wrapper', '>= 1.1', '< 3.0'
+  spec.add_development_dependency 'webdrivers', '~> 3.0'
 end

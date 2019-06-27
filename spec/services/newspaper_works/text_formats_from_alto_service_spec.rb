@@ -118,12 +118,12 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
       service = described_class.new(file_set)
       service.create_derivatives('/a/path/here/needed/but/will/not/matter')
       coords = JSON.parse(derivatives_of(work).data('json'))
-      word = coords['words'].select { |v| v['word'] == 'Bethesda' }[0]
+      word = coords['coords'].select { |k, _v| k == 'Bethesda' }
       # test against known scaled coordinate of OCR data:
       #   This roughly matches unscaled ALTO data for token 'Bethesda'
       #   in spec/fixtures/files/ocr_alto.xml, with the disclaimer that
       #   round-trip rounding error of 1px is noted for VPOS.
-      expect(word['coordinates']).to eq [16, 665, 78, 16]
+      expect(word['Bethesda']).to eq [[16, 665, 78, 16]]
     end
   end
 end

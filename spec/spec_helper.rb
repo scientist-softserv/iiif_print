@@ -20,6 +20,27 @@ require 'rails-controller-testing'
 require 'rspec/rails'
 require 'support/controller_level_helpers'
 require 'rspec/active_model/mocks'
+require 'selenium-webdriver'
+require 'webdrivers'
+
+# @note In January 2018, TravisCI disabled Chrome sandboxing in its Linux
+#       container build environments to mitigate Meltdown/Spectre
+#       vulnerabilities, at which point Hyrax could no longer use the
+#       Capybara-provided :selenium_chrome_headless driver (which does not
+#       include the `--no-sandbox` argument).
+Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options.args << '--headless'
+  browser_options.args << '--disable-gpu'
+  browser_options.args << '--no-sandbox'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
+
+Capybara.default_driver = :rack_test # This is a faster driver
+Capybara.javascript_driver = :selenium_chrome_headless_sandboxless # This is slower
+
+# FIXME: Pin to older version of chromedriver to avoid issue with clicking non-visible elements
+Webdrivers::Chromedriver.required_version = '72.0.3626.69'
 
 ActiveJob::Base.queue_adapter = :test
 
@@ -50,6 +71,17 @@ RSpec.configure do |config|
 
   config.include(ControllerLevelHelpers, type: :view)
   config.before(:each, type: :view) { initialize_controller_helpers(view) }
+
+  config.before(:all, type: :feature) do
+    # Assets take a long time to compile. This causes two problems:
+    # 1) the profile will show the first feature test taking much longer than it
+    #    normally would.
+    # 2) The first feature test will trigger rack-timeout
+    #
+    # Precompile the assets to prevent these issues.
+    visit "/assets/application.css"
+    visit "/assets/application.js"
+  end
 
   config.include EngineRoutes, type: :controller
 

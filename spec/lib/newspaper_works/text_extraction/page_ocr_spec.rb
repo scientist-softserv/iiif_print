@@ -19,6 +19,7 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
   let(:example_mono_tiff) { File.join(fixture_path, 'ocr_mono.tiff') }
   let(:example_color_tiff) { File.join(fixture_path, 'ocr_color.tiff') }
   let(:example_gray_jp2) { File.join(fixture_path, 'ocr_gray.jp2') }
+  let(:ocr_from_gray_tiff) { described_class.new(example_gray_tiff) }
 
   describe "performs OCR" do
     def match_ocr_expectations(words)
@@ -31,8 +32,7 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
     end
 
     it "gets words and coordinates from grayscale source" do
-      ocr = described_class.new(example_gray_tiff)
-      match_ocr_expectations(ocr.words)
+      match_ocr_expectations(ocr_from_gray_tiff.words)
     end
 
     it "gets words and coordinates from one-bit source" do
@@ -53,8 +53,7 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
 
   describe "turns image into ALTO" do
     it "takes grayscale tiff, outputs valid ALTO, geometry" do
-      ocr = described_class.new(example_gray_tiff)
-      alto = ocr.alto
+      alto = ocr_from_gray_tiff.alto
       document = Nokogiri::XML(alto)
       errors = altoxsd.validate(document)
       expect(errors.length).to eq 0
@@ -65,22 +64,21 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
 
   describe "plain text" do
     it "makes plain text available for image" do
-      ocr = described_class.new(example_gray_tiff)
-      plain = ocr.plain
+      plain = ocr_from_gray_tiff.plain
       expect(plain.class).to be String
       expect(plain.length).to be > 0
     end
   end
 
   describe "JSON word coordinates" do
-    it "makes simple JSON word coordinates" do
-      ocr = described_class.new(example_gray_tiff)
-      parsed = JSON.parse(ocr.word_json)
-      expect(parsed['words'].length).to be > 1
-      word = ocr.words[0]
-      word1 = parsed['words'][0]
-      expect(word1['coordinates'][2]).to eq word[:x_end] - word[:x_start]
-      expect(word1['coordinates'][3]).to eq word[:y_end] - word[:y_start]
+    it "passes properly formatted data to WordCoordsBuilder and receives output" do
+      parsed = JSON.parse(ocr_from_gray_tiff.word_json)
+      expect(parsed['coords'].length).to be > 1
+      word = ocr_from_gray_tiff.words[0]
+      word1 = parsed['coords'][word[:word]]
+      word1_coords = word1[0]
+      expect(word1_coords[2]).to eq word[:x_end] - word[:x_start]
+      expect(word1_coords[3]).to eq word[:y_end] - word[:y_start]
     end
   end
 end

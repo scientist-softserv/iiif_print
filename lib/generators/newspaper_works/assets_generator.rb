@@ -9,5 +9,21 @@ module NewspaperWorks
     def inject_css
       copy_file "newspaper_works.scss", "app/assets/stylesheets/newspaper_works.scss"
     end
+
+    def inject_js
+      return if newspaper_works_js_installed?
+      insert_into_file 'app/assets/javascripts/application.js', after: '//= require hyrax' do
+        <<-JS.strip_heredoc
+
+        //= require newspaper_works
+        JS
+      end
+    end
+
+    private
+
+      def newspaper_works_js_installed?
+        IO.read("app/assets/javascripts/application.js").include?('newspaper_works')
+      end
   end
 end

@@ -90,8 +90,10 @@ module NewspaperWorks
       # Construct with either path
       #
       # @param xml [String], and process document
-      def initialize(xml, image_width = nil)
+      def initialize(xml, image_width = nil, image_height = nil)
         @source = isxml?(xml) ? xml : File.read(xml)
+        @image_width = image_width
+        @image_height = image_height
         @doc_stream = AltoDocStream.new(image_width)
         parser = Nokogiri::XML::SAX::Parser.new(doc_stream)
         parser.parse(@source)
@@ -109,10 +111,11 @@ module NewspaperWorks
       #
       # @return [String] JSON serialization of flattened word coordinates
       def json
-        words = {
-          words: @doc_stream.words
-        }
-        JSON.generate(words)
+        words = @doc_stream.words
+        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(words,
+                                                                        @image_width,
+                                                                        @image_height)
+        builder.to_json
       end
     end
   end

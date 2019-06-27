@@ -56,7 +56,7 @@ RSpec.describe NewspaperWorks::TextExtractionDerivativeService do
       derivative_exists('json')
       json_path = expected_path(valid_file_set, 'json')
       loaded_result = JSON.parse(File.read(json_path))
-      expect(loaded_result['words'].length).to be > 1
+      expect(loaded_result['coords'].length).to be > 1
     end
 
     it "usually uses OCR, when no existing text" do
