@@ -163,7 +163,7 @@ Additional information regarding development and testing environments setup and 
     - `rails`
 * For development, you may want to include a clone of `newspaper_works` in your app's Gemfile, either via `github:` or by `path:` in a local Gemfile used only for local development of your app.
 
-# Credits
+# Acknowledgements
 ## Sponsoring Organizations
 
 This gem is part of a project developed in a collaboration between
@@ -183,8 +183,6 @@ The development team is grateful for input, collaboration, and support we receiv
 
 ## More Information
  * [Samvera Newspapers Group](https://wiki.duraspace.org/display/samvera/Samvera+Newspapers+Interest+Group) - The Samvera Newspapers Interest groups meets on the first Thursday of every month to discuss the Samvera newspapers project and general newspaper topics.
- * [Samvera Community](http://samvera.org/) - Samvera™ is the new name for Hydra. Samvera is a grass-roots, open source community creating best in class digital asset management solutions for Libraries, Archives, Museums and others.
- * [Samvera on Github](https://github.com/samvera/) - Officially supported and maintained Samvera gems and applications for Digital Repository management
  * [Newspapers in Samvera IMLS Grant (formerly Hydra)](https://www.imls.gov/grants/awarded/lg-70-17-0043-17) - The official grant award for the project.
  * [National Digital Newspapers Program NDNP](https://www.loc.gov/ndnp/)
 
@@ -196,3 +194,8 @@ The development team is grateful for input, collaboration, and support we receiv
 ![University of Utah Logo](http://www.utah.edu/_images/imagine_u.png)
 
 ![Boston Public Library Logo](https://cor-liv-cdn-static.bibliocommons.com/images/MA-BOSTON-BRANCH/logo.png?1528788420451)
+
+This software has been developed by and is brought to you by the Samvera community.  Learn more at the
+[Samvera website](http://samvera.org/).
+
+![Samvera Logo](https://wiki.duraspace.org/download/thumbnails/87459292/samvera-fall-font2-200w.png?version=1&modificationDate=1498550535816&api=v2)
