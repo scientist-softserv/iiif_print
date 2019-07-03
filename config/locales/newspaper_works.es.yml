@@ -1,0 +1,38 @@
+---
+es:
+  newspaper_works:
+    newspapers_search:
+      title:                    'Búsqueda de periódicos'
+      text:                     'Utilice este formulario para buscar contenido de periódico de texto completo.'
+      help:
+        title:                  'Consejos de búsqueda de periódicos:'
+        tips:
+          open_date_range:      'Para un límite de rango de fecha abierto (por ejemplo, antes de 1850, después de 1900, etc.) deje el campo "Inicio" o "Fin" en blanco en la sección "Rango de fechas".'
+          undated_items:        'Si se ingresa un rango de fechas en el formulario en la sección "Rango de fechas", los elementos sin fecha no se incluirán en los resultados de la búsqueda.'
+          limiters:             'Si no se marca ninguna casilla en la sección de límite de campo, se incluirán todos los valores.'
+          quotation_marks:      'Utilice comillas para buscar como una frase.'
+          boolean:              'Utilice "OR", "AND" y "NOT" dentro del campo de palabra clave para crear una lógica booleana compleja. También puedes usar paréntesis.'
+          plus:                 'Use "+" antes de un término para hacerlo requerido.'
+          minus:                'Use "-" antes de una palabra o frase para excluirla.'
+      fields:
+        date_end:               'Año final'
+        date_range:             'Rango de fechas'
+        date_start:             'Año de inicio'
+        front_pages:            'Limitar la búsqueda a portadas'
+        keyword:                'Palabras clave'
+
+    title_search_form:
+      label:                    'Buscar dentro de este periódico'
+      placeholder:              'Buscar dentro de este periódico...'
+      front_pages_link:         'Ver todas las portadas'
+
+  simple_form:
+    labels:
+      defaults:
+        held_by:                'Ubicación de retención'
+        identifier:             'Identificador (local)'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   'Fecha de publicación (final)'
+        publication_date_start: 'Fecha de publicación (inicio)'

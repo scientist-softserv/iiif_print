@@ -1,8 +1,12 @@
 it:
   hyrax:
     icons:
-      newspaper_article:     'fa fa-newspaper-o'
+      newspaper_article:   'fa fa-newspaper-o'
     select_type:
       newspaper_article:
-        name:               "Newspaper Article"
-        description:        "Newspaper article opere"
+        name:              "Articolo di giornale"
+        description:       "Articoli per articoli di giornale"
+  simple_form:
+    labels:
+      newspaper_article:
+        alternative_title: "Sottotitolo"

@@ -1,10 +1,8 @@
 zh:
   hyrax:
     icons:
-      newspaper_container:     'fa fa-newspaper-o'
+      newspaper_container: 'fa fa-newspaper-o'
     select_type:
       newspaper_container:
-        # TODO: translate `human_name` into Chinese
-        name:               "Newspaper Container"
-        # TODO: translate `human_name` into Chinese
-        description:        "Newspaper container 作品"
+        name:              "报纸容器"
+        description:       "报纸集装箱工程"

@@ -1,10 +1,12 @@
 es:
   hyrax:
     icons:
-      newspaper_article:     'fa fa-newspaper-o'
+      newspaper_article:   'fa fa-newspaper-o'
     select_type:
       newspaper_article:
-        # TODO: translate `human_name` into Spanish
-        name:               "Newspaper Article"
-        # TODO: translate `human_name` into Spanish
-        description:        "Newspaper article trabajos"
+        name:              "Artículo de periódico"
+        description:       "Trabajos de artículos periodísticos"
+  simple_form:
+    labels:
+      newspaper_article:
+        alternative_title: "Subtitular"

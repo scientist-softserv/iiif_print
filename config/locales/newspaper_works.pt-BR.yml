@@ -1,0 +1,38 @@
+---
+pt-BR:
+  newspaper_works:
+    newspapers_search:
+      title:                    'Pesquisar jornais'
+      text:                     'Use este formulário para pesquisar conteúdo de jornal em texto completo.'
+      help:
+        title:                  'Dicas de pesquisa de jornais:'
+        tips:
+          open_date_range:      'Para um limite de intervalo de datas em aberto (por exemplo, antes de 1850, após 1900, etc.), deixe o campo "Início" ou "Fim" em branco na seção "Intervalo de datas".'
+          undated_items:        'Se um período for inserido no formulário na seção "Intervalo de datas", os itens não datados não serão incluídos nos resultados da pesquisa.'
+          limiters:             'Se nenhuma caixa estiver marcada na seção de limite de campo, todos os valores serão incluídos.'
+          quotation_marks:      'Use aspas para pesquisar como uma frase.'
+          boolean:              'Use "OR", "AND" e "NOT" no campo da palavra-chave para criar uma lógica booleana complexa. Você também pode usar parênteses.'
+          plus:                 'Use "+" antes de um termo para torná-lo necessário.'
+          minus:                'Use "-" antes de uma palavra ou frase para excluí-lo.'
+      fields:
+        date_end:               'Fim de ano'
+        date_range:             'Intervalo de datas'
+        date_start:             'Ano de início'
+        front_pages:            'Limitar a pesquisa às primeiras páginas'
+        keyword:                'Palavras-chave'
+
+    title_search_form:
+      label:                    'Pesquise neste jornal'
+      placeholder:              'Pesquise neste jornal...'
+      front_pages_link:         'Ver todas as páginas principais'
+
+  simple_form:
+    labels:
+      defaults:
+        held_by:                'Segurando localização'
+        identifier:             'Identificador (local)'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   'Data de publicação (fim)'
+        publication_date_start: 'Data de publicação (começo)'

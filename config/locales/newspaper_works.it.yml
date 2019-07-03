@@ -1,0 +1,38 @@
+---
+it:
+  newspaper_works:
+    newspapers_search:
+      title:                    'Cerca giornali'
+      text:                     'Utilizzare questo modulo per cercare contenuti di giornali a testo completo.'
+      help:
+        title:                  'Suggerimenti per la ricerca di quotidiani:'
+        tips:
+          open_date_range:      "Per un limite dell'intervallo di date aperto (ad es. Prima del 1850, dopo il 1900 ecc.) Lasciare il campo \"Inizio\" o \"Fine\" in bianco nella sezione \"Intervallo date\"."
+          undated_items:        "Se nel campo \"Intervallo date\" viene inserito un intervallo di date, gli elementi non datati non saranno inclusi nei risultati di ricerca."
+          limiters:             'Se nessuna casella è selezionata nella sezione del limite di campo, verranno inclusi tutti i valori.'
+          quotation_marks:      'Usa le virgolette per cercare come frase.'
+          boolean:              "Utilizzare \"OR\", \"AND\" e \"NOT\" all'interno del campo della parola chiave per creare una logica booleana complessa. Puoi anche usare le parentesi."
+          plus:                 "Usa \"+\" prima di un termine per renderlo necessario."
+          minus:                "Usa \"-\" prima di una parola o frase per escluderla."
+      fields:
+        date_end:               'Fine anno'
+        date_range:             'Intervallo di date'
+        date_start:             "Inizia l'anno"
+        front_pages:            'Limita la ricerca alle prime pagine'
+        keyword:                'Parole'
+
+    title_search_form:
+      label:                    "Cerca all'interno di questo giornale"
+      placeholder:              "Cerca all'interno di questo giornale..."
+      front_pages_link:         'Visualizza tutte le prime pagine'
+
+  simple_form:
+    labels:
+      defaults:
+        held_by:                'Tenendo posizione'
+        identifier:             'Identificatore (locale)'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   'Data di pubblicazione (fine)'
+        publication_date_start: 'Data di pubblicazione (inizio)'

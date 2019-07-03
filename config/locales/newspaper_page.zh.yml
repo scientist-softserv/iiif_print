@@ -1,10 +1,15 @@
 zh:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-newspaper-o'
+      newspaper_page: 'fa fa-newspaper-o'
     select_type:
       newspaper_page:
-        # TODO: translate `human_name` into Chinese
-        name:               "Newspaper Page"
-        # TODO: translate `human_name` into Chinese
-        description:        "Newspaper page 作品"
+        name:         "报纸页面"
+        description:  "报纸页面有效"
+    newspaper_page:
+      previous_page:  '以前'
+      next_page:      '下一个'
+  simple_form:
+    labels:
+      newspaper_page:
+        title:        "标签"

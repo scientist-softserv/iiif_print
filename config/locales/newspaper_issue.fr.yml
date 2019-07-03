@@ -1,8 +1,8 @@
 fr:
   hyrax:
     icons:
-      newspaper_issue:     'fa fa-newspaper-o'
+      newspaper_issue: 'fa fa-newspaper-o'
     select_type:
       newspaper_issue:
-        name:               "Newspaper Issue"
-        description:        "Newspaper issue œuvres"
+        name:          "Numéro de journal"
+        description:   "Le journal fonctionne"

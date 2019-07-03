@@ -1,13 +1,15 @@
 es:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-newspaper-o'
-    newspaper_page:
-      previous_page: 'Anterior'
-      next_page: 'Siguiente'
+      newspaper_page: 'fa fa-newspaper-o'
     select_type:
       newspaper_page:
-        # TODO: translate `human_name` into Spanish
-        name:               "Newspaper Page"
-        # TODO: translate `human_name` into Spanish
-        description:        "Newspaper page trabajos"
+        name:         "Página del periódico"
+        description:  "Página de periódico funciona"
+    newspaper_page:
+      previous_page:  'Anterior'
+      next_page:      'Siguiente'
+  simple_form:
+    labels:
+      newspaper_page:
+        title:        "Siguiente"

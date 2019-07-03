@@ -1,8 +1,15 @@
 pt-BR:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-newspaper-o'
+      newspaper_page: 'fa fa-newspaper-o'
     select_type:
       newspaper_page:
-        name:               "Newspaper Page"
-        description:        "Newspaper page trabalhos"
+        name:         "Página de jornal"
+        description:  "Trabalhos de página de jornal"
+    newspaper_page:
+      previous_page:  'Anterior'
+      next_page:      'Próxima'
+  simple_form:
+    labels:
+      newspaper_page:
+        title:        "Rótulo"

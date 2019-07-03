@@ -2,29 +2,29 @@
 en:
   newspaper_works:
     newspapers_search:
-      title: 'Search Newspapers'
-      text: 'Use this form to search for full-text newspaper content.'
+      title:                    'Search Newspapers'
+      text:                     'Use this form to search for full-text newspaper content.'
       help:
-        title: 'Newspapers search tips:'
+        title:                  'Newspapers search tips:'
         tips:
-          open_date_range: 'For an open-ended date range limit (e.g. before 1850, after 1900, etc.) leave either the "Start" or "End" field blank in the "Date Range" section.'
-          undated_items: 'If a date range is entered in the form in the "Date Range" section, undated items will not be included in the search results.'
-          limiters: 'If no boxes are checked in the field limit section, all values will be included.'
-          quotation_marks: 'Use quotation marks to search as a phrase.'
-          boolean: 'Use "OR", "AND", and "NOT"  within the keyword field to create complex boolean logic. You can also use parentheses.'
-          plus: 'Use "+" before a term to make it required.'
-          minus: 'Use "-" before a word or phrase to exclude it.'
+          open_date_range:      'For an open-ended date range limit (e.g. before 1850, after 1900, etc.) leave either the "Start" or "End" field blank in the "Date Range" section.'
+          undated_items:        'If a date range is entered in the form in the "Date Range" section, undated items will not be included in the search results.'
+          limiters:             'If no boxes are checked in the field limit section, all values will be included.'
+          quotation_marks:      'Use quotation marks to search as a phrase.'
+          boolean:              'Use "OR", "AND", and "NOT"  within the keyword field to create complex boolean logic. You can also use parentheses.'
+          plus:                 'Use "+" before a term to make it required.'
+          minus:                'Use "-" before a word or phrase to exclude it.'
       fields:
-        date_end: 'End year'
-        date_range: 'Date range'
-        date_start: 'Start year'
-        front_pages: 'Limit search to front pages'
-        keyword: 'Keywords'
+        date_end:               'End year'
+        date_range:             'Date range'
+        date_start:             'Start year'
+        front_pages:            'Limit search to front pages'
+        keyword:                'Keywords'
 
     title_search_form:
-      label: 'Search within this newspaper'
-      placeholder: 'Search within this newspaper...'
-      front_pages_link: 'View all front pages'
+      label:                    'Search within this newspaper'
+      placeholder:              'Search within this newspaper...'
+      front_pages_link:         'View all front pages'
 
   simple_form:
     labels:

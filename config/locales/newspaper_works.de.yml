@@ -1,0 +1,38 @@
+---
+de:
+  newspaper_works:
+    newspapers_search:
+      title:                    'Suche nach Zeitungen'
+      text:                     'Verwenden Sie dieses Formular für die Suche nach Zeitungsinhalten im Volltext.'
+      help:
+        title:                  'Suchtipps für Zeitungen:'
+        tips:
+          open_date_range:      'Lassen Sie für ein unbefristetes Datumsbereichslimit (z. B. vor 1850, nach 1900 usw.) entweder das Feld "Start" oder "Ende" im Abschnitt "Datumsbereich" leer.'
+          undated_items:        'Wenn ein Datumsbereich in das Formular im Abschnitt "Datumsbereich" eingegeben wird, werden undatierte Elemente nicht in die Suchergebnisse aufgenommen.'
+          limiters:             'Wenn im Feldbegrenzungsbereich keine Kontrollkästchen aktiviert sind, werden alle Werte eingeschlossen.'
+          quotation_marks:      'Verwenden Sie Anführungszeichen, um nach einem Ausdruck zu suchen.'
+          boolean:              'Verwenden Sie "OR", "AND" und "NOT" im Schlüsselwortfeld, um eine komplexe boolesche Logik zu erstellen. Sie können auch Klammern verwenden.'
+          plus:                 'Verwenden Sie "+" vor einem Begriff, um ihn erforderlich zu machen.'
+          minus:                'Verwenden Sie "-" vor einem Wort oder einer Phrase, um es auszuschließen.'
+      fields:
+        date_end:               'Ende des Jahres'
+        date_range:             'Datumsbereich'
+        date_start:             'Beginnen Sie das Jahr'
+        front_pages:            'Suche auf Titelseiten beschränken'
+        keyword:                'Schlüsselwörter'
+
+    title_search_form:
+      label:                    'Suche in dieser Zeitung'
+      placeholder:              'Suche in dieser Zeitung...'
+      front_pages_link:         'Alle Titelseiten anzeigen'
+
+  simple_form:
+    labels:
+      defaults:
+        held_by:                'Halteort'
+        identifier:             'Kennung (lokal)'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   'Erscheinungsdatum (Ende)'
+        publication_date_start: 'Erscheinungsdatum (Beginn)'

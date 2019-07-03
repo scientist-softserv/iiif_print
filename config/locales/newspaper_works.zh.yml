@@ -1,0 +1,38 @@
+---
+zh:
+  newspaper_works:
+    newspapers_search:
+      title:                    '搜索报纸'
+      text:                     '使用此表单搜索全文报纸内容。'
+      help:
+        title:                  '报纸搜索提示：'
+        tips:
+          open_date_range:      '对于开放日期范围限制（例如，在1850之前，1900之后等），在“日期范围”部分中将“开始”或“结束”字段留空。'
+          undated_items:        '如果在“日期范围”部分的表单中输入日期范围，则未注明日期的项目将不会包含在搜索结果中。'
+          limiters:             '如果在字段限制部分中未选中任何框，则将包括所有值。'
+          quotation_marks:      '使用引号作为短语进行搜索。'
+          boolean:              '在关键字字段中使用“OR”，“AND”和“NOT”来创建复杂的布尔逻辑。 您也可以使用括号。'
+          plus:                 '在术语前使用“+”使其成为必需。'
+          minus:                '在单词或短语之前使用“ - ”排除它。'
+      fields:
+        date_end:               '结束一年'
+        date_range:             '日期范围'
+        date_start:             '开始一年'
+        front_pages:            '将搜索限制在首页s'
+        keyword:                '关键词'
+
+    title_search_form:
+      label:                    '在这份报纸内搜索'
+      placeholder:              '在这份报纸内搜索...'
+      front_pages_link:         '查看所有头版'
+
+  simple_form:
+    labels:
+      defaults:
+        held_by:                '持有位置'
+        identifier:             '标识符（本地）'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   '出版日期（结束）'
+        publication_date_start: '出版日期（开始）'

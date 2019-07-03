@@ -1,10 +1,8 @@
 zh:
   hyrax:
     icons:
-      newspaper_issue:     'fa fa-newspaper-o'
+      newspaper_issue: 'fa fa-newspaper-o'
     select_type:
       newspaper_issue:
-        # TODO: translate `human_name` into Chinese
-        name:               "Newspaper Issue"
-        # TODO: translate `human_name` into Chinese
-        description:        "Newspaper issue 作品"
+        name:          "报纸问题"
+        description:   "报纸问题有效"

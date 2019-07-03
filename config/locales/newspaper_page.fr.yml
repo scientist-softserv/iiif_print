@@ -1,11 +1,15 @@
 fr:
   hyrax:
     icons:
-      newspaper_page:     'fa fa-newspaper-o'
-    newspaper_page:
-      previous_page: 'Antérieur'
-      next_page: 'Suivant'
+      newspaper_page: 'fa fa-newspaper-o'
     select_type:
       newspaper_page:
-        name:               "Newspaper Page"
-        description:        "Newspaper page œuvres"
+        name:         "Page de journal"
+        description:  "La page de journal fonctionne"
+    newspaper_page:
+      previous_page:  'précédente'
+      next_page:      'suivante'
+  simple_form:
+    labels:
+      newspaper_page:
+        title:        "étiquette"

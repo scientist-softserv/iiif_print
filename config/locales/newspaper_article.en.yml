@@ -1,11 +1,11 @@
 en:
   hyrax:
     icons:
-      newspaper_article:     'fa fa-newspaper-o'
+      newspaper_article:   'fa fa-newspaper-o'
     select_type:
       newspaper_article:
-        name:               "Newspaper Article"
-        description:        "Newspaper article works"
+        name:              "Newspaper Article"
+        description:       "Newspaper article works"
   simple_form:
     labels:
       newspaper_article:
