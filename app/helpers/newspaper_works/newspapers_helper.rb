@@ -1,5 +1,5 @@
-module Hyrax
-  module NewspaperPagesHelper
+module NewspaperWorks
+  module NewspapersHelper
     include NewspaperWorks::BreadcrumbHelper
   end
 end

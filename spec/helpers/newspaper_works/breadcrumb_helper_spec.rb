@@ -6,7 +6,9 @@ RSpec.describe NewspaperWorks::BreadcrumbHelper do
       'publication_id_ssi' => 'foo',
       'publication_title_ssi' => 'bar',
       'issue_id_ssi' => 'baz',
-      'issue_title_ssi' => 'quux'
+      'issue_title_ssi' => 'quux',
+      'is_following_page_of_ssi' => 'one',
+      'is_preceding_page_of_ssi' => 'three'
     }
   end
   let(:presenter) { Hyrax::NewspaperPagePresenter.new(solr_document, nil) }
@@ -63,6 +65,18 @@ RSpec.describe NewspaperWorks::BreadcrumbHelper do
     it 'returns the original string if neither a page number or date is passed' do
       title_for_spec = helper.breacrumb_object_title("Foo")
       expect(title_for_spec).to eq("Foo")
+    end
+  end
+
+  describe '#previous_page_link' do
+    it 'returns a link to the previous page' do
+      expect(helper.previous_page_link(presenter)).to include('href="/concern/newspaper_pages/one"')
+    end
+  end
+
+  describe '#next_page_link' do
+    it 'returns a link to the next page' do
+      expect(helper.next_page_link(presenter)).to include('href="/concern/newspaper_pages/three')
     end
   end
 end
