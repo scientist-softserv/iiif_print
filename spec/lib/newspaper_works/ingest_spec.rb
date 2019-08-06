@@ -34,5 +34,12 @@ describe NewspaperWorks::Ingest do
       expect(work.date_modified).to eq work.date_uploaded
       expect(work.resource_type).to match_array ['Newspapers']
     end
+
+    it "has method to get publication metadata for lccn" do
+      lccn = 'sn84038814'
+      metadata = described_class.publication_metadata(lccn)
+      expect(metadata).to be_a NewspaperWorks::Ingest::PublicationInfo
+      expect(metadata.lccn).to eq lccn
+    end
   end
 end

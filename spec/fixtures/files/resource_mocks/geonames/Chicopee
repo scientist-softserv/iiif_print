@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<geonames style="MEDIUM">
+    <totalResultsCount>171</totalResultsCount>
+    <geoname>
+        <toponymName>Chicopee</toponymName>
+        <name>Chicopee</name>
+        <lat>42.1487</lat>
+        <lng>-72.60787</lng>
+        <geonameId>4933002</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lac Chicopee</toponymName>
+        <name>Lac Chicopee</name>
+        <lat>46.01889</lat>
+        <lng>-75.44083</lng>
+        <geonameId>6004400</geonameId>
+        <countryCode>CA</countryCode>
+        <countryName>Canada</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>North Chicopee</toponymName>
+        <name>North Chicopee</name>
+        <lat>42.18343</lat>
+        <lng>-72.59953</lng>
+        <geonameId>4945588</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Memorial State Park</toponymName>
+        <name>Chicopee Memorial State Park</name>
+        <lat>42.17926</lat>
+        <lng>-72.53703</lng>
+        <geonameId>4933017</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee</toponymName>
+        <name>Chicopee</name>
+        <lat>34.25344</lat>
+        <lng>-83.84351</lng>
+        <geonameId>4187725</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Hills Conservation Area</toponymName>
+        <name>Chicopee Hills Conservation Area</name>
+        <lat>43.4334</lat>
+        <lng>-80.41638</lng>
+        <geonameId>5921217</geonameId>
+        <countryCode>CA</countryCode>
+        <countryName>Canada</countryName>
+        <fcl>L</fcl>
+        <fcode>RES</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Westover Air Reserve Base / Metropolitan Airport</toponymName>
+        <name>Westover Air Reserve Base / Metropolitan Airport</name>
+        <lat>42.19317</lat>
+        <lng>-72.53603</lng>
+        <geonameId>4955283</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRP</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Chicopee</toponymName>
+        <name>City of Chicopee</name>
+        <lat>42.17638</lat>
+        <lng>-72.57186</lng>
+        <geonameId>4933028</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Mill and Village Historic District</toponymName>
+        <name>Chicopee Mill and Village Historic District</name>
+        <lat>34.25344</lat>
+        <lng>-83.84351</lng>
+        <geonameId>4187727</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Woods Park</toponymName>
+        <name>Chicopee Woods Park</name>
+        <lat>34.23816</lat>
+        <lng>-83.83157</lng>
+        <geonameId>4187730</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee</toponymName>
+        <name>Chicopee</name>
+        <lat>36.98505</lat>
+        <lng>-91.00568</lng>
+        <geonameId>4381100</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee</toponymName>
+        <name>Chicopee</name>
+        <lat>37.382</lat>
+        <lng>-94.74191</lng>
+        <geonameId>4269516</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Falls Dam</toponymName>
+        <name>Chicopee Falls Dam</name>
+        <lat>42.15972</lat>
+        <lng>-72.58094</lng>
+        <geonameId>4933011</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>DAM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee High School</toponymName>
+        <name>Chicopee High School</name>
+        <lat>42.14732</lat>
+        <lng>-72.59231</lng>
+        <geonameId>4933016</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Comprehensive High School</toponymName>
+        <name>Chicopee Comprehensive High School</name>
+        <lat>42.1762</lat>
+        <lng>-72.59231</lng>
+        <geonameId>4933008</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Willimansett</toponymName>
+        <name>Willimansett</name>
+        <lat>42.17926</lat>
+        <lng>-72.62037</lng>
+        <geonameId>4955801</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Reservoir Dam</toponymName>
+        <name>Chicopee Reservoir Dam</name>
+        <lat>42.16954</lat>
+        <lng>-72.55453</lng>
+        <geonameId>4933021</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>DAM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Island</toponymName>
+        <name>Chicopee Island</name>
+        <lat>44.53342</lat>
+        <lng>-78.16622</lng>
+        <geonameId>5921218</geonameId>
+        <countryCode>CA</countryCode>
+        <countryName>Canada</countryName>
+        <fcl>T</fcl>
+        <fcode>ISL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Falls</toponymName>
+        <name>Chicopee Falls</name>
+        <lat>42.15204</lat>
+        <lng>-72.57592</lng>
+        <geonameId>4933009</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Center Post Office</toponymName>
+        <name>Chicopee Center Post Office</name>
+        <lat>42.14593</lat>
+        <lng>-72.6087</lng>
+        <geonameId>4933005</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>PO</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chapin School</toponymName>
+        <name>Chapin School</name>
+        <lat>42.18481</lat>
+        <lng>-72.60981</lng>
+        <geonameId>4932735</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee River</toponymName>
+        <name>Chicopee River</name>
+        <lat>42.14815</lat>
+        <lng>-72.62176</lng>
+        <geonameId>4933022</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>STM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Elms College</toponymName>
+        <name>Elms College</name>
+        <lat>42.14315</lat>
+        <lng>-72.59953</lng>
+        <geonameId>4935845</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Mountain</toponymName>
+        <name>Chicopee Mountain</name>
+        <lat>42.13954</lat>
+        <lng>-72.32119</lng>
+        <geonameId>4933018</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>T</fcl>
+        <fcode>MT</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee</toponymName>
+        <name>Chicopee</name>
+        <lat>43.70063</lat>
+        <lng>-70.55339</lng>
+        <geonameId>4960805</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Post Office</toponymName>
+        <name>Chicopee Post Office</name>
+        <lat>42.14593</lat>
+        <lng>-72.6087</lng>
+        <geonameId>4933019</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>PO</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sandy Hill</toponymName>
+        <name>Sandy Hill</name>
+        <lat>42.15426</lat>
+        <lng>-72.60648</lng>
+        <geonameId>4950208</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Smith Highlands</toponymName>
+        <name>Smith Highlands</name>
+        <lat>42.19454</lat>
+        <lng>-72.58842</lng>
+        <geonameId>4951126</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Duncan Knoll</toponymName>
+        <name>Duncan Knoll</name>
+        <lat>42.20565</lat>
+        <lng>-72.5537</lng>
+        <geonameId>4935174</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Fairview</toponymName>
+        <name>Fairview</name>
+        <lat>42.20426</lat>
+        <lng>-72.57453</lng>
+        <geonameId>4936104</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Freeman Knoll</toponymName>
+        <name>Freeman Knoll</name>
+        <lat>42.19815</lat>
+        <lng>-72.54953</lng>
+        <geonameId>4937346</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lambert-Lavoie School</toponymName>
+        <name>Lambert-Lavoie School</name>
+        <lat>42.17676</lat>
+        <lng>-72.59537</lng>
+        <geonameId>4941618</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Mathies Manor</toponymName>
+        <name>Mathies Manor</name>
+        <lat>42.19037</lat>
+        <lng>-72.56481</lng>
+        <geonameId>4943419</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Mountain Lake Dam</toponymName>
+        <name>Mountain Lake Dam</name>
+        <lat>42.19343</lat>
+        <lng>-72.58453</lng>
+        <geonameId>4944679</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>DAM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Perry Manor</toponymName>
+        <name>Perry Manor</name>
+        <lat>42.20009</lat>
+        <lng>-72.5537</lng>
+        <geonameId>4947031</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Aldenville</toponymName>
+        <name>Aldenville</name>
+        <lat>42.17287</lat>
+        <lng>-72.59814</lng>
+        <geonameId>4928840</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Brook</toponymName>
+        <name>Chicopee Brook</name>
+        <lat>42.14732</lat>
+        <lng>-72.33564</lng>
+        <geonameId>4933001</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>STM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Brook Reservoir</toponymName>
+        <name>Chicopee Brook Reservoir</name>
+        <lat>42.08799</lat>
+        <lng>-72.31382</lng>
+        <geonameId>4933023</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee River Reservoir</toponymName>
+        <name>Chicopee River Reservoir</name>
+        <lat>42.17843</lat>
+        <lng>-72.40786</lng>
+        <geonameId>4933024</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lower Bemis Pond Dam</toponymName>
+        <name>Lower Bemis Pond Dam</name>
+        <lat>42.14676</lat>
+        <lng>-72.58953</lng>
+        <geonameId>4942666</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>DAM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Upper Bemis Pond Dam</toponymName>
+        <name>Upper Bemis Pond Dam</name>
+        <lat>42.14509</lat>
+        <lng>-72.58953</lng>
+        <geonameId>4953729</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>DAM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Quaboag River</toponymName>
+        <name>Quaboag River</name>
+        <lat>42.1812</lat>
+        <lng>-72.36481</lng>
+        <geonameId>4948191</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>STM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Jacoby Canyon</toponymName>
+        <name>Jacoby Canyon</name>
+        <lat>34.31945</lat>
+        <lng>-116.82947</lng>
+        <geonameId>5360266</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>T</fcl>
+        <fcode>VAL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sholom Cemetery</toponymName>
+        <name>Sholom Cemetery</name>
+        <lat>42.18676</lat>
+        <lng>-72.57203</lng>
+        <geonameId>4950875</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CMTY</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Streiber Memorial School</toponymName>
+        <name>Streiber Memorial School</name>
+        <lat>42.19454</lat>
+        <lng>-72.5787</lng>
+        <geonameId>4952261</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Christs Community Church</toponymName>
+        <name>Christs Community Church</name>
+        <lat>42.14704</lat>
+        <lng>-72.60481</lng>
+        <geonameId>4933164</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Interchange Five</toponymName>
+        <name>Interchange Five</name>
+        <lat>42.17093</lat>
+        <lng>-72.5787</lng>
+        <geonameId>4940404</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>R</fcl>
+        <fcode>RDJCT</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Interchange Six</toponymName>
+        <name>Interchange Six</name>
+        <lat>42.16065</lat>
+        <lng>-72.54231</lng>
+        <geonameId>4940468</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>R</fcl>
+        <fcode>RDJCT</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Interchange Twelve</toponymName>
+        <name>Interchange Twelve</name>
+        <lat>42.13482</lat>
+        <lng>-72.60787</lng>
+        <geonameId>4940551</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>R</fcl>
+        <fcode>RDJCT</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Oxford Country Club</toponymName>
+        <name>Oxford Country Club</name>
+        <lat>42.15843</lat>
+        <lng>-72.56203</lng>
+        <geonameId>4946550</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>RSRT</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Plainville (historical)</toponymName>
+        <name>Plainville (historical)</name>
+        <lat>42.21259</lat>
+        <lng>-72.57453</lng>
+        <geonameId>4947491</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLQ</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Barry School</toponymName>
+        <name>Barry School</name>
+        <lat>42.16593</lat>
+        <lng>-72.58759</lng>
+        <geonameId>4929817</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bellamy Middle School</toponymName>
+        <name>Bellamy Middle School</name>
+        <lat>42.19037</lat>
+        <lng>-72.58703</lng>
+        <geonameId>4930251</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Saint Christophers Episcopal Church</toponymName>
+        <name>Saint Christophers Episcopal Church</name>
+        <lat>42.19481</lat>
+        <lng>-72.57731</lng>
+        <geonameId>4949487</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Saint Joan of Arc-Saint George School</toponymName>
+        <name>Saint Joan of Arc-Saint George School</name>
+        <lat>42.17148</lat>
+        <lng>-72.59731</lng>
+        <geonameId>4949591</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Saint Patricks Elementary School</toponymName>
+        <name>Saint Patricks Elementary School</name>
+        <lat>42.16315</lat>
+        <lng>-72.5837</lng>
+        <geonameId>4949923</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sainte Rose Cemetery</toponymName>
+        <name>Sainte Rose Cemetery</name>
+        <lat>42.16676</lat>
+        <lng>-72.6037</lng>
+        <geonameId>4950056</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CMTY</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>General John J Stefanik School</toponymName>
+        <name>General John J Stefanik School</name>
+        <lat>42.16676</lat>
+        <lng>-72.61509</lng>
+        <geonameId>4937649</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Holy Name High School</toponymName>
+        <name>Holy Name High School</name>
+        <lat>42.14398</lat>
+        <lng>-72.60592</lng>
+        <geonameId>4939751</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Kingdom Hall of Jehovahs Witnesses</toponymName>
+        <name>Kingdom Hall of Jehovahs Witnesses</name>
+        <lat>42.2087</lat>
+        <lng>-72.55925</lng>
+        <geonameId>4941328</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Falls Branch Chicopee Public Library</toponymName>
+        <name>Chicopee Falls Branch Chicopee Public Library</name>
+        <lat>42.15232</lat>
+        <lng>-72.58037</lng>
+        <geonameId>4933010</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>LIBR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Days Inn Chicopee</toponymName>
+        <name>Days Inn Chicopee</name>
+        <lat>42.1702</lat>
+        <lng>-72.5775</lng>
+        <geonameId>6483975</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Econo Lodge Chicopee</toponymName>
+        <name>Econo Lodge Chicopee</name>
+        <lat>42.1648</lat>
+        <lng>-72.5488</lng>
+        <geonameId>6494784</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Quality Inn Chicopee</toponymName>
+        <name>Quality Inn Chicopee</name>
+        <lat>42.1705</lat>
+        <lng>-72.5774</lng>
+        <geonameId>6532745</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Hampton Inn Chicopee Ma</toponymName>
+        <name>Hampton Inn Chicopee Ma</name>
+        <lat>42.1753</lat>
+        <lng>-72.5765</lng>
+        <geonameId>6533065</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee High School</toponymName>
+        <name>Chicopee High School</name>
+        <lat>42.1762</lat>
+        <lng>-72.59259</lng>
+        <geonameId>4933015</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Church of God</toponymName>
+        <name>Chicopee Church of God</name>
+        <lat>42.19148</lat>
+        <lng>-72.60148</lng>
+        <geonameId>4933006</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee City Hall</toponymName>
+        <name>Chicopee City Hall</name>
+        <lat>42.14843</lat>
+        <lng>-72.60564</lng>
+        <geonameId>4933007</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Falls Post Office (historical)</toponymName>
+        <name>Chicopee Falls Post Office (historical)</name>
+        <lat>42.15704</lat>
+        <lng>-72.58009</lng>
+        <geonameId>4933012</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>PO</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Falls United Methodist Church</toponymName>
+        <name>Chicopee Falls United Methodist Church</name>
+        <lat>42.15732</lat>
+        <lng>-72.5812</lng>
+        <geonameId>4933013</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Heliport</toponymName>
+        <name>Chicopee Heliport</name>
+        <lat>42.18259</lat>
+        <lng>-72.56092</lng>
+        <geonameId>4933014</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Fairview Branch Chicopee Public Library</toponymName>
+        <name>Fairview Branch Chicopee Public Library</name>
+        <lat>42.2087</lat>
+        <lng>-72.57564</lng>
+        <geonameId>4936105</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>LIBR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>WACE-AM (Chicopee)</toponymName>
+        <name>WACE-AM (Chicopee)</name>
+        <lat>42.16731</lat>
+        <lng>-72.62481</lng>
+        <geonameId>4953971</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>TOWR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Willimansett Branch Chicopee Public Library</toponymName>
+        <name>Willimansett Branch Chicopee Public Library</name>
+        <lat>42.1887</lat>
+        <lng>-72.6062</lng>
+        <geonameId>4955802</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>LIBR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Aldenville Branch Chicopee Public Library</toponymName>
+        <name>Aldenville Branch Chicopee Public Library</name>
+        <lat>42.17037</lat>
+        <lng>-72.59648</lng>
+        <geonameId>4928841</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>LIBR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 8</toponymName>
+        <name>Chicopee Fire Department Station 8</name>
+        <lat>42.19883</lat>
+        <lng>-72.55915</lng>
+        <geonameId>8102168</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 7</toponymName>
+        <name>Chicopee Fire Department Station 7</name>
+        <lat>42.17514</lat>
+        <lng>-72.60035</lng>
+        <geonameId>8102169</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 5</toponymName>
+        <name>Chicopee Fire Department Station 5</name>
+        <lat>42.18321</lat>
+        <lng>-72.61356</lng>
+        <geonameId>8102170</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 4</toponymName>
+        <name>Chicopee Fire Department Station 4</name>
+        <lat>42.17373</lat>
+        <lng>-72.53634</lng>
+        <geonameId>8102171</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 3</toponymName>
+        <name>Chicopee Fire Department Station 3</name>
+        <lat>42.14657</lat>
+        <lng>-72.60919</lng>
+        <geonameId>8102182</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Police Department</toponymName>
+        <name>Chicopee Police Department</name>
+        <lat>42.15621</lat>
+        <lng>-72.58465</lng>
+        <geonameId>9687748</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Police Department Substation</toponymName>
+        <name>Chicopee Police Department Substation</name>
+        <lat>42.18767</lat>
+        <lng>-72.60651</lng>
+        <geonameId>9688007</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Days Inn Springfield Chicopee. Ma</toponymName>
+        <name>Days Inn Springfield Chicopee. Ma</name>
+        <lat>42.17037</lat>
+        <lng>-72.57773</lng>
+        <geonameId>9849192</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Hampton Inn Chicopee-Springfie</toponymName>
+        <name>Hampton Inn Chicopee-Springfie</name>
+        <lat>42.17355</lat>
+        <lng>-72.57642</lng>
+        <geonameId>9849195</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Hampton Inn Chicopee Springfield</toponymName>
+        <name>Hampton Inn Chicopee Springfield</name>
+        <lat>42.17355</lat>
+        <lng>-72.57642</lng>
+        <geonameId>9858057</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Woods Elementary School</toponymName>
+        <name>Chicopee Woods Elementary School</name>
+        <lat>34.23186</lat>
+        <lng>-83.82136</lng>
+        <geonameId>7242489</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Hills</toponymName>
+        <name>Chicopee Hills</name>
+        <lat>35.9382</lat>
+        <lng>-78.98223</lng>
+        <geonameId>4460618</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Baptist Church</toponymName>
+        <name>Chicopee Baptist Church</name>
+        <lat>34.25149</lat>
+        <lng>-83.84407</lng>
+        <geonameId>4187726</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee United Methodist Church</toponymName>
+        <name>Chicopee United Methodist Church</name>
+        <lat>34.25427</lat>
+        <lng>-83.84407</lng>
+        <geonameId>4187728</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Woods Agricultural Center</toponymName>
+        <name>Chicopee Woods Agricultural Center</name>
+        <lat>34.23733</lat>
+        <lng>-83.81934</lng>
+        <geonameId>4187729</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Fire Department Station 1 Headquarters</toponymName>
+        <name>Chicopee Fire Department Station 1 Headquarters</name>
+        <lat>42.1568</lat>
+        <lng>-72.58414</lng>
+        <geonameId>8101965</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Buxton Fire and Rescue Chicopee Station 3</toponymName>
+        <name>Buxton Fire and Rescue Chicopee Station 3</name>
+        <lat>43.7007</lat>
+        <lng>-70.55263</lng>
+        <geonameId>7305665</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Plantation Inn Of New England</toponymName>
+        <name>Plantation Inn Of New England</name>
+        <lat>42.1653</lat>
+        <lng>-72.5474</lng>
+        <geonameId>6506027</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Swift River</toponymName>
+        <name>Swift River</name>
+        <lat>42.18954</lat>
+        <lng>-72.35786</lng>
+        <geonameId>4952509</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>STM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Brook Reservoir</toponymName>
+        <name>Chicopee Brook Reservoir</name>
+        <lat>42.11509</lat>
+        <lng>-72.31286</lng>
+        <geonameId>4933003</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Brook Reservoir</toponymName>
+        <name>Chicopee Brook Reservoir</name>
+        <lat>42.11967</lat>
+        <lng>-72.30969</lng>
+        <geonameId>4933004</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee Reservoir</toponymName>
+        <name>Chicopee Reservoir</name>
+        <lat>42.17069</lat>
+        <lng>-72.55133</lng>
+        <geonameId>4933020</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee River Reservoir</toponymName>
+        <name>Chicopee River Reservoir</name>
+        <lat>42.16509</lat>
+        <lng>-72.50286</lng>
+        <geonameId>4933025</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee River Reservoir</toponymName>
+        <name>Chicopee River Reservoir</name>
+        <lat>42.16014</lat>
+        <lng>-72.56928</lng>
+        <geonameId>4933026</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chicopee River Reservoir</toponymName>
+        <name>Chicopee River Reservoir</name>
+        <lat>42.15676</lat>
+        <lng>-72.48286</lng>
+        <geonameId>4933027</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>RSV</fcode>
+    </geoname>
+</geonames>

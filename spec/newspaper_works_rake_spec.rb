@@ -1,11 +1,13 @@
 require 'spec_helper'
 require 'rake'
 require 'ndnp_shared'
+require 'lib/newspaper_works/ingest/ingest_shared'
 require 'active_fedora/cleaner'
 
 # rubocop:disable RSpec/DescribeClass
 describe 'newspaper_works rake tasks' do
   include_context 'ndnp fixture setup'
+  include_context 'ingest test fixtures'
 
   before(:all) do
     Rake.application.rake_require '../lib/tasks/newspaper_works_tasks'
@@ -13,10 +15,23 @@ describe 'newspaper_works rake tasks' do
   end
 
   describe 'ingest tasks' do
-    before(:all) do
+    before do
       ActiveFedora::Cleaner.clean!
       Hyrax::PermissionTemplateAccess.destroy_all
       Hyrax::PermissionTemplate.destroy_all
+    end
+
+    let(:pdf_lccn) { File.basename(pdf_fixtures) }
+
+    let(:pdf_path) { File.join(pdf_fixtures, '1853060401.pdf') }
+
+    let(:single_issue_dir) do
+      Hyrax.config.whitelisted_ingest_dirs.push('/tmp')
+      parent_dir = Dir.mktmpdir
+      dir = File.join(parent_dir, pdf_lccn)
+      FileUtils.mkdir(dir)
+      FileUtils.cp(pdf_path, dir)
+      dir
     end
 
     let(:run_ndnp_ingest_task) do
@@ -27,6 +42,20 @@ describe 'newspaper_works rake tasks' do
           'newspaper_works:ingest_ndnp',
           '--',
           "--path=#{batch1}"
+        ]
+      )
+      Rake::Task[task].reenable
+      Rake.application.invoke_task(task)
+    end
+
+    let(:run_pdf_ingest_task) do
+      task = 'newspaper_works:ingest_pdf_issues'
+      stub_const(
+        'ARGV',
+        [
+          'newspaper_works:ingest_pdf_issues',
+          '--',
+          "--path=#{single_issue_dir}"
         ]
       )
       Rake::Task[task].reenable
@@ -69,6 +98,15 @@ describe 'newspaper_works rake tasks' do
       end
     end
 
+    def expect_pdf_issues
+      # expect NewspaperTitle for LCCN 'sn93059126'
+      publication = NewspaperTitle.where(lccn: 'sn93059126').first
+      expect(publication).not_to be_nil
+      # expect issue for date:
+      issue = publication.issues[0]
+      expect(issue.publication_date).to eq '1853-06-04'
+    end
+
     it 'successfully ingests NDNP batch by task' do
       pub_lccns = ['sn84038814', 'sn85025202']
       expect_clean_slate
@@ -76,6 +114,12 @@ describe 'newspaper_works rake tasks' do
       # the batch we test has two titles, verify all content for each:
       expect_generated_content(pub_lccns)
       check_pages(pub_lccns)
+    end
+
+    it 'ingests a PDF issue batch' do
+      expect_clean_slate
+      run_pdf_ingest_task
+      expect_pdf_issues
     end
   end
 end

@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<geonames style="MEDIUM">
+    <totalResultsCount>1788</totalResultsCount>
+    <geoname>
+        <toponymName>Denver</toponymName>
+        <name>Denver</name>
+        <lat>39.73915</lat>
+        <lng>-104.9847</lng>
+        <geonameId>5419384</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLA</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver International Airport</toponymName>
+        <name>Denver International Airport</name>
+        <lat>39.85891</lat>
+        <lng>-104.67326</lng>
+        <geonameId>5419401</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRP</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver County</toponymName>
+        <name>Denver</name>
+        <lat>39.76204</lat>
+        <lng>-104.87635</lng>
+        <geonameId>5419396</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM2</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Athletic Club</toponymName>
+        <name>Denver Athletic Club</name>
+        <lat>39.74176</lat>
+        <lng>-104.99353</lng>
+        <geonameId>7126209</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Park</toponymName>
+        <name>City Park</name>
+        <lat>39.7486</lat>
+        <lng>-104.94776</lng>
+        <geonameId>5417090</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sloan Lake</toponymName>
+        <name>Sloan Lake</name>
+        <lat>39.74809</lat>
+        <lng>-105.04657</lng>
+        <geonameId>5439099</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Washington Park</toponymName>
+        <name>Washington Park</name>
+        <lat>39.70193</lat>
+        <lng>-104.97081</lng>
+        <geonameId>5443313</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Cheesman Park</toponymName>
+        <name>Cheesman Park</name>
+        <lat>39.73203</lat>
+        <lng>-104.96595</lng>
+        <geonameId>5416777</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Cranmer Park</toponymName>
+        <name>Cranmer Park</name>
+        <lat>39.71915</lat>
+        <lng>-104.93609</lng>
+        <geonameId>5418445</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Equitable Building</toponymName>
+        <name>Equitable Building</name>
+        <lat>39.7463</lat>
+        <lng>-104.99174</lng>
+        <geonameId>7126223</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Boston Building</toponymName>
+        <name>Boston Building</name>
+        <lat>39.74701</lat>
+        <lng>-104.99257</lng>
+        <geonameId>7126224</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Adolph Zang Mansion</toponymName>
+        <name>Adolph Zang Mansion</name>
+        <lat>39.72755</lat>
+        <lng>-104.97791</lng>
+        <geonameId>7126265</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bailey House</toponymName>
+        <name>Bailey House</name>
+        <lat>39.74192</lat>
+        <lng>-104.97446</lng>
+        <geonameId>7126267</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Richthofen Castle</toponymName>
+        <name>Richthofen Castle</name>
+        <lat>39.73513</lat>
+        <lng>-104.90646</lng>
+        <geonameId>7126278</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Coors Field</toponymName>
+        <name>Coors Field</name>
+        <lat>39.75556</lat>
+        <lng>-104.99361</lng>
+        <geonameId>7126483</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Civic Center Park</toponymName>
+        <name>Civic Center Park</name>
+        <lat>39.73917</lat>
+        <lng>-104.98889</lng>
+        <geonameId>6348085</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Confluence Park</toponymName>
+        <name>Confluence Park</name>
+        <lat>39.75472</lat>
+        <lng>-105.00778</lng>
+        <geonameId>6348086</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Mile High Stadium (historical)</toponymName>
+        <name>Mile High Stadium (historical)</name>
+        <lat>39.74665</lat>
+        <lng>-105.02248</lng>
+        <geonameId>5431183</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Ferril Lake</toponymName>
+        <name>Ferril Lake</name>
+        <lat>39.74612</lat>
+        <lng>-104.94901</lng>
+        <geonameId>5421744</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>The Governor's Residence at the Boettcher Mansion</toponymName>
+        <name>The Governor's Residence at the Boettcher Mansion</name>
+        <lat>39.72877</lat>
+        <lng>-104.982</lng>
+        <geonameId>7126253</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>The Brown Palace Hotel and Spa</toponymName>
+        <name>The Brown Palace Hotel and Spa</name>
+        <lat>39.74407</lat>
+        <lng>-104.98758</lng>
+        <geonameId>8256386</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Denver</toponymName>
+        <name>City of Denver</name>
+        <lat>39.76214</lat>
+        <lng>-104.87585</lng>
+        <geonameId>11788668</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>University of Denver</toponymName>
+        <name>University of Denver</name>
+        <lat>39.67662</lat>
+        <lng>-104.96137</lng>
+        <geonameId>5442491</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Tramway Building</toponymName>
+        <name>Denver Tramway Building</name>
+        <lat>39.74573</lat>
+        <lng>-104.99879</lng>
+        <geonameId>7126227</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Governors Park</toponymName>
+        <name>Governors Park</name>
+        <lat>39.72804</lat>
+        <lng>-104.98165</lng>
+        <geonameId>5423520</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lakeside</toponymName>
+        <name>Lakeside</name>
+        <lat>39.77832</lat>
+        <lng>-105.05943</lng>
+        <geonameId>5427934</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lakewood Gulch</toponymName>
+        <name>Lakewood Gulch</name>
+        <lat>39.7391</lat>
+        <lng>-105.01829</lng>
+        <geonameId>5427950</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>T</fcl>
+        <fcode>VAL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Cook Park</toponymName>
+        <name>Cook Park</name>
+        <lat>39.68777</lat>
+        <lng>-104.91109</lng>
+        <geonameId>5417874</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Daniels and Fisher Tower</toponymName>
+        <name>Daniels and Fisher Tower</name>
+        <lat>39.74811</lat>
+        <lng>-104.99555</lng>
+        <geonameId>7126229</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Tivoli Brewery Company</toponymName>
+        <name>Tivoli Brewery Company</name>
+        <lat>39.74521</lat>
+        <lng>-105.00576</lng>
+        <geonameId>7126239</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Grant - Humphreys Mansion</toponymName>
+        <name>Grant - Humphreys Mansion</name>
+        <lat>39.72822</lat>
+        <lng>-104.98057</lng>
+        <geonameId>7126251</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>William G Fisher House / International House</toponymName>
+        <name>William G Fisher House / International House</name>
+        <lat>39.74197</lat>
+        <lng>-104.9819</lng>
+        <geonameId>7126259</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>University of Colorado Denver</toponymName>
+        <name>University of Colorado Denver</name>
+        <lat>39.74503</lat>
+        <lng>-105.00209</lng>
+        <geonameId>8257655</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Firefighters Museum</toponymName>
+        <name>Denver Firefighters Museum</name>
+        <lat>39.74062</lat>
+        <lng>-104.99235</lng>
+        <geonameId>7126208</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>MUS</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Alamo Placita</toponymName>
+        <name>Alamo Placita</name>
+        <lat>39.72082</lat>
+        <lng>-104.97581</lng>
+        <geonameId>5411477</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Financial Center</toponymName>
+        <name>Denver Financial Center</name>
+        <lat>39.74472</lat>
+        <lng>-104.98556</lng>
+        <geonameId>7150406</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Public Library</toponymName>
+        <name>Denver Public Library</name>
+        <lat>39.73734</lat>
+        <lng>-104.9881</lng>
+        <geonameId>7126196</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>LIBR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Mint</toponymName>
+        <name>Denver Mint</name>
+        <lat>39.73944</lat>
+        <lng>-104.9925</lng>
+        <geonameId>7126204</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Academy</toponymName>
+        <name>Denver Academy</name>
+        <lat>39.67365</lat>
+        <lng>-104.93442</lng>
+        <geonameId>7316395</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Coliseum</toponymName>
+        <name>Denver Coliseum</name>
+        <lat>39.77911</lat>
+        <lng>-104.97073</lng>
+        <geonameId>6341438</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Botanic Gardens</toponymName>
+        <name>Denver Botanic Gardens</name>
+        <lat>39.73221</lat>
+        <lng>-104.96033</lng>
+        <geonameId>7670995</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>GDN</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver Montclair International School</toponymName>
+        <name>Denver Montclair International School</name>
+        <lat>39.72227</lat>
+        <lng>-104.89793</lng>
+        <geonameId>8257444</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Four Seasons Hotel Denver</toponymName>
+        <name>Four Seasons Hotel Denver</name>
+        <lat>39.74674</lat>
+        <lng>-104.99786</lng>
+        <geonameId>9968970</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>HTL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Robinson Park</toponymName>
+        <name>Robinson Park</name>
+        <lat>39.72026</lat>
+        <lng>-104.92692</lng>
+        <geonameId>5436661</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rocky Mountain Lake</toponymName>
+        <name>Rocky Mountain Lake</name>
+        <lat>39.78243</lat>
+        <lng>-105.03026</lng>
+        <geonameId>5436826</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rocky Mountain Park</toponymName>
+        <name>Rocky Mountain Park</name>
+        <lat>39.78082</lat>
+        <lng>-105.03054</lng>
+        <geonameId>5436830</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rosedale Park</toponymName>
+        <name>Rosedale Park</name>
+        <lat>39.68193</lat>
+        <lng>-104.98443</lng>
+        <geonameId>5436969</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rude Park</toponymName>
+        <name>Rude Park</name>
+        <lat>39.73665</lat>
+        <lng>-105.02387</lng>
+        <geonameId>5437164</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Ruby Hill Park</toponymName>
+        <name>Ruby Hill Park</name>
+        <lat>39.68638</lat>
+        <lng>-105.00387</lng>
+        <geonameId>5437167</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Saint Charles Place Park</toponymName>
+        <name>Saint Charles Place Park</name>
+        <lat>39.76971</lat>
+        <lng>-104.97081</lng>
+        <geonameId>5437398</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Schafer Park</toponymName>
+        <name>Schafer Park</name>
+        <lat>39.76915</lat>
+        <lng>-104.95609</lng>
+        <geonameId>5438034</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Skyland Park</toponymName>
+        <name>Skyland Park</name>
+        <lat>39.76499</lat>
+        <lng>-104.92109</lng>
+        <geonameId>5439011</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sloans Lake Park</toponymName>
+        <name>Sloans Lake Park</name>
+        <lat>39.75332</lat>
+        <lng>-105.04832</lng>
+        <geonameId>5439100</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Smith Lake</toponymName>
+        <name>Smith Lake</name>
+        <lat>39.70475</lat>
+        <lng>-104.9709</lng>
+        <geonameId>5439169</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sunken Gardens Park</toponymName>
+        <name>Sunken Gardens Park</name>
+        <lat>39.73054</lat>
+        <lng>-104.99248</lng>
+        <geonameId>5440740</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Swansea Park</toponymName>
+        <name>Swansea Park</name>
+        <lat>39.78582</lat>
+        <lng>-104.95554</lng>
+        <geonameId>5440911</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>United Nations Park</toponymName>
+        <name>United Nations Park</name>
+        <lat>39.74165</lat>
+        <lng>-104.98748</lng>
+        <geonameId>5442472</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Valverde Park</toponymName>
+        <name>Valverde Park</name>
+        <lat>39.7136</lat>
+        <lng>-105.00276</lng>
+        <geonameId>5442803</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Vanderbilt Park</toponymName>
+        <name>Vanderbilt Park</name>
+        <lat>39.70026</lat>
+        <lng>-104.99526</lng>
+        <geonameId>5442845</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Weir Gulch Park</toponymName>
+        <name>Weir Gulch Park</name>
+        <lat>39.71332</lat>
+        <lng>-105.04776</lng>
+        <geonameId>5443480</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>West-Bar-Val Wood Park</toponymName>
+        <name>West-Bar-Val Wood Park</name>
+        <lat>39.71415</lat>
+        <lng>-105.01276</lng>
+        <geonameId>5443885</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Wolcott Lake</toponymName>
+        <name>Wolcott Lake</name>
+        <lat>39.66902</lat>
+        <lng>-105.04935</lng>
+        <geonameId>5444616</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Argo Park</toponymName>
+        <name>Argo Park</name>
+        <lat>39.78332</lat>
+        <lng>-104.98165</lng>
+        <geonameId>5412105</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Arlington Park</toponymName>
+        <name>Arlington Park</name>
+        <lat>39.7186</lat>
+        <lng>-104.97693</lng>
+        <geonameId>5412139</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Barnum Park</toponymName>
+        <name>Barnum Park</name>
+        <lat>39.72499</lat>
+        <lng>-105.02776</lng>
+        <geonameId>5412772</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bear Creek Park</toponymName>
+        <name>Bear Creek Park</name>
+        <lat>39.65304</lat>
+        <lng>-105.04526</lng>
+        <geonameId>5413047</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Belleview Park</toponymName>
+        <name>Belleview Park</name>
+        <lat>39.73415</lat>
+        <lng>-104.93248</lng>
+        <geonameId>5413385</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Berkeley Lake</toponymName>
+        <name>Berkeley Lake</name>
+        <lat>39.78315</lat>
+        <lng>-105.04883</lng>
+        <geonameId>5413514</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Berkeley Park</toponymName>
+        <name>Berkeley Park</name>
+        <lat>39.78082</lat>
+        <lng>-105.04832</lng>
+        <geonameId>5413515</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bluff Lake</toponymName>
+        <name>Bluff Lake</name>
+        <lat>39.76077</lat>
+        <lng>-104.86272</lng>
+        <geonameId>5414428</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bonnie Brae Park</toponymName>
+        <name>Bonnie Brae Park</name>
+        <lat>39.70027</lat>
+        <lng>-104.95498</lng>
+        <geonameId>5414567</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Burns Park</toponymName>
+        <name>Burns Park</name>
+        <lat>39.71249</lat>
+        <lng>-104.93942</lng>
+        <geonameId>5415533</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Chaffee Park</toponymName>
+        <name>Chaffee Park</name>
+        <lat>39.7761</lat>
+        <lng>-105.01082</lng>
+        <geonameId>5416627</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Montclair Park</toponymName>
+        <name>Montclair Park</name>
+        <lat>39.73526</lat>
+        <lng>-104.90887</lng>
+        <geonameId>5431653</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Pferdsteller Park</toponymName>
+        <name>Pferdsteller Park</name>
+        <lat>39.7636</lat>
+        <lng>-105.04971</lng>
+        <geonameId>5434422</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Platte Park</toponymName>
+        <name>Platte Park</name>
+        <lat>39.68861</lat>
+        <lng>-105.98306</lng>
+        <geonameId>5434844</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Pulaski Park</toponymName>
+        <name>Pulaski Park</name>
+        <lat>39.71304</lat>
+        <lng>-104.94804</lng>
+        <geonameId>5435484</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Fuller Park</toponymName>
+        <name>Fuller Park</name>
+        <lat>39.75749</lat>
+        <lng>-104.96804</lng>
+        <geonameId>5422592</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Garfield Lake</toponymName>
+        <name>Garfield Lake</name>
+        <lat>39.69619</lat>
+        <lng>-105.03526</lng>
+        <geonameId>5422755</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Garland Park</toponymName>
+        <name>Garland Park</name>
+        <lat>39.69527</lat>
+        <lng>-104.91831</lng>
+        <geonameId>5422778</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Grasmer Lake</toponymName>
+        <name>Grasmer Lake</name>
+        <lat>39.86249</lat>
+        <lng>-104.9722</lng>
+        <geonameId>5423681</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Harvey Park</toponymName>
+        <name>Harvey Park</name>
+        <lat>39.67888</lat>
+        <lng>-105.04276</lng>
+        <geonameId>5424507</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Highland Park</toponymName>
+        <name>Highland Park</name>
+        <lat>39.76304</lat>
+        <lng>-105.02637</lng>
+        <geonameId>5425030</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Hirshorn Park</toponymName>
+        <name>Hirshorn Park</name>
+        <lat>39.76054</lat>
+        <lng>-105.01082</lng>
+        <geonameId>5425138</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Hungarian Freedom Park</toponymName>
+        <name>Hungarian Freedom Park</name>
+        <lat>39.7186</lat>
+        <lng>-104.97665</lng>
+        <geonameId>5425787</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Huston Lake</toponymName>
+        <name>Huston Lake</name>
+        <lat>39.70171</lat>
+        <lng>-105.01596</lng>
+        <geonameId>5425857</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>LK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Jefferson Park</toponymName>
+        <name>Jefferson Park</name>
+        <lat>39.75026</lat>
+        <lng>-105.0222</lng>
+        <geonameId>5426518</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lincoln Park</toponymName>
+        <name>Lincoln Park</name>
+        <lat>39.73526</lat>
+        <lng>-105.00415</lng>
+        <geonameId>5428533</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Mamie D Eisenhower Park</toponymName>
+        <name>Mamie D Eisenhower Park</name>
+        <lat>39.65943</lat>
+        <lng>-104.93637</lng>
+        <geonameId>5429942</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>McDonough Park</toponymName>
+        <name>McDonough Park</name>
+        <lat>39.7736</lat>
+        <lng>-105.02582</lng>
+        <geonameId>5430505</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>McNichols Park</toponymName>
+        <name>McNichols Park</name>
+        <lat>39.74471</lat>
+        <lng>-104.89942</lng>
+        <geonameId>5430639</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Alamo Placita Park</toponymName>
+        <name>Alamo Placita Park</name>
+        <lat>39.72054</lat>
+        <lng>-104.97581</lng>
+        <geonameId>5411478</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Brest Park</toponymName>
+        <name>City of Brest Park</name>
+        <lat>39.70777</lat>
+        <lng>-104.9447</lng>
+        <geonameId>5417095</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Clayton Park</toponymName>
+        <name>Clayton Park</name>
+        <lat>39.76304</lat>
+        <lng>-104.93526</lng>
+        <geonameId>5417168</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Columbus Park</toponymName>
+        <name>Columbus Park</name>
+        <lat>39.76971</lat>
+        <lng>-105.00498</lng>
+        <geonameId>5417712</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Congress Park</toponymName>
+        <name>Congress Park</name>
+        <lat>39.72999</lat>
+        <lng>-104.95637</lng>
+        <geonameId>5417816</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Crestmoor Park</toponymName>
+        <name>Crestmoor Park</name>
+        <lat>39.71471</lat>
+        <lng>-104.91637</lng>
+        <geonameId>5418532</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Curtis Park</toponymName>
+        <name>Curtis Park</name>
+        <lat>39.76082</lat>
+        <lng>-104.97609</lng>
+        <geonameId>5418845</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Dailey Park</toponymName>
+        <name>Dailey Park</name>
+        <lat>39.71638</lat>
+        <lng>-104.99276</lng>
+        <geonameId>5418908</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>De Boer Park</toponymName>
+        <name>De Boer Park</name>
+        <lat>39.67082</lat>
+        <lng>-104.96137</lng>
+        <geonameId>5419050</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+</geonames>

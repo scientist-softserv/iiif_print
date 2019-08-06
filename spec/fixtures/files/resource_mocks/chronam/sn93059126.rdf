@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:frbr="http://purl.org/vocab/frbr/core#"
+   xmlns:ore="http://www.openarchives.org/ore/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rda="http://rdvocab.info/elements/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="/lccn/sn93059126.rdf">
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-08-01T18:31:52-04:00</dcterms:created>
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/ResourceMap"/>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-08-01T18:31:52-04:00</dcterms:modified>
+    <dcterms:creator rdf:resource="http://chroniclingamerica.loc.gov/awardees/dlc#awardee"/>
+    <ore:describes rdf:resource="/lccn/sn93059126#title"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="/lccn/sn93059126#title">
+    <dcterms:coverage rdf:resource="http://dbpedia.org/resource/Chicopee%2C_Massachusetts"/>
+    <dcterms:coverage rdf:resource="http://sws.geonames.org/4933002/"/>
+    <dcterms:hasFormat rdf:resource="/lccn/sn93059126/marc.xml"/>
+    <dcterms:date rdf:datatype="http://www.loc.gov/standards/datetime#edt">1854/1856</dcterms:date>
+    <dc:publisher>D.B. Potts</dc:publisher>
+    <frbr:successor rdf:resource="/lccn/sn83020109#title"/>
+    <rdfs:seeAlso rdf:resource="http://www.worldcat.org/oclc/27290248"/>
+    <rdfs:seeAlso rdf:resource="http://lccn.loc.gov/sn93059126"/>
+    <rdf:type rdf:resource="http://purl.org/ontology/bibo/Newspaper"/>
+    <rda:placeOfPublication>Chicopee [Mass.]</rda:placeOfPublication>
+    <owl:sameAs rdf:resource="info:lccn/sn93059126"/>
+    <owl:sameAs rdf:resource="info:oclcnum/27290248"/>
+    <dcterms:title>The weekly journal.</dcterms:title>
+    <dcterms:language rdf:resource="http://www.lingvoj.org/lang/en"/>
+    <ore:isDescribedBy rdf:resource="/lccn/sn93059126.rdf"/>
+  </rdf:Description>
+</rdf:RDF>

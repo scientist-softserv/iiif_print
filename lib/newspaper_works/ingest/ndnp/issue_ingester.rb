@@ -1,10 +1,10 @@
 module NewspaperWorks
   module Ingest
     module NDNP
-      # rubocop:disable Metrics/ClassLength
       class IssueIngester
         include NewspaperWorks::Logging
         include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
+        include NewspaperWorks::Ingest::PubFinder
 
         attr_accessor :issue, :target, :opts
 
@@ -62,6 +62,10 @@ module NewspaperWorks
             parsed.strftime('%B %-d, %Y')
           end
 
+          def publication_title(issue)
+            issue.metadata.publication_title.strip.split(/ \(/)[0]
+          end
+
           def issue_title
             "#{publication_title(issue)}: #{publication_date}"
           end
@@ -85,57 +89,12 @@ module NewspaperWorks
             write_log("Saved metadata to new NewspaperIssue #{@target.id}")
           end
 
-          # @param lccn [String] Library of Congress Control Number
-          #   of Publication
-          # @return [NewspaperTitle, NilClass] publication or nil if not found
-          def find_publication(lccn)
-            NewspaperTitle.where(lccn: lccn).first
-          end
-
-          # Singular string title for publication, without place description
-          # @return [String]
-          def publication_title(issue)
-            issue.metadata.publication_title.strip.split(/ \(/)[0]
-          end
-
-          def copy_publication_title(publication)
-            complete_pubtitle = issue.metadata.publication_title.strip
-            publication.title = [publication_title(issue)]
-            place_name = complete_pubtitle.split(/ [\(]/)[1].split(')')[0]
-            uri = NewspaperWorks::Ingest.geonames_place_uri(place_name)
-            publication.place_of_publication = [uri] unless uri.nil?
-          end
-
-          def create_publication(lccn)
-            publication = NewspaperTitle.create
-            copy_publication_title(publication)
-            publication.lccn ||= lccn
-            assign_administrative_metadata(publication)
-            publication.save!
-            write_log(
-              "Created NewspaperTitle work #{publication.id} for LCCN #{lccn}"
-            )
-            publication
-          end
-
           def find_or_create_linked_publication
+            title = publication_title(issue)
             lccn = issue.metadata.lccn
-            publication = find_publication(lccn)
-            unless publication.nil?
-              write_log(
-                "Found existing NewspaperTitle #{publication.id}, LCCN #{lccn}"
-              )
-            end
-            publication = create_publication(lccn) if publication.nil?
-            publication.ordered_members << @target
-            publication.save!
-            write_log(
-              "Linked NewspaperIssue #{@target.id} to "\
-              "NewspaperTitle work #{publication.id}"
-            )
+            find_or_create_publication_for_issue(@target, lccn, title, @opts)
           end
       end
-      # rubocop:enable Metrics/ClassLength
     end
   end
 end

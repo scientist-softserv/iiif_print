@@ -5,6 +5,7 @@ require "newspaper_works/data"
 require "newspaper_works/configuration"
 require "newspaper_works/page_finder"
 require "newspaper_works/logging"
+require "newspaper_works/resource_fetcher"
 
 # Newspaper works modules
 module NewspaperWorks

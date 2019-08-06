@@ -1,7 +1,16 @@
 require 'faraday'
 require 'nokogiri'
 require 'uri'
+require 'newspaper_works/ingest/from_command'
+require 'newspaper_works/ingest/base_publication_info'
+require 'newspaper_works/ingest/chronam_publication_info'
+require 'newspaper_works/ingest/lc_publication_info'
+require 'newspaper_works/ingest/publication_info'
+require 'newspaper_works/ingest/pub_finder'
 require 'newspaper_works/ingest/pdf_images'
+require 'newspaper_works/ingest/pdf_issue'
+require 'newspaper_works/ingest/pdf_issues'
+require 'newspaper_works/ingest/pdf_issue_ingester'
 require 'newspaper_works/ingest/pdf_pages'
 require 'newspaper_works/ingest/base_ingest'
 require 'newspaper_works/ingest/ndnp'
@@ -20,14 +29,32 @@ module NewspaperWorks
     def self.geonames_place_uri(place_name)
       username = Qa::Authorities::Geonames.username
       return if username.nil? || username.empty?
+      place_name = place_name.delete('.').split(/[\[\(]/)[0].strip
       query = URI.encode(place_name)
       geo_qs = "q=#{query}&username=#{username}"
       url = "http://api.geonames.org/search?#{geo_qs}"
-      resp = Faraday.get url
-      doc = Nokogiri.XML(resp.body)
+      resp = NewspaperWorks::ResourceFetcher.get url
+      doc = Nokogiri.XML(resp['body'])
       geonames_id = doc.xpath('//geonames/geoname[1]/geonameId').first
       return if geonames_id.nil?
       "http://sws.geonames.org/#{geonames_id.text}/"
+    end
+
+    # Normalize publication title from catalog data
+    #   Presently strips trailing period
+    # @param title [String]
+    # @return [String] normalized title
+    def self.normalize_title(title)
+      title.strip.sub(/[.]+$/, '')
+    end
+
+    # Get publication metadata from LC catalog MODS data, if available,
+    #   and from ChronAm, as a fallback.
+    # @param lccn [String] Library of Congress Control number for publication
+    # @return [NewspaperWorks::Ingest::PublicationInfo] proxy to metadata
+    #   source, an object for accessors for publication fields.
+    def self.publication_metadata(lccn)
+      PublicationInfo.new(lccn)
     end
 
     def self.find_admin_set(admin_set = nil)

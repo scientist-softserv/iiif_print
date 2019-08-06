@@ -1,4 +1,18 @@
 require 'spec_helper'
+require 'newspaper_works_fixtures'
+
+RSpec.shared_context "ingest test fixtures", shared_context: :metadata do
+  # Path to fixtures gem for sample fixtures, whitelisted:
+  let(:fixtures_path) do
+    path = NewspaperWorksFixtures.file_fixtures
+    whitelist = Hyrax.config.whitelisted_ingest_dirs
+    whitelist.push(path) unless whitelist.include?(path)
+    path
+  end
+
+  # single batch of PDF fixtures
+  let(:pdf_fixtures) { File.join(fixtures_path, 'pdf_batch', 'sn93059126') }
+end
 
 RSpec.shared_examples 'ingest adapter IO' do
   # define the path to the file we will use for multiple examples
@@ -6,6 +20,7 @@ RSpec.shared_examples 'ingest adapter IO' do
     fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
     File.join(fixtures, 'page1.tiff')
   end
+
   # DRY for this matcher's use in multiple examples:
   let(:have_io_and_correct_filename) do
     have_attributes(

@@ -1,0 +1,82 @@
+{
+  "urls" : [
+    {
+      "url": "https://lccn.loc.gov/sn93059126/mods",
+      "local": "lccn/sn93059126"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn83045396/mods",
+      "local": "lccn/sn83045396"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn83020109/mods",
+      "local": "lccn/sn83020109"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn83021453/mods",
+      "local": "lccn/sn83021453"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn94051019/mods",
+      "local": "lccn/sn94051019"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn99999999/mods",
+      "local": "lccn/sn99999999"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn2099999999/mods",
+      "local": "lccn/sn2099999999"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn82014496/mods",
+      "local": "lccn/sn82014496"
+    },
+    {
+      "url": "https://lccn.loc.gov/sn84038814/mods",
+      "local": "lccn/sn84038814"
+    },
+    {
+      "url": "http://api.geonames.org/search?q=Chicopee&username=newspaper_works",
+      "local": "geonames/Chicopee"
+    },
+    {
+      "url": "http://api.geonames.org/search?q=Salt%20Lake%20City,%20Utah&username=newspaper_works",
+      "local": "geonames/SLC"
+    },
+    {
+      "url": "http://api.geonames.org/search?q=Marysville,%20Calif&username=newspaper_works",
+      "local": "geonames/Marysville"
+    },
+    {
+      "url": "http://api.geonames.org/search?q=Denver,%20Colorado&username=newspaper_works",
+      "local": "geonames/Denver"
+    },
+    {
+      "url": "http://api.geonames.org/search?q=Marysville,%20California&username=newspaper_works",
+      "local": "geonames/Marysville2"
+    },
+    {
+      "url": "https://chroniclingamerica.loc.gov/lccn/sn84038814.rdf",
+      "local": "chronam/sn84038814.rdf"
+    },
+    {
+      "url": "https://chroniclingamerica.loc.gov/lccn/sn93059126.rdf",
+      "local": "chronam/sn93059126.rdf"
+    },
+    {
+      "url": "https://chroniclingamerica.loc.gov/lccn/sn94051019.rdf",
+      "local": "chronam/sn94051019.rdf"
+    },
+    {
+      "url": "https://chroniclingamerica.loc.gov/lccn/sn99999999.rdf",
+      "local": "chronam/http404-expected",
+      "status": 404
+    },
+    {
+      "url": "https://chroniclingamerica.loc.gov/lccn/sn2099999999.rdf",
+      "local": "chronam/http404-expected",
+      "status": 404
+    }
+  ]
+}

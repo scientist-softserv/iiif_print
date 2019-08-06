@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:frbr="http://purl.org/vocab/frbr/core#"
+   xmlns:ore="http://www.openarchives.org/ore/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rda="http://rdvocab.info/elements/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="/lccn/sn94051019.rdf">
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-08-01T04:08:45-04:00</dcterms:modified>
+    <dcterms:creator rdf:resource="http://chroniclingamerica.loc.gov/awardees/dlc#awardee"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2019-08-01T04:08:45-04:00</dcterms:created>
+    <ore:describes rdf:resource="/lccn/sn94051019#title"/>
+    <rdf:type rdf:resource="http://www.openarchives.org/ore/terms/ResourceMap"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="/lccn/sn94051019#title">
+    <dcterms:language rdf:resource="http://www.lingvoj.org/lang/en"/>
+    <dcterms:title>Marysville daily news.</dcterms:title>
+    <dcterms:coverage rdf:resource="http://dbpedia.org/resource/Marysville%2C_California"/>
+    <dcterms:hasFormat rdf:resource="/lccn/sn94051019/marc.xml"/>
+    <rda:placeOfPublication>Marysville, Calif.</rda:placeOfPublication>
+    <dcterms:date rdf:datatype="http://www.loc.gov/standards/datetime#edt">1858/1858</dcterms:date>
+    <owl:sameAs rdf:resource="info:oclcnum/30043558"/>
+    <owl:sameAs rdf:resource="info:lccn/sn94051019"/>
+    <dc:publisher>A.S. Randall &amp; Co.</dc:publisher>
+    <rdf:type rdf:resource="http://purl.org/ontology/bibo/Newspaper"/>
+    <dc:subject>California--Marysville.--fast--(OCoLC)fst01215506</dc:subject>
+    <dc:subject>Marysville (Calif.)--Newspapers.</dc:subject>
+    <ore:isDescribedBy rdf:resource="/lccn/sn94051019.rdf"/>
+    <frbr:successor rdf:resource="/lccn/sn84038814#title"/>
+    <rdfs:seeAlso rdf:resource="http://lccn.loc.gov/sn94051019"/>
+    <rdfs:seeAlso rdf:resource="http://www.worldcat.org/oclc/30043558"/>
+  </rdf:Description>
+</rdf:RDF>

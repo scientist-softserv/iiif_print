@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<geonames style="MEDIUM">
+    <totalResultsCount>802</totalResultsCount>
+    <geoname>
+        <toponymName>Salt Lake City</toponymName>
+        <name>Salt Lake City</name>
+        <lat>40.76078</lat>
+        <lng>-111.89105</lng>
+        <geonameId>5780993</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLA</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City International Airport</toponymName>
+        <name>Salt Lake City International Airport</name>
+        <lat>40.78688</lat>
+        <lng>-111.98203</lng>
+        <geonameId>5780999</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRP</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>West Valley City</toponymName>
+        <name>West Valley City</name>
+        <lat>40.69161</lat>
+        <lng>-112.00105</lng>
+        <geonameId>5784607</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sandy</toponymName>
+        <name>Sandy</name>
+        <lat>40.59161</lat>
+        <lng>-111.8841</lng>
+        <geonameId>5781061</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>White City</toponymName>
+        <name>White City</name>
+        <lat>40.56578</lat>
+        <lng>-111.86438</lng>
+        <geonameId>5784731</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Granite</toponymName>
+        <name>Granite</name>
+        <lat>40.573</lat>
+        <lng>-111.80604</lng>
+        <geonameId>5775320</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>South Valley Regional Airport</toponymName>
+        <name>South Valley Regional Airport</name>
+        <lat>40.61954</lat>
+        <lng>-111.99289</lng>
+        <geonameId>5781001</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRP</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City KOA</toponymName>
+        <name>Salt Lake City KOA</name>
+        <lat>40.77161</lat>
+        <lng>-111.92994</lng>
+        <geonameId>5781000</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Murray</toponymName>
+        <name>City of Murray</name>
+        <lat>40.64982</lat>
+        <lng>-111.88741</lng>
+        <geonameId>11788479</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Midvale</toponymName>
+        <name>City of Midvale</name>
+        <lat>40.61476</lat>
+        <lng>-111.89276</lng>
+        <geonameId>11788485</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Riverton</toponymName>
+        <name>City of Riverton</name>
+        <lat>40.51759</lat>
+        <lng>-111.96357</lng>
+        <geonameId>11788570</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Bluffdale</toponymName>
+        <name>City of Bluffdale</name>
+        <lat>40.47431</lat>
+        <lng>-111.9383</lng>
+        <geonameId>11788791</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Draper</toponymName>
+        <name>City of Draper</name>
+        <lat>40.49559</lat>
+        <lng>-111.86076</lng>
+        <geonameId>11788837</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Sandy</toponymName>
+        <name>City of Sandy</name>
+        <lat>40.57042</lat>
+        <lng>-111.85164</lng>
+        <geonameId>11789053</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Cottonwood Heights</toponymName>
+        <name>City of Cottonwood Heights</name>
+        <lat>40.61524</lat>
+        <lng>-111.81516</lng>
+        <geonameId>7173243</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADMD</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Herriman</toponymName>
+        <name>City of Herriman</name>
+        <lat>40.48794</lat>
+        <lng>-112.01472</lng>
+        <geonameId>7173611</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADMD</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Holladay</toponymName>
+        <name>City of Holladay</name>
+        <lat>40.65778</lat>
+        <lng>-111.82352</lng>
+        <geonameId>7173628</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADMD</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of South Jordan</toponymName>
+        <name>City of South Jordan</name>
+        <lat>40.55696</lat>
+        <lng>-111.97797</lng>
+        <geonameId>7174470</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADMD</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Taylorsville</toponymName>
+        <name>City of Taylorsville</name>
+        <lat>40.65696</lat>
+        <lng>-111.94934</lng>
+        <geonameId>7174547</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADMD</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Riverton City Park</toponymName>
+        <name>Riverton City Park</name>
+        <lat>40.5181</lat>
+        <lng>-111.9322</lng>
+        <geonameId>7184951</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>L</fcl>
+        <fcode>PRK</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Capitol Hill</toponymName>
+        <name>Capitol Hill</name>
+        <lat>40.78439</lat>
+        <lng>-111.86744</lng>
+        <geonameId>5772445</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City, Salt Lake City Municipal 2 Airport</toponymName>
+        <name>Salt Lake City, Salt Lake City Municipal 2 Airport</name>
+        <lat>40.61944</lat>
+        <lng>-111.99278</lng>
+        <geonameId>6299211</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRP</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of Salt Lake City</toponymName>
+        <name>City of Salt Lake City</name>
+        <lat>40.77738</lat>
+        <lng>-111.93001</lng>
+        <geonameId>11788893</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of South Salt Lake</toponymName>
+        <name>City of South Salt Lake</name>
+        <lat>40.70564</lat>
+        <lng>-111.89867</lng>
+        <geonameId>11788585</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Cemetery</toponymName>
+        <name>Salt Lake City Cemetery</name>
+        <lat>40.77482</lat>
+        <lng>-111.8628</lng>
+        <geonameId>5780995</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CMTY</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of West Valley City</toponymName>
+        <name>City of West Valley City</name>
+        <lat>40.68889</lat>
+        <lng>-112.01146</lng>
+        <geonameId>11788878</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of West Jordan</toponymName>
+        <name>City of West Jordan</name>
+        <lat>40.60244</lat>
+        <lng>-112.00076</lng>
+        <geonameId>11788973</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Creek</toponymName>
+        <name>City Creek</name>
+        <lat>40.77633</lat>
+        <lng>-111.88466</lng>
+        <geonameId>5772900</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>STM</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Creek Meadows</toponymName>
+        <name>City Creek Meadows</name>
+        <lat>40.853</lat>
+        <lng>-111.74077</lng>
+        <geonameId>5772903</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>T</fcl>
+        <fcode>PLN</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Creek Center</toponymName>
+        <name>City Creek Center</name>
+        <lat>40.76817</lat>
+        <lng>-111.89157</lng>
+        <geonameId>10375927</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>MALL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Temple Square</toponymName>
+        <name>Temple Square</name>
+        <lat>40.7705</lat>
+        <lng>-111.89244</lng>
+        <geonameId>5782503</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Jordan and Salt Lake City Canal</toponymName>
+        <name>Jordan and Salt Lake City Canal</name>
+        <lat>40.62634</lat>
+        <lng>-111.87632</lng>
+        <geonameId>5776549</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>H</fcl>
+        <fcode>CNL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Air National Guard Base</toponymName>
+        <name>Salt Lake City Air National Guard Base</name>
+        <lat>40.78278</lat>
+        <lng>-111.97188</lng>
+        <geonameId>9036535</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>AIRB</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of North Salt Lake</toponymName>
+        <name>City of North Salt Lake</name>
+        <lat>40.84389</lat>
+        <lng>-111.91872</lng>
+        <geonameId>11788432</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>A</fcl>
+        <fcode>ADM3</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Byers and Tolles Addition</toponymName>
+        <name>Byers and Tolles Addition</name>
+        <lat>40.78967</lat>
+        <lng>-111.93494</lng>
+        <geonameId>5772285</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bingham City Cemetery</toponymName>
+        <name>Bingham City Cemetery</name>
+        <lat>40.5655</lat>
+        <lng>-112.0805</lng>
+        <geonameId>5771534</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>CMTY</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>White City Subdivision Number 1</toponymName>
+        <name>White City Subdivision Number 1</name>
+        <lat>40.573</lat>
+        <lng>-111.86605</lng>
+        <geonameId>5784732</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>White City Subdivision Number 2</toponymName>
+        <name>White City Subdivision Number 2</name>
+        <lat>40.56245</lat>
+        <lng>-111.86521</lng>
+        <geonameId>5784733</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Kinney and Gourlays Improved City Plat</toponymName>
+        <name>Kinney and Gourlays Improved City Plat</name>
+        <lat>40.79356</lat>
+        <lng>-111.9166</lng>
+        <geonameId>5776844</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Maple City</toponymName>
+        <name>Maple City</name>
+        <lat>40.77161</lat>
+        <lng>-111.73576</lng>
+        <geonameId>5777893</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Creek Canyon</toponymName>
+        <name>City Creek Canyon</name>
+        <lat>40.77633</lat>
+        <lng>-111.88466</lng>
+        <geonameId>5772902</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>T</fcl>
+        <fcode>VAL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Crest Condominium</toponymName>
+        <name>City Crest Condominium</name>
+        <lat>40.77078</lat>
+        <lng>-111.8866</lng>
+        <geonameId>5772914</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Copper City</toponymName>
+        <name>Copper City</name>
+        <lat>40.64689</lat>
+        <lng>-112.033</lng>
+        <geonameId>5773205</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPL</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 1</toponymName>
+        <name>Salt Lake City Fire Department Station 1</name>
+        <lat>40.7647</lat>
+        <lng>-111.87621</lng>
+        <geonameId>7185077</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of South Salt Lake Fire Department Station 41</toponymName>
+        <name>City of South Salt Lake Fire Department Station 41</name>
+        <lat>40.71389</lat>
+        <lng>-111.89156</lng>
+        <geonameId>7727285</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of South Salt Lake Fire Department Station 43</toponymName>
+        <name>City of South Salt Lake Fire Department Station 43</name>
+        <lat>40.69222</lat>
+        <lng>-111.89444</lng>
+        <geonameId>7727411</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City of South Salt Lake Fire Department Station 42</toponymName>
+        <name>City of South Salt Lake Fire Department Station 42</name>
+        <lat>40.70115</lat>
+        <lng>-111.91647</lng>
+        <geonameId>7727482</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Saint Albans</toponymName>
+        <name>Saint Albans</name>
+        <lat>40.71661</lat>
+        <lng>-111.95549</lng>
+        <geonameId>5780909</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Bello Park Three</toponymName>
+        <name>Bello Park Three</name>
+        <lat>40.69272</lat>
+        <lng>-112.05355</lng>
+        <geonameId>5771281</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>El Dorado</toponymName>
+        <name>El Dorado</name>
+        <lat>40.72189</lat>
+        <lng>-112.01744</lng>
+        <geonameId>5774423</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Midvale City Fire Department Station 21</toponymName>
+        <name>Midvale City Fire Department Station 21</name>
+        <lat>40.61126</lat>
+        <lng>-111.9126</lng>
+        <geonameId>7727435</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>KRSP-FM (Salt Lake City)</toponymName>
+        <name>KRSP-FM (Salt Lake City)</name>
+        <lat>40.66022</lat>
+        <lng>-112.20217</lng>
+        <geonameId>5776652</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>TOWR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>KSOP-FM (Salt Lake City)</toponymName>
+        <name>KSOP-FM (Salt Lake City)</name>
+        <lat>40.65967</lat>
+        <lng>-112.20217</lng>
+        <geonameId>5776658</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>TOWR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>KSTU-TV (Salt Lake City)</toponymName>
+        <name>KSTU-TV (Salt Lake City)</name>
+        <lat>40.65939</lat>
+        <lng>-112.20189</lng>
+        <geonameId>5776659</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>TOWR</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake International Center</toponymName>
+        <name>Salt Lake International Center</name>
+        <lat>40.78078</lat>
+        <lng>-112.03189</lng>
+        <geonameId>5781006</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Smith Salt Lake</toponymName>
+        <name>Smith Salt Lake</name>
+        <lat>40.73911</lat>
+        <lng>-111.92577</lng>
+        <geonameId>5781543</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>West Salt Lake</toponymName>
+        <name>West Salt Lake</name>
+        <lat>40.79078</lat>
+        <lng>-111.98049</lng>
+        <geonameId>5784595</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Jennings North Salt Lake</toponymName>
+        <name>Jennings North Salt Lake</name>
+        <lat>40.79217</lat>
+        <lng>-111.92744</lng>
+        <geonameId>5776458</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Utah Southern Addition</toponymName>
+        <name>Utah Southern Addition</name>
+        <lat>40.738</lat>
+        <lng>-111.93716</lng>
+        <geonameId>5784038</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Community College South City Campus</toponymName>
+        <name>Salt Lake City Community College South City Campus</name>
+        <lat>40.7381</lat>
+        <lng>-111.8868</lng>
+        <geonameId>7185154</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>SCH</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City Park</toponymName>
+        <name>City Park</name>
+        <lat>40.75856</lat>
+        <lng>-111.91994</lng>
+        <geonameId>5772906</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>City View Addition</toponymName>
+        <name>City View Addition</name>
+        <lat>40.78606</lat>
+        <lng>-111.89577</lng>
+        <geonameId>5772909</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Denver City</toponymName>
+        <name>Denver City</name>
+        <lat>40.79911</lat>
+        <lng>-111.98411</lng>
+        <geonameId>5773812</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Garden City Addition</toponymName>
+        <name>Garden City Addition</name>
+        <lat>40.72272</lat>
+        <lng>-111.98466</lng>
+        <geonameId>5775058</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Lake View</toponymName>
+        <name>Lake View</name>
+        <lat>40.79133</lat>
+        <lng>-111.90549</lng>
+        <geonameId>5776985</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Coates and Corums Lake Breeze</toponymName>
+        <name>Coates and Corums Lake Breeze</name>
+        <lat>40.7655</lat>
+        <lng>-111.94438</lng>
+        <geonameId>5773061</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 6</toponymName>
+        <name>Salt Lake City Fire Department Station 6</name>
+        <lat>40.75228</lat>
+        <lng>-111.91853</lng>
+        <geonameId>7727353</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 5</toponymName>
+        <name>Salt Lake City Fire Department Station 5</name>
+        <lat>40.7502</lat>
+        <lng>-111.8615</lng>
+        <geonameId>7727354</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 3</toponymName>
+        <name>Salt Lake City Fire Department Station 3</name>
+        <lat>40.72241</lat>
+        <lng>-111.85989</lng>
+        <geonameId>7727355</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 14</toponymName>
+        <name>Salt Lake City Fire Department Station 14</name>
+        <lat>40.73654</lat>
+        <lng>-111.94503</lng>
+        <geonameId>7727356</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 9</toponymName>
+        <name>Salt Lake City Fire Department Station 9</name>
+        <lat>40.77834</lat>
+        <lng>-112.02875</lng>
+        <geonameId>7727387</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 8</toponymName>
+        <name>Salt Lake City Fire Department Station 8</name>
+        <lat>40.74137</lat>
+        <lng>-111.89149</lng>
+        <geonameId>7727412</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 7</toponymName>
+        <name>Salt Lake City Fire Department Station 7</name>
+        <lat>40.77538</lat>
+        <lng>-111.9201</lng>
+        <geonameId>7727413</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 12</toponymName>
+        <name>Salt Lake City Fire Department Station 12</name>
+        <lat>40.79298</lat>
+        <lng>-111.9883</lng>
+        <geonameId>7727414</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 11</toponymName>
+        <name>Salt Lake City Fire Department Station 11</name>
+        <lat>40.78205</lat>
+        <lng>-111.95794</lng>
+        <geonameId>7727415</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 10</toponymName>
+        <name>Salt Lake City Fire Department Station 10</name>
+        <lat>40.75223</lat>
+        <lng>-111.82603</lng>
+        <geonameId>7727416</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 4</toponymName>
+        <name>Salt Lake City Fire Department Station 4</name>
+        <lat>40.78162</lat>
+        <lng>-111.86443</lng>
+        <geonameId>7727466</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 2</toponymName>
+        <name>Salt Lake City Fire Department Station 2</name>
+        <lat>40.7762</lat>
+        <lng>-111.89866</lng>
+        <geonameId>7727472</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Fire Department Station 13</toponymName>
+        <name>Salt Lake City Fire Department Station 13</name>
+        <lat>40.72376</lat>
+        <lng>-111.8227</lng>
+        <geonameId>7727542</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Gold Cross Ambulance Salt Lake City</toponymName>
+        <name>Gold Cross Ambulance Salt Lake City</name>
+        <lat>40.73257</lat>
+        <lng>-111.93866</lng>
+        <geonameId>8106126</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Salt Lake City Police Department</toponymName>
+        <name>Salt Lake City Police Department</name>
+        <lat>40.76532</lat>
+        <lng>-111.88175</lng>
+        <geonameId>9672586</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>S</fcl>
+        <fcode>BLDG</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Riverside</toponymName>
+        <name>Riverside</name>
+        <lat>40.73245</lat>
+        <lng>-111.92077</lng>
+        <geonameId>5780541</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Riverside</toponymName>
+        <name>Riverside</name>
+        <lat>40.78328</lat>
+        <lng>-111.9291</lng>
+        <geonameId>5780543</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Riverside School</toponymName>
+        <name>Riverside School</name>
+        <lat>40.75606</lat>
+        <lng>-111.91883</lng>
+        <geonameId>5780556</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rock Springs</toponymName>
+        <name>Rock Springs</name>
+        <lat>40.77661</lat>
+        <lng>-111.93716</lng>
+        <geonameId>5780650</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Rose Park Circle</toponymName>
+        <name>Rose Park Circle</name>
+        <lat>40.78745</lat>
+        <lng>-111.93522</lng>
+        <geonameId>5780723</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>S and D</toponymName>
+        <name>S and D</name>
+        <lat>40.78217</lat>
+        <lng>-111.94022</lng>
+        <geonameId>5780867</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Seventh South</toponymName>
+        <name>Seventh South</name>
+        <lat>40.75356</lat>
+        <lng>-111.92021</lng>
+        <geonameId>5781204</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sharp</toponymName>
+        <name>Sharp</name>
+        <lat>40.72495</lat>
+        <lng>-111.92688</lng>
+        <geonameId>5781248</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Sherwood Forest Addition</toponymName>
+        <name>Sherwood Forest Addition</name>
+        <lat>40.76106</lat>
+        <lng>-111.9291</lng>
+        <geonameId>5781307</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Silver Park</toponymName>
+        <name>Silver Park</name>
+        <lat>40.74856</lat>
+        <lng>-111.91883</lng>
+        <geonameId>5781411</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Smiths</toponymName>
+        <name>Smiths</name>
+        <lat>40.73717</lat>
+        <lng>-111.93549</lng>
+        <geonameId>5781558</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Snow</toponymName>
+        <name>Snow</name>
+        <lat>40.77522</lat>
+        <lng>-111.91633</lng>
+        <geonameId>5781582</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>South Glendale</toponymName>
+        <name>South Glendale</name>
+        <lat>40.73634</lat>
+        <lng>-111.93494</lng>
+        <geonameId>5781755</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>South Main Street Addition</toponymName>
+        <name>South Main Street Addition</name>
+        <lat>40.73911</lat>
+        <lng>-111.89132</lng>
+        <geonameId>5781778</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Stewart Park</toponymName>
+        <name>Stewart Park</name>
+        <lat>40.74772</lat>
+        <lng>-111.93299</lng>
+        <geonameId>5782131</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Stewarts Addition</toponymName>
+        <name>Stewarts Addition</name>
+        <lat>40.73634</lat>
+        <lng>-111.90105</lng>
+        <geonameId>5782135</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Superior</toponymName>
+        <name>Superior</name>
+        <lat>40.79995</lat>
+        <lng>-111.9166</lng>
+        <geonameId>5782345</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Syndicate Place</toponymName>
+        <name>Syndicate Place</name>
+        <lat>40.72661</lat>
+        <lng>-111.90077</lng>
+        <geonameId>5782390</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+    <geoname>
+        <toponymName>Talisman Drive</toponymName>
+        <name>Talisman Drive</name>
+        <lat>40.79106</lat>
+        <lng>-111.93522</lng>
+        <geonameId>5782427</geonameId>
+        <countryCode>US</countryCode>
+        <countryName>United States</countryName>
+        <fcl>P</fcl>
+        <fcode>PPLX</fcode>
+    </geoname>
+</geonames>

@@ -75,7 +75,7 @@ module NewspaperWorks
 
           def link_publication
             return unless @target.publication.nil?
-            @publication.ordered_members << @target
+            @publication.members << @target
             @publication.save!
           end
       end

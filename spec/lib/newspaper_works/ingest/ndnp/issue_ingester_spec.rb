@@ -21,6 +21,12 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       ).once
     end
 
+    # remove publication asset from repository for LCCN, when re-creating
+    #   is desired test behavior
+    def clear_publication(lccn)
+      NewspaperTitle.where(lccn: lccn).delete_all
+    end
+
     it "constructs adapter with issue source" do
       expect(adapter.issue).to be issue_data
       expect(adapter.path).to eq issue_data.path
@@ -42,6 +48,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       # construct_issue is only the first part of ingest, create issue
       #   and find-or-link publication NewspaperTitle;
       #   this does not trigger creation of child pages.
+      clear_publication(issue_data.metadata.lccn)
       expect_issue_import_logging(adapter)
       expect(adapter).to receive(:write_log).with(
         satisfy do |v|
@@ -66,7 +73,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
     it "creates new NewspaperTitle without place of publication" do
       # clear any existing publications from previous testing
       lccn = issue_data.metadata.lccn
-      NewspaperTitle.where(lccn: lccn).delete_all
+      clear_publication(lccn)
       # construct with title, this time no username set for geonames:
       Qa::Authorities::Geonames.username = ''
       adapter.construct_issue
@@ -77,11 +84,13 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
     it "creates new NewspaperTitle with place of publication" do
       # clear any existing publications from previous testing
       lccn = issue_data.metadata.lccn
-      NewspaperTitle.where(lccn: lccn).delete_all
+      clear_publication(lccn)
       # construct with title, this time with username set for geonames:
       Qa::Authorities::Geonames.username = 'newspaper_works'
       adapter.construct_issue
-      pop = adapter.target.publication.place_of_publication
+      pop = adapter.target.publication.place_of_publication.map do |v|
+        v.to_uri.to_s
+      end
       expect(pop).not_to be_empty
       expect(pop[0]).to start_with 'http://sws.geonames.org/'
     end
