@@ -35,9 +35,11 @@ module NewspaperWorks
       def update(env)
         # Ensure that work has title, set from form data if present
         ensure_title(env)
-        handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
-        # pass to next actor
-        next_actor.update(env)
+        @pdf_paths = []
+        hold_upload_paths(env) if env.curation_concern.class == NewspaperIssue
+        # pass to next actor, then handle issue uploads after other actors
+        #   that are lower on the stack
+        next_actor.update(env) && after_other_actors(env)
       end
 
       def default_admin_set

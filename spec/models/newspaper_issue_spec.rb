@@ -50,6 +50,8 @@ RSpec.describe NewspaperIssue do
       ordered_pages.each do |e|
         expect(e).to be_an_instance_of(NewspaperPage)
       end
+      # same constituent pages as members:
+      expect(fixture.pages.to_a).to match_array ordered_pages
     end
 
     it 'can get ordered page ids' do
