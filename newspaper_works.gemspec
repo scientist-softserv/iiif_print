@@ -28,6 +28,7 @@ SUMMARY
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'rails', '~> 5.0'
   spec.add_dependency 'rtesseract', '~> 2.2.0'
+  spec.add_dependency 'sass-rails', '~> 5.0'
 
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'capybara', '~> 2.4', '< 2.18.0'
