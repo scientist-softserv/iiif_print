@@ -1,6 +1,11 @@
 ---
 en:
   newspaper_works:
+    attributes:
+      place_of_publication:
+        label: 'Place of publication'
+      publication_title:
+        label: 'Publication'
     newspapers_search:
       title:                    'Search Newspapers'
       text:                     'Use this form to search for full-text newspaper content.'

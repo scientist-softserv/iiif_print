@@ -17,6 +17,7 @@ module NewspaperWorks
         label = Hyrax::Renderers::AttributeRenderer.new(field, nil).label
         value = send(field)
         next if value.blank?
+        value = Array.wrap(value) if value.is_a?(String)
         metadata << {
           'label' => label,
           'value' => Array.wrap(value.map { |f| Loofah.fragment(f.to_s).scrub!(:whitewash).to_s })

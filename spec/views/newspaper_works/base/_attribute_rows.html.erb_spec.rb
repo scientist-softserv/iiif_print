@@ -24,7 +24,7 @@ RSpec.describe 'newspaper_works/base/_attribute_rows.html.erb', type: :view do
                      title_tesim: [title],
                      issn_tesim: [issn],
                      place_of_publication_label_tesim: [place_of_publication_label],
-                     publication_date_dtsim: [publication_date],
+                     publication_date_dtsi: publication_date,
                      rights_statement_tesim: [rights_statement_uri],
                      related_url_tesim: [url],
                      publication_unique_id_ssi: 'sn1234567')
@@ -42,7 +42,7 @@ RSpec.describe 'newspaper_works/base/_attribute_rows.html.erb', type: :view do
   end
 
   it 'shows place of publication label of the work' do
-    expect(page).to have_text("Place of publication label")
+    expect(page).to have_text("Place of publication")
     expect(page).to have_text("Salt Lake City, Utah, United States")
   end
 

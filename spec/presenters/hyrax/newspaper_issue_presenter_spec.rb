@@ -13,7 +13,7 @@ RSpec.describe Hyrax::NewspaperIssuePresenter do
       "edition_number_tesim" => ['1'],
       "issue_number_tesim" => ['1st issue'],
       "extent_tesim" => ["4 pages"],
-      "publication_date_dtsim" => ["2017-08-25T00:00:00Z"],
+      "publication_date_dtsi" => "2017-08-25T00:00:00Z",
       "publication_unique_id_ssi" => "sn1234567" }
   end
 

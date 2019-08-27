@@ -81,7 +81,8 @@ class NewspaperIssue < ActiveFedora::Base
     predicate: ::RDF::Vocab::DC.issued,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   # BasicMetadata must be included last

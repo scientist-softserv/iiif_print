@@ -1,6 +1,11 @@
 ---
 es:
   newspaper_works:
+    attributes:
+      place_of_publication:
+        label: 'Lugar de publicacion'
+      publication_title:
+        label: 'Publicacion'
     newspapers_search:
       title:                    'Búsqueda de periódicos'
       text:                     'Utilice este formulario para buscar contenido de periódico de texto completo.'

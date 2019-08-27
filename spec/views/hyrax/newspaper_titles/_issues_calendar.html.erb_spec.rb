@@ -1,21 +1,13 @@
+require 'spec_helper'
 # require 'model_shared'
 RSpec.describe 'hyrax/newspaper_titles/_issue_calendar.html.erb', type: :view do
   let!(:issues) do
-    issue1 = NewspaperIssue.new
-    issue1.title = ['February 13, 2019']
-    issue1.resource_type = ["newspaper"]
-    issue1.language = ["eng"]
-    issue1.held_by = "Marriott Library"
-    issue1.publication_date = '2019-02-13'
-    issue1.save
-    issue2 = NewspaperIssue.new
-    issue2.title = ['March 5, 2019']
-    issue2.resource_type = ["newspaper"]
-    issue2.language = ["eng"]
-    issue2.held_by = "Marriott Library"
-    issue2.publication_date = '2019-03-05'
-    issue2.save
-    [issue1.to_solr, issue2.to_solr]
+    [
+      SolrDocument.new(id: '123',
+                       publication_date_dtsi: '2019-02-13T:00:00:00Z'),
+      SolrDocument.new(id: '456',
+                       publication_date_dtsi: '2019-03-05T:00:00:00Z')
+    ]
   end
 
   let(:years) do
@@ -31,7 +23,7 @@ RSpec.describe 'hyrax/newspaper_titles/_issue_calendar.html.erb', type: :view do
     render partial: "issues_calendar.html.erb", locals: { issues: issues, years: years }
     links = {}
     issues.each do |issue|
-      links[Date.parse(issue["publication_date_dtsim"].first).strftime("%-d")] = hyrax_newspaper_issue_path(issue)
+      links[Date.parse(issue["publication_date_dtsi"]).strftime("%-d")] = hyrax_newspaper_issue_path(issue)
     end
     links.each do |day, path|
       expect(rendered).to have_link(day, href: path)

@@ -31,7 +31,7 @@
       <% (month_start_print).upto(month_end_print) do |d| %>
         <% day_is_in_current_month = d.month == month ? true : false %>
         <div class="day calendar_day <%= "calendar_day_inactive" if !day_is_in_current_month  %> <%= "adjacent_month" if d.month != month %> <%= "cal-#{d.strftime("%Y-%m-%d")}" %>">
-          <% issue = issues.select {|issue| Date.parse(issue["publication_date_dtsim"].first) == d }.first %>
+          <% issue = issues.select {|issue| Date.parse(issue["publication_date_dtsi"]) == d }.first %>
           <% if issue && day_is_in_current_month %>
             <strong><%= link_to d.day, main_app.hyrax_newspaper_issue_path(issue) %></strong>
           <% else %>

@@ -15,7 +15,7 @@ module Hyrax
     end
 
     def publication_date
-      solr_document["publication_date_dtsim"]
+      solr_document["publication_date_dtsi"]
     end
 
     def persistent_url
@@ -44,7 +44,7 @@ module Hyrax
 
       def issue_date_for_url
         return nil unless publication_date
-        publication_date.first.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
+        publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
       end
 
       def edition_for_url
@@ -53,10 +53,10 @@ module Hyrax
 
       def iiif_metadata_fields
         [:title, :alternative_title, :place_of_publication_label, :issn, :lccn,
-         :oclcnum, :held_by, :volume, :edition, :issue_number, :extent,
-         :publication_date, :resource_type, :creator, :contributor,
-         :description, :license, :rights_statement, :publisher, :language,
-         :identifier]
+         :oclcnum, :held_by, :volume, :edition_name, :edition_number,
+         :issue_number, :extent, :publication_date, :resource_type, :creator,
+         :contributor, :description, :license, :rights_statement, :publisher,
+         :language, :identifier]
       end
   end
 end

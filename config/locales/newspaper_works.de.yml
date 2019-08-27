@@ -1,6 +1,9 @@
 ---
 de:
   newspaper_works:
+    attributes:
+      place_of_publication:
+        label: 'Ort der veröffentlichung'
     newspapers_search:
       title:                    'Suche nach Zeitungen'
       text:                     'Verwenden Sie dieses Formular für die Suche nach Zeitungsinhalten im Volltext.'

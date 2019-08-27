@@ -2,7 +2,9 @@
 <%= presenter.attribute_to_html(:date_modified, label: t('hyrax.base.show.last_modified'), html_dl: true) %>
 <%= presenter.attribute_to_html(:alternative_title, html_dl: true) %>
 <%= presenter.attribute_to_html(:genre, render_as: :faceted, html_dl: true) %>
-<%= presenter.attribute_to_html(:place_of_publication_label, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:place_of_publication_label,
+                                label: I18n.t('newspaper_works.attributes.place_of_publication.label'),
+                                render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:issn, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:lccn, render_as: :faceted, html_dl: true) %>
 <%= presenter.attribute_to_html(:oclcnum, render_as: :faceted, html_dl: true) %>

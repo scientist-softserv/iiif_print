@@ -3,7 +3,7 @@
 module Hyrax
   class NewspaperTitlePresenter < Hyrax::WorkShowPresenter
     include NewspaperWorks::NewspaperCorePresenter
-    delegate :edition_number, :edition_name, :frequency, :preceded_by,
+    delegate :edition_name, :frequency, :preceded_by,
              :succeeded_by, to: :solr_document
 
     def title_search_params
@@ -11,15 +11,15 @@ module Hyrax
     end
 
     def front_page_search_params
-      { f: { "publication_title_ssi" => title, "first_page_bsi" => [true] }, sort: 'publication_date_dtsim asc' }
+      { f: { "publication_title_ssi" => title, "first_page_bsi" => [true] }, sort: 'publication_date_dtsi asc' }
     end
 
     def issues
-      all_title_issues.select { |issue| year_or_nil(issue["publication_date_dtsim"]) == year }
+      all_title_issues.select { |issue| year_or_nil(issue["publication_date_dtsi"]) == year }
     end
 
     def issue_years
-      all_title_issue_dates.map { |issue| year_or_nil(issue) }.compact.uniq.sort
+      all_title_issue_dates.map { |issue_date| year_or_nil(issue_date) }.compact.uniq.sort
     end
 
     def prev_year
@@ -35,11 +35,11 @@ module Hyrax
     end
 
     def publication_date_start
-      solr_document["publication_date_start_dtsim"]
+      solr_document["publication_date_start_dtsi"]
     end
 
     def publication_date_end
-      solr_document["publication_date_end_dtsim"]
+      solr_document["publication_date_end_dtsi"]
     end
 
     def year
@@ -50,7 +50,7 @@ module Hyrax
     def all_title_issues
       issue_query = Blacklight.default_index.search(q: "has_model_ssim:NewspaperIssue AND publication_id_ssi:#{id} AND visibility_ssi:#{solr_document.visibility}",
                                                     rows: 50_000,
-                                                    fl: "id, publication_date_dtsim")
+                                                    fl: "id, publication_date_dtsi")
       issue_query.documents
     end
 
@@ -67,7 +67,7 @@ module Hyrax
     private
 
       def all_title_issue_dates
-        all_title_issues.pluck("publication_date_dtsim")
+        all_title_issues.pluck("publication_date_dtsi")
       end
 
       def number_or_nil(string)
@@ -76,9 +76,9 @@ module Hyrax
         nil
       end
 
-      def year_or_nil(date_array)
-        return nil unless date_array.is_a?(Array)
-        Date.parse(date_array.first).year
+      def year_or_nil(date_value)
+        return nil unless date_value.is_a?(String)
+        Date.parse(date_value).year
       rescue TypeError
         nil
       end

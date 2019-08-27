@@ -11,7 +11,7 @@ module NewspaperWorks
     end
 
     def publication_date
-      solr_document['publication_date_dtsim']&.first
+      solr_document['publication_date_dtsi']
     end
 
     def issue_volume

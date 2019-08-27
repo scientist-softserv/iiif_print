@@ -75,7 +75,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     it 'will return solr query parameters for locating every first page associated with the title' do
       expect(subject).to contain_exactly([:f, "publication_title_ssi" => ["Wall Street Journal"],
                                               "first_page_bsi" => [true]],
-                                         [:sort, "publication_date_dtsim asc"])
+                                         [:sort, "publication_date_dtsi asc"])
     end
   end
 
@@ -94,7 +94,7 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
   describe '#issue_years' do
     subject { presenter.issue_years }
     it "will return a sorted list of years with no nil values" do
-      allow(presenter).to receive(:all_title_issue_dates).and_return([['2017-01-01T00:00:00Z'], nil, ['2016-01-01'], ['2001-12-01'], ['2017-12-10']])
+      allow(presenter).to receive(:all_title_issue_dates).and_return(['2017-01-01T00:00:00Z', nil, '2016-01-01', '2001-12-01', '2017-12-10'])
       is_expected.to eq [2001, 2016, 2017]
     end
   end

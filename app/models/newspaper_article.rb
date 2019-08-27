@@ -123,7 +123,8 @@ class NewspaperArticle < ActiveFedora::Base
     predicate: ::RDF::Vocab::DC.issued,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   # TODO: Add Reel number: https://github.com/samvera-labs/uri_selection_wg/issues/2

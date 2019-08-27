@@ -16,7 +16,7 @@ RSpec.describe 'newspaper_works/base/_newspaper_hierarchy.html.erb', type: :view
                      title_tesim: [title],
                      issn_tesim: [issn],
                      place_of_publication_label_tesim: [place_of_publication_label],
-                     publication_date_dtsim: [publication_date],
+                     publication_date_dtsi: publication_date,
                      rights_statement_tesim: [rights_statement_uri],
                      related_url_tesim: [url],
                      publication_unique_id_ssi: 'sn1234567')

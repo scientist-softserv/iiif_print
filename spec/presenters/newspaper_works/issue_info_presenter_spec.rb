@@ -5,7 +5,7 @@ RSpec.describe NewspaperWorks::IssueInfoPresenter do
     {
       'issue_id_ssi' => 'foo',
       'issue_title_ssi' => 'bar',
-      'publication_date_dtsim' => ['baz'],
+      'publication_date_dtsi' => 'baz',
       'issue_volume_ssi' => 'quux',
       'issue_edition_number_ssi' => '123',
       'issue_number_ssi' => '456'

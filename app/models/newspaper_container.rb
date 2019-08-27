@@ -50,7 +50,8 @@ class NewspaperContainer < ActiveFedora::Base
     predicate: ::RDF::Vocab::SCHEMA.startDate,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   #  - publication date end
@@ -59,7 +60,8 @@ class NewspaperContainer < ActiveFedora::Base
     predicate: ::RDF::Vocab::SCHEMA.endDate,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   # TODO: Reel #: https://github.com/samvera-labs/uri_selection_wg/issues/2

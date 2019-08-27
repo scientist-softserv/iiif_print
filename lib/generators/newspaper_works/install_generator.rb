@@ -78,6 +78,18 @@ module NewspaperWorks
       copy_file "config/authorities/newspaper_article_genres.yml"
     end
 
+    def add_index_fields_to_catalog_controller
+      marker = 'configure_blacklight do |config|'
+      inject_into_file 'app/controllers/catalog_controller.rb', after: marker do
+        "\n\n    # NewspaperWorks index fields\n"\
+        "    config.add_index_field 'publication_title_ssi', label: I18n.t('newspaper_works.attributes.publication_title.label'), link_to_search: 'publication_title_ssi'\n"\
+        "    config.add_index_field solr_name('publication_date', :stored_sortable, type: :date), label: 'Publication date', helper_method: :human_readable_date\n"\
+        "    config.add_index_field solr_name('place_of_publication_label', :stored_searchable), label: I18n.t('newspaper_works.attributes.place_of_publication.label'), link_to_search: solr_name('place_of_publication_label', :facetable)\n"\
+        "    config.add_index_field solr_name('publication_date_start', :stored_sortable, type: :date), label: 'Publication date (start)', helper_method: :human_readable_date\n"\
+        "    config.add_index_field solr_name('publication_date_end', :stored_sortable, type: :date), label: 'Publication date (end)', helper_method: :human_readable_date\n"
+      end
+    end
+
     # rubocop:disable Metrics/MethodLength
     def add_facets_to_catalog_controller
       marker = 'configure_blacklight do |config|'
@@ -107,8 +119,8 @@ module NewspaperWorks
       marker = 'config.add_sort_field "#{modified_field} asc", label: "date modified \u25B2"'
       inject_into_file 'app/controllers/catalog_controller.rb', after: marker do
         "\n\n    # NewspaperWorks sort fields\n"\
-        '    config.add_sort_field "publication_date_dtsim desc", label: "publication date \u25BC"
-    config.add_sort_field "publication_date_dtsim asc", label: "publication date \u25B2"'
+        '    config.add_sort_field "publication_date_dtsi desc", label: "publication date \u25BC"
+    config.add_sort_field "publication_date_dtsi asc", label: "publication date \u25B2"'
       end
     end
 

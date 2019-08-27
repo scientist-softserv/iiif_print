@@ -4,7 +4,10 @@ require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperContainer do
-  let(:fixture) { model_fixtures(described_class) }
+  # rubocop:disable RSpec/InstanceVariable
+  before(:all) do
+    @fixture = model_fixtures(described_class)
+  end
 
   # shared behaviors
   it_behaves_like('a work and PCDM object')
@@ -12,27 +15,27 @@ RSpec.describe NewspaperContainer do
 
   describe "Metadata properties" do
     it "has expected properties" do
-      expect(fixture).to respond_to(:extent)
-      expect(fixture).to respond_to(:publication_date_start)
-      expect(fixture).to respond_to(:publication_date_end)
+      expect(@fixture).to respond_to(:extent)
+      expect(@fixture).to respond_to(:publication_date_start)
+      expect(@fixture).to respond_to(:publication_date_end)
     end
   end
 
   describe "Relationship methods" do
     it "has expected test fixture" do
-      expect(fixture).to be_an_instance_of(described_class)
+      expect(@fixture).to be_an_instance_of(described_class)
     end
 
     it "can get aggregating publication/title" do
-      parent = fixture.publication
+      parent = @fixture.publication
       expect(parent).not_to be_nil
       expect(parent).to be_an_instance_of(NewspaperTitle)
       # reciprocity and round-trip
-      expect(parent.containers).to include fixture
+      expect(parent.containers).to include @fixture
     end
 
     it "can get aggregated pages" do
-      contained_pages = fixture.pages
+      contained_pages = @fixture.pages
       expect(contained_pages).to be_an_instance_of(Array)
       expect(contained_pages.length).to be > 0
       contained_pages.each do |e|
@@ -40,6 +43,7 @@ RSpec.describe NewspaperContainer do
       end
     end
   end
+  # rubocop:enable RSpec/InstanceVariable
 
   describe 'publication_date_start' do
     it "is not valid with bad date format" do

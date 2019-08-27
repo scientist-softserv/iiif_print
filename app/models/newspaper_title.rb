@@ -80,7 +80,8 @@ class NewspaperTitle < ActiveFedora::Base
     predicate: ::RDF::Vocab::SCHEMA.startDate,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   # - Publication date end
@@ -89,7 +90,8 @@ class NewspaperTitle < ActiveFedora::Base
     predicate: ::RDF::Vocab::SCHEMA.endDate,
     multiple: false
   ) do |index|
-    index.as :dateable
+    index.type :date
+    index.as :stored_sortable
   end
 
   # BasicMetadata must be included last

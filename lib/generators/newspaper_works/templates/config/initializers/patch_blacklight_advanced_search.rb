@@ -32,7 +32,7 @@ class BlacklightAdvancedSearch::QueryParser
                 else
                   params[:date_end] + '-12-31T23:59:59.999Z'
                 end
-    '(publication_date_dtsim:[' + range_start + ' TO ' + range_end + '])'
+    '(publication_date_dtsi:[' + range_start + ' TO ' + range_end + '])'
   end
 end
 

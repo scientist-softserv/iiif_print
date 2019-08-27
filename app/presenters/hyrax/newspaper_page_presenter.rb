@@ -8,6 +8,7 @@ module Hyrax
     include NewspaperWorks::IiifManifestPresenterBehavior
     include NewspaperWorks::PersistentUrlPresenterBehavior
     include NewspaperWorks::PageFinder
+    include NewspaperWorks::PlaceOfPublicationPresenterBehavior
 
     delegate :height, :width, to: :solr_document
 
@@ -65,7 +66,7 @@ module Hyrax
 
       def iiif_metadata_fields
         [:title, :text_direction, :page_number, :section, :resource_type,
-         :license, :rights_statement, :identifier]
+         :license, :rights_statement, :identifier, :publication_date]
       end
   end
 end
