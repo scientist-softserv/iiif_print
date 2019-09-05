@@ -113,10 +113,10 @@ module NewspaperWorks
       # @param file_set [FileSet] saved file set, attached to work,
       #   with identifier, and a non-nil import_url
       def commit_queued!(file_set)
-        raise ArgumentError('No FileSet import_url') if file_set.import_url.nil?
+        raise ArgumentError, 'No FileSet import_url' if file_set.import_url.nil?
         import_path = file_url_to_path(file_set.import_url)
         work = file_set.member_of.select(&:work?)[0]
-        raise ArgumentError('Work not found for fileset') if work.nil?
+        raise ArgumentError, 'Work not found for fileset' if work.nil?
         derivatives = WorkDerivatives.of(work, file_set)
         IngestFileRelation.derivatives_for_file(import_path).each do |path|
           next unless File.exist?(path)
@@ -134,7 +134,7 @@ module NewspaperWorks
       # @param file [String, IO] path to file or IO object
       # @param name [String] destination name, usually file extension
       def attach(file, name)
-        raise RuntimeError('Cannot save for nil fileset') if fileset.nil?
+        raise 'Cannot save for nil fileset' if fileset.nil?
         mkdir_pairtree
         path = path_factory.derivative_path_for_reference(fileset, name)
         # if file argument is path, copy file
@@ -156,7 +156,7 @@ module NewspaperWorks
       # Delete a derivative file from work, by destination name
       # @param name [String] destination name, usually file extension
       def delete(name, force: nil)
-        raise RuntimeError('Cannot save for nil fileset') if fileset.nil?
+        raise 'Cannot save for nil fileset' if fileset.nil?
         path = path_factory.derivative_path_for_reference(fileset, name)
         # will remove file, if it exists; won't remove pairtree, even
         #   if it becomes empty, as that is excess scope.

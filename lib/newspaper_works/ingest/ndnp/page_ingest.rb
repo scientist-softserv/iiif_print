@@ -7,7 +7,7 @@ module NewspaperWorks
         attr_accessor :path, :dmdid, :doc, :files
 
         def initialize(path = nil, dmdid = nil, parent = nil)
-          raise ArgumentError('No path provided') if path.nil?
+          raise ArgumentError, 'No path provided' if path.nil?
           @path = path
           @dmdid = dmdid
           @doc = nil

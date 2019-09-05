@@ -10,7 +10,7 @@ module NewspaperWorks
         attr_accessor :path, :dmdid, :doc
 
         def initialize(path = nil, parent = nil, dmdid = nil)
-          raise ArgumentError('No context provided') if path.nil? && parent.nil?
+          raise ArgumentError, 'No context provided' if path.nil? && parent.nil?
           @path = path
           @parent = parent
           @dmdid = dmdid

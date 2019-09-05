@@ -14,6 +14,8 @@ module NewspaperWorks
           # Enumeration based on list of DMDID loaded by load_doc
           @dmdids = nil
           load_doc
+          # cache dmdid -> PageIngest
+          @page_cache = {}
         end
 
         def inspect
@@ -29,7 +31,10 @@ module NewspaperWorks
         end
 
         def page_by_dmdid(dmdid)
-          NewspaperWorks::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
+          return @page_cache[dmdid] if @page_cache.key?(dmdid)
+          p = NewspaperWorks::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
+          @page_cache[dmdid] = p
+          p
         end
 
         def page_by_sequence_number(n)

@@ -31,11 +31,9 @@ module NewspaperWorks
         return if whitelisted_path(path)
         # we cannot use path if it is not whitelisted for Hyrax ingest, we
         #   would prefer to fail early vs. later+silently
-        raise(
-          SecurityError,
-          "The path specified is not configured in Hyrax ingest whitelist: " \
-          "#{path}"
-        )
+        raise SecurityError,
+              "Path specified is not configured in Hyrax ingest whitelist: " \
+              "#{path}"
       end
     end
   end
