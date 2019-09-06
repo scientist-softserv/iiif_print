@@ -4,7 +4,6 @@ require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperPage do
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @fixture = model_fixtures(described_class)
   end
@@ -42,5 +41,4 @@ RSpec.describe NewspaperPage do
       expect(publication).to be_an_instance_of(NewspaperTitle)
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

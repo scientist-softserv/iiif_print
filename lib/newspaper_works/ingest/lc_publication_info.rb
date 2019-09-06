@@ -4,7 +4,6 @@ require 'uri'
 
 module NewspaperWorks
   module Ingest
-    # rubocop:disable Metrics/ClassLength
     class LCPublicationInfo < BasePublicationInfo
       attr_accessor :place_of_publication, :full_title, :lccn, :place_name, :doc
 
@@ -141,6 +140,5 @@ module NewspaperWorks
           )
         end
     end
-    # rubocop:enable Metrics/ClassLength
   end
 end

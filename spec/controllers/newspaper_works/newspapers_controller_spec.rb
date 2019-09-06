@@ -7,7 +7,6 @@ RSpec.describe NewspaperWorks::NewspapersController do
   # because we need a unique lccn every time specs are run
   # otherwise query in NewspaperController#find_object returns false
   # use before(:all) so we only create fixtures once
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @lccn = "sn#{rand(10_000)}"
 
@@ -112,5 +111,4 @@ RSpec.describe NewspaperWorks::NewspapersController do
       end
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

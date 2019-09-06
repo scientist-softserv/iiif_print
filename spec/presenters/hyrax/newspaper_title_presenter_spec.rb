@@ -3,7 +3,6 @@ require_relative '../newspaper_works/newspaper_core_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperTitlePresenter do
   # use before(:all) so we only create fixtures once
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @publication = NewspaperTitle.new
     @publication.title = ["Wall Street Journal"]
@@ -151,5 +150,4 @@ RSpec.describe Hyrax::NewspaperTitlePresenter do
     subject { presenter.persistent_url }
     it { is_expected.to include '/newspapers/sn1234567' }
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

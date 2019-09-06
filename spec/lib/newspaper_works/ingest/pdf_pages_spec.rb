@@ -76,14 +76,12 @@ RSpec.describe NewspaperWorks::Ingest::PdfPages do
     it "one bit sample splits into Group 4 TIFF per page" do
       pages = onebitpages.entries
       pages.each do |path|
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3("identify #{path}") do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3("identify #{path}") do |_stdin, stdout, _stderr, _wait_thr|
           output = stdout.read
           expect(output).to include '1-bit'
           expect(output).to include 'Bilevel'
           expect(output).to include 'TIFF'
         end
-        # rubocop:enable Lint/UnusedBlockArgument
       end
     end
 
@@ -96,21 +94,17 @@ RSpec.describe NewspaperWorks::Ingest::PdfPages do
       end
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it "processes Grayscale NDNP PDF correctly" do
       pages = graypages.entries
       expect(pages.length).to eq 1
       pages.each do |path|
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3("identify #{path}") do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3("identify #{path}") do |_stdin, stdout, _stderr, _wait_thr|
           output = stdout.read
           expect(output).to include 'Grayscale'
           expect(output).to include '8-bit'
           expect(output).to include 'TIFF'
         end
-        # rubocop:enable Lint/UnusedBlockArgument
       end
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 end

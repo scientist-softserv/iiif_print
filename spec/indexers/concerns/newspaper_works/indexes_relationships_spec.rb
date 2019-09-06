@@ -3,7 +3,6 @@ require 'model_shared'
 
 RSpec.describe NewspaperWorks::IndexesRelationships do
   # use an instance var so we can create fixtures only once
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) { @page_for_indexrel, @page2 = model_fixtures(:newspaper_pages) }
   let(:page_indexer) { NewspaperPageIndexer.new(@page_for_indexrel) }
   let(:solr_doc) { {} }
@@ -84,5 +83,4 @@ RSpec.describe NewspaperWorks::IndexesRelationships do
       expect(solr_doc['language_sim']).not_to be_blank
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

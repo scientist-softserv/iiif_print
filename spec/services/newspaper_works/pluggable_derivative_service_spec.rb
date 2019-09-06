@@ -22,7 +22,6 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
   end
 
   # cache and restore originally described derivative service plugins
-  # rubocop:disable RSpec/InstanceVariable
   before do
     @orig_plugins = described_class.plugins
   end
@@ -202,5 +201,4 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
       expect(jp2_plugin?(plugins)).to be false
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

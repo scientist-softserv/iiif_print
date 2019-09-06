@@ -60,7 +60,6 @@ RSpec.describe NewspaperWorks::NewspaperPageDerivativeService do
       FileUtils.rm_rf(expected_pairtree)
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it "successfully removes on cleanup_derivatives" do
       svc = MyDerivativeService.new(valid_file_set)
       # load destpath just makes directories
@@ -85,7 +84,6 @@ RSpec.describe NewspaperWorks::NewspaperPageDerivativeService do
       # cleanup after test:
       FileUtils.rm_rf(expected_pairtree)
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 
   describe "source identification" do

@@ -51,19 +51,19 @@ RSpec.describe NewspaperWorks::BreadcrumbHelper do
     end
   end
 
-  describe 'breacrumb_object_title' do
+  describe 'breadcrumb_object_title' do
     it 'returns the page number portion of a string if a page number is included' do
-      title_for_spec = helper.breacrumb_object_title("2018-05-08: Page 1")
+      title_for_spec = helper.breadcrumb_object_title("2018-05-08: Page 1")
       expect(title_for_spec).to eq('Page 1')
     end
 
     it 'returns a formatted date if a date is passed without a page number' do
-      title_for_spec = helper.breacrumb_object_title("2018-05-18")
+      title_for_spec = helper.breadcrumb_object_title("2018-05-18")
       expect(title_for_spec).to eq("May 18, 2018")
     end
 
     it 'returns the original string if neither a page number or date is passed' do
-      title_for_spec = helper.breacrumb_object_title("Foo")
+      title_for_spec = helper.breadcrumb_object_title("Foo")
       expect(title_for_spec).to eq("Foo")
     end
   end

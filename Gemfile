@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 # Please see newspaper_works.gemspec for dependency information.
 gemspec
 
+group :development, :test do
+  gem 'coveralls', require: false
+end
+
 # BEGIN ENGINE_CART BLOCK
 # engine_cart: 1.2.0
 # engine_cart stanza: 0.10.0

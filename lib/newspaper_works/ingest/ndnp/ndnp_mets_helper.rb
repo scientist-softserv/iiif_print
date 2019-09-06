@@ -34,7 +34,6 @@ module NewspaperWorks
         end
 
         # returns hash of "use" key string to path value
-        # rubocop:disable Metrics/MethodLength (xpath is wordy!)
         def page_files
           # get pointers from structmap:
           file_group = xpath("//mets:structMap//mets:div[@DMDID='#{dmdid}']")
@@ -53,7 +52,6 @@ module NewspaperWorks
           end
           result.to_h
         end
-        # rubocop:enable Metrics/MethodLength
 
         def container_path
           reel_dir = File.expand_path('..', File.dirname(path))

@@ -1,6 +1,5 @@
 require 'spec_helper'
 RSpec.describe CustomSearchBuilder do
-
   # specs for NewspaperWorks::HighlightSearchParams
   describe 'highlight_search_params' do
     let(:solr_parameters) { { q: 'abolition' } }

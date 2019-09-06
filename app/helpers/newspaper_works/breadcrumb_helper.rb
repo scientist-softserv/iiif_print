@@ -10,7 +10,7 @@ module NewspaperWorks
       ancestors.each do |k, v|
         breadcrumbs << create_breadcrumb_link(k, presenter, link_class) if presenter.respond_to?(v)
       end
-      breadcrumbs << breacrumb_object_title(presenter.title.first)
+      breadcrumbs << breadcrumb_object_title(presenter.title.first)
       breadcrumbs.flatten
     end
 
@@ -27,11 +27,11 @@ module NewspaperWorks
                                         presenter.publication_title, link_class)
       when :issue
         links << breadcrumb_object_link(object_type, presenter.issue_id,
-                                        breacrumb_object_title(presenter.issue_title), link_class)
+                                        breadcrumb_object_title(presenter.issue_title), link_class)
       when :page
         unless presenter.page_ids.blank? || presenter.page_titles.blank?
           presenter.page_ids.each_with_index do |id, index|
-            links << breadcrumb_object_link(object_type, id, breacrumb_object_title(presenter.page_titles[index]),
+            links << breadcrumb_object_link(object_type, id, breadcrumb_object_title(presenter.page_titles[index]),
                                             link_class)
           end
         end
@@ -58,7 +58,7 @@ module NewspaperWorks
     # is found, will return back the original title variable
     #
     # @param title [String] the title of the ancestor Newspaper object
-    def breacrumb_object_title(title)
+    def breadcrumb_object_title(title)
       return nil unless title.is_a? String
       page_slice_start_index = title.downcase =~ /page/
       return title[page_slice_start_index..-1] if page_slice_start_index

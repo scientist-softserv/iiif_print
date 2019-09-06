@@ -16,7 +16,6 @@ RSpec.shared_context "fixtures_for_features", shared_context: :metadata do
 
   # we use instance var for @title1 so we can access its id in specs
   # # use before(:all) so we only create fixtures once
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @title1 = NewspaperTitle.new
     @title1.title = [title1_title]
@@ -69,5 +68,4 @@ RSpec.shared_context "fixtures_for_features", shared_context: :metadata do
     title2.save
     title2_issue1_page1.save
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

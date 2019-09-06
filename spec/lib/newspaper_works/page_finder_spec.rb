@@ -1,7 +1,6 @@
 require 'spec_helper'
 RSpec.describe NewspaperWorks::PageFinder do
   # use before(:all) so we only create fixtures once
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @issue = NewspaperIssue.new
     @issue.title = ["Yesterday's News: December 7, 1941"]
@@ -51,5 +50,4 @@ RSpec.describe NewspaperWorks::PageFinder do
     subject { controller.get_page_index(@page2.id) }
     it { is_expected.to eq 1 }
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

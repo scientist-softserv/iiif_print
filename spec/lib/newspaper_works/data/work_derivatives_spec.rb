@@ -212,7 +212,6 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       expect(result).not_to be_nil
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it "commits queued derivatives" do
       NewspaperWorks::IngestFileRelation.where(file_path: example_gray_jp2).delete_all
       work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
@@ -242,6 +241,5 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
       expect(found.size).to eq 1
       expect(File.size(found[0])).to eq File.size(txt1.path)
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 end

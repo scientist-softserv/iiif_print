@@ -43,7 +43,6 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       expect(adapter.opts[:depositor]).to eq user
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it "constructs NewspaperIssue with adapter" do
       # construct_issue is only the first part of ingest, create issue
       #   and find-or-link publication NewspaperTitle;
@@ -68,7 +67,6 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       expect(publication.lccn).to eq issue_data.metadata.lccn
       expect(publication.title).to contain_exactly 'The Park Record'
     end
-    # rubocop:enable RSpec/ExampleLength
 
     it "creates new NewspaperTitle without place of publication" do
       # clear any existing publications from previous testing

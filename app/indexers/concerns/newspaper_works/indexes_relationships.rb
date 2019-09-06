@@ -53,9 +53,7 @@ module NewspaperWorks
       return unless newspaper_issue.is_a?(NewspaperIssue)
       solr_doc['issue_id_ssi'] = newspaper_issue.id
       solr_doc['issue_title_ssi'] = newspaper_issue.title.first
-      if newspaper_issue.publication_date.present?
-        solr_doc['publication_date_dtsi'] ||= newspaper_issue.publication_date.to_datetime
-      end
+      solr_doc['publication_date_dtsi'] ||= newspaper_issue.publication_date.to_datetime if newspaper_issue.publication_date.present?
       solr_doc['issue_volume_ssi'] = newspaper_issue.volume
       solr_doc['issue_edition_number_ssi'] = newspaper_issue.edition_number || '1'
       solr_doc['issue_number_ssi'] = newspaper_issue.issue_number
@@ -87,9 +85,7 @@ module NewspaperWorks
       page_ids = newspaper_issue.ordered_page_ids
       this_page_index = page_ids.index(page.id)
       return unless this_page_index
-      unless this_page_index.zero?
-        solr_doc['is_following_page_of_ssi'] = page_ids[this_page_index - 1].presence
-      end
+      solr_doc['is_following_page_of_ssi'] = page_ids[this_page_index - 1].presence unless this_page_index.zero?
       solr_doc['is_preceding_page_of_ssi'] = page_ids[this_page_index + 1].presence
       solr_doc['first_page_bsi'] = true if this_page_index.zero?
     end

@@ -4,7 +4,6 @@ require 'spec_helper'
 require 'model_shared'
 
 RSpec.describe NewspaperTitle do
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     @fixture = model_fixtures(described_class)
   end
@@ -48,7 +47,6 @@ RSpec.describe NewspaperTitle do
       expect(e).to be_an_instance_of(NewspaperContainer)
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 
   describe 'publication_date_start' do
     it "is not valid with bad date format" do

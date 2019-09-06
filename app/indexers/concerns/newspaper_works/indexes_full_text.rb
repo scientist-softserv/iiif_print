@@ -7,13 +7,11 @@ module NewspaperWorks
     #
     # @param work [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
-    # rubocop:disable Performance/StringReplacement
     def index_full_text(work, solr_doc)
       text = NewspaperWorks::Data::WorkDerivatives.new(work).data('txt')
       text = text.gsub(/\n/, ' ').squeeze(' ')
       solr_doc['all_text_timv'] = text
       solr_doc['all_text_tsimv'] = text
     end
-    # rubocop:enable Performance/StringReplacement
   end
 end

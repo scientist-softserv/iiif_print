@@ -6,7 +6,6 @@ RSpec.describe 'thumbnail_highlights', js: true do
 
   # use before(:all) so we only create fixtures once
   # we use instance var for @work so we can access its id in specs
-  # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     whitelist = Hyrax.config.whitelisted_ingest_dirs
     whitelist.push(fixture_path) unless whitelist.include?(fixture_path)
@@ -31,5 +30,4 @@ RSpec.describe 'thumbnail_highlights', js: true do
       end
     end
   end
-  # rubocop:enable RSpec/InstanceVariable
 end

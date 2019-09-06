@@ -4,7 +4,6 @@ require 'ndnp_shared'
 require 'lib/newspaper_works/ingest/ingest_shared'
 require 'active_fedora/cleaner'
 
-# rubocop:disable RSpec/DescribeClass
 describe 'newspaper_works rake tasks' do
   include_context 'ndnp fixture setup'
   include_context 'ingest test fixtures'
@@ -123,4 +122,3 @@ describe 'newspaper_works rake tasks' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass

@@ -1,7 +1,7 @@
 Newspaper Works for Samvera
 ===================================================
 Code:
-[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works)
+[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/marriott-library/newspaper_works/badge.svg?branch=rubocop-cleanup)](https://coveralls.io/github/marriott-library/newspaper_works?branch=rubocop-cleanup)
 
 Docs:
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)

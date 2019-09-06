@@ -3,6 +3,9 @@ require 'json'
 # testing environent:
 ENV['RAILS_ENV'] ||= 'test'
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'shoulda/matchers'
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

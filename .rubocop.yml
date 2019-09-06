@@ -1,10 +1,11 @@
 inherit_gem:
   bixby: bixby_default.yml
 
-inherit_from: .rubocop_fixme.yml
-
 RSpec/ExampleLength:
   Max: 15
+  Exclude:
+    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
+    - 'spec/lib/newspaper_works/ingest/ndnp/issue_ingester_spec.rb'
 
 AllCops:
   TargetRubyVersion: 2.1
@@ -14,30 +15,52 @@ AllCops:
     - 'script/**/*'
     - 'spec/test_app_templates/**/*'
     - 'vendor/**/*'
-    - 'lib/hyrax/specs/**/*'
 
 Lint/ImplicitStringConcatenation:
   Exclude:
-    - 'lib/generators/hyrax/**/*'
+    - 'lib/generators/newspaper_works/**/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/model_shared.rb'
 
 Metrics/BlockLength:
   ExcludedMethods: ['included']
   Exclude:
-    - 'hyrax.gemspec'
-    - 'app/models/concerns/hyrax/content_block_behavior.rb'
-    - 'app/services/hyrax/workflow/workflow_schema.rb'
-    - 'config/initializers/simple_form.rb'
-    - 'config/features.rb'
-    - 'config/routes.rb'
-    - 'lib/generators/hyrax/templates/catalog_controller.rb'
-    - 'lib/generators/hyrax/templates/config/initializers/simple_form_bootstrap.rb'
-    - 'lib/hyrax/rails/routes.rb'
+    - 'newspaper_works.gemspec'
     - 'lib/tasks/*.rake'
     - 'spec/**/*.rb'
 
-# Naming/FileName: # https://github.com/bbatsov/rubocop/issues/2973
-#   Exclude:
-#     - 'Gemfile'
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'spec/model_shared.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'lib/newspaper_works/data/work_derivatives.rb'
+    - 'lib/newspaper_works/ingest/ndnp/page_ingester.rb'
+    - 'lib/newspaper_works/ingest/lc_publication_info.rb'
+
+Metrics/LineLength:
+  Exclude:
+    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/helpers/newspaper_works/breadcrumb_helper.rb'
+    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
+    - 'lib/newspaper_works/page_finder.rb'
+    - 'lib/newspaper_works/ingest/ndnp/ndnp_mets_helper.rb'
+    - 'lib/newspaper_works/ingest/pdf_issue_ingester.rb'
+    - 'spec/model_shared.rb'
+
+Naming/PredicateName:
+  Exclude:
+    - ''
+
+Performance/StringReplacement:
+  Exclude:
+    - 'app/indexers/concerns/newspaper_works/indexes_full_text.rb'
 
 Style/AsciiComments:
   Enabled: false
@@ -50,14 +73,6 @@ Style/CollectionMethods:
     detect: 'find'
     find_all: 'select'
 
-Style/MethodMissing:
-  Exclude:
-    - 'app/models/concerns/hyrax/file_set/characterization.rb'
-
-Style/NumericPredicate:
-  Exclude:
-    - 'app/controllers/hyrax/file_sets_controller.rb'
-
 Style/SymbolArray:
   Enabled: false
 
@@ -66,10 +81,6 @@ Style/ClassAndModuleChildren:
 
 Style/SingleLineBlockParams:
   Enabled: false
-
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'app/controllers/hyrax/file_sets_controller.rb'
 
 Rails/ApplicationJob:
   Enabled: false
@@ -88,28 +99,17 @@ Rails/FilePath:
 
 Rails/OutputSafety:
   Exclude:
-    - 'app/builders/hyrax/form_builder.rb'
-    - 'app/helpers/hyrax/citations_behaviors/formatters/apa_formatter.rb'
-    - 'app/helpers/hyrax/citations_behaviors/formatters/chicago_formatter.rb'
-    - 'app/helpers/hyrax/citations_behaviors/formatters/mla_formatter.rb'
-    - 'app/helpers/hyrax/collections_helper.rb'
-    - 'app/helpers/hyrax/content_block_helper_behavior.rb'
-    - 'app/helpers/hyrax/hyrax_helper_behavior.rb'
-    - 'app/presenters/hyrax/fixity_status_presenter.rb'
-    - 'app/presenters/hyrax/presents_attributes.rb'
-    - 'app/renderers/hyrax/renderers/attribute_renderer.rb'
-    - 'spec/views/hyrax/my/works/_list_works.html.erb_spec.rb'
+    - 'lib/generators/newspaper_works/templates/config/initializers/patch_blacklight_advanced_search.rb'
+    - 'spec/helpers/newspaper_works_helper_spec.rb'
 
 RSpec/DescribeClass:
   Exclude:
     - 'spec/abilities/**/*'
-    - 'spec/config/hyrax_events_spec.rb'
     - 'spec/conversions/**/*'
     - 'spec/features/**/*'
     - 'spec/inputs/**/*'
-    - 'spec/javascripts/jasmine_spec.rb'
-    - 'spec/tasks/rake_spec.rb'
     - 'spec/views/**/*'
+    - 'spec/lib/tasks/**/*'
 
 # # By default RSpec/MessageSpies has the following:
 # #   Prefer have_received for setting message expectations. Setup form as a spy using allow or instance_spy.
@@ -119,7 +119,7 @@ RSpec/MessageSpies:
 
 RSpec/InstanceVariable:
   Exclude:
-    - 'spec/services/hyrax/derivative_service_spec.rb'
+    - 'spec/**/*'
 
 RSpec/ExpectActual:
   Enabled: false
@@ -130,8 +130,14 @@ RSpec/LetSetup:
 RSpec/MessageExpectation:
   Enabled: false
 
+RSpec/NamedSubject:
+  Enabled: false
+
 RSpec/NestedGroups:
   Enabled: false
 
 RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
   Enabled: false

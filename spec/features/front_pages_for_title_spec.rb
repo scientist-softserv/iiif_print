@@ -5,12 +5,10 @@ RSpec.describe 'front_pages_for_title' do
   include_context "fixtures_for_features"
 
   # @title1 comes from fixtures_for_features
-  # rubocop:disable RSpec/InstanceVariable
   before do
     visit hyrax_newspaper_title_path(@title1.id)
     click_link('front_pages_search')
   end
-  # rubocop:enable RSpec/InstanceVariable
 
   it 'returns the front pages' do
     within "#search-results" do

@@ -5,12 +5,10 @@ RSpec.describe 'newspaper title search' do
   include_context "fixtures_for_features"
 
   # @title1 comes from fixtures_for_features
-  # rubocop:disable RSpec/InstanceVariable
   before do
     visit hyrax_newspaper_title_path(@title1.id)
     fill_in "q_issues", with: title_base_memo
   end
-  # rubocop:enable RSpec/InstanceVariable
 
   it 'returns pages for this title' do
     click_button('issue-search')

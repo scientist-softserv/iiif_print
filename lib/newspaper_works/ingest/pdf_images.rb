@@ -27,11 +27,9 @@ module NewspaperWorks
       def process
         # call just once
         if @output.nil?
-          # rubocop:disable Lint/UnusedBlockArgument
-          Open3.popen3(@cmd) do |stdin, stdout, stderr, wait_thr|
+          Open3.popen3(@cmd) do |_stdin, stdout, _stderr, _wait_thr|
             @output = stdout.read.split("\n")
           end
-          # rubocop:enable Lint/UnusedBlockArgument
         end
         @output.slice(2, @output.size - 1)
       end

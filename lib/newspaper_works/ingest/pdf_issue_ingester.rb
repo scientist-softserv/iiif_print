@@ -36,7 +36,6 @@ module NewspaperWorks
         issue_data.title
       end
 
-      # rubocop:disable Metrics/MethodLength
       def create_issue(issue_data)
         issue = NewspaperIssue.create
         copy_issue_metadata(issue_data, issue)
@@ -60,7 +59,6 @@ module NewspaperWorks
         )
         issue
       end
-      # rubocop:enable Metrics/MethodLength
 
       def copy_issue_metadata(source, target)
         target.title = issue_title(source)

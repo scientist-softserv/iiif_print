@@ -53,11 +53,9 @@ module NewspaperWorks
         # fallback to graphicsmagick if source is jp2, as Ubuntu 16.10
         #   ImageMagick has no jp2 support.
         cmd = 'gm ' + cmd if path.ends_with?('jp2')
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           @source_meta = stdout.read
         end
-        # rubocop:enable Lint/UnusedBlockArgument
       end
       @source_meta
     end

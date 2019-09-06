@@ -52,23 +52,19 @@ module NewspaperWorks
       def gstext
         cmd = "gs -q -dNOPAUSE -dBATCH -sDEVICE=txtwrite " \
               "-sOutputFile=- -f #{@pdfpath}"
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           @pdftext = stdout.read
         end
-        # rubocop:enable Lint/UnusedBlockArgument
         @pdftext
       end
 
       def pagecount
         cmd = "pdfinfo #{@pdfpath}"
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           output = stdout.read.split("\n")
           pages_e = output.select { |e| e.start_with?('Pages:') }[0]
           @pagecount = pages_e.split[-1].to_i
         end
-        # rubocop:enable Lint/UnusedBlockArgument
         @pagecount
       end
 
@@ -94,12 +90,10 @@ module NewspaperWorks
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} " \
               "-dTextAlphaBits=4 " \
               "-sOutputFile=#{output_base} -r#{ppi} -f #{@pdfpath}"
-        # rubocop:disable Lint/UnusedBlockArgument
-        Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
+        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           output = stdout.read.split("\n")
           @size = output.select { |e| e.start_with?('Page ') }.length
         end
-        # rubocop:enable Lint/UnusedBlockArgument
         # Return an array of expected filenames
         (1..@size).map { |n| File.join(tmpdir, "#{@baseid}-page#{n}.tiff") }
       end

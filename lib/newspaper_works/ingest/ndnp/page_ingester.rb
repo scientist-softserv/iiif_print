@@ -3,7 +3,6 @@ require 'newspaper_works/logging'
 module NewspaperWorks
   module Ingest
     module NDNP
-      # rubocop:disable Metrics/ClassLength
       class PageIngester
         include NewspaperWorks::Logging
         include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
@@ -152,7 +151,6 @@ module NewspaperWorks
             end
           end
       end
-      # rubocop:enable Metrics/ClassLength
     end
   end
 end

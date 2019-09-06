@@ -18,7 +18,6 @@ module NewspaperWorks
     # return an ordered array of NewspaperPage documents
     # @param documents [Array] NewspaperPage SolrDocuments for an issue
     # @return [Array] ordered NewspaperPage SolrDocuments for an issue
-    # rubocop:disable Metrics/MethodLength
     def ordered_pages(documents)
       return documents if documents.length <= 1
       ordered_list = []
@@ -40,7 +39,6 @@ module NewspaperWorks
       end
       ordered_list
     end
-    # rubocop:enable Metrics/MethodLength
 
     ##
     # return the index of the current page
