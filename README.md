@@ -1,7 +1,7 @@
-Newspaper Works for Samvera
+NewspaperWorks
 ===================================================
 Code:
-[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/marriott-library/newspaper_works/badge.svg?branch=rubocop-cleanup)](https://coveralls.io/github/marriott-library/newspaper_works?branch=rubocop-cleanup)
+[![Build Status](https://travis-ci.org/marriott-library/newspaper_works.svg?branch=master)](https://travis-ci.org/marriott-library/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/marriott-library/newspaper_works/badge.svg)](https://coveralls.io/github/marriott-library/newspaper_works)
 
 Docs:
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
@@ -9,56 +9,57 @@ Docs:
 
 Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samvera.org/)
 
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-# Table of Contents
-- [Introduction](#introduction)
-  - [Documentation](#documentation)
-  - [Wiki](https://github.com/marriott-library/newspaper_works/wiki)
-  - [Features Matrix](https://github.com/marriott-library/newspaper_works/wiki/Features-Matrix)
-- [Overview](#overview)
-	- [Purpose, Use, and Aims](#purpose-use-and-aims)
-	- [Development Status](#development-status)
-	- [Requirements](#requirements)
-	  - [Newspaper Works Dependencies](#newspaper-works-dependencies)
-	- [PCDM metadata Model](#Newspapers-PCDM-metadata-model)
-- [Installation/Testing](#installationtesting)
-	- [Extending, Using](#extending-using)
-	- [Basic Model Use (console)](#basic-model-use-console)
-	- [Application/Site Specific Configuration](#applicationsite-specific-configuration)
-	- [Development and Testing Setup](#development-and-testing-setup)
-- [Credits](#credits)
-	- [Sponsoring Organizations](#sponsoring-organizations)
-	- [Contributors and Project Team](#contributors-and-project-team)
-	- [More Information / Contact](#more-information-contact)
-<!-- /TOC -->
-# Introduction
-The Newspapers in Samvera is an IMLS grant funded project to develop newspaper specific functionality for the [Samvera](http://samvera.org/) Hyrax framework.
+<!-- TOC -->
 
-## Documentation
-We are currently working on adding and updating documentation on our [Project Wiki](https://github.com/marriott-library/newspaper_works/wiki)
+- [Overview](#overview)
+  - [Documentation](#documentation)
+  - [Requirements](#requirements)
+  - [Dependencies](#dependencies)
+- [Installation](#installation)
+  - [Application/Site Specific Configuration](#applicationsite-specific-configuration)
+    - [Config changes made by the installer:](#config-changes-made-by-the-installer)
+    - [Configuration changes you should make after running the installer](#configuration-changes-you-should-make-after-running-the-installer)
+- [Ingesting Content](#ingesting-content)
+- [Developing, Testing, and Contributing](#developing-testing-and-contributing)
+  - [Contributing](#contributing) 
+- [Acknowledgements](#acknowledgements)
+  - [Sponsoring Organizations](#sponsoring-organizations)
+  - [More Information](#more-information)
+  - [Contact](#contact)
+
+<!-- /TOC -->
 
 # Overview
-The Newspaper Works gem provides work type models and administrative functionality for Hyrax-based Samvera applications in the space of scanned newspaper media.  This gem can be included in a Digital Asset Management application based on Hyrax 2.5.1
+NewspaperWorks is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/) -based digital repository applications to support ingest, management, and display of digitzed newspaper content.
 
-## Purpose, Use, and Aims
-This gem, while not a stand-alone application, can be integrated into an application based on Hyrax 2.5 easily to support a variety of cases for management, ingest, and archiving of primarily scanned (historic) newspaper archives.
+NewspaperWorks is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (2.5.x) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
 
-## Development Status
-This gem is currently under development. The development team is actively working on this project and is updating the codebase nightly. We are targeting an initial 1.0 release for June 2019.
+NewspaperWorks supports:
+* models for Title, Issue, Page, and Article
+* batch ingest via command line
+* OCR and ALTO creation
+* newspaper-specific metadata fields
+* full-text search
+* calendar-based issue browsing
+* advanced search
+* OCR keyword match highlighting
+* viewer with page navigation and deep zooming
 
-A public testing site is available for those interested in testing out the newspaper_works gem. [Newspaper Works Demo Site](https://newspaperworks.digitalnewspapers.org/) **NOTE:** The demo site may not be running the latest release of Newspapers_Works.
+A complete list of features can be found [here](wiki/Features-List).
+
+## Documentation
+A set of helpful documents to help you learn more and deploy NewspaperWorks can be found on the [Project Wiki](./newspaper_works/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code. 
 
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) >=2.4
-  * [Rails](https://rubyonrails.org/) 5.1.7
+  * [Rails](https://rubyonrails.org/) ~>5.1
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) 2.5.1
+  * [Hyrax](https://github.com/samvera/hyrax) ~>2.5
     - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
-  * A Hyrax-based Rails application.
-    * newspaper_works is a gem/engine that can extend your application.
+  * A Hyrax-based Rails application
 
-## Newspaper_works Dependencies
+## Dependencies
 
   * [FITS](https://projects.iq.harvard.edu/fits/home)
   * [Tesseract-ocr](https://github.com/tesseract-ocr/)
@@ -68,118 +69,75 @@ A public testing site is available for those interested in testing out the newsp
   * [GraphicsMagick](http://www.graphicsmagick.org/)
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
 
-## Newspapers PCDM metadata model
+See the [wiki](./newspaper_works/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
 
-This model describes digitized newspaper content modeled using the PCDM ontology, and is intended to inform the development of RDF-based models for all types of newspaper content objects (titles, containers, issues, pages, articles, files), such as would be used in Samvera- or Islandora-based digital asset management applications.
+# Installation
+NewspaperWorks easily integrates with your Hyrax 2.5.x applications.
 
-This model was greatly informed by earlier efforts from National Library of Wales and University of Maryland, as well as discussions of the Samvera Newspapers Interest Group. This is essentially an attempt to reconcile these efforts and express them as a formal PCDM profile.
-
-[Detailed metadata model documents](https://wiki.duraspace.org/display/samvera/PCDM+metadata+model+for+Newspapers)
-
-# Installing, Developing, and Testing
-Newspaper_works easily integrates with your Hyrax 2.5.1 applications.
-
-## Extending and Using
-
-* Add `gem 'newspaper_works', :git => 'https://github.com/marriott-library/newspaper_works.git'` to your Gemfile.
+* Add `gem 'newspaper_works'` to your Gemfile.
 * Run `bundle install`
 * Run `rails generate newspaper_works:generate`
-
-### Ingest, Application Interface
-
-_See [wiki](https://github.com/marriott-library/newspaper_works/wiki)_.
-
-## Basic Model Use (console)
-
-_More here soon!_
+* Set config options as indicated below...
 
 ## Application/Site Specific Configuration
 
-#### Config changes made by the installer:
-* In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features
-* Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`
-* Newspaper resource types added to `config/authorities/resource_types.yml`
+### Config changes made by the installer:
+* In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features.
+* Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`.
+* Newspaper resource types added to `config/authorities/resource_types.yml`.
 
 (It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
 
-#### Config changes you should make after running the installer:
-* In order to use some fields in forms, you will want to make sure you
-have a [username for Geonames](http://www.geonames.org/login),
-and configure that username in the
-`config.geonames_username` value in `config/intitializers/hyrax.rb` of your app.
-  * This will help fields such as "Place of Publication" provide autocomplete using the Geonames service/vocabulary.
-* NewspaperWorks requires that your application's `config/initializers/hyrax.rb` be edited to make uploads optional for (all) work types, by setting `config.work_requires_files = false`.
-* NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to enable a IIIF viewer, by setting` config.iiif_image_server = true`.    
-* NewspaperWorks expects that your application's `config/initializers/hyrax.rb` be edited to set the FITS path, by setting `config.fits_path = /location/of/fits.sh`
-* NewspaperWorks expects that your application's `config/environments/production.rb` be edited to set file server to public, by setting `config.public_file_server.enabled = true`
-* NewspaperWorks overrides Hyrax's default `:after_create_fileset` event handler, in order to attach pre-existing derivatives in some ingest use cases.  The file attachment adapters for NewspaperWorks use this callback to allow programmatic assignment of pre-existing derivative files before the primary file's file set has been created for a new work.  The callback ensures that derivative files are attached, stored using Hyrax file/path naming conventions, once the file set has been created.  Because the Hyrax callback registry only allows single subscribers to any event, application developers who overwrite this handler, or integrate other gems that do likewise, must take care to create a custom composition that ensures all work and queued jobs desired run after this object lifecycle event.
+### Configuration changes you should make after running the installer:
 
-## Development and Testing with Vagrant
+#### in config/intitializers/hyrax.rb:
+* set `config.geonames_username` 
+  * Enables geolocation tagging of content
+  * [how to create a Geonames username](http://www.geonames.org/login)
+* set `config.work_requires_files = false`
+* set `config.iiif_image_server = true`
+* set `config.fits_path = /location/of/fits.sh`
 
-Additional information regarding development and testing environments setup and configuration can be found [here](https://github.com/marriott-library/newspaper_works/wiki/Development-and-Testing)
+#### in config/environments/production.rb:
 
-### Host System Requirements (install these before proceeding)
+* set `config.public_file_server.enabled = true`
 
-* [Vagrant](https://www.vagrantup.com/) version 1.8.3+
-* [VirtualBox](https://www.virtualbox.org/) version 5.1.38+
+# Ingesting Content
 
-### Test Environment Setup (provisioning of virtual machine)
+NewspaperWorks supports a range of different ingest workflows:
+* single-item ingest via the UI
+* batch ingest of [NDNP materials](./newspaper_works/wiki/NDNP-Batch-Ingest-Guide) (page-level digitization) via command line
+* batch ingest of [PDF issues](./newspaper_works/wiki/PDF-Batch-Ingest-Guide) via command line
+* batch ingest of [TIFF or JP2 master files](./newspaper_works/wiki/TIFF-or-JP2-Batch-Ingest-Guide) via command line
 
-1. Clone newspaper works samvera-newspapers-vagrant `git clone https://github.com/marriott-library/samvera-newspapers-vagrant.git`
-2. Change the directory to the repository `cd samvera-newspapers-vagrant`
-3. Provision vagrant box by running `vagrant up`
-4. Shell into the machine with `vagrant ssh` or `ssh -p 2222 vagrant@localhost`
+The ingest process creates a full complement of derivatives for each Page object, including:
+* TIFF
+* JP2
+* PDF
+* OCR text
+* word-coordinate JSON
 
-### Using/testing the Newspaper_works application with Vagrant
-* Ensure you're in the samvera-newspapers-vagrant directory
-* Start vagrant box provisioning (incase you have not provisioned the virtual machine)
-  - `vagrant up`
-* Shell into vagrant box **three times**
-  - `vagrant ssh`
-* First shell (start fcrepo_wrapper)
-  - `cd /home/vagrant/newspaper_works fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
-* Second shell (start solr_wrapper)
-  - `cd /home/vagrant/newspaper_works solr_wrapper --config config/solr_wrapper_test.yml`
-* Third shell testing and development
-* Run spec tests
-  - `cd /home/vagrant/newspaper_works rake spec`
-* Run rails console
-  - `cd /home/vagrant/newspaper_works rails s`
+For more information on derivatives, see the [wiki](./newspaper_works/wiki/Image-Format-and-Derivative-Notes).
 
-## Development and testing setup
+# Developing, Testing, and Contributing
 
-* clone newspaper_works:
-  - `git clone https://github.com/marriott-library/newspaper_works.git`
-* Install Gem and dependencies:
-  - `bundle install`
-* Generate internal testing application
-  - `rake engine_cart:generate`
-* Each in a distinct terminal session, run Solr and Fedora Commons Wrappers:
-  - `solr_wrapper --config config/solr_wrapper_test.yml`
-  - `fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
-* Now you can either:
-  - Run tests via `rake spec` in the root of the `newspaper_works` gem.
-  - Run an interactive Rails console in the generated testing app:
-    - `rails`
-* For development, you may want to include a clone of `newspaper_works` in your app's Gemfile, either via `github:` or by `path:` in a local Gemfile used only for local development of your app.
+Detailed information regarding development and testing environments setup and configuration can be found [here](./newspaper_works/wiki/Installing,-Developing,-and-Testing)
+
+A Vagrant VM is available for users and developers to quickly and easily deploy the latest NewspaperWorks codebase using Vagrant and VirtualBox. See [samvera-newspapers-vagrant](https://github.com/marriott-library/samvera-newspapers-vagrant) for more.
+
+Additionally, the [NewspaperWorks Demo Site](https://newspaperworks.digitalnewspapers.org/) is available for those interested in testing out NewspaperWorks as deployed in a vanilla Hyrax application. (**NOTE:** The demo site may not be running the latest release of NewspaperWorks.)
+
+## Contributing
+
+We encourage anyone who is interested in newspapers and Samvera to contribute to this project. [How can I contribute?](https://github.com/samvera/hyrax/blob/master/.github/CONTRIBUTING.md)
 
 # Acknowledgements
+
 ## Sponsoring Organizations
 
-This gem is part of a project developed in a collaboration between
-[The University of Utah](https://www.utah.edu/), [J. Willard Marriott Library](https://www.lib.utah.edu/ß) and
-[Boston Public Library](https://www.bpl.org/), as part of a "Newspapers in Samvera" project
-grant funded by the [Institute for Museum and Library Services](https:///imls.gov).
+This gem is part of a project developed in a collaboration between [The University of Utah](https://www.utah.edu/), [J. Willard Marriott Library](https://www.lib.utah.edu/) and [Boston Public Library](https://www.bpl.org/), as part of a "Newspapers in Samvera" project grant funded by the [Institute for Museum and Library Services](https:///imls.gov).
 
 The development team is grateful for input, collaboration, and support we receive from the Samvera Community, related working groups, and our project's advisory board.
-
-## Contributors and Project Team
-
-  * [Eben English](https://github.com/ebenenglish) (Boston Public Library)
-  * [Brian McBride](https://github.com/brianmcbride) (University of Utah)
-  * [Jacob Reed](https://github.com/JacobR) (University of Utah)
-  * [Sean Upton](https://github.com/seanupton) (University of Utah)
-  * Harish Maringanti (University of Utah)
 
 ## More Information
  * [Samvera Newspapers Group](https://wiki.duraspace.org/display/samvera/Samvera+Newspapers+Interest+Group) - The Samvera Newspapers Interest groups meets on the first Thursday of every month to discuss the Samvera newspapers project and general newspaper topics.
@@ -187,7 +145,7 @@ The development team is grateful for input, collaboration, and support we receiv
  * [National Digital Newspapers Program NDNP](https://www.loc.gov/ndnp/)
 
 ## Contact
-  * Contact any contributors above by email, or ping us on [Samvera Community Slack channel(s)](http://slack.samvera.org/)
+ Contact any contributors above by email, or ping us on [Samvera Community Slack channel(s)](http://slack.samvera.org/)
 
 ![Institute of Museum and Library Services Logo](https://imls.gov/sites/default/files/logo.png)
 
