@@ -41,3 +41,12 @@ en:
         oclcnum:                'OCLC #'
         publication_date_end:   'Publication date (end)'
         publication_date_start: 'Publication date (start)'
+
+  blacklight:
+    search:
+      fields:
+        all_text_tsimv: 'Keyword matches'
+      results:
+        snippets:
+          less: '<< less'
+          more: 'more >>'

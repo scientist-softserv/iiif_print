@@ -41,3 +41,12 @@ zh:
         oclcnum:                'OCLC #'
         publication_date_end:   '出版日期（结束）'
         publication_date_start: '出版日期（开始）'
+
+  blacklight:
+    search:
+      fields:
+        all_text_tsimv: '关键字匹配'
+      results:
+        snippets:
+          less: '<< 减'
+          more: '更多 >>'

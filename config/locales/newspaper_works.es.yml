@@ -41,3 +41,12 @@ es:
         oclcnum:                'OCLC #'
         publication_date_end:   'Fecha de publicación (final)'
         publication_date_start: 'Fecha de publicación (inicio)'
+
+  blacklight:
+    search:
+      fields:
+        all_text_tsimv: 'Coincidencias de palabras clave'
+      results:
+        snippets:
+          less: '<< menos'
+          more: 'más >>'

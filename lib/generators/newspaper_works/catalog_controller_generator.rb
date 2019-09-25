@@ -20,7 +20,8 @@ module NewspaperWorks
         "    config.add_index_field solr_name('publication_date', :stored_sortable, type: :date), label: 'Publication date', helper_method: :human_readable_date\n"\
         "    config.add_index_field solr_name('place_of_publication_label', :stored_searchable), label: I18n.t('newspaper_works.attributes.place_of_publication.label'), link_to_search: solr_name('place_of_publication_label', :facetable)\n"\
         "    config.add_index_field solr_name('publication_date_start', :stored_sortable, type: :date), label: 'Publication date (start)', helper_method: :human_readable_date\n"\
-        "    config.add_index_field solr_name('publication_date_end', :stored_sortable, type: :date), label: 'Publication date (end)', helper_method: :human_readable_date\n"
+        "    config.add_index_field solr_name('publication_date_end', :stored_sortable, type: :date), label: 'Publication date (end)', helper_method: :human_readable_date\n"\
+        "    config.add_index_field 'all_text_tsimv', highlight: true, helper_method: :render_ocr_snippets\n"
       end
     end
 

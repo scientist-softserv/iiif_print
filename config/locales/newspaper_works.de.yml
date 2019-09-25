@@ -39,3 +39,12 @@ de:
         oclcnum:                'OCLC #'
         publication_date_end:   'Erscheinungsdatum (Ende)'
         publication_date_start: 'Erscheinungsdatum (Beginn)'
+
+  blacklight:
+    search:
+      fields:
+        all_text_tsimv: 'Keyword-Übereinstimmungen'
+      results:
+        snippets:
+          less: '<< weniger'
+          more: 'mehr >>'
