@@ -5,7 +5,7 @@ RSpec.describe NewspaperWorks::Ingest::PDFIssue do
 
   let(:lccn) { 'sn93059126' }
 
-  let(:pdf_path) { File.join(pdf_fixtures, '1853060401.pdf') }
+  let(:pdf_path) { File.join(pdf_fixtures, lccn, '1853060401.pdf') }
 
   let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn) }
 

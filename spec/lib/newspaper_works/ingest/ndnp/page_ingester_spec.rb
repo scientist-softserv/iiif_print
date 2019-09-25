@@ -73,6 +73,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
       expect(page.title).to contain_exactly expected_title
       expect(page.width).to eq metadata.width
       expect(page.height).to eq metadata.height
+      expect(page.page_number).to eq metadata.page_number
       expect(page.identifier).to contain_exactly metadata.identifier
     end
   end

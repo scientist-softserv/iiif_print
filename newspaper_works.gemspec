@@ -37,7 +37,7 @@ SUMMARY
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'
-  spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.2'
+  spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
   spec.add_development_dependency 'rspec-activemodel-mocks'

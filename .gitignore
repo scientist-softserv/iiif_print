@@ -7,6 +7,9 @@
 # Ignore Gemfile.lock
 Gemfile.lock
 
+# Ignore coverage reports
+coverage/*
+
 # Ignore bundler config.
 .bundle
 

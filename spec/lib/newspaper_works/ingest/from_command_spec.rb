@@ -27,11 +27,13 @@ RSpec.describe NewspaperWorks::Ingest::FromCommand do
 
     let(:lccn) { 'sn93059126' }
 
+    let(:pdf_path) { File.join(pdf_fixtures, lccn) }
+
     let(:fake_argv) do
       [
         'newspaper_works:ingest_pdf_issues',
         '--',
-        "--path=#{pdf_fixtures}"
+        "--path=#{pdf_path}"
       ]
     end
 
@@ -51,19 +53,19 @@ RSpec.describe NewspaperWorks::Ingest::FromCommand do
 
     it "calls constructor with minimal options parsed" do
       ingester = construct(fake_argv)
-      expect(ingester.path).to eq pdf_fixtures
-      expect(ingester.opts[:path]).to eq pdf_fixtures
+      expect(ingester.path).to eq pdf_path
+      expect(ingester.opts[:path]).to eq pdf_path
     end
 
     it "calls constructor with explict lccn option" do
       ingester = construct(more_argv)
-      expect(ingester.path).to eq pdf_fixtures
+      expect(ingester.path).to eq pdf_path
       expect(ingester.opts[:lccn]).to eq lccn
     end
 
     it "calls constructor with all options" do
       ingester = construct(most_argv)
-      expect(ingester.path).to eq pdf_fixtures
+      expect(ingester.path).to eq pdf_path
       expect(ingester.opts[:lccn]).to eq lccn
       expect(ingester.opts[:admin_set]).to eq 'admin_set/default'
       expect(ingester.opts[:depositor]).to eq User.batch_user.user_key

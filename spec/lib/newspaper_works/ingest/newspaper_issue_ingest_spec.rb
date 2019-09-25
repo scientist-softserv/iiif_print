@@ -5,6 +5,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperIssueIngest do
   # define the path to the file we will use for multiple examples
   let(:path) do
     fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
+    Hyrax.config.whitelisted_ingest_dirs.push(fixtures)
     File.join(fixtures, 'sample-4page-issue.pdf')
   end
 
@@ -44,6 +45,9 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperIssueIngest do
       expect(page.date_modified).not_to be nil
       # title: issue title plus page qualifier expected:
       expect(page.title).to contain_exactly "Here and There: Page 1"
+      # page number is sequence number, expressed as String
+      expect(page.page_number).to be_a String
+      expect(page.page_number).to match(/^[0-9]+$/)
     end
 
     def assign_custom_permissions(work)

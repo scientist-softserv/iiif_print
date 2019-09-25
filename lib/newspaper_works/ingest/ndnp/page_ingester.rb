@@ -14,6 +14,7 @@ module NewspaperWorks
         COPY_FIELDS = [
           :width,
           :height,
+          :page_number,
           :identifier
         ].freeze
 

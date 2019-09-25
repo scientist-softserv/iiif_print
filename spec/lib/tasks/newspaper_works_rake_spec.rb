@@ -20,9 +20,9 @@ describe 'newspaper_works rake tasks' do
       Hyrax::PermissionTemplate.destroy_all
     end
 
-    let(:pdf_lccn) { File.basename(pdf_fixtures) }
+    let(:pdf_lccn) { 'sn93059126' }
 
-    let(:pdf_path) { File.join(pdf_fixtures, '1853060401.pdf') }
+    let(:pdf_path) { File.join(pdf_fixtures, pdf_lccn, '1853060401.pdf') }
 
     let(:single_issue_dir) do
       Hyrax.config.whitelisted_ingest_dirs.push('/tmp')

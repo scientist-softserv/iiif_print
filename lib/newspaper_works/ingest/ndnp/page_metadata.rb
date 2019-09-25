@@ -28,7 +28,7 @@ module NewspaperWorks
         end
 
         # Printed page number, if printed; optional field in NDNP spec.
-        #   "Number" is used liberaly, and may contain both alpha
+        #   "Number" is used liberally, and may contain both alpha
         #   and numeric characters.  As such, return value is String.
         #
         #   If NDNP issue data fails to provide an explicitly

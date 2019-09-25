@@ -18,14 +18,22 @@ namespace :newspaper_works do
 
   desc 'Ingest a directory of PDF issues for a single publication: '\
     '"rake newspaper_works:ingest_pdf_issues -- --path="'
-  task :ingest_pdf_issues do
+  task :ingest_issues do
     use_application
-    ingester = NewspaperWorks::Ingest::PDFIssueIngester.from_command(
+    ingester = NewspaperWorks::Ingest::BatchIssueIngester.from_command(
       ARGV,
-      'rake newspaper_works:ingest_pdf_issues --'
+      'rake newspaper_works:ingest_issues --'
     )
-    puts "Beginning PDF batch ingest..."
+    puts "Beginning batch ingest of issues for single publication..."
     ingester.ingest
-    puts "PDF issue(s) ingest complete! See log/ingest.log for details."
+    puts "Ingest of issue(s) ingest complete, but may be pending background "\
+         "jobs. See log/ingest.log for details."
   end
+
+  # Aliases to media-specific task ingest names
+  # rubocop:disable Style/HashSyntax
+  task :ingest_pdf_issues => :ingest_issues
+  task :ingest_tiff_issues => :ingest_issues
+  task :ingest_jp2_issues => :ingest_issues
+  # rubocop:enable Style/HashSyntax
 end
