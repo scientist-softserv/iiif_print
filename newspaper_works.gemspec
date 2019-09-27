@@ -22,7 +22,7 @@ SUMMARY
   spec.license = 'Apache-2.0'
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.add_dependency 'blacklight_iiif_search'
+  spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
   spec.add_dependency 'blacklight_advanced_search', '6.4.1'
   spec.add_dependency 'hyrax', '2.5.1'
   spec.add_dependency 'nokogiri'

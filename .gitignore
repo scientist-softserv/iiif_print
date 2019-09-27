@@ -41,3 +41,7 @@ Gemfile.lock
 
 # Ignore wrapper downloads
 fcrepo-webapp-*
+
+# ignore gem builds
+*.gem
+pkg/
