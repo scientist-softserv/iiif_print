@@ -15,7 +15,7 @@ RSpec.describe 'thumbnail_highlights', js: true do
       visibility: "open"
     )
     attachment = NewspaperWorks::Data::WorkFiles.of(@work)
-    attachment.assign(File.join(fixture_path, 'page1.tiff'))
+    attachment.assign(File.join(fixture_path, 'ocr_mono.tiff'))
     attachment.derivatives.assign(File.join(fixture_path, 'ndnp-sample1-txt.txt'))
     attachment.derivatives.assign(File.join(fixture_path, 'ndnp-sample1-json.json'))
     attachment.commit!

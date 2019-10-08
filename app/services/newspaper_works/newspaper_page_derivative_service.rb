@@ -2,7 +2,7 @@ module NewspaperWorks
   # Base type for derivative services specific to NewspaperPage only
   class NewspaperPageDerivativeService
     attr_reader :file_set, :master_format
-    delegate :uri, :mime_type, to: :file_set
+    delegate :uri, to: :file_set
 
     TARGET_EXT = nil
 
@@ -47,27 +47,21 @@ module NewspaperWorks
     end
 
     def identify
-      if @source_meta.nil?
-        path = @source_path
-        cmd = "identify #{path}"
-        # fallback to graphicsmagick if source is jp2, as Ubuntu 16.10
-        #   ImageMagick has no jp2 support.
-        cmd = 'gm ' + cmd if path.ends_with?('jp2')
-        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
-          @source_meta = stdout.read
-        end
-      end
-      @source_meta
+      return @source_meta unless @source_meta.nil?
+      @source_meta = NewspaperWorks::ImageTool.new(@source_path).metadata
+    end
+
+    def mime_type
+      identify[:content_type]
     end
 
     def use_color?
-      # imagemagick `identify` output describes color space:
-      !(identify.include?('Gray') || one_bit?)
+      identify[:color] == 'color'
     end
 
     # is source one-bit monochrome?
     def one_bit?
-      identify.include?('1-bit')
+      identify[:color] == 'monochrome'
     end
 
     def create_derivatives(filename)
@@ -84,6 +78,34 @@ module NewspaperWorks
       derivative_path_factory.derivatives_for_reference(file_set).each do |path|
         FileUtils.rm_f(path) if path.ends_with?(target_ext)
       end
+    end
+
+    def jp2_to_intermediate
+      intermediate_path = File.join(Dir.mktmpdir, 'intermediate.tif')
+      jp2_cmd = "opj_decompress -i #{@source_path} -o #{intermediate_path}"
+      # make intermediate, then...
+      `#{jp2_cmd}`
+      intermediate_path
+    end
+
+    def convert_cmd
+      raise NotImplementedError, 'Calling subclass missing convert_cmd method'
+    end
+
+    # convert non-JP2 source/primary file to PDF derivative with ImageMagick6
+    #   calls convert_cmd on calling subclasses
+    def im_convert
+      `#{convert_cmd}`
+    end
+
+    # convert JP2 source/primary file to PDF derivative, via
+    #   opj_decompress to intermediate TIFF, then ImageMagick6 convert
+    def jp2_convert
+      # jp2 source -> intermediate
+      intermediate_path = jp2_to_intermediate
+      @source_path = intermediate_path
+      # intermediate -> PDF
+      im_convert
     end
 
     # def cleanup_derivatives; end

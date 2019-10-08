@@ -23,10 +23,10 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
 
     # given output file name, check DPI is 150
     def check_dpi(expected)
-      desc = `gm identify #{expected}`
-      # get total width of pdf in points from identify, should be 864x == 12in
-      page_width = 864
-      expect(desc).to include "#{page_width}x"
+      metadata = NewspaperWorks::ImageTool.new(expected).metadata
+      # get width of pdf in points (via imagemagick), should be 864x == 12in
+      page_width = metadata[:width]
+      expect(page_width).to eq 864
       # get total width of image in pixels from pdfimages -list, ==> 1800
       image_width = 1800
       im_list = `pdfimages -list #{expected}`
@@ -41,14 +41,14 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
       svc = described_class.new(valid_file_set)
       svc.create_derivatives(source_image(filename))
       expect(File.exist?(expected)).to be true
-      desc = `gm identify #{expected}`
-      expect(desc).to include 'PDF'
+      metadata = NewspaperWorks::ImageTool.new(expected).metadata
+      expect(metadata[:content_type]).to eq 'application/pdf'
       check_dpi(expected)
       svc.cleanup_derivatives
     end
 
     it "creates gray PDF derivative from one-bit source" do
-      makes_pdf('page1.tiff')
+      makes_pdf('ocr_mono.tiff')
     end
 
     it "creates gray PDF from grayscale source" do
@@ -57,6 +57,10 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
 
     it "creates color PDF from color source" do
       makes_pdf('4.1.07.tiff')
+    end
+
+    it "creates color PDF from color JP2 source" do
+      makes_pdf('4.1.07.jp2')
     end
   end
 end

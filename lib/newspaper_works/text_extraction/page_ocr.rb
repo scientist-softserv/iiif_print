@@ -1,100 +1,86 @@
 require 'json'
 require 'open3'
-require 'rtesseract'
+require 'tmpdir'
 
 # --
 module NewspaperWorks
   # Module for text extraction (OCR or otherwise)
   module TextExtraction
     class PageOCR
-      def self.alto_from(path)
-        new(path).alto
-      end
+      attr_accessor :html, :path
 
       def initialize(path)
         @path = path
+        # hOCR html:
+        @html = nil
         @words = nil
-        @processor = "mini_magick"
         @source_meta = nil
-        @use_gm = extension.start_with?('jp2')
         @box = nil
         @plain = nil
       end
 
-      def extension
-        @path.split('.')[-1].downcase
+      def run_ocr
+        outfile = File.join(Dir.mktmpdir, 'output_html')
+        cmd = "tesseract #{path} #{outfile} hocr"
+        `#{cmd}`
+        outfile + '.hocr'
       end
 
-      def load_box
-        if @box.nil?
-          if @use_gm
-            MiniMagick.with_cli(:graphicsmagick) do
-              @box = RTesseract::Box.new(@path, processor: @processor)
-              @plain = @box.to_s
-            end
-          else
-            @box = RTesseract::Box.new(@path, processor: @processor)
-            @plain = @box.to_s
-          end
-        end
-        @box
+      def load_words
+        preprocess_image
+        html_path = run_ocr
+        reader = NewspaperWorks::TextExtraction::HOCRReader.new(html_path)
+        @words = reader.words
+        @plain = reader.text
       end
 
       def words
-        @words = load_box.words if @words.nil?
+        load_words if @words.nil?
         @words
       end
 
-      def normalized_coordinate(word)
-        {
-          word: word[:word],
-          coordinates: [
-            word[:x_start],
-            word[:y_start],
-            (word[:x_end] - word[:x_start]),
-            (word[:y_end] - word[:y_start])
-          ]
-        }
-      end
-
       def word_json
-        save_words = words.map { |w| normalized_coordinate(w) }
-        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(save_words,
-                                                                        width,
-                                                                        height)
+        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(
+          words,
+          width,
+          height
+        )
         builder.to_json
       end
 
       def plain
-        load_box
+        load_words if @plain.nil?
         @plain
       end
 
       def identify
-        if @source_geometry.nil?
-          path = @path
-          cmd = "identify -verbose #{path}"
-          cmd = 'gm ' + cmd if @use_gm
-          lines = `#{cmd}`.lines
-          geo = lines.select { |line| line.strip.start_with?('Geometry') }[0]
-          img_geo = geo.strip.split(':')[-1].strip.split('+')[0]
-          @source_geometry = img_geo.split('x').map(&:to_i)
-        end
-        @source_geometry
+        return @source_meta unless @source_meta.nil?
+        @source_meta = NewspaperWorks::ImageTool.new(@path).metadata
       end
 
       def width
-        identify[0]
+        identify[:width]
       end
 
       def height
-        identify[1]
+        identify[:height]
       end
 
       def alto
         writer = NewspaperWorks::TextExtraction::RenderAlto.new(width, height)
         writer.to_alto(words)
       end
+
+      private
+
+        # transform the image into a one-bit TIFF for OCR
+        def preprocess_image
+          tool = NewspaperWorks::ImageTool.new(@path)
+          return if tool.metadata[:color] == 'monochrome'
+          intermediate_path = File.join(Dir.mktmpdir, 'monochrome-interim.tif')
+          tool.convert(intermediate_path, true)
+          @path = intermediate_path
+        end
     end
   end
 end

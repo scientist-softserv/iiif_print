@@ -8,7 +8,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
 
   # define the path to the file we will use for multiple examples
   let(:path) do
-    File.join(fixture_path, 'page1.tiff')
+    File.join(fixture_path, 'ocr_mono.tiff')
   end
 
   it_behaves_like('ingest adapter IO')
@@ -32,7 +32,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
 
     def verify_pcdm_fileset(fileset)
       # Hyrax always sets label (if not title) on fileset:
-      expect(fileset.label).to eq 'page1.tiff'
+      expect(fileset.label).to eq 'ocr_mono.tiff'
       # reload file set and check on original file
       fileset.reload
       file = fileset.original_file

@@ -22,13 +22,11 @@ module NewspaperWorks
     # Target file extension of this service plugin:
     TARGET_EXT = 'jp2'.freeze
 
-    attr_accessor :source_meta
     attr_reader :file_set
     delegate :uri, :mime_type, to: :file_set
 
     def initialize(file_set)
       # cached result string for imagemagick `identify` command
-      @source_meta = nil
       @command = nil
       @unlink_after_creation = []
       super(file_set)
@@ -66,7 +64,7 @@ module NewspaperWorks
       # source introspection:
 
       def tiff_source?
-        identify.include?('TIFF')
+        identify[:content_type] == 'image/tiff'
       end
 
       def make_symlink

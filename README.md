@@ -21,7 +21,7 @@ Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samv
     - [Configuration changes you should make after running the installer](#configuration-changes-you-should-make-after-running-the-installer)
 - [Ingesting Content](#ingesting-content)
 - [Developing, Testing, and Contributing](#developing-testing-and-contributing)
-  - [Contributing](#contributing) 
+  - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
   - [Sponsoring Organizations](#sponsoring-organizations)
   - [More Information](#more-information)
@@ -48,7 +48,7 @@ NewspaperWorks supports:
 A complete list of features can be found [here](wiki/Features-List).
 
 ## Documentation
-A set of helpful documents to help you learn more and deploy NewspaperWorks can be found on the [Project Wiki](./newspaper_works/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code. 
+A set of helpful documents to help you learn more and deploy NewspaperWorks can be found on the [Project Wiki](./newspaper_works/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
 
 ## Requirements
 
@@ -66,7 +66,8 @@ A set of helpful documents to help you learn more and deploy NewspaperWorks can 
   * [LibreOffice](https://www.libreoffice.org/)
   * [ghostscript](https://www.ghostscript.com/)
   * [poppler-utils](https://poppler.freedesktop.org/)
-  * [GraphicsMagick](http://www.graphicsmagick.org/)
+  * [ImageMagick](https://github.com/ImageMagick/ImageMagick6)
+    - _ImageMagick policy XML may need to be more permissive in both resources and source media types allowed.  See template [policy.xml](config/vendor/imagemagick-6-policy.xml)._
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
 
 See the [wiki](./newspaper_works/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
@@ -91,7 +92,7 @@ NewspaperWorks easily integrates with your Hyrax 2.5.x applications.
 ### Configuration changes you should make after running the installer:
 
 #### in config/intitializers/hyrax.rb:
-* set `config.geonames_username` 
+* set `config.geonames_username`
   * Enables geolocation tagging of content
   * [how to create a Geonames username](http://www.geonames.org/login)
 * set `config.work_requires_files = false`

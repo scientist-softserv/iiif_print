@@ -21,30 +21,27 @@ RSpec.describe NewspaperWorks::JP2DerivativeService do
       Hyrax::DerivativePath.derivative_path_for_reference(file_set, 'jp2')
     end
 
-    def get_res(path)
-      lines = `gm identify -verbose #{path}`.lines
-      lines.select { |line| line.strip.start_with?('Geometry') }[0].strip
-    end
-
-    def check_dpi_match(orig, dest)
-      # check ppi, but skip pdf to avoid ghostscript warnings to stderr
-      expect(get_res(orig)).to eq get_res(dest) unless orig.end_with?('pdf')
+    def metadata_match_checker(source, target)
+      target_meta = NewspaperWorks::ImageTool.new(target).metadata
+      source_meta = NewspaperWorks::ImageTool.new(source).metadata
+      expect(target_meta[:content_type]).to eq 'image/jp2'
+      expect(target_meta[:width]).to eq source_meta[:width]
+      expect(target_meta[:height]).to eq source_meta[:height]
     end
 
     def makes_jp2(filename)
       expected = expected_path(valid_file_set)
       expect(File.exist?(expected)).to be false
       svc = described_class.new(valid_file_set)
-      svc.create_derivatives(source_image(filename))
+      source_path = source_image(filename)
+      svc.create_derivatives(source_path)
       expect(File.exist?(expected)).to be true
-      desc = `gm identify #{expected}`
-      expect(desc).to include 'JP2'
-      check_dpi_match(source_image(filename), expected)
+      metadata_match_checker(source_path, expected)
       svc.cleanup_derivatives
     end
 
     it "creates gray JP2 derivative from one-bit source" do
-      makes_jp2('page1.tiff')
+      makes_jp2('ocr_mono.tiff')
     end
 
     it "creates gray JP2 from grayscale source" do

@@ -16,9 +16,6 @@ module NewspaperWorks
                     '-depth 8 ' \
                     '-compress jpeg %<out_file>s'.freeze
 
-    # graphicsmagick prefix, may be needed for jp2 source on Ubuntu
-    GM_PREFX = 'gm '.freeze
-
     def initialize(file_set)
       super(file_set)
     end
@@ -27,8 +24,7 @@ module NewspaperWorks
     #   JP2 source, and whether we have color or grayscale material.
     def convert_cmd
       template = use_color? ? COLOR_PDF_CMD : GRAY_PDF_CMD
-      cmd = format(template, source_file: @source_path, out_file: @dest_path)
-      @source_path.ends_with?('jp2') ? GM_PREFIX + cmd : cmd
+      format(template, source_file: @source_path, out_file: @dest_path)
     end
 
     def create_derivatives(filename)
@@ -38,8 +34,9 @@ module NewspaperWorks
       # no creation if pdf master
       return if mime_type == 'application/pdf'
 
-      # Get and run imagemagick or graphicsmagick command
-      `#{convert_cmd}`
+      # Get and run conversion command
+      return jp2_convert if mime_type == 'image/jp2'
+      im_convert
     end
   end
 end

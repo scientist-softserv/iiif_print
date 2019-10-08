@@ -22,8 +22,8 @@ RSpec.describe NewspaperWorks::TIFFDerivativeService do
     end
 
     def get_res(path)
-      lines = `gm identify -verbose #{path}`.lines
-      lines.select { |line| line.strip.start_with?('Geometry') }[0].strip
+      tool = NewspaperWorks::ImageTool.new(path)
+      "#{tool.metadata[:width]}x#{tool.metadata[:height]}"
     end
 
     def check_dpi_match(orig, dest)
@@ -32,23 +32,30 @@ RSpec.describe NewspaperWorks::TIFFDerivativeService do
     end
 
     def makes_tiff(filename)
+      path = source_image(filename)
+      expected = expected_path(valid_file_set)
+      expect(File.exist?(expected)).to be false
+      svc = described_class.new(valid_file_set)
+      svc.create_derivatives(path)
+      expect(File.exist?(expected)).to be true
+      mime = NewspaperWorks::ImageTool.new(expected).metadata[:content_type]
+      expect(mime).to eq 'image/tiff'
+      check_dpi_match(path, expected)
+      svc.cleanup_derivatives
+    end
+
+    # for cases where primary file is TIFF already
+    def avoids_duplicative_creation(filename)
       expected = expected_path(valid_file_set)
       expect(File.exist?(expected)).to be false
       svc = described_class.new(valid_file_set)
       svc.create_derivatives(source_image(filename))
-      expect(File.exist?(expected)).to be true
-      desc = `gm identify #{expected}`
-      expect(desc).to include 'TIFF'
-      check_dpi_match(source_image(filename), expected)
-      svc.cleanup_derivatives
+      expect(File.exist?(expected)).not_to be true
     end
 
-    it "creates gray TIFF derivative from one-bit source" do
-      makes_tiff('page1.tiff')
-    end
-
-    it "creates gray TIFF from grayscale source" do
-      makes_tiff('lowres-gray-via-ndnp-sample.tiff')
+    it "Does not make TIFF derivatives when primary is TIFF" do
+      avoids_duplicative_creation('ocr_mono.tiff')
+      avoids_duplicative_creation('ocr_gray.tiff')
     end
 
     it "creates TIFF from PDF source, robust to multi-page" do

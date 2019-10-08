@@ -15,10 +15,10 @@ module NewspaperWorks
           words.each do |word|
             xml.String(
               CONTENT: word[:word],
-              HEIGHT: scale_point(word[:y_end] - word[:y_start]).to_s,
-              WIDTH: scale_point(word[:x_end] - word[:x_start]).to_s,
-              HPOS: scale_point(word[:x_start]).to_s,
-              VPOS: scale_point(word[:y_start]).to_s
+              WIDTH: scale_point(word[:coordinates][2]).to_s,
+              HEIGHT: scale_point(word[:coordinates][3]).to_s,
+              HPOS: scale_point(word[:coordinates][0]).to_s,
+              VPOS: scale_point(word[:coordinates][1]).to_s
             ) { xml.text '' }
           end
         end

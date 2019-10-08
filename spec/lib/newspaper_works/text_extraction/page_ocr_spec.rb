@@ -26,7 +26,7 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
       expect(words).to be_an(Array)
       expect(words).not_to be_empty
       expect(words[0]).to be_a(Hash)
-      [:word, :x_start, :y_start, :x_end, :y_end].each do |key|
+      [:word, :coordinates].each do |key|
         expect(words[0].keys).to include key
       end
     end
@@ -77,8 +77,8 @@ RSpec.describe NewspaperWorks::TextExtraction::PageOCR do
       word = ocr_from_gray_tiff.words[0]
       word1 = parsed['coords'][word[:word]]
       word1_coords = word1[0]
-      expect(word1_coords[2]).to eq word[:x_end] - word[:x_start]
-      expect(word1_coords[3]).to eq word[:y_end] - word[:y_start]
+      expect(word1_coords[2]).to eq word[:coordinates][2]
+      expect(word1_coords[3]).to eq word[:coordinates][3]
     end
   end
 end

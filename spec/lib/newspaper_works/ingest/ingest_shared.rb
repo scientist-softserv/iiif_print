@@ -24,13 +24,13 @@ RSpec.shared_examples 'ingest adapter IO' do
   # define the path to the file we will use for multiple examples
   let(:path) do
     fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
-    File.join(fixtures, 'page1.tiff')
+    File.join(fixtures, 'ocr_mono.tiff')
   end
 
   # DRY for this matcher's use in multiple examples:
   let(:have_io_and_correct_filename) do
     have_attributes(
-      filename: 'page1.tiff',
+      filename: 'ocr_mono.tiff',
       io: an_object_responding_to(:read)
     )
   end
@@ -62,7 +62,7 @@ RSpec.shared_examples 'ingest adapter IO' do
     it "loads a StringIO with filename" do
       adapter = build(:newspaper_page_ingest)
       io = StringIO.new('File Content Here, Maybe')
-      adapter.load(io, filename: 'page1.tiff')
+      adapter.load(io, filename: 'ocr_mono.tiff')
       expect(adapter).to have_io_and_correct_filename
     end
 

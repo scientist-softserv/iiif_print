@@ -21,9 +21,6 @@ module NewspaperWorks
                 '-depth 24 ' \
                 '-compress lzw %<out_file>s'.freeze
 
-    # graphicsmagick prefix, may be needed for jp2 source on Ubuntu
-    GM_PREFX = 'gm '.freeze
-
     def initialize(file_set)
       super(file_set)
     end
@@ -35,20 +32,19 @@ module NewspaperWorks
       source_path += '[0]' if @source_path.ends_with?('pdf')
       template = use_color? ? COLOR_CMD : GRAY_CMD
       template = MONO_CMD if one_bit?
-      cmd = format(template, source_file: source_path, out_file: @dest_path)
-      # normalization of command based on source
-      @source_path.ends_with?('jp2') ? GM_PREFIX + cmd : cmd
+      format(template, source_file: source_path, out_file: @dest_path)
     end
 
     def create_derivatives(filename)
       # Base class takes care of loading @source_path, @dest_path
       super(filename)
 
-      # no creation if pdf master
+      # no creation of TIFF deriviative if primary is TIFF
       return if mime_type == 'image/tiff'
 
-      # Get and run imagemagick or graphicsmagick command
-      `#{convert_cmd}`
+      return jp2_convert if mime_type == 'image/jp2'
+      # Otherwise, get, run imagemagick command to convert
+      im_convert
     end
   end
 end
