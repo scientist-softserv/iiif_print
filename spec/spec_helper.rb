@@ -64,6 +64,22 @@ module EngineRoutes
   end
 end
 
+class CSVLoggingFormatter < RSpec::Core::Formatters::JsonFormatter
+  RSpec::Core::Formatters.register self
+
+  def close(_notification)
+    with_headers = {
+      write_headers: true,
+      headers: ['Example', 'Status', 'Run Time', 'Exception']
+    }
+    CSV.open(output.path, 'w', with_headers) do |csv|
+      @output_hash[:examples].map do |ex|
+        csv << [ex[:full_description], ex[:status], ex[:run_time], ex[:exception]]
+      end
+    end
+  end
+end
+
 RSpec.configure do |config|
   # enable FactoryBot:
   require 'factory_bot'
@@ -225,6 +241,9 @@ RSpec.configure do |config|
   # (e.g. via a command-line flag).
   #  config.default_formatter = "doc"
   # end
+
+  # opt-in CSV logging formatter, set SPEC_CSV environment variable to use:
+  config.add_formatter(CSVLoggingFormatter, 'spec_log.csv') unless ENV['SPEC_CSV'].nil?
 
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
