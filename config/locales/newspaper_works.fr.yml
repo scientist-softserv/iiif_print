@@ -2,6 +2,58 @@
 fr:
   newspaper_works:
     attributes:
+      held_by:
+        label: 'Lieu de détention'
+      identifier:
+        label: 'Identifiant (local)'
+      issn:
+        label: 'ISSN'
+      lccn:
+        label: 'LCCN'
+      oclcnum:
+        label: 'OCLC #'
+      publication_date_end:
+        label: 'Date de publication (fin)'
+      publication_date_start:
+        label: 'Date de publication (début)'
+      publication_date:
+        label: 'Date de publication'
+      alternative_title:
+        label: 'Titre supplémentaire'
+      edition_name:
+        label: "Nom de l'édition"
+      edition_number:
+        label: "Numéro de l'édition"
+      volume:
+        label: 'Volume'
+      issue_number:
+        label: 'Numéro de série'
+      page_number:
+        label: 'Pagination'
+      section:
+        label: 'Section'
+      extent:
+        label: 'Caractéristiques physiques'
+      frequency:
+        label: 'Fréquence'
+      preceded_by:
+        label: 'Titre précédent'
+      succeeded_by:
+        label: 'Titre suivant'
+      genre:
+        label: 'Genre'
+      geographic_coverage:
+        label: 'Lieux décrits'
+      author:
+        label: 'Auteur'
+      photographer:
+        label: 'Photographe'
+      height:
+        label: 'Taille'
+      width:
+        label: 'Largeur'
+      text_direction:
+        label: 'Direction du texte'
       place_of_publication:
         label: 'Place de publication'
       publication_title:
@@ -32,6 +84,25 @@ fr:
       front_pages_link:         'Voir toutes les premières pages'
 
   simple_form:
+    hints:
+      defaults:
+        held_by:                "Nom de la bibliothèque ou de l'organisation qui contient l'élément d'origine."
+        place_of_publication:   "L'emplacement où l'élément a été publié."
+        alternative_title:      "Un titre ou un sous-titre supplémentaire pour l'élément."
+        edition_name:           "Le nom de l'édition de l'élément."
+        edition_number:         "Le numéro de l'édition de l'élément."
+        extent:                 "Une description des caractéristiques physiques de l'article."
+        frequency:              'Fréquence de publication.'
+        preceded_by:            'Le titre qui a précédé cette publication.'
+        succeeded_by:           'Le titre qui a suivi cette publication.'
+        publication_date:       'Date de publication (YYYY-MM-DD).'
+        publication_date_start: 'Date début de publication (YYYY-MM-DD).'
+        publication_date_end:   'Date fin de publication (YYYY-MM-DD).'
+        genre:                  "Type d'article de journal."
+        geographic_coverage:    "L'emplacement décrit dans cet article."
+        page_number:            "Les informations de pagination, telles qu'elles sont écrites sur la page."
+        text_direction:         'La direction dans laquelle le texte est lu.'
+        section:                'La section du journal dans laquelle l’article apparaît.'
     labels:
       defaults:
         held_by:                'Lieu de détention'
@@ -41,11 +112,37 @@ fr:
         oclcnum:                'OCLC #'
         publication_date_end:   'Date de publication (fin)'
         publication_date_start: 'Date de publication (début)'
+        publication_date:       'Date de publication'
+        place_of_publication:   'Emplacement de publication'
+        alternative_title:      'Titre supplémentaire'
+        edition_name:           "Nom de l'édition"
+        edition_number:         "Numéro de l'édition"
+        volume:                 'Volume'
+        issue_number:           'Numéro de série'
+        page_number:            'Pagination'
+        section:                'Section'
+        extent:                 "Caractéristiques physiques"
+        frequency:              'Fréquence'
+        preceded_by:            'Titre précédent'
+        succeeded_by:           'Titre suivant'
+        genre:                  "Genre"
+        geographic_coverage:    "Lieux décrits"
+        author:                 'Auteur'
+        photographer:           'Photographe'
+        height:                 'Taille'
+        width:                  'Largeur'
+        text_direction:         'Direction du texte'
+
 
   blacklight:
     search:
       fields:
         all_text_tsimv: 'Correspondances de mots clés'
+        place_of_publication_label_tesim: 'Emplacement de publication'
+        publication_title_ssi: 'Journal'
+        publication_date_dtsi: 'Date de publication'
+        publication_date_start_dtsi: 'Date de publication (début)'
+        publication_date_end_dtsi: 'Date de publication (fin)'
       results:
         snippets:
           less: '<< moins'

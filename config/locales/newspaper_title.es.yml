@@ -5,4 +5,4 @@ es:
     select_type:
       newspaper_title:
         name:          "Título del periódico"
-        description:   "Título de periódico funciona"
+        description:   "Registro a nivel de publicación del título del periódico"

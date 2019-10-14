@@ -5,7 +5,7 @@ pt-BR:
     select_type:
       newspaper_page:
         name:         "Página de jornal"
-        description:  "Trabalhos de página de jornal"
+        description:  "Una pagina da un numero di giornale"
     newspaper_page:
       previous_page:  'Anterior'
       next_page:      'Próxima'

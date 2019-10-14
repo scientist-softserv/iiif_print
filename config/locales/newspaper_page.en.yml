@@ -5,7 +5,7 @@ en:
     select_type:
       newspaper_page:
         name:         "Newspaper Page"
-        description:  "Newspaper page works"
+        description:  "A page from a newspaper issue"
     newspaper_page:
       previous_page:  'Previous'
       next_page:      'Next'

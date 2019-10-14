@@ -5,7 +5,7 @@ fr:
     select_type:
       newspaper_article:
         name:              "Article de journal"
-        description:       "Article de journal fonctionne"
+        description:       "Un article d'un numéro de journal"
   simple_form:
     labels:
       newspaper_article:

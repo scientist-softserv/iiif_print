@@ -5,7 +5,7 @@ en:
     select_type:
       newspaper_article:
         name:              "Newspaper Article"
-        description:       "Newspaper article works"
+        description:       "An article from a newspaper issue"
   simple_form:
     labels:
       newspaper_article:

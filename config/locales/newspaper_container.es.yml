@@ -5,4 +5,4 @@ es:
     select_type:
       newspaper_container:
         name:              "Contenedor de periodico"
-        description:       "Trabajos de contenedor de periódico"
+        description:       "Un contenedor físico (microfilm, volumen encuadernado, etc.) que contiene números de periódicos."

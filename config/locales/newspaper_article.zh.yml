@@ -5,7 +5,7 @@ zh:
     select_type:
       newspaper_article:
         name:              "报纸文章"
-        description:       "报纸文章有效"
+        description:       "报纸发行的文章"
   simple_form:
     labels:
       newspaper_article:

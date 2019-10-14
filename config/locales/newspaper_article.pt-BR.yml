@@ -5,7 +5,7 @@ pt-BR:
     select_type:
       newspaper_article:
         name:              "Artigo de jornal"
-        description:       "Trabalhos de artigo de jornal"
+        description:       "Um artigo de uma edição de jornal"
   simple_form:
     labels:
       newspaper_article:

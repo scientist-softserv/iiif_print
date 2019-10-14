@@ -5,4 +5,4 @@ fr:
     select_type:
       newspaper_issue:
         name:          "Numéro de journal"
-        description:   "Le journal fonctionne"
+        description:   "Numéro de journal"

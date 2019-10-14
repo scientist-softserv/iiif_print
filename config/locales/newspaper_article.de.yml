@@ -5,7 +5,7 @@ de:
     select_type:
       newspaper_article:
         name:              "Zeitungsartikel"
-        description:       "Zeitungsartikel Werke"
+        description:       "Ein Artikel aus einer Zeitungsausgabe"
   simple_form:
     labels:
       newspaper_article:

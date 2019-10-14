@@ -5,4 +5,4 @@ fr:
     select_type:
       newspaper_container:
         name:              "Conteneur de journaux"
-        description:       "Travaux de conteneur de journal"
+        description:       "Un conteneur physique (microfilm, volume relié, etc.) contenant des numéros de journal"

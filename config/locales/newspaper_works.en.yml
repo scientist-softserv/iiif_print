@@ -2,6 +2,52 @@
 en:
   newspaper_works:
     attributes:
+      alternative_title:
+        label: 'Alternative title'
+      genre:
+        label: 'Article type'
+      held_by:
+        label: 'Held by'
+      text_direction:
+        label: 'Text direction'
+      page_number:
+        label: 'Page'
+      section:
+        label: 'Section'
+      author:
+        label: 'Author'
+      photographer:
+        label: 'Photographer'
+      volume:
+        label: 'Volume'
+      issue_number:
+        label: 'Issue'
+      edition_name:
+        label: 'Edition'
+      edition_number:
+        label: 'Edition #'
+      geographic_coverage:
+        label: 'Coverage'
+      extent:
+        label: 'Extent'
+      publication_date:
+        label: 'Publication date'
+      publication_date_start:
+        label: 'Publication date (start)'
+      publication_date_end:
+        label: 'Publication date (end)'
+      frequency:
+        label: 'Frequency of publication'
+      preceded_by:
+        label: 'Preceded by'
+      succeeded_by:
+        label: 'Succeeded by'
+      issn:
+        label: 'ISSN'
+      lccn:
+        label: 'LCCN'
+      oclcnum:
+        label: 'OCLC #'
       place_of_publication:
         label: 'Place of publication'
       publication_title:
@@ -32,6 +78,27 @@ en:
       front_pages_link:         'View all front pages'
 
   simple_form:
+    hints:
+      defaults:
+        held_by:                'The name of the library or organization that holds the original item.'
+        place_of_publication:   'The location where the item was published.'
+        alternative_title:      'An additional title or subtitle for the item.'
+        edition_name:           'The name of the edition of the item (Evening, Sunday, etc.).'
+        edition_number:         "The number of the edition of the item (should be numeric, use '1' as default)."
+        extent:                 'A description of the physical extent of the item (number of pages, size, materials, etc.).'
+        frequency:              'The frequency of publication (Daily, Weekly, etc.).'
+        preceded_by:            'The title that preceded this publication.'
+        succeeded_by:           'The title that followed this publication.'
+        publication_date:       'The date of publication (use YYYY-MM-DD format).'
+        publication_date_start: 'The initial date of publication (use YYYY-MM-DD format).'
+        publication_date_end:   'The final date of publication (use YYYY-MM-DD format).'
+        genre:                  'Pre-defined categories to describe the article type. More than one may be selected.'
+        author:                 'The name of the author of the article.'
+        photographer:           'The name of the photographer for photos accompanying the article.'
+        geographic_coverage:    'The location(s) described in the article.'
+        page_number:            'The pagination information, as written on the page.'
+        text_direction:         'The reading direction of the text. Enter as "ltr" (left-to-right) or "rtl (right-to-left)"'
+        section:                'The section of the newspaper the item appears in (Business, Sports, etc.)'
     labels:
       defaults:
         held_by:                'Holding location'

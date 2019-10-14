@@ -5,4 +5,4 @@ de:
     select_type:
       newspaper_title:
         name:          "Zeitungstitel"
-        description:   "Zeitungstitel Arbeit"
+        description:   "Aufzeichnung des Zeitungstitels auf Veröffentlichungsebene"

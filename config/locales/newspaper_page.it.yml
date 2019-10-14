@@ -5,7 +5,7 @@ it:
     select_type:
       newspaper_page:
         name:         "Pagina dei giornali"
-        description:  "Pagina del giornale funziona"
+        description:  "Una pagina da un numero di giornale"
     newspaper_page:
       previous_page:  'Precedente'
       next_page:      'Il prossimo'

@@ -2,6 +2,52 @@
 zh:
   newspaper_works:
     attributes:
+      alternative_title:
+        label: '替代标题'
+      genre:
+        label: '类型'
+      held_by:
+        label: '持有位置'
+      text_direction:
+        label: '文字方向'
+      page_number:
+        label: '页码'
+      section:
+        label: '部分'
+      author:
+        label: '作者'
+      photographer:
+        label: '摄影家'
+      volume:
+        label: '体积'
+      issue_number:
+        label: '发行数量'
+      edition_name:
+        label: '项目版本的名称'
+      edition_number:
+        label: '项目的版本号'
+      geographic_coverage:
+        label: '所描述的地方'
+      extent:
+        label: '物理描述'
+      publication_date:
+        label: '出版日期'
+      publication_date_start:
+        label: '出版日期（开始）'
+      publication_date_end:
+        label: '出版日期（结束）'
+      frequency:
+        label: '发布频率'
+      preceded_by:
+        label: '前一个标题'
+      succeeded_by:
+        label: '继任职称'
+      issn:
+        label: 'ISSN'
+      lccn:
+        label: 'LCCN'
+      oclcnum:
+        label: 'OCLC #'
       place_of_publication:
         label: '出版地'
       publication_title:
@@ -32,6 +78,25 @@ zh:
       front_pages_link:         '查看所有头版'
 
   simple_form:
+    hints:
+      defaults:
+        held_by:                '拥有原始项目的图书馆或组织的名称。'
+        place_of_publication:   '项目发布的位置。'
+        alternative_title:      '项目的其他标题或副标题。'
+        edition_name:           '项目版本的名称。'
+        edition_number:         "项目的版本号。"
+        extent:                 '项目实际范围的描述'
+        frequency:              '发布频率。'
+        preceded_by:            '本出版物之前的标题。'
+        succeeded_by:           '该出版物之后的标题。'
+        publication_date:       '发布日期 (YYYY-MM-DD).'
+        publication_date_start: '出版日期（开始） (YYYY-MM-DD).'
+        publication_date_end:   '出版日期（结束） (YYYY-MM-DD).'
+        genre:                  '报纸文章的类型。'
+        geographic_coverage:    '本文中描述的位置。'
+        page_number:            '分页信息写在页面上。'
+        text_direction:         '文本阅读的方向。'
+        section:                '出现项目的报纸部分。'
     labels:
       defaults:
         held_by:                '持有位置'
@@ -41,11 +106,36 @@ zh:
         oclcnum:                'OCLC #'
         publication_date_end:   '出版日期（结束）'
         publication_date_start: '出版日期（开始）'
+        publication_date:       '出版日期'
+        place_of_publication:   '项目发布的位置'
+        alternative_title:      '替代标题'
+        edition_name:           "项目版本的名称"
+        edition_number:         "项目的版本号"
+        volume:                 '体积'
+        issue_number:           '发行数量'
+        page_number:            '页码'
+        section:                '部分'
+        extent:                 "物理描述"
+        frequency:              '发布频率'
+        preceded_by:            '前一个标题'
+        succeeded_by:           '继任职称'
+        genre:                  "类型"
+        geographic_coverage:    "所描述的地方"
+        author:                 '作者'
+        photographer:           '摄影家'
+        height:                 '高度'
+        width:                  '宽度'
+        text_direction:         '文字方向'
 
   blacklight:
     search:
       fields:
         all_text_tsimv: '关键字匹配'
+        place_of_publication_label_tesim: '项目发布的位置'
+        publication_title_ssi: '报纸'
+        publication_date_dtsi: '出版日期'
+        publication_date_start_dtsi: '出版日期（开始）'
+        publication_date_end_dtsi: '出版日期（结束）'
       results:
         snippets:
           less: '<< 减'

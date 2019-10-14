@@ -4,5 +4,5 @@ it:
       newspaper_issue: 'fa fa-newspaper-o'
     select_type:
       newspaper_issue:
-        name:          "Giornale"
-        description:   "Il problema del giornale funziona"
+        name:          "Emissione del giornale"
+        description:   "Emissione del giornale"

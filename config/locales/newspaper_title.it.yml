@@ -5,4 +5,4 @@ it:
     select_type:
       newspaper_title:
         name:          "Titolo del giornale"
-        description:   "Titolo del giornale funziona"
+        description:   "Record a livello di pubblicazione del titolo del giornale"

@@ -5,4 +5,4 @@ en:
     select_type:
       newspaper_container:
         name:              "Newspaper Container"
-        description:       "Newspaper container works"
+        description:       "A physical container (microfilm, bound volume, etc.) that contains newspaper issues"

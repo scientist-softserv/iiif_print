@@ -5,4 +5,4 @@ de:
     select_type:
       newspaper_container:
         name:              "Zeitungscontainer"
-        description:       "Zeitungscontainer Arbeit"
+        description:       "Ein physischer Container (Mikrofilm, gebundenes Volumen usw.), der Zeitungsausgaben enthält"

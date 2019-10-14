@@ -5,4 +5,4 @@ it:
     select_type:
       newspaper_container:
         name:              "Contenitore per giornali"
-        description:       "Il contenitore del giornale funziona"
+        description:       "Un contenitore fisico (microfilm, volume rilegato, ecc.) Che contiene problemi di giornale"

@@ -5,4 +5,4 @@ en:
     select_type:
       newspaper_issue:
         name:          "Newspaper Issue"
-        description:   "Newspaper issue works"
+        description:   "A newspaper issue"

@@ -5,4 +5,4 @@ pt-BR:
     select_type:
       newspaper_title:
         name:          "Título de jornal"
-        description:   "Trabalhos de Título de Jornais"
+        description:   "Registro em nível de publicação do título do jornal"

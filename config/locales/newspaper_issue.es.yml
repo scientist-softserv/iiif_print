@@ -5,4 +5,4 @@ es:
     select_type:
       newspaper_issue:
         name:          "Edición del periódico"
-        description:   "Trabajos de publicación de periódicos"
+        description:   "Un edición del periodico"

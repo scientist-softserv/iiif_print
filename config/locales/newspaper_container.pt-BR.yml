@@ -5,4 +5,4 @@ pt-BR:
     select_type:
       newspaper_container:
         name:              "Contêiner de jornal"
-        description:       "Obras de contêiner de jornal"
+        description:       "Um contêiner físico (microfilme, volume encadernado etc.) que contém edições de jornais"

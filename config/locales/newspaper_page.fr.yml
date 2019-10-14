@@ -5,7 +5,7 @@ fr:
     select_type:
       newspaper_page:
         name:         "Page de journal"
-        description:  "La page de journal fonctionne"
+        description:  "Une page d'un numéro de journal"
     newspaper_page:
       previous_page:  'précédente'
       next_page:      'suivante'

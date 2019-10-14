@@ -2,6 +2,58 @@
 pt-BR:
   newspaper_works:
     attributes:
+      held_by:
+        label: 'Segurando localização'
+      identifier:
+        label: 'Identificador (local)'
+      issn:
+        label: 'ISSN'
+      lccn:
+        label: 'LCCN'
+      oclcnum:
+        label: 'OCLC #'
+      publication_date_end:
+        label: 'Data de publicação (fim)'
+      publication_date_start:
+        label: 'Data de publicação (começo)'
+      publication_date:
+        label: 'Data de publicação'
+      alternative_title:
+        label: 'Título adicional'
+      edition_name:
+        label: 'Nome da edição'
+      edition_number:
+        label: 'Numero da edição'
+      volume:
+        label: 'Volume'
+      issue_number:
+        label: 'Numero da edição'
+      page_number:
+        label: 'Paginação'
+      section:
+        label: 'Seção'
+      extent:
+        label: 'Características físicas'
+      frequency:
+        label: 'Frequência'
+      preceded_by:
+        label: 'Título precedente'
+      succeeded_by:
+        label: 'Título de sucesso'
+      genre:
+        label: 'Gênero'
+      geographic_coverage:
+        label: 'Locais descritos'
+      author:
+        label: 'Autor'
+      photographer:
+        label: 'Fotógrafo'
+      height:
+        label: 'Altura'
+      width:
+        label: 'Largura'
+      text_direction:
+        label: 'Direção texto'
       place_of_publication:
         label: 'Local de publicação'
       publication_title:
@@ -32,6 +84,25 @@ pt-BR:
       front_pages_link:         'Ver todas as páginas principais'
 
   simple_form:
+    hints:
+      defaults:
+        held_by:                'O nome da biblioteca ou organização que contém o item original.'
+        place_of_publication:   'O local em que o item foi publicado.'
+        alternative_title:      'Um título ou legenda adicional para o item.'
+        edition_name:           'O nome da edição do item.'
+        edition_number:         "O número da edição do item."
+        extent:                 'Uma descrição das características físicas do item.'
+        frequency:              'Frequência de publicação.'
+        preceded_by:            'O título que precedeu esta publicação.'
+        succeeded_by:           'O título que se seguiu a esta publicação.'
+        publication_date:       'Data de publicação (YYYY-MM-DD).'
+        publication_date_start: 'Data começo de publicação (YYYY-MM-DD).'
+        publication_date_end:   'Data fim de publicação (YYYY-MM-DD).'
+        genre:                  'Tipo de artigo de jornal.'
+        geographic_coverage:    'O local descrito neste artigo.'
+        page_number:            'As informações de paginação, conforme gravadas na página.'
+        text_direction:         'A direção na qual o texto é lido.'
+        section:                'A seção do jornal em que o item aparece.'
     labels:
       defaults:
         held_by:                'Segurando localização'
@@ -41,11 +112,36 @@ pt-BR:
         oclcnum:                'OCLC #'
         publication_date_end:   'Data de publicação (fim)'
         publication_date_start: 'Data de publicação (começo)'
+        publication_date:       'Data de publicação'
+        place_of_publication:   'Local de publicado'
+        alternative_title:      'Título adicional'
+        edition_name:           "Nome da edição"
+        edition_number:         "Numero da edição"
+        volume:                 'Volume'
+        issue_number:           'Numero da edição'
+        page_number:            'Paginação'
+        section:                'Seção'
+        extent:                 "Características físicas"
+        frequency:              'Frequência'
+        preceded_by:            'Título precedente'
+        succeeded_by:           'Título de sucesso'
+        genre:                  "Gênero"
+        geographic_coverage:    "Locais descritos"
+        author:                 'Autor'
+        photographer:           'Fotógrafo'
+        height:                 'Altura'
+        width:                  'Largura'
+        text_direction:         'Direção texto'
 
   blacklight:
     search:
       fields:
         all_text_tsimv: 'Correspondências de palavras-chave'
+        place_of_publication_label_tesim: 'Local de publicado'
+        publication_title_ssi: 'Jornal'
+        publication_date_dtsi: 'Date de publication'
+        publication_date_start_dtsi: 'Data de publicação (começo)'
+        publication_date_end_dtsi: 'Data de publicação (fim)'
       results:
         snippets:
           less: '<< menos'

@@ -5,7 +5,7 @@ zh:
     select_type:
       newspaper_page:
         name:         "报纸页面"
-        description:  "报纸页面有效"
+        description:  "报纸的一页"
     newspaper_page:
       previous_page:  '以前'
       next_page:      '下一个'

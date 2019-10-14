@@ -5,4 +5,4 @@ fr:
     select_type:
       newspaper_title:
         name:          "Titre du journal"
-        description:   "Titre de journal fonctionne"
+        description:   "Enregistrement au niveau de la publication du titre du journal"
