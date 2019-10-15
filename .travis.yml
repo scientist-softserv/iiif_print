@@ -30,8 +30,8 @@ before_install:
   - sudo unzip /opt/install/fits-1.4.1.zip -d /opt/install/fits-1.4.1
   - sudo chmod +x /opt/install/fits-1.4.1/*.sh
   - sudo ln -s /opt/install/fits-1.4.1/fits.sh /usr/local/bin/fits.sh
-  - sudo wget -q -O /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/marriott-library/newspaper_works/7052ff3bf58022572870a0720d8c5a705090a833/config/vendor/imagemagick-6-policy.xml
-  - sudo wget -q -O /opt/install/fits-1.4.1/xml/fits.xml https://gist.githubusercontent.com/brianmcbride/af3fb21fb50a1331d84eca9a9a170f8f/raw/ebb1a285726e4f5c2309b4f6eceed29fa1369538/fits.xml
+  - sudo wget -q -O /etc/ImageMagick-6/policy.xml https://raw.githubusercontent.com/samvera-labs/newspaper_works/master/config/vendor/imagemagick-6-policy.xml
+  - sudo wget -q -O /opt/install/fits-1.4.1/xml/fits.xml https://raw.githubusercontent.com/samvera-labs/newspaper_works/82d0c18d1679696a762fd7083db83dac49de9b35/config/vendor/fits.xml
 rvm:
   - 2.5.5
 

@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
                       'Eben English']
   spec.email       = ['sean.upton@utah.edu', 'jacob.reed@utah.edu',
                       'brian.mcbride@utah.edu', 'eenglish@bpl.org']
-  spec.homepage    = 'https://github.com/marriott-library/newspaper_works'
+  spec.homepage    = 'https://github.com/samvera-labs/newspaper_works'
   spec.description = 'Gem/Engine for Newspaper Works in Hyrax-based Samvera
                       Application.'
   spec.summary     = <<-SUMMARY
