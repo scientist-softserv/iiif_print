@@ -1,7 +1,7 @@
 NewspaperWorks
 ===================================================
 Code:
-[![Build Status](https://travis-ci.org/samvera-labs/newspaper_works.svg?branch=master)](https://travis-ci.org/samvera-labs/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/samvera-labs/newspaper_works/badge.svg)](https://coveralls.io/github/samvera-labs/newspaper_works)
+[![Build Status](https://travis-ci.org/samvera-labs/newspaper_works.svg?branch=master)](https://travis-ci.org/samvera-labs/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/samvera-labs/newspaper_works/badge.svg?branch=master)](https://coveralls.io/github/samvera-labs/newspaper_works?branch=master)
 
 Docs:
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
