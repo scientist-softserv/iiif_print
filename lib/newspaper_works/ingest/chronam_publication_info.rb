@@ -83,51 +83,51 @@ module NewspaperWorks
 
       private
 
-        def normalize_title(value)
-          NewspaperWorks::Ingest.normalize_title(value)
-        end
+      def normalize_title(value)
+        NewspaperWorks::Ingest.normalize_title(value)
+      end
 
-        # Returns URL to LC catalog, provided such exists, on the basis of
-        #   non-empty MODS for given LCCN.  Otherwise returns nil.
-        def lc_catalog_url(lccn)
-          content_url = "https://lccn.loc.gov/#{lccn}"
-          url = "#{content_url}/mods"
-          resp = NewspaperWorks::ResourceFetcher.get url
-          doc = Nokogiri.XML(resp['body'])
-          return content_url unless doc.root.children.empty?
-        end
+      # Returns URL to LC catalog, provided such exists, on the basis of
+      #   non-empty MODS for given LCCN.  Otherwise returns nil.
+      def lc_catalog_url(lccn)
+        content_url = "https://lccn.loc.gov/#{lccn}"
+        url = "#{content_url}/mods"
+        resp = NewspaperWorks::ResourceFetcher.get url
+        doc = Nokogiri.XML(resp['body'])
+        return content_url unless doc.root.children.empty?
+      end
 
-        def normalize_related(value)
-          lccn = value.split('/')[-1].split('#')[0]
-          lc_url = lc_catalog_url(lccn)
-          # URL to lccn.loc.gov is preferred authority for publication URL
-          return lc_url unless lc_url.nil?
-          # URL to HTML representation of content on ChronAm is fallback
-          "#{BASE_URL}/#{lccn}"
-        end
+      def normalize_related(value)
+        lccn = value.split('/')[-1].split('#')[0]
+        lc_url = lc_catalog_url(lccn)
+        # URL to lccn.loc.gov is preferred authority for publication URL
+        return lc_url unless lc_url.nil?
+        # URL to HTML representation of content on ChronAm is fallback
+        "#{BASE_URL}/#{lccn}"
+      end
 
-        def sameas_resources
-          find('//owl:sameAs/@rdf:resource') || []
-        end
+      def sameas_resources
+        find('//owl:sameAs/@rdf:resource') || []
+      end
 
-        def find(expr, context = nil)
-          context ||= @doc
-          return if context.nil?
-          context.xpath(expr, **XML_NS)
-        end
+      def find(expr, context = nil)
+        context ||= @doc
+        return if context.nil?
+        context.xpath(expr, **XML_NS)
+      end
 
-        # ISO 639-2 three-character code from ISO 639-1 two-character code
-        #   or equivalent lingvoj resource URL used by ChronAm;
-        #   uses HTML language tables maintained by LOC.
-        def iso_language_for(code)
-          # handle case where source language code is lingvoj url:
-          code = code.split('/')[-1]
-          lookup_url = 'https://www.loc.gov/standards/iso639-2/php/langcodes_name.php'
-          lookup_url += "?iso_639_1=#{code}"
-          resp = NewspaperWorks::ResourceFetcher.get lookup_url
-          html = Nokogiri::HTML(resp['body'])
-          html.xpath('//table[1]/tr[2]/td[2]').first.text.strip
-        end
+      # ISO 639-2 three-character code from ISO 639-1 two-character code
+      #   or equivalent lingvoj resource URL used by ChronAm;
+      #   uses HTML language tables maintained by LOC.
+      def iso_language_for(code)
+        # handle case where source language code is lingvoj url:
+        code = code.split('/')[-1]
+        lookup_url = 'https://www.loc.gov/standards/iso639-2/php/langcodes_name.php'
+        lookup_url += "?iso_639_1=#{code}"
+        resp = NewspaperWorks::ResourceFetcher.get lookup_url
+        html = Nokogiri::HTML(resp['body'])
+        html.xpath('//table[1]/tr[2]/td[2]').first.text.strip
+      end
     end
   end
 end

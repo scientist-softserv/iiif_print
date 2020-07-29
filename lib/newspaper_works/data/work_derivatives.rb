@@ -224,91 +224,91 @@ module NewspaperWorks
 
       private
 
-        def primary_file_path
-          if fileset.nil?
-            # if there is a nil fileset, we look for *intent* in the form
-            #   of the first assigned file path for single-file work.
-            work_file = parent
-            return if work_file.nil?
-            work_files = work_file.parent
-            return if work_files.nil?
-            work_files.assigned[0]
-          else
-            file_url_to_path(fileset.import_url) unless fileset.import_url.nil?
-          end
+      def primary_file_path
+        if fileset.nil?
+          # if there is a nil fileset, we look for *intent* in the form
+          #   of the first assigned file path for single-file work.
+          work_file = parent
+          return if work_file.nil?
+          work_files = work_file.parent
+          return if work_files.nil?
+          work_files.assigned[0]
+        else
+          file_url_to_path(fileset.import_url) unless fileset.import_url.nil?
         end
+      end
 
-        def file_url_to_path(url)
-          url.gsub('file://', '')
-        end
+      def file_url_to_path(url)
+        url.gsub('file://', '')
+      end
 
-        def log_primary_file_relation(path)
-          file_path = primary_file_path
-          return if file_path.nil?
-          NewspaperWorks::IngestFileRelation.create!(
-            file_path: file_path,
-            derivative_path: path
-          )
-        end
+      def log_primary_file_relation(path)
+        file_path = primary_file_path
+        return if file_path.nil?
+        NewspaperWorks::IngestFileRelation.create!(
+          file_path: file_path,
+          derivative_path: path
+        )
+      end
 
-        def log_assignment(path, name)
-          NewspaperWorks::DerivativeAttachment.create!(
+      def log_assignment(path, name)
+        NewspaperWorks::DerivativeAttachment.create!(
+          fileset_id: fileset_id,
+          path: path,
+          destination_name: name
+        )
+        log_primary_file_relation(path)
+      end
+
+      def unlog_assignment(path, name)
+        if fileset_id.nil?
+          NewspaperWorks::DerivativeAttachment.where(
+            path: path,
+            destination_name: name
+          ).destroy_all
+        else
+          NewspaperWorks::DerivativeAttachment.where(
             fileset_id: fileset_id,
             path: path,
             destination_name: name
-          )
-          log_primary_file_relation(path)
+          ).destroy_all
         end
+        # note: there is deliberately no attempt to "unlog" primary
+        #   file relation, as leaving it should have no side-effect.
+      end
 
-        def unlog_assignment(path, name)
-          if fileset_id.nil?
-            NewspaperWorks::DerivativeAttachment.where(
-              path: path,
-              destination_name: name
-            ).destroy_all
-          else
-            NewspaperWorks::DerivativeAttachment.where(
-              fileset_id: fileset_id,
-              path: path,
-              destination_name: name
-            ).destroy_all
-          end
-          # note: there is deliberately no attempt to "unlog" primary
-          #   file relation, as leaving it should have no side-effect.
-        end
+      def path_destination_name(path)
+        ext = path.split('.')[-1]
+        self.class.remap_names[ext] || ext
+      end
 
-        def path_destination_name(path)
-          ext = path.split('.')[-1]
-          self.class.remap_names[ext] || ext
-        end
+      def respond_to_missing?(symbol, include_priv = false)
+        {}.respond_to?(symbol, include_priv)
+      end
 
-        def respond_to_missing?(symbol, include_priv = false)
-          {}.respond_to?(symbol, include_priv)
+      def method_missing(method, *args, &block)
+        # if we proxy mapping/hash enumertion methods,
+        #   make sure @paths loaded, then proxy to it.
+        if respond_to_missing?(method)
+          load_paths if @paths.nil?
+          return @paths.send(method, *args, &block)
         end
+        super
+      end
 
-        def method_missing(method, *args, &block)
-          # if we proxy mapping/hash enumertion methods,
-          #   make sure @paths loaded, then proxy to it.
-          if respond_to_missing?(method)
-            load_paths if @paths.nil?
-            return @paths.send(method, *args, &block)
-          end
-          super
-        end
+      def path_factory
+        Hyrax::DerivativePath
+      end
 
-        def path_factory
-          Hyrax::DerivativePath
-        end
-
-        # make shared path for derivatives to live, given
-        def mkdir_pairtree
-          # Hyrax::DerivativePath has no public method to directly get the
-          #   bare pairtree path for derivatives for a fileset, but we
-          #   can infer it...
-          path = path_factory.derivative_path_for_reference(fileset, '')
-          dir = File.join(path.split('/')[0..-2])
-          FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
-        end
+      # make shared path for derivatives to live, given
+      def mkdir_pairtree
+        # Hyrax::DerivativePath has no public method to directly get the
+        #   bare pairtree path for derivatives for a fileset, but we
+        #   can infer it...
+        path = path_factory.derivative_path_for_reference(fileset, '')
+        dir = File.join(path.split('/')[0..-2])
+        FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
+      end
     end
   end
 end

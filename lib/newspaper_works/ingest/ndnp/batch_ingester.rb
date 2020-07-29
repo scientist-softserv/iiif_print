@@ -47,17 +47,17 @@ module NewspaperWorks
         private
 
           # Return BatchIngest object as enumerable of issues:
-          def batch_enumerator
-            NewspaperWorks::Ingest::NDNP::BatchXMLIngest.new(path)
-          end
+        def batch_enumerator
+          NewspaperWorks::Ingest::NDNP::BatchXMLIngest.new(path)
+        end
 
-          def issue_ingester(issue)
-            NewspaperWorks::Ingest::NDNP::IssueIngester.new(issue, @opts)
-          end
+        def issue_ingester(issue)
+          NewspaperWorks::Ingest::NDNP::IssueIngester.new(issue, @opts)
+        end
 
-          def normalize_date(v)
-            (v.is_a?(String) ? Date.parse(v) : v).to_s
-          end
+        def normalize_date(v)
+          (v.is_a?(String) ? Date.parse(v) : v).to_s
+        end
       end
     end
   end

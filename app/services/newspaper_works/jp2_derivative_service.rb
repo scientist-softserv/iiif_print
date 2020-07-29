@@ -61,58 +61,58 @@ module NewspaperWorks
 
     private
 
-      # source introspection:
+    # source introspection:
 
-      def tiff_source?
-        identify[:content_type] == 'image/tiff'
-      end
+    def tiff_source?
+      identify[:content_type] == 'image/tiff'
+    end
 
-      def make_symlink
-        # OpenJPEG binaries have annoying quirk of only using TIFF input
-        #   files whose name ends in .TIF or .tif (three letter); for all
-        #   non-monochrome TIFF files, we just assume we need to symlink
-        #   to such a filename.
-        tmpname = File.join(Dir.tmpdir, "#{SecureRandom.uuid}.tif")
-        FileUtils.ln_s(@source_path, tmpname)
-        @unlink_after_creation.push(tmpname)
-        # finally, point @source_path for command at intermediate link:
-        @source_path = tmpname
-      end
+    def make_symlink
+      # OpenJPEG binaries have annoying quirk of only using TIFF input
+      #   files whose name ends in .TIF or .tif (three letter); for all
+      #   non-monochrome TIFF files, we just assume we need to symlink
+      #   to such a filename.
+      tmpname = File.join(Dir.tmpdir, "#{SecureRandom.uuid}.tif")
+      FileUtils.ln_s(@source_path, tmpname)
+      @unlink_after_creation.push(tmpname)
+      # finally, point @source_path for command at intermediate link:
+      @source_path = tmpname
+    end
 
-      def make_intermediate_source
-        # generate a random filename to be made, with appropriate extension,
-        #   inside /tmp dir:
-        tmpname = File.join(
-          Dir.tmpdir,
-          format(
-            "#{SecureRandom.uuid}.%<ext>s",
-            ext: use_color? ? 'ppm' : 'pgm'
-          )
+    def make_intermediate_source
+      # generate a random filename to be made, with appropriate extension,
+      #   inside /tmp dir:
+      tmpname = File.join(
+        Dir.tmpdir,
+        format(
+          "#{SecureRandom.uuid}.%<ext>s",
+          ext: use_color? ? 'ppm' : 'pgm'
         )
-        # if pdf source, get only first page
-        source_path = @source_path
-        source_path += '[0]' if @source_path.ends_with?('pdf')
-        # Use ImageMagick `convert` to create intermediate bitmap:
-        `convert #{source_path} #{tmpname}`
-        @unlink_after_creation.push(tmpname)
-        # finally, point @source_path for command at intermediate file:
-        @source_path = tmpname
-      end
+      )
+      # if pdf source, get only first page
+      source_path = @source_path
+      source_path += '[0]' if @source_path.ends_with?('pdf')
+      # Use ImageMagick `convert` to create intermediate bitmap:
+      `convert #{source_path} #{tmpname}`
+      @unlink_after_creation.push(tmpname)
+      # finally, point @source_path for command at intermediate file:
+      @source_path = tmpname
+    end
 
-      def opj_command
-        # Get a command template appropriate to OpenJPEG 1.x or 2.x
-        use_openjpeg_1x = `which opj_compress`.empty?
-        cmd = use_color? ? CMD_COLOR : CMD_GRAY
-        cmd = cmd.sub('opj_compress', 'image_to_j2k') if use_openjpeg_1x
-        # return command with source and destination file names injected
-        format(cmd, source_file: @source_path, out_file: @dest_path)
-      end
+    def opj_command
+      # Get a command template appropriate to OpenJPEG 1.x or 2.x
+      use_openjpeg_1x = `which opj_compress`.empty?
+      cmd = use_color? ? CMD_COLOR : CMD_GRAY
+      cmd = cmd.sub('opj_compress', 'image_to_j2k') if use_openjpeg_1x
+      # return command with source and destination file names injected
+      format(cmd, source_file: @source_path, out_file: @dest_path)
+    end
 
-      def cleanup_intermediate
-        # remove symlink or intermediate file once we no longer need
-        @unlink_after_creation.each do |path|
-          FileUtils.rm(path)
-        end
+    def cleanup_intermediate
+      # remove symlink or intermediate file once we no longer need
+      @unlink_after_creation.each do |path|
+        FileUtils.rm(path)
       end
+    end
   end
 end

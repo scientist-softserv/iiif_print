@@ -28,35 +28,35 @@ module Hyrax
 
     private
 
-      # modeled on Hyrax::WorkShowPresenter#members_include_viewable_image?
-      # @return [Boolean] whether the member works will show in the IIIF viewer
-      def members_include_viewable_page?
-        work_presenters.any? do |presenter|
-          presenter.model_name == 'NewspaperPage' &&
-            presenter.iiif_viewer? &&
-            current_ability.can?(:read, presenter.id)
-        end
+    # modeled on Hyrax::WorkShowPresenter#members_include_viewable_image?
+    # @return [Boolean] whether the member works will show in the IIIF viewer
+    def members_include_viewable_page?
+      work_presenters.any? do |presenter|
+        presenter.model_name == 'NewspaperPage' &&
+          presenter.iiif_viewer? &&
+          current_ability.can?(:read, presenter.id)
       end
+    end
 
-      def publication_unique_id
-        solr_document['publication_unique_id_ssi'] || nil
-      end
+    def publication_unique_id
+      solr_document['publication_unique_id_ssi'] || nil
+    end
 
-      def issue_date_for_url
-        return nil unless publication_date
-        publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
-      end
+    def issue_date_for_url
+      return nil unless publication_date
+      publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
+    end
 
-      def edition_for_url
-        "ed-#{edition_number ? edition_number.first : '1'}"
-      end
+    def edition_for_url
+      "ed-#{edition_number ? edition_number.first : '1'}"
+    end
 
-      def iiif_metadata_fields
-        [:title, :alternative_title, :place_of_publication_label, :issn, :lccn,
-         :oclcnum, :held_by, :volume, :edition_name, :edition_number,
-         :issue_number, :extent, :publication_date, :resource_type, :creator,
-         :contributor, :description, :license, :rights_statement, :publisher,
-         :language, :identifier]
-      end
+    def iiif_metadata_fields
+      [:title, :alternative_title, :place_of_publication_label, :issn, :lccn,
+       :oclcnum, :held_by, :volume, :edition_name, :edition_number,
+       :issue_number, :extent, :publication_date, :resource_type, :creator,
+       :contributor, :description, :license, :rights_statement, :publisher,
+       :language, :identifier]
+    end
   end
 end

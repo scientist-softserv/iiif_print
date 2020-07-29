@@ -66,33 +66,33 @@ module NewspaperWorks
 
         private
 
-          def load_doc
-            @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
-            page_divs = doc.xpath(
-              "//mets:structMap/mets:div[@TYPE='np:reel']/" \
-                "mets:div[@TYPE='np:target']",
-              mets: 'http://www.loc.gov/METS/'
-            )
-            # identifiers for reel control images:
-            @dmdids = page_divs.map { |div| div.attr('DMDID') }
-            load_issue_paths
-          end
+        def load_doc
+          @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
+          page_divs = doc.xpath(
+            "//mets:structMap/mets:div[@TYPE='np:reel']/" \
+              "mets:div[@TYPE='np:target']",
+            mets: 'http://www.loc.gov/METS/'
+          )
+          # identifiers for reel control images:
+          @dmdids = page_divs.map { |div| div.attr('DMDID') }
+          load_issue_paths
+        end
 
-          # Load instance attribute for issue paths,
-          #   based on listing of directory in which reel XML is present.
-          #   This is done without context of batch xml,
-          #   with file name expectations based on convention,
-          #   as expressed in NDNP technical guidelines,
-          #   which presume that the issue XML file name will (sans extension)
-          #   match directory name for the issue, in date+edition syntax.
-          def load_issue_paths
-            issue_dir_paths = Dir["#{File.dirname(path)}/*/"].select do |v|
-              !File.basename(v).match(/^[0-9]+$/).nil?
-            end
-            @issue_paths = issue_dir_paths.map do |path|
-              File.join(path, "#{File.basename(path)}.xml")
-            end
+        # Load instance attribute for issue paths,
+        #   based on listing of directory in which reel XML is present.
+        #   This is done without context of batch xml,
+        #   with file name expectations based on convention,
+        #   as expressed in NDNP technical guidelines,
+        #   which presume that the issue XML file name will (sans extension)
+        #   match directory name for the issue, in date+edition syntax.
+        def load_issue_paths
+          issue_dir_paths = Dir["#{File.dirname(path)}/*/"].select do |v|
+            !File.basename(v).match(/^[0-9]+$/).nil?
           end
+          @issue_paths = issue_dir_paths.map do |path|
+            File.join(path, "#{File.basename(path)}.xml")
+          end
+        end
       end
     end
   end

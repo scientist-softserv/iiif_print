@@ -86,10 +86,10 @@ module NewspaperWorks
 
         private
 
-          def load_doc
-            @doc = @parent.doc unless @parent.nil?
-            @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
-          end
+        def load_doc
+          @doc = @parent.doc unless @parent.nil?
+          @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
+        end
       end
     end
   end

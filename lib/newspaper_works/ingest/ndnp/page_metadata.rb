@@ -80,32 +80,32 @@ module NewspaperWorks
 
         private
 
-          # filename stripped of base path and file extension
-          def stripped_filename(path)
-            File.basename(path).split('.')[0]
-          end
+        # filename stripped of base path and file extension
+        def stripped_filename(path)
+          File.basename(path).split('.')[0]
+        end
 
-          def load_doc
-            @doc = @parent.doc unless @parent.nil?
-            @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
-          end
+        def load_doc
+          @doc = @parent.doc unless @parent.nil?
+          @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
+        end
 
-          def alto_path
-            specified_path = page_files['ocr']
-            normalize_path(specified_path)
-          end
+        def alto_path
+          specified_path = page_files['ocr']
+          normalize_path(specified_path)
+        end
 
-          def page_alto
-            File.read(alto_path)
-          end
+        def page_alto
+          File.read(alto_path)
+        end
 
-          def alto_page_meta(key)
-            matches = page_alto.scan(/(<Page [^>]*>)/).first
-            return if matches.size.zero?
-            # parse xml <Page> start tag fragment, get attributes:
-            page_tag = Nokogiri::XML(matches[0]).root
-            page_tag[key]
-          end
+        def alto_page_meta(key)
+          matches = page_alto.scan(/(<Page [^>]*>)/).first
+          return if matches.size.zero?
+          # parse xml <Page> start tag fragment, get attributes:
+          page_tag = Nokogiri::XML(matches[0]).root
+          page_tag[key]
+        end
       end
     end
   end

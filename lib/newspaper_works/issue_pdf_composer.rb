@@ -69,43 +69,43 @@ module NewspaperWorks
 
     private
 
-      # @return [Array] list of paths to page PDFs, in page order
-      # @raises [NewspaperWorks::PagesNotReady] if any page has invalid
-      #   or non-ready PDF source.
-      def validated_page_pdfs
-        result = []
-        # if any page PDF invalid, raise; otherwise append to result:
-        issue.pages.to_a.each_with_index do |page, idx|
-          e = "Page PDFs not ready for issue "\
-            "(Issue id: #{issue.id}, Page index: #{idx})"
-          path = derivatives_of(page).path('pdf')
-          raise NewspaperWorks::PagesNotReady, e unless validate_pdf(path)
-          result.push(path)
-        end
-        result
+    # @return [Array] list of paths to page PDFs, in page order
+    # @raises [NewspaperWorks::PagesNotReady] if any page has invalid
+    #   or non-ready PDF source.
+    def validated_page_pdfs
+      result = []
+      # if any page PDF invalid, raise; otherwise append to result:
+      issue.pages.to_a.each_with_index do |page, idx|
+        e = "Page PDFs not ready for issue "\
+          "(Issue id: #{issue.id}, Page index: #{idx})"
+        path = derivatives_of(page).path('pdf')
+        raise NewspaperWorks::PagesNotReady, e unless validate_pdf(path)
+        result.push(path)
       end
+      result
+    end
 
-      def issue_pdf_exists?
-        derivatives_of(@issue).exist?('pdf')
-      end
+    def issue_pdf_exists?
+      derivatives_of(@issue).exist?('pdf')
+    end
 
-      def derivatives_of(work)
-        NewspaperWorks::Data::WorkDerivatives.of(work)
-      end
+    def derivatives_of(work)
+      NewspaperWorks::Data::WorkDerivatives.of(work)
+    end
 
-      def ensure_whitelist
-        whitelist = Hyrax.config.whitelisted_ingest_dirs
-        whitelist.push(Dir.tmpdir) unless whitelist.include?(Dir.tmpdir)
-      end
+    def ensure_whitelist
+      whitelist = Hyrax.config.whitelisted_ingest_dirs
+      whitelist.push(Dir.tmpdir) unless whitelist.include?(Dir.tmpdir)
+    end
 
-      def attach_to_issue(path)
-        ensure_whitelist
-        # We rely upon WorkFiles to create fileset, and by consequence of
-        #   running primary file attachment through actor stack,
-        #   visibility of the FileSet is copied from the work:
-        attachment = NewspaperWorks::Data::WorkFiles.of(@issue)
-        attachment.assign(path)
-        attachment.commit!
-      end
+    def attach_to_issue(path)
+      ensure_whitelist
+      # We rely upon WorkFiles to create fileset, and by consequence of
+      #   running primary file attachment through actor stack,
+      #   visibility of the FileSet is copied from the work:
+      attachment = NewspaperWorks::Data::WorkFiles.of(@issue)
+      attachment.assign(path)
+      attachment.commit!
+    end
   end
 end

@@ -32,7 +32,7 @@ Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samv
 # Overview
 NewspaperWorks is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/) -based digital repository applications to support ingest, management, and display of digitzed newspaper content.
 
-NewspaperWorks is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (2.5.x) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
+NewspaperWorks is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (2.6) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
 
 NewspaperWorks supports:
 * models for Title, Issue, Page, and Article
@@ -55,7 +55,7 @@ A set of helpful documents to help you learn more and deploy NewspaperWorks can 
   * [Ruby](https://rubyonrails.org/) >=2.4
   * [Rails](https://rubyonrails.org/) ~>5.1
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) ~>2.5
+  * [Hyrax](https://github.com/samvera/hyrax) ~>2.6
     - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
   * A Hyrax-based Rails application
 
@@ -73,7 +73,7 @@ A set of helpful documents to help you learn more and deploy NewspaperWorks can 
 See the [wiki](https://github.com/samvera-labs/newspaper_works/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
 
 # Installation
-NewspaperWorks easily integrates with your Hyrax 2.5.x applications.
+NewspaperWorks easily integrates with your Hyrax 2.6 applications.
 
 * Add `gem 'newspaper_works'` to your Gemfile.
 * Run `bundle install`

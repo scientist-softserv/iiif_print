@@ -113,32 +113,32 @@ module NewspaperWorks
 
       private
 
-        def related_by(key)
-          return if empty?
-          v = find("//mods:relatedItem[@type='#{key}']")
-          return nil if v.empty?
-          lccn = lccn_for(v[0])
-          return "#{BASE_URL}/#{lccn}" unless lccn.nil?
-          # No LCCN, ergo no URL, but a related item with a literal title?
-          titles = find('mods:title', v[0])
-          titles.empty? ? nil : titles[0].text
-        end
+      def related_by(key)
+        return if empty?
+        v = find("//mods:relatedItem[@type='#{key}']")
+        return nil if v.empty?
+        lccn = lccn_for(v[0])
+        return "#{BASE_URL}/#{lccn}" unless lccn.nil?
+        # No LCCN, ergo no URL, but a related item with a literal title?
+        titles = find('mods:title', v[0])
+        titles.empty? ? nil : titles[0].text
+      end
 
-        def lccn_for(related_item)
-          identifiers = find('mods:identifier[@type="local"]', related_item)
-          selected = identifiers.select { |v| v.text.start_with?('(DLC)') }
-          return if selected.size.zero?
-          selected.first.text.split(')')[-1].sub(' ', '')
-        end
+      def lccn_for(related_item)
+        identifiers = find('mods:identifier[@type="local"]', related_item)
+        selected = identifiers.select { |v| v.text.start_with?('(DLC)') }
+        return if selected.size.zero?
+        selected.first.text.split(')')[-1].sub(' ', '')
+      end
 
-        def find(expr, context = nil)
-          context ||= @doc
-          return if context.nil? && empty?
-          context.xpath(
-            expr,
-            **XML_NS
-          )
-        end
+      def find(expr, context = nil)
+        context ||= @doc
+        return if context.nil? && empty?
+        context.xpath(
+          expr,
+          **XML_NS
+        )
+      end
     end
   end
 end

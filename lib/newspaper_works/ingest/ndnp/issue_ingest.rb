@@ -67,14 +67,14 @@ module NewspaperWorks
 
         private
 
-          def load_doc
-            @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
-            page_divs = doc.xpath(
-              "//mets:structMap//mets:div[@TYPE='np:page']",
-              mets: 'http://www.loc.gov/METS/'
-            )
-            @dmdids = page_divs.map { |div| div.attr('DMDID') }
-          end
+        def load_doc
+          @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
+          page_divs = doc.xpath(
+            "//mets:structMap//mets:div[@TYPE='np:page']",
+            mets: 'http://www.loc.gov/METS/'
+          )
+          @dmdids = page_divs.map { |div| div.attr('DMDID') }
+        end
       end
     end
   end

@@ -22,8 +22,8 @@ module NewspaperWorks
 
     private
 
-      def newspaper_works_js_installed?
-        IO.read("app/assets/javascripts/application.js").include?('newspaper_works')
-      end
+    def newspaper_works_js_installed?
+      IO.read("app/assets/javascripts/application.js").include?('newspaper_works')
+    end
   end
 end

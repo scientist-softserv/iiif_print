@@ -47,26 +47,26 @@ module Hyrax
 
     private
 
-      def publication_unique_id
-        solr_document['publication_unique_id_ssi'] || nil
-      end
+    def publication_unique_id
+      solr_document['publication_unique_id_ssi'] || nil
+    end
 
-      def issue_date_for_url
-        return nil unless publication_date
-        publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
-      end
+    def issue_date_for_url
+      return nil unless publication_date
+      publication_date.match(/\A[\d]{4}-[\d]{2}-[\d]{2}/).to_s
+    end
 
-      def edition_for_url
-        "ed-#{solr_document['issue_edition_number_ssi'] || '1'}"
-      end
+    def edition_for_url
+      "ed-#{solr_document['issue_edition_number_ssi'] || '1'}"
+    end
 
-      def page_index_for_url
-        "seq-#{(get_page_index(id, solr_document['issue_id_ssi']) + 1)}"
-      end
+    def page_index_for_url
+      "seq-#{(get_page_index(id, solr_document['issue_id_ssi']) + 1)}"
+    end
 
-      def iiif_metadata_fields
-        [:title, :text_direction, :page_number, :section, :resource_type,
-         :license, :rights_statement, :identifier, :publication_date]
-      end
+    def iiif_metadata_fields
+      [:title, :text_direction, :page_number, :section, :resource_type,
+       :license, :rights_statement, :identifier, :publication_date]
+    end
   end
 end

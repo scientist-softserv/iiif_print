@@ -73,14 +73,14 @@ module NewspaperWorks
 
       private
 
-        # transform the image into a one-bit TIFF for OCR
-        def preprocess_image
-          tool = NewspaperWorks::ImageTool.new(@path)
-          return if tool.metadata[:color] == 'monochrome'
-          intermediate_path = File.join(Dir.mktmpdir, 'monochrome-interim.tif')
-          tool.convert(intermediate_path, true)
-          @path = intermediate_path
-        end
+      # transform the image into a one-bit TIFF for OCR
+      def preprocess_image
+        tool = NewspaperWorks::ImageTool.new(@path)
+        return if tool.metadata[:color] == 'monochrome'
+        intermediate_path = File.join(Dir.mktmpdir, 'monochrome-interim.tif')
+        tool.convert(intermediate_path, true)
+        @path = intermediate_path
+      end
     end
   end
 end

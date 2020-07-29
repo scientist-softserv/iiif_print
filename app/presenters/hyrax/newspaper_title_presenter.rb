@@ -66,21 +66,21 @@ module Hyrax
 
     private
 
-      def all_title_issue_dates
-        all_title_issues.pluck("publication_date_dtsi")
-      end
+    def all_title_issue_dates
+      all_title_issues.pluck("publication_date_dtsi")
+    end
 
-      def number_or_nil(string)
-        Integer(string || '')
-      rescue ArgumentError
-        nil
-      end
+    def number_or_nil(string)
+      Integer(string || '')
+    rescue ArgumentError
+      nil
+    end
 
-      def year_or_nil(date_value)
-        return nil unless date_value.is_a?(String)
-        Date.parse(date_value).year
-      rescue TypeError
-        nil
-      end
+    def year_or_nil(date_value)
+      return nil unless date_value.is_a?(String)
+      Date.parse(date_value).year
+    rescue TypeError
+      nil
+    end
   end
 end

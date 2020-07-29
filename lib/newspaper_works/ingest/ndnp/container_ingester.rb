@@ -43,41 +43,41 @@ module NewspaperWorks
 
         private
 
-          def metadata
-            @source.metadata
-          end
+        def metadata
+          @source.metadata
+        end
 
-          def find_container
-            NewspaperContainer.where(identifier: metadata.reel_number).first
-          end
+        def find_container
+          NewspaperContainer.where(identifier: metadata.reel_number).first
+        end
 
-          def create_container
-            @target = NewspaperContainer.create
-            copy_metadata
-            assign_administrative_metadata
-            @target.save!
-          end
+        def create_container
+          @target = NewspaperContainer.create
+          copy_metadata
+          assign_administrative_metadata
+          @target.save!
+        end
 
-          def copy_metadata
-            reel_number = metadata.reel_number
-            @target.identifier = [reel_number]
-            @target.title = ["Microform reel (#{reel_number})"]
-            copy_fields = [
-              :held_by,
-              :publication_date_start,
-              :publication_date_end
-            ]
-            copy_fields.each do |fieldname|
-              value = metadata.send(fieldname.to_s)
-              @target.send("#{fieldname}=", value)
-            end
+        def copy_metadata
+          reel_number = metadata.reel_number
+          @target.identifier = [reel_number]
+          @target.title = ["Microform reel (#{reel_number})"]
+          copy_fields = [
+            :held_by,
+            :publication_date_start,
+            :publication_date_end
+          ]
+          copy_fields.each do |fieldname|
+            value = metadata.send(fieldname.to_s)
+            @target.send("#{fieldname}=", value)
           end
+        end
 
-          def link_publication
-            return unless @target.publication.nil?
-            @publication.members << @target
-            @publication.save!
-          end
+        def link_publication
+          return unless @target.publication.nil?
+          @publication.members << @target
+          @publication.save!
+        end
       end
     end
   end

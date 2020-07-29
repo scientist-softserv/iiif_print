@@ -81,34 +81,34 @@ class NewspaperWorks::PluggableDerivativeService
 
   private
 
-    def skip_destination?(method_name, destination_name)
-      return false if file_set.id.nil? || destination_name.nil?
-      return false unless method_name == :create_derivatives
-      # skip :create_derivatives if existing --> do not re-create
-      existing_derivative?(destination_name) ||
-        impending_derivative?(destination_name)
-    end
+  def skip_destination?(method_name, destination_name)
+    return false if file_set.id.nil? || destination_name.nil?
+    return false unless method_name == :create_derivatives
+    # skip :create_derivatives if existing --> do not re-create
+    existing_derivative?(destination_name) ||
+      impending_derivative?(destination_name)
+  end
 
-    def existing_derivative?(name)
-      path = derivative_path_factory.derivative_path_for_reference(
-        file_set,
-        name
-      )
-      File.exist?(path)
-    end
+  def existing_derivative?(name)
+    path = derivative_path_factory.derivative_path_for_reference(
+      file_set,
+      name
+    )
+    File.exist?(path)
+  end
 
-    # is there an impending attachment from ingest logged to db?
-    #   -- avoids stomping over pre-made derivative
-    #      for which an attachment is still in-progress.
-    def impending_derivative?(name)
-      result = NewspaperWorks::DerivativeAttachment.find_by(
-        fileset_id: file_set.id,
-        destination_name: name
-      )
-      !result.nil?
-    end
+  # is there an impending attachment from ingest logged to db?
+  #   -- avoids stomping over pre-made derivative
+  #      for which an attachment is still in-progress.
+  def impending_derivative?(name)
+    result = NewspaperWorks::DerivativeAttachment.find_by(
+      fileset_id: file_set.id,
+      destination_name: name
+    )
+    !result.nil?
+  end
 
-    def derivative_path_factory
-      Hyrax::DerivativePath
-    end
+  def derivative_path_factory
+    Hyrax::DerivativePath
+  end
 end

@@ -1,15 +1,15 @@
 # have to override some methods from BlacklightAdvancedSearch classes/modules
 # to provide date range search functionality
 require BlacklightAdvancedSearch::Engine.root.join(Rails.root, 'config', 'initializers',
-                                                   'patch_blacklight_advanced_search')
+  'patch_blacklight_advanced_search')
 
 class BlacklightAdvancedSearch::QueryParser
   # override to add date range to query
   def process_query(params, config)
     queries = keyword_queries.map do |field, query|
       ParsingNesting::Tree.parse(query,
-                                 config.advanced_search[:query_parser]).to_query(local_param_hash(field,
-                                                                                                  config))
+        config.advanced_search[:query_parser]).to_query(local_param_hash(field,
+          config))
     end
     queries.join(" #{keyword_op} ")
     return queries if params[:date_start].blank? && params[:date_end].blank?
@@ -45,8 +45,8 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
       advanced_query.filters.each_pair do |field, value_list|
         label = facet_field_label(field)
         content << render_constraint_element(label,
-                                             safe_join(Array(value_list), " <strong class='text-muted constraint-connector'>OR</strong> ".html_safe),
-                                             remove: search_action_path(remove_advanced_filter_group(field, my_params).except(:controller, :action)))
+          safe_join(Array(value_list), " <strong class='text-muted constraint-connector'>OR</strong> ".html_safe),
+          remove: search_action_path(remove_advanced_filter_group(field, my_params).except(:controller, :action)))
       end
       # this is our new line
       content << render_advanced_date_query(my_params)
@@ -58,11 +58,11 @@ module BlacklightAdvancedSearch::RenderConstraintsOverride
   def render_advanced_date_query(localized_params = params)
     return ''.html_safe if localized_params[:date_start].blank? && localized_params[:date_end].blank?
     render_constraint_element(t('blacklight.advanced_search.constraints.date'),
-                              date_range_constraints_to_s(localized_params),
-                              classes: ['date_range'],
-                              remove: remove_constraint_url(localized_params.merge(date_start: nil,
-                                                                                   date_end: nil,
-                                                                                   action: 'index')))
+      date_range_constraints_to_s(localized_params),
+      classes: ['date_range'],
+      remove: remove_constraint_url(localized_params.merge(date_start: nil,
+                                                           date_end: nil,
+                                                           action: 'index')))
   end
 
   # render date range constraint text from Advanced Search form

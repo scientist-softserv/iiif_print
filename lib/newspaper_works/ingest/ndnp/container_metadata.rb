@@ -71,16 +71,16 @@ module NewspaperWorks
 
         private
 
-          def load_doc
-            @doc = @parent.doc unless @parent.nil?
-            @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
-          end
+        def load_doc
+          @doc = @parent.doc unless @parent.nil?
+          @doc = Nokogiri::XML(File.open(path)) if @doc.nil?
+        end
 
-          def techmd(spec = nil)
-            base = xpath('//ndnp:reelTechMD')
-            return base if spec.nil?
-            base.xpath(spec).first.text
-          end
+        def techmd(spec = nil)
+          base = xpath('//ndnp:reelTechMD')
+          return base if spec.nil?
+          base.xpath(spec).first.text
+        end
       end
     end
   end

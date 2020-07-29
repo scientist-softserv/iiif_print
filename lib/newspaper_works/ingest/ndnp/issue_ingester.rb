@@ -50,51 +50,51 @@ module NewspaperWorks
 
         private
 
-          def page_ingester(page_data)
-            NewspaperWorks::Ingest::NDNP::PageIngester.new(
-              page_data,
-              @target,
-              @opts
-            )
-          end
+        def page_ingester(page_data)
+          NewspaperWorks::Ingest::NDNP::PageIngester.new(
+            page_data,
+            @target,
+            @opts
+          )
+        end
 
-          def publication_date
-            parsed = DateTime.iso8601(issue.metadata.publication_date)
-            parsed.strftime('%B %-d, %Y')
-          end
+        def publication_date
+          parsed = DateTime.iso8601(issue.metadata.publication_date)
+          parsed.strftime('%B %-d, %Y')
+        end
 
-          def publication_title(issue)
-            issue.metadata.publication_title.strip.split(/ \(/)[0]
-          end
+        def publication_title(issue)
+          issue.metadata.publication_title.strip.split(/ \(/)[0]
+        end
 
-          def issue_title
-            "#{publication_title(issue)}: #{publication_date}"
-          end
+        def issue_title
+          "#{publication_title(issue)}: #{publication_date}"
+        end
 
-          def copy_issue_metadata
-            metadata = issue.metadata
-            # set (required, plural) title from single value obtained from reel:
-            @target.title = [issue_title]
-            # copy all fields with singular (non-repeatable) values on both
-            #   target NewspaperIssue object, and metadata source:
-            COPY_FIELDS.each do |fieldname|
-              @target.send("#{fieldname}=", metadata.send(fieldname.to_s))
-            end
+        def copy_issue_metadata
+          metadata = issue.metadata
+          # set (required, plural) title from single value obtained from reel:
+          @target.title = [issue_title]
+          # copy all fields with singular (non-repeatable) values on both
+          #   target NewspaperIssue object, and metadata source:
+          COPY_FIELDS.each do |fieldname|
+            @target.send("#{fieldname}=", metadata.send(fieldname.to_s))
           end
+        end
 
-          def create_issue
-            @target = NewspaperIssue.create
-            copy_issue_metadata
-            assign_administrative_metadata
-            @target.save!
-            write_log("Saved metadata to new NewspaperIssue #{@target.id}")
-          end
+        def create_issue
+          @target = NewspaperIssue.create
+          copy_issue_metadata
+          assign_administrative_metadata
+          @target.save!
+          write_log("Saved metadata to new NewspaperIssue #{@target.id}")
+        end
 
-          def find_or_create_linked_publication
-            title = publication_title(issue)
-            lccn = issue.metadata.lccn
-            find_or_create_publication_for_issue(@target, lccn, title, @opts)
-          end
+        def find_or_create_linked_publication
+          title = publication_title(issue)
+          lccn = issue.metadata.lccn
+          find_or_create_publication_for_issue(@target, lccn, title, @opts)
+        end
       end
     end
   end

@@ -47,25 +47,25 @@ module NewspaperWorks
 
         private
 
-          def get_issue(path)
-            NewspaperWorks::Ingest::NDNP::IssueIngest.new(path)
-          end
+        def get_issue(path)
+          NewspaperWorks::Ingest::NDNP::IssueIngest.new(path)
+        end
 
-          def get_container(path)
-            NewspaperWorks::Ingest::NDNP::ContainerIngest.new(path)
-          end
+        def get_container(path)
+          NewspaperWorks::Ingest::NDNP::ContainerIngest.new(path)
+        end
 
-          def xpath(expr)
-            ns = {
-              ndnp: 'http://www.loc.gov/ndnp',
-              NDNP: 'http://www.loc.gov/ndnp'
-            }
-            @doc.xpath(expr, **ns)
-          end
+        def xpath(expr)
+          ns = {
+            ndnp: 'http://www.loc.gov/ndnp',
+            NDNP: 'http://www.loc.gov/ndnp'
+          }
+          @doc.xpath(expr, **ns)
+        end
 
-          def load_doc
-            @doc = Nokogiri::XML(File.open(path))
-          end
+        def load_doc
+          @doc = Nokogiri::XML(File.open(path))
+        end
       end
     end
   end

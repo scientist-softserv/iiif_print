@@ -1,20 +1,43 @@
 inherit_gem:
-  bixby: bixby_default.yml
+ bixby: bixby_default.yml
 
-RSpec/ExampleLength:
-  Max: 15
-  Exclude:
-    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
-    - 'spec/lib/newspaper_works/ingest/ndnp/issue_ingester_spec.rb'
+Style/FrozenStringLiteralComment:
+  Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.4
   DisplayCopNames: true
   Exclude:
     - 'db/**/*'
     - 'script/**/*'
     - 'spec/test_app_templates/**/*'
     - 'vendor/**/*'
+    # Resole the issues below
+    - 'app/helpers/newspaper_works/breadcrumb_helper.rb'
+    - 'app/helpers/newspaper_works/newspaper_works_helper_behavior.rb'
+    - 'app/helpers/newspaper_works/newspaper_works_helper_behavior.rb'
+    - 'app/models/newspaper_article.rb'
+    - 'app/validators/newspaper_works/publication_date_start_end_validator.rb'
+    - 'app/validators/newspaper_works/publication_date_validator.rb'
+    - 'lib/newspaper_works/data/work_derivatives.rb'
+    - 'lib/newspaper_works/data/work_files.rb'
+    - 'lib/newspaper_works/ingest.rb'
+    - 'lib/newspaper_works/ingest/ndnp/batch_ingester.rb'
+    - 'app/indexers/newspaper_issue_indexer.rb'
+    - 'lib/newspaper_works/ingest/pdf_pages.rb'
+    - 'lib/newspaper_works/page_finder.rb'
+    - 'lib/newspaper_works/text_extraction/hocr_reader.rb'
+    - 'lib/tasks/newspaper_works_tasks.rake'
+    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
+    - 'spec/lib/newspaper_works/data/work_files_spec.rb'
+    - 'spec/lib/newspaper_works/ingest/ndnp/container_ingester_spec.rb'
+    - 'tasks/newspaperworks_dev.rake'
+
+Layout/LineLength:
+  Exclude:
+    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
+    - 'spec/lib/newspaper_works/ingest/ndnp/issue_ingester_spec.rb'
+    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
 
 Lint/ImplicitStringConcatenation:
   Exclude:
@@ -40,10 +63,6 @@ Metrics/ClassLength:
     - 'lib/newspaper_works/data/work_derivatives.rb'
     - 'lib/newspaper_works/ingest/ndnp/page_ingester.rb'
     - 'lib/newspaper_works/ingest/lc_publication_info.rb'
-
-Metrics/LineLength:
-  Exclude:
-    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
 
 Metrics/MethodLength:
   Exclude:
@@ -140,4 +159,10 @@ RSpec/LeadingSubject:
   Enabled: false
 
 RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 19
+
+Rails/RakeEnvironment:
   Enabled: false
