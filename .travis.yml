@@ -7,8 +7,6 @@ jdk:
 addons:
   chrome: stable
   apt:
-    sources:
-      - "xenial-media"
     packages:
     - ghostscript
     - graphicsmagick
