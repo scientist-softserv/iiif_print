@@ -24,9 +24,9 @@ SUMMARY
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
   spec.add_dependency 'blacklight_advanced_search', '6.4.1'
-  spec.add_dependency 'hyrax', '>= 2.5', '< 2.8'
+  spec.add_dependency 'hyrax', '~> 2.8.0'
   spec.add_dependency 'nokogiri'
-  spec.add_dependency 'rails', '~> 5.1.7'
+  spec.add_dependency 'rails', '~> 5.0'
   spec.add_dependency 'rdf-vocab', '< 3.1.5'
   spec.add_dependency 'sass-rails', '~> 5.0'
 

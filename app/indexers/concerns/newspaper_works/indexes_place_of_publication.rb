@@ -21,12 +21,10 @@ module NewspaperWorks
     #
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def add_geodata_fields(solr_doc)
-      %w[city county state country].each do |place|
-        solr_doc["place_of_publication_#{place}_sim"] ||= []
+      %w[city county state country label coords].each do |v|
+        solr_doc["place_of_publication_#{v}_sim"] ||= []
       end
       solr_doc['place_of_publication_label_tesim'] ||= []
-      solr_doc['place_of_publication_label_sim'] ||= []
-      solr_doc['place_of_publication_llsim'] ||= []
     end
 
     # adds geographic data to solr_doc Hash, with fields for
@@ -48,7 +46,7 @@ module NewspaperWorks
       solr_doc['place_of_publication_label_sim'] << display_name
       return unless geodata['lat'] && geodata['lng']
       # TODO: this should use a Solr location_rpt field type
-      solr_doc['place_of_publication_llsim'] << "#{geodata['lat']},#{geodata['lng']}"
+      solr_doc['place_of_publication_coords_sim'] << "#{geodata['lat']},#{geodata['lng']}"
     end
 
     # fetch data from GeoNames API

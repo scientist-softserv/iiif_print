@@ -7,7 +7,7 @@ RSpec.describe NewspaperWorks::NewspaperCoreIndexer do
     NewspaperArticle.new(
       id: 'foo1234',
       title: ['Whatever'],
-      place_of_publication: pop
+      place_of_publication: [pop]
     )
   end
   let(:indexer) { described_class.new(article) }

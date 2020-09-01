@@ -13,12 +13,12 @@ RSpec.describe NewspaperWorks::IndexesPlaceOfPublication do
     let(:solr_doc) { {} }
     before do
       allow(test_indexer).to receive(:get_geodata).and_return(geodata)
-      ntitle.place_of_publication = pop
+      ntitle.place_of_publication = [pop]
       test_indexer.index_pop(ntitle, solr_doc)
     end
     it 'sets the geodata fields correctly' do
       expect(solr_doc['place_of_publication_state_sim'].first).not_to be_falsey
-      expect(solr_doc['place_of_publication_llsim'].first).not_to be_falsey
+      expect(solr_doc['place_of_publication_coords_sim'].first).not_to be_falsey
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe NewspaperWorks::IndexesPlaceOfPublication do
     end
     it 'parses the geodata correctly' do
       expect(solr_doc['place_of_publication_city_sim']).to include('Salem')
-      expect(solr_doc['place_of_publication_llsim']).to include('42.51954,-70.89672')
+      expect(solr_doc['place_of_publication_coords_sim']).to include('42.51954,-70.89672')
     end
   end
 
