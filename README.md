@@ -78,7 +78,7 @@ NewspaperWorks easily integrates with your Hyrax 2.x applications.
 
 * Add `gem 'newspaper_works'` to your Gemfile.
 * Run `bundle install`
-* Run `rails generate newspaper_works:generate`
+* Run `rails generate newspaper_works:install`
 * Set config options as indicated below...
 
 ## Application/Site Specific Configuration
