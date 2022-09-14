@@ -15,19 +15,40 @@ module NewspaperWorks
 
       def initialize(path, opts = {})
         @path = path
-        lccn = opts[:lccn]
-        @lccn = normalize_lccn(lccn.nil? ? lccn_from_path(path) : lccn)
+        lccn = opts[:lccn] || lccn_from_path(path)
+        @lccn = normalize_lccn(lccn)
         # get publication info for LCCN from authority web service:
         @publication = NewspaperWorks::Ingest::PublicationInfo.new(@lccn)
         # issues for publication, as enumerable of PDFIssue
-        @issues = issue_enumerator
+        @issues = issue_enumerator(publication: publication, path: path)
         @opts = opts
         configure_logger('ingest')
       end
 
-      def issue_enumerator
+      TACTIC_ISSUE_PDF = :issue_pdf
+      TACTIC_PAGE_IMAGE = :page_image
+
+      def ingest
+        tactic = ingest_type
+        write_log("Beginning issue(s) batch ingest for #{@path}")
+        write_log("\tPublication: #{@publication.title} (LCCN: #{@lccn})")
+        @issues.each do |path, issue_data|
+          issue = create_issue(issue_data)
+          ingest_pdf(issue, path) if tactic == TACTIC_ISSUE_PDF
+          ingest_pages(issue, issue_data) if tactic = TACTIC_PAGE_IMAGE
+        end
+        write_log(
+          "Issue ingest completed for LCCN #{@lccn}. Asyncrhonous jobs "\
+          "may still be creating derivatives for issue, and child page works."
+        )
+      end
+
+      private
+
+      # @see NewspaperWorks::Ingest::BatchIngestHelper for the default media assumption.
+      def issue_enumerator(publication:, path:)
         impl = NewspaperWorks::Ingest::PDFIssues
-        impl = NewspaperWorks::Ingest::ImageIngestIssues if detect_media(path) == 'image'
+        impl = NewspaperWorks::Ingest::ImageIngestIssues if detect_media(path) == NewspaperWorks::Ingest::BatchIngestHelper::MEDIA_IMAGE
         # issue enumerator depends on detected media:
         impl.new(path, publication)
       end
@@ -42,6 +63,7 @@ module NewspaperWorks
       end
 
       def create_issue(issue_data)
+        # NOTE: Do we need to `.create` or can we do `.new` ?  With `.create`
         issue = NewspaperIssue.create
         copy_issue_metadata(issue_data, issue)
         NewspaperWorks::Ingest.assign_administrative_metadata(issue, @opts)
@@ -61,10 +83,12 @@ module NewspaperWorks
         # ingest primary PDF for issue:
         attach_file(issue, path)
         # queue page creation job:
+        # NOTE: Should there be a depositor and admin_set? (e.g. the 3rd and 4th parameter)
         CreateIssuePagesJob.perform_later(issue, [path], nil, nil)
       end
 
       def create_page(page_image, issue)
+        # NOTE: Do we need to `.create` or can we do `.new` ?  With `.create`
         page = NewspaperPage.create
         page.title = page_image.title
         page.page_number = page_image.page_number
@@ -106,23 +130,8 @@ module NewspaperWorks
       end
 
       def ingest_type
-        return 'issue_pdf' if @issues.class == NewspaperWorks::Ingest::PDFIssues
-        'page_image'
-      end
-
-      def ingest
-        write_log("Beginning issue(s) batch ingest for #{@path}")
-        write_log("\tPublication: #{@publication.title} (LCCN: #{@lccn})")
-        @issues.each do |path, issue_data|
-          issue = create_issue(issue_data)
-          tactic = ingest_type
-          ingest_pdf(issue, path) if tactic == 'issue_pdf'
-          ingest_pages(issue, issue_data) if tactic == 'page_image'
-        end
-        write_log(
-          "Issue ingest completed for LCCN #{@lccn}. Asyncrhonous jobs "\
-          "may still be creating derivatives for issue, and child page works."
-        )
+        return TACTIC_ISSUE_PDF if @issues.class == NewspaperWorks::Ingest::PDFIssues
+        TACTIC_PAGE_IMAGE
       end
     end
   end

@@ -4,10 +4,12 @@ module NewspaperWorks
   module Ingest
     # mixin module for common batch ingest steps
     module BatchIngestHelper
+      MEDIA_PDF = 'pdf'
+      MEDIA_IMAGE = 'image'
       def detect_media(path)
-        result = 'pdf' # default
+        result = MEDIA_PDF # default
         Find.find(path) do |p|
-          result = 'image' if p.end_with?('jp2') || /TIF[F]?$/i.match(p)
+          result = MEDIA_IMAGE if p.end_with?('jp2') || /TIF[F]?$/i.match(p)
         end
         result
       end
