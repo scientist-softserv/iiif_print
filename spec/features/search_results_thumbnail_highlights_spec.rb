@@ -14,11 +14,15 @@ RSpec.describe 'thumbnail_highlights', js: true do
       title: ['Test Page for Thumbnail Highlights'],
       visibility: "open"
     )
-    attachment = NewspaperWorks::Data::WorkFiles.of(@work)
-    attachment.assign(File.join(fixture_path, 'ocr_mono.tiff'))
-    attachment.derivatives.assign(File.join(fixture_path, 'ndnp-sample1-txt.txt'))
-    attachment.derivatives.assign(File.join(fixture_path, 'ndnp-sample1-json.json'))
-    attachment.commit!
+
+    NewspaperWorks::Data::WorkFiles.assign!(
+      to: @work,
+      path: File.join(fixture_path, 'ocr_mono.tiff'),
+      derivative_paths: [
+        File.join(fixture_path, 'ndnp-sample1-txt.txt'),
+        File.join(fixture_path, 'ndnp-sample1-json.json')
+      ]
+    )
     @work.save!
   end
 

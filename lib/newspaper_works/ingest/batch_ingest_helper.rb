@@ -37,9 +37,7 @@ module NewspaperWorks
       end
 
       def attach_file(work, path)
-        attachment = NewspaperWorks::Data::WorkFiles.of(work)
-        attachment.assign(path)
-        attachment.commit!
+        NewspaperWorks::Data::WorkFiles.assign!(to: work, path: path)
       end
     end
   end

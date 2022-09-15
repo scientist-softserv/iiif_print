@@ -88,9 +88,7 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
     end
 
     def attach_primary_file(work)
-      attachment = NewspaperWorks::Data::WorkFiles.of(work)
-      attachment.assign(tiff_path)
-      attachment.commit!
+      NewspaperWorks::Data::WorkFiles.assign!(to: work, path: tiff_path)
       work.reload
       pcdm_file = NewspaperWorks::Data::WorkFiles.of(work).values[0].unwrapped
       expect(pcdm_file).not_to be_nil

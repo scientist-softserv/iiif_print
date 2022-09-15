@@ -11,6 +11,24 @@ module NewspaperWorks
         new(work)
       end
 
+      ##
+      # A convenience method to associate files (original and derivatives) to the given work.
+      #
+      # @param to [Object] the work to which we're assigning the file(s) for the given paths.
+      # @param path [String] the path of the file we're assignging to the given work.
+      # @param derivative_paths [Array<String>] the path(s) to derivatives we'll assign to the given
+      #        work.
+      # @param commit [Boolean] when true, commit the changes to the attachment.
+      # @return void
+      def self.assign!(to:, path:, derivative_paths: [], commit: true)
+        attachment = new(to)
+        attachment.assign(path)
+        Array.wrap(derivative_paths).each do |derivative_path|
+          attachment.derivatives.assign(derivative_path)
+        end
+        attachment.commit! if commit
+      end
+
       def initialize(work)
         @work = work
         @assigned = []

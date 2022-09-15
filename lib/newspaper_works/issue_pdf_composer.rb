@@ -103,9 +103,7 @@ module NewspaperWorks
       # We rely upon WorkFiles to create fileset, and by consequence of
       #   running primary file attachment through actor stack,
       #   visibility of the FileSet is copied from the work:
-      attachment = NewspaperWorks::Data::WorkFiles.of(@issue)
-      attachment.assign(path)
-      attachment.commit!
+      NewspaperWorks::Data::WorkFiles.assign!(to: @issue, path: path)
     end
   end
 end
