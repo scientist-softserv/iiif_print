@@ -40,12 +40,11 @@ module NewspaperWorks
       end
 
       def word_json
-        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(
-          words,
-          width,
-          height
+        NewspaperWorks::TextExtraction::WordCoordsBuilder.json_coordinates_for(
+          words: words,
+          width: width,
+          height: height
         )
-        builder.to_json
       end
 
       def plain

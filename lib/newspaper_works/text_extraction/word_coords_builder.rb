@@ -2,6 +2,14 @@ module NewspaperWorks
   # Module for text extraction (OCR or otherwise)
   module TextExtraction
     class WordCoordsBuilder
+      # @params words [Array<Hash>] an array of hash objects that have the keys `:word` and `:coordinates`.
+      # @params width [Integer] the width of the "canvas" on which the words appear.
+      # @params height [Integer] the height of the "canvas" on which the words appear.
+      # @return [String] a JSON encoded string.
+      def self.json_coordinates_for(words:, width: nil, height: nil)
+        new(words, width, height).to_json
+      end
+
       def initialize(words, width = nil, height = nil)
         @words = words
         @width = width

@@ -112,10 +112,11 @@ module NewspaperWorks
       # @return [String] JSON serialization of flattened word coordinates
       def json
         words = @doc_stream.words
-        builder = NewspaperWorks::TextExtraction::WordCoordsBuilder.new(words,
-                                                                        @image_width,
-                                                                        @image_height)
-        builder.to_json
+        NewspaperWorks::TextExtraction::WordCoordsBuilder.json_coordinates_for(
+          words: words,
+          width:@image_width,
+          height: @image_height
+        )
       end
     end
   end
