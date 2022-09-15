@@ -37,6 +37,14 @@ module NewspaperWorks
         attr_accessor :remap_names
       end
 
+      # @param from [Object] the work from which we'll extract the given type of data.
+      # @param of_type [String] the type of data we want extracted from the work (e.g. "txt", "json")
+      #
+      # @return [String]
+      def self.data(from:, of_type:)
+        new(from).data(of_type)
+      end
+
       # alternate constructor spelling:
       def self.of(work, fileset = nil, parent = nil)
         new(work, fileset, parent)
@@ -208,6 +216,7 @@ module NewspaperWorks
       # @param name [String] optional destination name, usually file extension
       # @return [TrueClass, FalseClass] boolean
       def exist?(name)
+        # TODO: It is unclear where the #keys and and #[] methods are coming from.  There's @paths.keys referenced in this code.
         keys.include?(name) && File.exist?(self[name])
       end
 

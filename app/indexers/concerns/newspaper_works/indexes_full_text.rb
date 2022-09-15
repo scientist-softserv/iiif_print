@@ -8,7 +8,7 @@ module NewspaperWorks
     # @param work [Newspaper*] an instance of a NewspaperWorks model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_full_text(work, solr_doc)
-      text = NewspaperWorks::Data::WorkDerivatives.new(work).data('txt')
+      text = NewspaperWorks::Data::WorkDerivatives.data(from: work, of_type: 'txt')
       text = text.gsub(/\n/, ' ').squeeze(' ')
       solr_doc['all_text_timv'] = text
       solr_doc['all_text_tsimv'] = text
