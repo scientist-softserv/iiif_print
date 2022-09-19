@@ -60,7 +60,7 @@ module NewspaperWorks
     end
 
     def im_line_select(lines, key)
-      line = lines.select { |l| l.downcase.strip.start_with?(key) }[0]
+      line = lines.select { |l| l.scrub.downcase.strip.start_with?(key) }[0]
       # Given "key: value" line, return the value as String stripped of
       #   leading and trailing whitespace
       return line if line.nil?
