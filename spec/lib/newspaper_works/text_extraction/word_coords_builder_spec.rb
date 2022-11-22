@@ -13,7 +13,7 @@ RSpec.describe NewspaperWorks::TextExtraction::WordCoordsBuilder do
   let(:image_height) { 5_678 }
 
   describe '.json_coordinates_for' do
-    let(:wcb_to_json) { described_class.json_coordinates_for(words: words, width: image_width, height: image_height) }
+    let(:wcb_to_json) { JSON.parse(described_class.json_coordinates_for(words: words, width: image_width, height: image_height)) }
     it 'has the correct structure' do
       expect(wcb_to_json['height']).to eq image_height
       expect(wcb_to_json['width']).to eq image_width

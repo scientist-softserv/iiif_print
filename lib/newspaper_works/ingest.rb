@@ -51,7 +51,7 @@ module NewspaperWorks
     # @param title [String]
     # @return [String] normalized title
     def self.normalize_title(title)
-      title.strip.sub(/[.]+$/, '')
+      title&.strip&.sub(/[.]+$/, '')
     end
 
     # Get publication metadata from LC catalog MODS data, if available,
