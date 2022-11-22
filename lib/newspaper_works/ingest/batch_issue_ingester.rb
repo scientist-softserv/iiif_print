@@ -35,7 +35,7 @@ module NewspaperWorks
         @issues.each do |path, issue_data|
           issue = create_issue(issue_data)
           ingest_pdf(issue, path) if tactic == TACTIC_ISSUE_PDF
-          ingest_pages(issue, issue_data) if tactic = TACTIC_PAGE_IMAGE
+          ingest_pages(issue, issue_data) if tactic == TACTIC_PAGE_IMAGE
         end
         write_log(
           "Issue ingest completed for LCCN #{@lccn}. Asyncrhonous jobs "\

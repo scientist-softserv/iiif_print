@@ -19,12 +19,16 @@ task :spec_with_app_load do
   end
 end
 
-desc 'Generate the engine_cart and spin up test servers and run specs'
-task ci: %w[rubocop engine_cart:generate] do
-  puts 'running continuous integration'
-  if ENV.fetch('IN_DOCKER', false)
+if ENV.fetch('IN_DOCKER', false)
+  desc 'Generate the engine_cart and spin up test servers and run specs'
+  task ci: %w[rubocop engine_cart:generate] do
+    puts 'running continuous integration'
     Rake::Task['spec'].invoke
-  else
+  end
+else
+  desc 'Generate the engine_cart and spin up test servers and run specs'
+  task ci: %w[rubocop engine_cart:generate] do
+    puts 'running continuous integration'
     Rake::Task['spec_with_app_load'].invoke
   end
 end

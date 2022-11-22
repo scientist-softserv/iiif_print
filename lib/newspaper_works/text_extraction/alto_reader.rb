@@ -39,7 +39,7 @@ module NewspaperWorks
 
         def compute_scaling(attrs)
           return if @image_width.nil?
-          match = attrs.select { |e| e[0].casecmp?('WIDTH') }[0]
+          match = attrs.find { |e| e[0].casecmp?('WIDTH') }
           return if match.empty?
           page_width = match[1].to_i
           return if @image_width == page_width
@@ -114,7 +114,7 @@ module NewspaperWorks
         words = @doc_stream.words
         NewspaperWorks::TextExtraction::WordCoordsBuilder.json_coordinates_for(
           words: words,
-          width:@image_width,
+          width: @image_width,
           height: @image_height
         )
       end

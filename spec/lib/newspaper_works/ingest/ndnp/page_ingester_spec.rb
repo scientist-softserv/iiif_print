@@ -125,7 +125,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
     let(:page_data_minus_tiff) { issue_data.to_a[0] }
 
     def check_fileset(page)
-      fileset = page.members.select { |m| m.class == FileSet }[0]
+      fileset = page.members.find { |m| m.class == FileSet }
       # Reload fileset because jobs have modified:
       fileset.reload
       expect(fileset).not_to be_nil

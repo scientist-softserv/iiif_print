@@ -20,14 +20,14 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
     end
 
     it "adapts work and explicitly provided fileset" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.work).to be work
       expect(adapter.fileset).to be fileset
     end
 
     it "constructs with a parent object, if provided" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       parent = double('parent')
       adapter = described_class.of(work, fileset, parent)
       expect(adapter.parent).to be parent
@@ -36,14 +36,14 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
 
   describe "read file metadata" do
     it "gets original filename" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.name).to eq fileset.original_file.original_name
       expect(adapter.name).to eq 'credits.md'
     end
 
     it "gets miscellaneous metadata field values" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # expectations for accessors of size, date_*, mime_type
       expect(adapter.size).to eq File.size(txt_path)
@@ -58,7 +58,7 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
 
   describe "read binary via transparent repository checkout" do
     it "gets path (from checkout)" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # Get a path to a working copy
       path = adapter.path
@@ -69,7 +69,7 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
     end
 
     it "gets data as bytes" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # Get a data from the working copy
       data = adapter.data
@@ -79,7 +79,7 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
     end
 
     it "runs block on data as IO" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       adapter.with_io { |io| expect(io.read.size).to eq File.size(txt_path) }
     end
@@ -87,7 +87,7 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
 
   describe "derivative access" do
     it "gets derivatives for file" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.derivatives.class).to eq \
         NewspaperWorks::Data::WorkDerivatives

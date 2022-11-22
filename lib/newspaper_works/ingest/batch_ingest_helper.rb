@@ -4,8 +4,8 @@ module NewspaperWorks
   module Ingest
     # mixin module for common batch ingest steps
     module BatchIngestHelper
-      MEDIA_PDF = 'pdf'
-      MEDIA_IMAGE = 'image'
+      MEDIA_PDF = 'pdf'.freeze
+      MEDIA_IMAGE = 'image'.freeze
       def detect_media(path)
         result = MEDIA_PDF # default
         Find.find(path) do |p|

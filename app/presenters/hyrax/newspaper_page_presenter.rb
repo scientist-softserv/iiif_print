@@ -61,7 +61,7 @@ module Hyrax
     end
 
     def page_index_for_url
-      "seq-#{(get_page_index(id, solr_document['issue_id_ssi']) + 1)}"
+      "seq-#{get_page_index(id, solr_document['issue_id_ssi']) + 1}"
     end
 
     def iiif_metadata_fields

@@ -112,7 +112,7 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
       attach_primary_file(work)
       attach_alto(work)
       work.reload
-      file_set = work.ordered_members.to_a.select { |m| m.class == FileSet }[0]
+      file_set = work.ordered_members.to_a.find { |m| m.class == FileSet }
       service = described_class.new(file_set)
       service.create_derivatives('/a/path/here/needed/but/will/not/matter')
       coords = JSON.parse(derivatives_of(work).data('json'))

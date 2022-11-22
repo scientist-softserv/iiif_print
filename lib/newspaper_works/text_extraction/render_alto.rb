@@ -41,7 +41,7 @@ module NewspaperWorks
       end
 
       def scale_point(value)
-        # note: presuming non-fractional, even though ALTO 2.1
+        # NOTE: presuming non-fractional, even though ALTO 2.1
         #   specifies coordinates are xsd:float, not xsd:int,
         #   simplify to integer value for output:
         (value * @scaling).to_i

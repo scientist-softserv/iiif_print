@@ -94,7 +94,7 @@ module NewspaperWorks
 
         def ingest_primary_file(path)
           unless File.exist?(path)
-            pdf_path = page.files.select { |p| p.end_with?('pdf') }[0]
+            pdf_path = page.files.find { |p| p.end_with?('pdf') }
             # make and get TIFF path (to generated tmp file):
             path = make_tiff(pdf_path)
           end
