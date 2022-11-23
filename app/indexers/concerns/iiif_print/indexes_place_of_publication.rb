@@ -1,9 +1,9 @@
 # indexes the place_of_publication field
-module NewspaperWorks
+module IiifPrint
   module IndexesPlaceOfPublication
     # wrapper for methods for indexing place_of_publication values
     #
-    # @param object [Newspaper*] an instance of a NewspaperWorks model
+    # @param object [Newspaper*] an instance of a IiifPrint model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_pop(object, solr_doc)
       return unless object.respond_to?(:place_of_publication)

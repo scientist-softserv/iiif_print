@@ -1,7 +1,7 @@
 # adds controller-scope behavior to the implementing application
 require 'rails/generators'
 
-module NewspaperWorks
+module IiifPrint
   class BlacklightIiifSearchGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 

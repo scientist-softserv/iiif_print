@@ -3,7 +3,7 @@ require 'open3'
 require 'tmpdir'
 
 # --
-module NewspaperWorks
+module IiifPrint
   # Module for text extraction (OCR or otherwise)
   module TextExtraction
     class PageOCR
@@ -29,7 +29,7 @@ module NewspaperWorks
       def load_words
         preprocess_image
         html_path = run_ocr
-        reader = NewspaperWorks::TextExtraction::HOCRReader.new(html_path)
+        reader = IiifPrint::TextExtraction::HOCRReader.new(html_path)
         @words = reader.words
         @plain = reader.text
       end
@@ -40,7 +40,7 @@ module NewspaperWorks
       end
 
       def word_json
-        NewspaperWorks::TextExtraction::WordCoordsBuilder.json_coordinates_for(
+        IiifPrint::TextExtraction::WordCoordsBuilder.json_coordinates_for(
           words: words,
           width: width,
           height: height
@@ -54,7 +54,7 @@ module NewspaperWorks
 
       def identify
         return @source_meta unless @source_meta.nil?
-        @source_meta = NewspaperWorks::ImageTool.new(@path).metadata
+        @source_meta = IiifPrint::ImageTool.new(@path).metadata
       end
 
       def width
@@ -66,7 +66,7 @@ module NewspaperWorks
       end
 
       def alto
-        writer = NewspaperWorks::TextExtraction::RenderAlto.new(width, height)
+        writer = IiifPrint::TextExtraction::RenderAlto.new(width, height)
         writer.to_alto(words)
       end
 
@@ -74,7 +74,7 @@ module NewspaperWorks
 
       # transform the image into a one-bit TIFF for OCR
       def preprocess_image
-        tool = NewspaperWorks::ImageTool.new(@path)
+        tool = IiifPrint::ImageTool.new(@path)
         return if tool.metadata[:color] == 'monochrome'
         intermediate_path = File.join(Dir.mktmpdir, 'monochrome-interim.tif')
         tool.convert(intermediate_path, true)

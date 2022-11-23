@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # Module for text extraction (OCR or otherwise)
   module TextExtraction
     class WordCoordsBuilder

@@ -1,6 +1,6 @@
 require 'find'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # mixin module for common batch ingest steps
     module BatchIngestHelper
@@ -37,7 +37,7 @@ module NewspaperWorks
       end
 
       def attach_file(work, path)
-        NewspaperWorks::Data::WorkFiles.assign!(to: work, path: path)
+        IiifPrint::Data::WorkFiles.assign!(to: work, path: path)
       end
     end
   end

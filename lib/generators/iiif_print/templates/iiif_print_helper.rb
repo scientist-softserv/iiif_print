@@ -1,3 +1,3 @@
-module NewspaperWorksHelper
-  include NewspaperWorks::NewspaperWorksHelperBehavior
+module IiifPrintHelper
+  include IiifPrint::IiifPrintHelperBehavior
 end

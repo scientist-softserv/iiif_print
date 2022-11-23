@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # Base type for derivative services specific to NewspaperPage only
   class NewspaperPageDerivativeService
     attr_reader :file_set, :master_format
@@ -48,7 +48,7 @@ module NewspaperWorks
 
     def identify
       return @source_meta unless @source_meta.nil?
-      @source_meta = NewspaperWorks::ImageTool.new(@source_path).metadata
+      @source_meta = IiifPrint::ImageTool.new(@source_path).metadata
     end
 
     def mime_type

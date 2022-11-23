@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::NewspaperCoreFormData do
+RSpec.describe IiifPrint::NewspaperCoreFormData do
   before do
     allow(described_class).to receive(:model_class).and_return(NewspaperArticle)
   end

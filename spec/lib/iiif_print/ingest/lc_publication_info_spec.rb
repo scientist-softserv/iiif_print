@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::LCPublicationInfo do
+RSpec.describe IiifPrint::Ingest::LCPublicationInfo do
   let(:lccn1) { 'sn83021453' }
   let(:lccn2) { 'sn83045396' }
   let(:bad_lccn) { 'sn99999999' }

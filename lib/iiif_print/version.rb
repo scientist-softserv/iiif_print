@@ -1,3 +1,3 @@
-module NewspaperWorks
+module IiifPrint
   VERSION = '1.0.1'.freeze
 end

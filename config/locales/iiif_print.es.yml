@@ -1,6 +1,6 @@
 ---
 es:
-  newspaper_works:
+  iiif_print:
     attributes:
       held_by:
         label: 'Ubicación de retención'

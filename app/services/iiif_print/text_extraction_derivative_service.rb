@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   class TextExtractionDerivativeService < NewspaperPageDerivativeService
     def initialize(file_set)
       super(file_set)
@@ -7,7 +7,7 @@ module NewspaperWorks
     end
 
     def create_derivatives(src)
-      from_alto = NewspaperWorks::TextFormatsFromALTOService.new(
+      from_alto = IiifPrint::TextFormatsFromALTOService.new(
         file_set
       )
       return from_alto.create_derivatives(src) unless from_alto.alto_path.nil?
@@ -22,7 +22,7 @@ module NewspaperWorks
       @txt_path = prepare_path('txt')
       # prepare destination directory for flat JSON (as .json files):
       @json_path = prepare_path('json')
-      ocr = NewspaperWorks::TextExtraction::PageOCR.new(filename)
+      ocr = IiifPrint::TextExtraction::PageOCR.new(filename)
       # OCR will run once, on first method call to either .alto or .plain:
       write_plain_text(ocr.plain)
       write_alto(ocr.alto)

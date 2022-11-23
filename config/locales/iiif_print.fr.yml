@@ -1,6 +1,6 @@
 ---
 fr:
-  newspaper_works:
+  iiif_print:
     attributes:
       held_by:
         label: 'Lieu de détention'

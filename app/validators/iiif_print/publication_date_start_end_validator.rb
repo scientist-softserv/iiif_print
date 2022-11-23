@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # validates start and end date are properly formatted and end date comes after
   # or on the same date as the start date.
   class PublicationDateStartEndValidator < ActiveModel::Validator

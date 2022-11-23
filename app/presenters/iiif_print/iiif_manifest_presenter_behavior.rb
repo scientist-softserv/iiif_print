@@ -1,5 +1,5 @@
 # mixin to provide URL for IIIF Content Search service
-module NewspaperWorks
+module IiifPrint
   module IiifManifestPresenterBehavior
     extend ActiveSupport::Concern
 

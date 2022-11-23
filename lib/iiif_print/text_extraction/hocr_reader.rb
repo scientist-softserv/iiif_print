@@ -2,7 +2,7 @@ require 'active_support/core_ext/module/delegation'
 require 'json'
 require 'nokogiri'
 
-module NewspaperWorks
+module IiifPrint
   # Module for text extraction
   module TextExtraction
     # Class to obtain plain text and JSON word-coordinates from hOCR source
@@ -161,7 +161,7 @@ module NewspaperWorks
       # @return [String] JSON serialization of flattened word coordinates
       def json
         words = @doc_stream.words
-        NewspaperWorks::TextExtraction::WordCoordsBuilder.json_coordinates_for(
+        IiifPrint::TextExtraction::WordCoordsBuilder.json_coordinates_for(
           words: words,
           width: @doc_stream.width,
           height: @doc_stream.height

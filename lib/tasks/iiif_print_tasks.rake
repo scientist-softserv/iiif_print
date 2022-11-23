@@ -1,15 +1,15 @@
-namespace :newspaper_works do
+namespace :iiif_print do
   def use_application
     ENV['RAILS_ENV'] = Rails.env if ENV['RAILS_ENV'].nil?
     Rails.application.require_environment!
   end
 
-  desc 'Ingest an NDNP batch: "rake newspaper_works:ingest_ndnp -- --path="'
+  desc 'Ingest an NDNP batch: "rake iiif_print:ingest_ndnp -- --path="'
   task :ingest_ndnp do
     use_application
-    ingester = NewspaperWorks::Ingest::NDNP::BatchIngester.from_command(
+    ingester = IiifPrint::Ingest::NDNP::BatchIngester.from_command(
       ARGV,
-      'rake newspaper_works:ingest_ndnp --'
+      'rake iiif_print:ingest_ndnp --'
     )
     puts "Beginning NDNP batch ingest..."
     ingester.ingest
@@ -17,12 +17,12 @@ namespace :newspaper_works do
   end
 
   desc 'Ingest a directory of PDF issues for a single publication: '\
-    '"rake newspaper_works:ingest_pdf_issues -- --path="'
+    '"rake iiif_print:ingest_pdf_issues -- --path="'
   task :ingest_issues do
     use_application
-    ingester = NewspaperWorks::Ingest::BatchIssueIngester.from_command(
+    ingester = IiifPrint::Ingest::BatchIssueIngester.from_command(
       ARGV,
-      'rake newspaper_works:ingest_issues --'
+      'rake iiif_print:ingest_issues --'
     )
     puts "Beginning batch ingest of issues for single publication..."
     ingester.ingest

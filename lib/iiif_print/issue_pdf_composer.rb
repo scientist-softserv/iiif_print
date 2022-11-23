@@ -1,7 +1,7 @@
 require 'open3'
 require 'tmpdir'
 
-module NewspaperWorks
+module IiifPrint
   # Adapter class composes a PDF derivative for issue, if it requires one.
   class IssuePDFComposer
     attr_accessor :issue, :page_pdfs
@@ -34,12 +34,12 @@ module NewspaperWorks
       Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
         unless wait_thr.value.success?
           e = "Ghostscript Error: \n#{stderr.read}"
-          raise NewspaperWorks::DataError, e
+          raise IiifPrint::DataError, e
         end
       end
       # rubocop:enable Lint/UnusedBlockArgument
       # at this point, something should exist and validate at path `outfile`:
-      raise NewspaperWorks::DataError, "Generated PDF invalid" unless validate_pdf(outfile)
+      raise IiifPrint::DataError, "Generated PDF invalid" unless validate_pdf(outfile)
       # Assign for attachment to issue, commit:
       attach_to_issue(outfile)
     end
@@ -70,7 +70,7 @@ module NewspaperWorks
     private
 
     # @return [Array] list of paths to page PDFs, in page order
-    # @raises [NewspaperWorks::PagesNotReady] if any page has invalid
+    # @raises [IiifPrint::PagesNotReady] if any page has invalid
     #   or non-ready PDF source.
     def validated_page_pdfs
       result = []
@@ -79,7 +79,7 @@ module NewspaperWorks
         e = "Page PDFs not ready for issue "\
           "(Issue id: #{issue.id}, Page index: #{idx})"
         path = derivatives_of(page).path('pdf')
-        raise NewspaperWorks::PagesNotReady, e unless validate_pdf(path)
+        raise IiifPrint::PagesNotReady, e unless validate_pdf(path)
         result.push(path)
       end
       result
@@ -90,7 +90,7 @@ module NewspaperWorks
     end
 
     def derivatives_of(work)
-      NewspaperWorks::Data::WorkDerivatives.of(work)
+      IiifPrint::Data::WorkDerivatives.of(work)
     end
 
     def ensure_whitelist
@@ -103,7 +103,7 @@ module NewspaperWorks
       # We rely upon WorkFiles to create fileset, and by consequence of
       #   running primary file attachment through actor stack,
       #   visibility of the FileSet is copied from the work:
-      NewspaperWorks::Data::WorkFiles.assign!(to: @issue, path: path)
+      IiifPrint::Data::WorkFiles.assign!(to: @issue, path: path)
     end
   end
 end

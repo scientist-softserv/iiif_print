@@ -1,5 +1,5 @@
 # NewspaperTitle ancestor data
-module NewspaperWorks
+module IiifPrint
   # shared NewspaperTitle info for multiple newspaper models
   module TitleInfoPresenter
     def publication_id

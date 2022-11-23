@@ -2,7 +2,7 @@ require 'faraday'
 require 'nokogiri'
 require 'uri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class LCPublicationInfo < BasePublicationInfo
       attr_accessor :place_of_publication, :full_title, :lccn, :place_name, :doc
@@ -36,7 +36,7 @@ module NewspaperWorks
       end
 
       def load_lc
-        resp = NewspaperWorks::ResourceFetcher.get url
+        resp = IiifPrint::ResourceFetcher.get url
         @doc = Nokogiri.XML(resp['body'])
         return if empty?
         # try title[@type="uniform"] first:
@@ -66,7 +66,7 @@ module NewspaperWorks
       def load_place
         @place_name = mods_place_name || place_name_from_title(@full_title)
         return if @place_name.nil?
-        uri = NewspaperWorks::Ingest.geonames_place_uri(@place_name)
+        uri = IiifPrint::Ingest.geonames_place_uri(@place_name)
         @place_of_publication = uri
       end
 
@@ -81,7 +81,7 @@ module NewspaperWorks
 
       def title
         return if empty?
-        NewspaperWorks::Ingest.normalize_title(@full_title&.split(/ [\(]/)&.[](0))
+        IiifPrint::Ingest.normalize_title(@full_title&.split(/ [\(]/)&.[](0))
       end
 
       # ISO-639-2 three character language code, default is 'eng' (English)

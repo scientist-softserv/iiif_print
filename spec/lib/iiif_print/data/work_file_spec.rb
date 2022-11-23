@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Data::WorkFile do
+RSpec.describe IiifPrint::Data::WorkFile do
   include_context "shared setup"
 
   # sample objects:
@@ -90,7 +90,7 @@ RSpec.describe NewspaperWorks::Data::WorkFile do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.derivatives.class).to eq \
-        NewspaperWorks::Data::WorkDerivatives
+        IiifPrint::Data::WorkDerivatives
       expect(adapter.derivatives.fileset).to be fileset
       expect(adapter.derivatives.work).to be work
       expect(adapter.derivatives.parent).to be adapter

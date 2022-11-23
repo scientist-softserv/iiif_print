@@ -25,7 +25,7 @@ class TestAppGenerator < Rails::Generators::Base
   # end
 
   def install_engine
-    generate 'newspaper_works:install'
+    generate 'iiif_print:install'
   end
 
   def db_migrations

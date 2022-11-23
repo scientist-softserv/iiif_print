@@ -2,7 +2,7 @@ require 'open3'
 require 'securerandom'
 require 'tmpdir'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class PdfPages
       include Enumerable

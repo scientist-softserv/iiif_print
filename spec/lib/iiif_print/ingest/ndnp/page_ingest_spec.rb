@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
+RSpec.describe IiifPrint::Ingest::NDNP::PageIngest do
   include_context "ndnp fixture setup"
 
   def file_type?(path, ext)
@@ -28,7 +28,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
     let(:page) { described_class.new(issue1, 'pageModsBib8') }
 
     it "gets metadata" do
-      expect(page.metadata).to be_a NewspaperWorks::Ingest::NDNP::PageMetadata
+      expect(page.metadata).to be_a IiifPrint::Ingest::NDNP::PageMetadata
       # uses same Nokogiri document context:
       expect(page.metadata.doc).to be page.doc
     end
@@ -47,7 +47,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
     let(:page) { described_class.new(issue2, 'pageModsBib1') }
 
     it "gets metadata" do
-      expect(page.metadata).to be_a NewspaperWorks::Ingest::NDNP::PageMetadata
+      expect(page.metadata).to be_a IiifPrint::Ingest::NDNP::PageMetadata
       # uses same Nokogiri document context:
       expect(page.metadata.doc).to be page.doc
     end
@@ -58,7 +58,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
 
     it "gets a ContainerIngest for reel providing page" do
       reel = page.container
-      expect(reel).to be_a NewspaperWorks::Ingest::NDNP::ContainerIngest
+      expect(reel).to be_a IiifPrint::Ingest::NDNP::ContainerIngest
       expect(reel.path).to end_with '_1.xml'
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngest do
     let(:page) { described_class.new(reel1, 'targetModsBib1') }
 
     it "gets metadata" do
-      expect(page.metadata).to be_a NewspaperWorks::Ingest::NDNP::PageMetadata
+      expect(page.metadata).to be_a IiifPrint::Ingest::NDNP::PageMetadata
       # uses same Nokogiri document context:
       expect(page.metadata.doc).to be page.doc
     end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::NewspaperCoreIndexer do
+RSpec.describe IiifPrint::NewspaperCoreIndexer do
   let(:geonames_uri) { 'http://sws.geonames.org/4950065/' }
   let(:pop) { Hyrax::ControlledVocabularies::Location.new(geonames_uri) }
   let(:article) do

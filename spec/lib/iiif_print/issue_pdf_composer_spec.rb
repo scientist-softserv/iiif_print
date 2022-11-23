@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::IssuePDFComposer do
+RSpec.describe IiifPrint::IssuePDFComposer do
   let(:bare_issue) do
     build(:newspaper_issue)
   end
 
   let(:fixtures_path) do
-    fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
+    fixtures = File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files')
     Hyrax.config.whitelisted_ingest_dirs.push(fixtures)
     fixtures
   end
@@ -25,7 +25,7 @@ RSpec.describe NewspaperWorks::IssuePDFComposer do
     page = NewspaperPage.create!(title: [name])
     page.members << fs
     page.save!
-    derivatives = NewspaperWorks::Data::WorkDerivatives.of(page)
+    derivatives = IiifPrint::Data::WorkDerivatives.of(page)
     derivatives.assign(path)
     derivatives.commit!
     page
@@ -69,9 +69,9 @@ RSpec.describe NewspaperWorks::IssuePDFComposer do
       expect(composer.validate_pdf(pdf_path)).to be true
     end
 
-    it "raises NewspaperWorks::PagesNotReady on incomplete PDF" do
+    it "raises IiifPrint::PagesNotReady on incomplete PDF" do
       composer = described_class.new(unfinished_issue)
-      expect { composer.compose }.to raise_error(NewspaperWorks::PagesNotReady)
+      expect { composer.compose }.to raise_error(IiifPrint::PagesNotReady)
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe NewspaperWorks::IssuePDFComposer do
     do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
 
     def files_of(work)
-      NewspaperWorks::Data::WorkFiles.of(work)
+      IiifPrint::Data::WorkFiles.of(work)
     end
 
     it "creates issue PDF from sources", perform_enqueued: do_now_jobs do

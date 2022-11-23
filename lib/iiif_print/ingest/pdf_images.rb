@@ -1,7 +1,7 @@
 require 'open3'
 require 'mini_magick'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # PdfImages uses poppler 0.19+ pdfimages command to extract image
     #   listing metadata from PDF files.

@@ -2,7 +2,7 @@ require 'faraday'
 require 'nokogiri'
 require 'uri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class PublicationInfo
       attr_accessor :implementation, :lccn

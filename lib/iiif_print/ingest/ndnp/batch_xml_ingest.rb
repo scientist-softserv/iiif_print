@@ -1,11 +1,11 @@
 require 'nokogiri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class BatchXMLIngest
         include Enumerable
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :container_paths, :issue_paths, :path
 
@@ -48,11 +48,11 @@ module NewspaperWorks
         private
 
         def get_issue(path)
-          NewspaperWorks::Ingest::NDNP::IssueIngest.new(path)
+          IiifPrint::Ingest::NDNP::IssueIngest.new(path)
         end
 
         def get_container(path)
-          NewspaperWorks::Ingest::NDNP::ContainerIngest.new(path)
+          IiifPrint::Ingest::NDNP::ContainerIngest.new(path)
         end
 
         def xpath(expr)

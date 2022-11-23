@@ -1,5 +1,5 @@
 # indexes the publication_date_start and _end fields
-module NewspaperWorks
+module IiifPrint
   module IndexesPublicationDateRange
     # adds publication date start to solr_doc Hash in Solr datetime format
     #

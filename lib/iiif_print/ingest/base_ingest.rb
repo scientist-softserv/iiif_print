@@ -1,10 +1,10 @@
 require 'newspaper_works/data'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # base class for ingesting works, implements, as-needed, temp files
     class BaseIngest
-      include NewspaperWorks::Data::PathHelper
+      include IiifPrint::Data::PathHelper
 
       attr_accessor :work, :io, :path, :filename
 
@@ -51,7 +51,7 @@ module NewspaperWorks
       # default handler attaches file to work's file set, subclasses
       #   may overwride or wrap this.
       def import
-        files = NewspaperWorks::Data::WorkFiles.new(work)
+        files = IiifPrint::Data::WorkFiles.new(work)
         files.assign(path)
         files.commit!
       end

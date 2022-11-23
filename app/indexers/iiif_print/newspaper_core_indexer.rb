@@ -1,11 +1,11 @@
 # Core indexer for newspaper work types
-module NewspaperWorks
+module IiifPrint
   class NewspaperCoreIndexer < Hyrax::WorkIndexer
     # This indexes the default metadata. You can remove it if you want to
     # provide your own metadata and indexing.
     include Hyrax::IndexesBasicMetadata
-    include NewspaperWorks::IndexesPlaceOfPublication
-    include NewspaperWorks::IndexesRelationships
+    include IiifPrint::IndexesPlaceOfPublication
+    include IiifPrint::IndexesRelationships
 
     # Fetch remote labels for based_near. You can remove this if you don't want
     # this behavior

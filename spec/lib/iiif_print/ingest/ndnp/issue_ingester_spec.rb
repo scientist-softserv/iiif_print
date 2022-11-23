@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
+RSpec.describe IiifPrint::Ingest::NDNP::IssueIngester do
   include_context "ndnp fixture setup"
 
   # Source data:
   let(:issue_data) do
-    NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue1)
+    IiifPrint::Ingest::NDNP::IssueIngest.new(issue1)
   end
 
   let(:metadata) { issue_data.metadata }
@@ -76,7 +76,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       Qa::Authorities::Geonames.username = ''
       adapter.construct_issue
       expect(adapter.target.publication.place_of_publication).to be_empty
-      Qa::Authorities::Geonames.username = 'newspaper_works'
+      Qa::Authorities::Geonames.username = 'iiif_print'
     end
   end
 

@@ -1,10 +1,10 @@
 require 'find'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class PDFIssues
       include Enumerable
-      include NewspaperWorks::Ingest::PathEnumeration
+      include IiifPrint::Ingest::PathEnumeration
 
       attr_accessor :path, :publication, :pdf_paths
 
@@ -12,7 +12,7 @@ module NewspaperWorks
 
       def initialize(path, publication)
         @path = path
-        # as a NewspaperWorks::Ingest::PublicationInfo object:
+        # as a IiifPrint::Ingest::PublicationInfo object:
         @publication = publication
         @pdf_paths = valid_pdfs(path)
       end
@@ -32,7 +32,7 @@ module NewspaperWorks
       end
 
       def info(path)
-        NewspaperWorks::Ingest::PDFIssue.new(path, @publication)
+        IiifPrint::Ingest::PDFIssue.new(path, @publication)
       end
     end
   end

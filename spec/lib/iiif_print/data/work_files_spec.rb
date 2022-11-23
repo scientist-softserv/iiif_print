@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Data::WorkFiles do
+RSpec.describe IiifPrint::Data::WorkFiles do
   include_context "shared setup"
 
   let(:work) { work_with_file }
@@ -65,7 +65,7 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
       values = adapter.values
       expect(values).to be_an Array
       expect(values.size).to eq 1
-      expect(values[0]).to be_an NewspaperWorks::Data::WorkFile
+      expect(values[0]).to be_an IiifPrint::Data::WorkFile
       expect(values[0].parent).to be adapter
       first_fileset = work.members.select { |m| m.class == FileSet }[0]
       expect(values[0].fileset).to eq first_fileset
@@ -215,7 +215,7 @@ RSpec.describe NewspaperWorks::Data::WorkFiles do
       expect(adapter.derivatives.fileset.id).to eq fileset.id
       expect(adapter.derivatives.work).to be work
       expect(adapter.derivatives.class).to eq \
-        NewspaperWorks::Data::WorkDerivatives
+        IiifPrint::Data::WorkDerivatives
       # transitive parent/child relationship, can traverse to adapter from
       # derivatives:
       expect(adapter.derivatives.parent.parent).to be adapter

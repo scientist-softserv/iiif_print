@@ -1,5 +1,5 @@
 # customize behavior for IiifSearch
-module NewspaperWorks
+module IiifPrint
   module BlacklightIiifSearch
     module AnnotationBehavior
       ##
@@ -44,7 +44,7 @@ module NewspaperWorks
       # return the JSON word-coordinates file contents
       # @return [JSON]
       def fetch_and_parse_coords
-        coords = NewspaperWorks::Data::WorkDerivatives.data(from: file_set_id, of_type: 'json')
+        coords = IiifPrint::Data::WorkDerivatives.data(from: file_set_id, of_type: 'json')
         return nil if coords.blank?
         begin
           JSON.parse(coords)

@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PageImage do
+RSpec.describe IiifPrint::Ingest::PageImage do
   include_context 'ingest test fixtures'
 
   let(:lccn) { 'sn93059126' }
 
   let(:issue_path) { File.join(tiff_fixtures, lccn, '1853060401') }
 
-  let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn) }
+  let(:publication) { IiifPrint::Ingest::PublicationInfo.new(lccn) }
 
   let(:issue) do
-    NewspaperWorks::Ingest::IssueImages.new(issue_path, publication)
+    IiifPrint::Ingest::IssueImages.new(issue_path, publication)
   end
 
   describe "page construction and metadata" do

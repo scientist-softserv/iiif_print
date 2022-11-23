@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PublicationInfo do
+RSpec.describe IiifPrint::Ingest::PublicationInfo do
   # prefers lccn.loc.gov:
   let(:lccn1) { 'sn83021453' }
   let(:lccn2) { 'sn83045396' }
@@ -31,12 +31,12 @@ RSpec.describe NewspaperWorks::Ingest::PublicationInfo do
   describe "backing authority choice" do
     it "picks default authority of lccn.loc.gov" do
       meta = described_class.new(lccn1)
-      expect(meta.implementation).to be_a NewspaperWorks::Ingest::LCPublicationInfo
+      expect(meta.implementation).to be_a IiifPrint::Ingest::LCPublicationInfo
     end
 
     it "picks chronam implementation when lccn.loc.gov empty for LCCN" do
       meta = described_class.new(lccn3)
-      expect(meta.implementation).to be_a NewspaperWorks::Ingest::ChronAmPublicationInfo
+      expect(meta.implementation).to be_a IiifPrint::Ingest::ChronAmPublicationInfo
     end
 
     it "responds to known metadata" do

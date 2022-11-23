@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Represents TIFF/JP2 page, access to file, page-numbering metadata
     class PageImage
@@ -10,7 +10,7 @@ module NewspaperWorks
         # path to image:
         @path = path
         validate_path
-        # Issue is NewspaperWorks::Ingest::IssueImages object
+        # Issue is IiifPrint::Ingest::IssueImages object
         @issue = issue
         # sequence is page sequence number (Integer)
         @sequence = sequence.to_i

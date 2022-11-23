@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::PlaceOfPublicationPresenterBehavior do
+RSpec.describe IiifPrint::PlaceOfPublicationPresenterBehavior do
   let(:pop) { 'Marysville, California, United States' }
   let(:request) { double(host: 'example.org') }
   let(:solr_document) do

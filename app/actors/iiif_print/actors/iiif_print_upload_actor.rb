@@ -1,6 +1,6 @@
-module NewspaperWorks
+module IiifPrint
   module Actors
-    class NewspaperWorksUploadActor < Hyrax::Actors::AbstractActor
+    class IiifPrintUploadActor < Hyrax::Actors::AbstractActor
       def create(env)
         # Ensure that work has title, set from form data if present
         ensure_title(env)
@@ -47,7 +47,7 @@ module NewspaperWorks
       end
 
       def queue_job(work, paths, user, admin_set_id)
-        NewspaperWorks::CreateIssuePagesJob.perform_later(
+        IiifPrint::CreateIssuePagesJob.perform_later(
           work,
           paths,
           user,

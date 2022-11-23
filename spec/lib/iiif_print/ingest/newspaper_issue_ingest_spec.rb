@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 # test NewspaperIssueIngest against a NewspaperIssue
-RSpec.describe NewspaperWorks::Ingest::NewspaperIssueIngest do
+RSpec.describe IiifPrint::Ingest::NewspaperIssueIngest do
   # define the path to the file we will use for multiple examples
   let(:path) do
-    fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
+    fixtures = File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files')
     Hyrax.config.whitelisted_ingest_dirs.push(fixtures)
     File.join(fixtures, 'sample-4page-issue.pdf')
   end
 
   let(:path2) do
-    fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
+    fixtures = File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files')
     File.join(fixtures, 'ndnp-sample1.pdf')
   end
 
@@ -66,7 +66,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperIssueIngest do
     end
 
     # For created child pages, date and permission attributes are side-effect
-    #   of file attachment process (`NewspaperWorks::Data::WorkFiles`)
+    #   of file attachment process (`IiifPrint::Data::WorkFiles`)
     #   manipulating the work through the Hyrax actor stack create pipeline.
     it "sets work attributes on created pages via file attachment",
        peform_enqueued: do_now_jobs do

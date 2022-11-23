@@ -1,11 +1,11 @@
 require 'nokogiri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class PageMetadata
         # mixin convenience methods for NDNP XML, plus XML_NS hash
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :path, :dmdid, :doc
 

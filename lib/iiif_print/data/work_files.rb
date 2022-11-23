@@ -1,7 +1,7 @@
-module NewspaperWorks
+module IiifPrint
   module Data
     class WorkFiles
-      include NewspaperWorks::Data::PathHelper
+      include IiifPrint::Data::PathHelper
 
       attr_accessor :work, :assigned, :unassigned
       delegate :include?, to: :keys
@@ -42,13 +42,13 @@ module NewspaperWorks
       #   destination names (usually file extension) to path of saved
       #   derviative.  Always returns same instance (memoized after first
       #   use) of `WorkDerivatives`.
-      # @return [NewspaperWorks::Data::WorkDerviatives] derivatives adapter
+      # @return [IiifPrint::Data::WorkDerviatives] derivatives adapter
       def derivatives(fileset: nil)
         fileset ||= @fileset
         return @derivatives unless @derivatives.nil?
         if fileset.nil?
           # for the deferred assignement case, we have no fileset yet...
-          work_file = NewspaperWorks::Data::WorkFile.of(work, nil, self)
+          work_file = IiifPrint::Data::WorkFile.of(work, nil, self)
           return work_file.derivatives
         end
         # Otherwise, delegate actual construction to WorkFile.derivatives:
@@ -77,7 +77,7 @@ module NewspaperWorks
       end
 
       # List of WorkFile for each primary file
-      # @return [Array<NewspaperWorks::Data::WorkFile>] adapter for persisted
+      # @return [Array<IiifPrint::Data::WorkFile>] adapter for persisted
       #   primary file
       def values
         keys.map(&method(:get))
@@ -98,7 +98,7 @@ module NewspaperWorks
 
       # Get a WorkFile adapter representing primary file, either by name or id
       # @param name_or_id [String] Fileset id or work-local file name
-      # @return [NewspaperWorks::Data::WorkFile] adapter for persisted
+      # @return [IiifPrint::Data::WorkFile] adapter for persisted
       #   primary file
       def get(name_or_id)
         return get_by_fileset_id(name_or_id) if keys.include?(name_or_id)
@@ -137,14 +137,14 @@ module NewspaperWorks
       def get_by_fileset_id(id)
         nil unless keys.include?(id)
         fileset = FileSet.find(id)
-        NewspaperWorks::Data::WorkFile.of(work, fileset, self)
+        IiifPrint::Data::WorkFile.of(work, fileset, self)
       end
 
       # Get one WorkFile object based on filename in metadata
       def get_by_filename(name)
         r = filesets.select { |fs| original_name(fs) == name }
         # checkout first match
-        r.empty? ? nil : NewspaperWorks::Data::WorkFile.of(work, r[0], self)
+        r.empty? ? nil : IiifPrint::Data::WorkFile.of(work, r[0], self)
       end
 
       def original_name(fileset)

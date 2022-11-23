@@ -1,5 +1,5 @@
 # Application Mailer
-module NewspaperWorks
+module IiifPrint
   # Application Mailer Class
   class ApplicationMailer < ActionMailer::Base
     default from: 'from@example.com'

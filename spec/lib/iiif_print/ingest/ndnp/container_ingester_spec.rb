@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ndnp_shared'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngester do
+RSpec.describe IiifPrint::Ingest::NDNP::ContainerIngester do
   include_context "ndnp fixture setup"
   include_context "shared setup"
 
@@ -17,7 +17,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngester do
   let(:linked_publication) { issue.publication }
 
   let(:issue_data) do
-    NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue2)
+    IiifPrint::Ingest::NDNP::IssueIngest.new(issue2)
   end
 
   let(:page_data) do
@@ -30,7 +30,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngester do
   end
 
   let(:page) do
-    ingester = NewspaperWorks::Ingest::NDNP::PageIngester.new(page_data, issue)
+    ingester = IiifPrint::Ingest::NDNP::PageIngester.new(page_data, issue)
     ingester.ingest
     ingester.target
   end

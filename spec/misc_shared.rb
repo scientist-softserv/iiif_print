@@ -1,7 +1,7 @@
 RSpec.shared_context "shared setup", shared_context: :metadata do
   let(:fixture_path) do
     path = File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
     whitelist = Hyrax.config.whitelisted_ingest_dirs
     whitelist.push(path) unless whitelist.include?(path)
@@ -78,7 +78,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
 
   def mkdir_derivative(work, name)
     # make shared path for derivatives to live, Hyrax ususally does this
-    #   for thumbnails, and newspaper_works does this in its derivative
+    #   for thumbnails, and iiif_print does this in its derivative
     #   service plugins; here we do same.
     fsid = work_file_set(work).id
     path = path_factory.derivative_path_for_reference(fsid, name)

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::NewspapersSearchBuilder do
+RSpec.describe IiifPrint::NewspapersSearchBuilder do
   let(:context) { double }
   let(:search_builder) { described_class.new(context) }
 

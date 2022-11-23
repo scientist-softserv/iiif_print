@@ -1,11 +1,11 @@
 require 'date'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Mixin for deducing issue metadata from path, publication info.
     # precondition: consuming class has accessor for:
     #   - `path`: full path to issue
-    #   - `publication`: a `NewspaperWorks::Ingest::PublicationInfo object.
+    #   - `publication`: a `IiifPrint::Ingest::PublicationInfo object.
     module NamedIssueMetadata
       # Memoized filename from path:
       # @return [String]

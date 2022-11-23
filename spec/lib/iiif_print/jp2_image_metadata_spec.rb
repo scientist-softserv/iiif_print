@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe NewspaperWorks::JP2ImageMetadata do
-  let(:fixtures) { File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files') }
+describe IiifPrint::JP2ImageMetadata do
+  let(:fixtures) { File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files') }
 
   let(:gray_jp2) { File.join(fixtures, 'ocr_gray.jp2') }
 

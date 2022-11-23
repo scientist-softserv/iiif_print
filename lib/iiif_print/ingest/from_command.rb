@@ -1,7 +1,7 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # class-method mixin module for ingest command-line invocation
-    #   usage in classes: `extend NewspaperWorks::Ingest::FromCommand`
+    #   usage in classes: `extend IiifPrint::Ingest::FromCommand`
     #   These are all expected to be class methods in various CLI ingests.
     module FromCommand
       # alternate constructor from ARGV

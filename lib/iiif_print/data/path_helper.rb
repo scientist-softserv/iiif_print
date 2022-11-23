@@ -1,6 +1,6 @@
 require 'uri'
 
-module NewspaperWorks
+module IiifPrint
   module Data
     # Mixin for methods related to paths on filesystem
     module PathHelper

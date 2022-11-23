@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::BreadcrumbHelper do
+RSpec.describe IiifPrint::BreadcrumbHelper do
   let(:solr_document) { SolrDocument.new(attributes) }
   let(:attributes) do
     {

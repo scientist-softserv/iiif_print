@@ -1,6 +1,6 @@
 ---
 it:
-  newspaper_works:
+  iiif_print:
     attributes:
       alternative_title:
         label: 'Titolo aggiuntivo'

@@ -1,6 +1,6 @@
 ---
 zh:
-  newspaper_works:
+  iiif_print:
     attributes:
       alternative_title:
         label: '替代标题'

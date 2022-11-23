@@ -3,7 +3,7 @@ require 'misc_shared'
 require 'faraday'
 
 # test NewspaperPageIngest against work
-RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
+RSpec.describe IiifPrint::Ingest::NewspaperPageIngest do
   include_context "shared setup"
 
   # define the path to the file we will use for multiple examples
@@ -41,7 +41,7 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
 
     def verify_attached_file(work, path)
       work.reload
-      files = NewspaperWorks::Data::WorkFiles.of(work)
+      files = IiifPrint::Data::WorkFiles.of(work)
       expect(files.keys.size).to eq 1
       expect(File.exist?(files.values[0].path)).to be true
       expect(files.values[0].size).to eq File.size(path)
@@ -58,8 +58,8 @@ RSpec.describe NewspaperWorks::Ingest::NewspaperPageIngest do
 
     # For (minimal) page objects constructed in tests, PDF ingest,
     #   permission setting on fileset happens as result of attachment
-    #   process (`NewspaperWorks::Data::WorkFiles`), via the
-    #   `NewspaperWorks::Data::handle_after_create_fileset` method,
+    #   process (`IiifPrint::Data::WorkFiles`), via the
+    #   `IiifPrint::Data::handle_after_create_fileset` method,
     #   since the CreateWithRemoteFilesActor in Hyrax unfortunately
     #   does not invoke InheritPermissionJob.
     it "copies work permissions to fileset", perform_enqueued: do_now_jobs do

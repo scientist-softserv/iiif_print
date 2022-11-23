@@ -3,13 +3,13 @@ require 'hyrax'
 require 'blacklight_iiif_search'
 require 'blacklight_advanced_search'
 
-module NewspaperWorks
+module IiifPrint
   # module constants:
   GEM_PATH = Gem::Specification.find_by_name("newspaper_works").gem_dir
 
   # Engine Class
   class Engine < ::Rails::Engine
-    isolate_namespace NewspaperWorks
+    isolate_namespace IiifPrint
 
     config.to_prepare do
       # Inject PluggableDerivativeService ahead of Hyrax default.
@@ -17,26 +17,26 @@ module NewspaperWorks
       #   to be configured, instead of just the _first_ valid service.
       #
       #   To configure specific services, inject each service, in desired order
-      #   to NewspaperWorks::PluggableDerivativeService.plugins array.
+      #   to IiifPrint::PluggableDerivativeService.plugins array.
 
       Hyrax::DerivativeService.services.unshift(
-        NewspaperWorks::PluggableDerivativeService
+        IiifPrint::PluggableDerivativeService
       )
 
       # Register specific derivative services to be considered by
       #   PluggableDerivativeService:
       [
-        NewspaperWorks::JP2DerivativeService,
-        NewspaperWorks::PDFDerivativeService,
-        NewspaperWorks::TextExtractionDerivativeService,
-        NewspaperWorks::TIFFDerivativeService
+        IiifPrint::JP2DerivativeService,
+        IiifPrint::PDFDerivativeService,
+        IiifPrint::TextExtractionDerivativeService,
+        IiifPrint::TIFFDerivativeService
       ].each do |plugin|
-        NewspaperWorks::PluggableDerivativeService.plugins.push plugin
+        IiifPrint::PluggableDerivativeService.plugins.push plugin
       end
 
-      # Register actor to handle any NewspaperWorks upload behaviors before
+      # Register actor to handle any IiifPrint upload behaviors before
       #   CreateWithFilesActor gets to them:
-      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, NewspaperWorks::Actors::NewspaperWorksUploadActor
+      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, IiifPrint::Actors::IiifPrintUploadActor
     end
   end
 end

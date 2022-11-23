@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Configuration do
+RSpec.describe IiifPrint::Configuration do
   subject { described_class.new }
 
   it { is_expected.to respond_to(:publication_unique_id_property) }

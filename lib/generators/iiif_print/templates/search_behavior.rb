@@ -1,6 +1,6 @@
 # customizable behavior for IiifSearch
 module BlacklightIiifSearch
   module SearchBehavior
-    include NewspaperWorks::BlacklightIiifSearch::SearchBehavior
+    include IiifPrint::BlacklightIiifSearch::SearchBehavior
   end
 end

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PDFIssues do
+RSpec.describe IiifPrint::Ingest::PDFIssues do
   include_context 'ingest test fixtures'
 
   let(:lccn) { 'sn93059126' }
 
-  let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn) }
+  let(:publication) { IiifPrint::Ingest::PublicationInfo.new(lccn) }
 
   let(:pub_path) { File.join(pdf_fixtures, lccn) }
 
@@ -24,7 +24,7 @@ RSpec.describe NewspaperWorks::Ingest::PDFIssues do
       enumerated = issues.values
       expect(enumerated.size).to eq issues.size
       sample = enumerated[0]
-      expect(sample).to be_a NewspaperWorks::Ingest::PDFIssue
+      expect(sample).to be_a IiifPrint::Ingest::PDFIssue
       expect(File.dirname(sample.path)).to eq pub_path
     end
 
@@ -37,8 +37,8 @@ RSpec.describe NewspaperWorks::Ingest::PDFIssues do
       # info and [] methods get PDFIssue for given path key:
       issue1 = issues[issues.keys[0]]
       issue2 = issues.info(issues.keys[1])
-      expect(issue1).to be_a NewspaperWorks::Ingest::PDFIssue
-      expect(issue2).to be_a NewspaperWorks::Ingest::PDFIssue
+      expect(issue1).to be_a IiifPrint::Ingest::PDFIssue
+      expect(issue2).to be_a IiifPrint::Ingest::PDFIssue
       expect(issue1.path).to eq issues.keys[0]
     end
 
@@ -46,14 +46,14 @@ RSpec.describe NewspaperWorks::Ingest::PDFIssues do
       issues = described_class.new(pub_path, publication)
       expected_paths = Dir.entries(pub_path).map { |p| File.join(pub_path, p) }
       issues.each_value do |v|
-        expect(v).to be_a NewspaperWorks::Ingest::PDFIssue
+        expect(v).to be_a IiifPrint::Ingest::PDFIssue
       end
       issues.each_key do |k|
         expect(expected_paths).to include k
       end
       issues.each do |path, info|
         expect(expected_paths).to include path
-        expect(info).to be_a NewspaperWorks::Ingest::PDFIssue
+        expect(info).to be_a IiifPrint::Ingest::PDFIssue
         expect(info.path).to eq path
       end
       expect(issues.to_a.size).to eq 5

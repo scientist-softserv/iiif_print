@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::IiifManifestPresenterBehavior do
+RSpec.describe IiifPrint::IiifManifestPresenterBehavior do
   let(:attributes) do
     { "id" => "abc123",
       "title_tesim" => ['Page the first'],

@@ -1,10 +1,10 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class ContainerIngest
         # Enumerable of IssueIngest objects for issues in pages
         include Enumerable
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :path, :doc, :dmdids, :issue_paths
 
@@ -35,15 +35,15 @@ module NewspaperWorks
         #   These objects will not have pagination/sequence data, but
         #   will provide an equivalent programmatic interface for file access
         #   of control images, as one would access normal page files.
-        # @return [NewspaperWorks::Ingest::NDNP::PageIngest]
+        # @return [IiifPrint::Ingest::NDNP::PageIngest]
         def page_by_dmdid(dmdid)
-          NewspaperWorks::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
+          IiifPrint::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
         end
 
         # Get IssueIngest object, given path to its XML
-        # return [NewspaperWorks::Ingest::NDNP::IssueIngest]
+        # return [IiifPrint::Ingest::NDNP::IssueIngest]
         def issue_by_path(path)
-          NewspaperWorks::Ingest::NDNP::IssueIngest.new(path)
+          IiifPrint::Ingest::NDNP::IssueIngest.new(path)
         end
 
         def each
@@ -58,7 +58,7 @@ module NewspaperWorks
 
         def metadata
           return @metadata unless @metadata.nil?
-          @metadata = NewspaperWorks::Ingest::NDNP::ContainerMetadata.new(
+          @metadata = IiifPrint::Ingest::NDNP::ContainerMetadata.new(
             path,
             self
           )

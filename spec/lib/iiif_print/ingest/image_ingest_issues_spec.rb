@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::ImageIngestIssues do
+RSpec.describe IiifPrint::Ingest::ImageIngestIssues do
   include_context 'ingest test fixtures'
 
   let(:lccn) { 'sn93059126' }
 
-  let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn) }
+  let(:publication) { IiifPrint::Ingest::PublicationInfo.new(lccn) }
 
   let(:pub_path) { File.join(tiff_fixtures, lccn) }
 
@@ -29,7 +29,7 @@ RSpec.describe NewspaperWorks::Ingest::ImageIngestIssues do
       enumerated = issues.values
       expect(enumerated.size).to eq issues.size
       sample = enumerated[0]
-      expect(sample).to be_a NewspaperWorks::Ingest::IssueImages
+      expect(sample).to be_a IiifPrint::Ingest::IssueImages
       expect(File.dirname(sample.path)).to eq pub_path
     end
 
@@ -39,21 +39,21 @@ RSpec.describe NewspaperWorks::Ingest::ImageIngestIssues do
       # info and [] methods get IssueImages object for given path key:
       issue1 = issues[issues.keys[0]]
       issue2 = issues.info(issues.keys[1])
-      expect(issue1).to be_a NewspaperWorks::Ingest::IssueImages
-      expect(issue2).to be_a NewspaperWorks::Ingest::IssueImages
+      expect(issue1).to be_a IiifPrint::Ingest::IssueImages
+      expect(issue2).to be_a IiifPrint::Ingest::IssueImages
       expect(issue1.path).to eq issues.keys[0]
     end
 
     it "enumerates pairs like a hash" do
       issues.each_value do |v|
-        expect(v).to be_a NewspaperWorks::Ingest::IssueImages
+        expect(v).to be_a IiifPrint::Ingest::IssueImages
       end
       issues.each_key do |k|
         expect(expected_paths).to include k
       end
       issues.each do |path, info|
         expect(expected_paths).to include path
-        expect(info).to be_a NewspaperWorks::Ingest::IssueImages
+        expect(info).to be_a IiifPrint::Ingest::IssueImages
         expect(info.path).to eq path
       end
       expect(issues.to_a.size).to eq 2

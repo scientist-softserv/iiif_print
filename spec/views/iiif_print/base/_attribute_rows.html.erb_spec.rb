@@ -1,7 +1,7 @@
 # hyrax/spec/views/hyrax/base/_attribute_rows.html.erb_spec.rb
 require 'spec_helper'
 
-RSpec.describe 'newspaper_works/base/_attribute_rows.html.erb', type: :view do
+RSpec.describe 'iiif_print/base/_attribute_rows.html.erb', type: :view do
   let(:url) { "http://example.com" }
   let(:title) { "There and Back Again" }
   let(:issn) { "2049-3630" }
@@ -33,7 +33,7 @@ RSpec.describe 'newspaper_works/base/_attribute_rows.html.erb', type: :view do
   let(:presenter) { Hyrax::NewspaperIssuePresenter.new(solr_document, ability, request) }
 
   let(:page) do
-    render 'newspaper_works/base/attribute_rows', presenter: presenter
+    render 'iiif_print/base/attribute_rows', presenter: presenter
     Capybara::Node::Simple.new(rendered)
   end
 

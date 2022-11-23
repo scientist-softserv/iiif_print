@@ -4,7 +4,7 @@ require 'newspaper_works_fixtures'
 RSpec.shared_context "ingest test fixtures", shared_context: :metadata do
   # Path to fixtures gem for sample fixtures, whitelisted:
   let(:fixtures_path) do
-    path = NewspaperWorksFixtures.file_fixtures
+    path = IiifPrintFixtures.file_fixtures
     whitelist = Hyrax.config.whitelisted_ingest_dirs
     whitelist.push(path) unless whitelist.include?(path)
     path
@@ -23,7 +23,7 @@ end
 RSpec.shared_examples 'ingest adapter IO' do
   # define the path to the file we will use for multiple examples
   let(:path) do
-    fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files')
+    fixtures = File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files')
     File.join(fixtures, 'ocr_mono.tiff')
   end
 

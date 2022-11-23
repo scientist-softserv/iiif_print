@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::NewspapersController do
+RSpec.describe IiifPrint::NewspapersController do
   pubdate = '2015-03-15'
 
   # have to build a set of related objects first, can't use model_shared

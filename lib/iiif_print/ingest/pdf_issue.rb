@@ -1,18 +1,18 @@
 require 'date'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class PDFIssue
       attr_accessor :path, :publication
 
       # most acccessors for issue/edition metadata, publication metadata
       #   provided by including this mixin:
-      include NewspaperWorks::Ingest::NamedIssueMetadata
+      include IiifPrint::Ingest::NamedIssueMetadata
 
       def initialize(path, publication)
         @path = path
         validate_path
-        # as a NewspaperWorks::Ingest::PublicationInfo object:
+        # as a IiifPrint::Ingest::PublicationInfo object:
         @publication = publication
       end
     end

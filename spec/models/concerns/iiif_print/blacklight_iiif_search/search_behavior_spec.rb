@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::BlacklightIiifSearch::SearchBehavior do
+RSpec.describe IiifPrint::BlacklightIiifSearch::SearchBehavior do
   let(:parent_id) { 'abc123' }
   let(:search_params) do
     { q: 'foo', solr_document_id: parent_id }

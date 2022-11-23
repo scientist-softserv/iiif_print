@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Provides enumeration of path keys to object values, where:
     #   - Consuming class:

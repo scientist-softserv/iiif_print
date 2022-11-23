@@ -1,6 +1,6 @@
 require 'spec_helper'
 RSpec.describe CustomSearchBuilder do
-  # specs for NewspaperWorks::HighlightSearchParams
+  # specs for IiifPrint::HighlightSearchParams
   describe 'highlight_search_params' do
     let(:solr_parameters) { { q: 'abolition' } }
     subject { described_class.new(solr_parameters) }
@@ -16,7 +16,7 @@ RSpec.describe CustomSearchBuilder do
     end
   end
 
-  # specs for NewspaperWorks::ExcludeModels
+  # specs for IiifPrint::ExcludeModels
   describe 'exclude_models' do
     let(:solr_parameters) { { all_fields: 'prohibition' } }
     subject { described_class.new(solr_parameters) }

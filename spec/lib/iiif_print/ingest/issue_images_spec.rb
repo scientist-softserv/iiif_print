@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::IssueImages do
+RSpec.describe IiifPrint::Ingest::IssueImages do
   include_context 'ingest test fixtures'
 
   # LCCN for TIFF fixture examples:
@@ -14,10 +14,10 @@ RSpec.describe NewspaperWorks::Ingest::IssueImages do
   let(:jp2_issue_path) { File.join(jp2_fixtures, lccn_jp2, '1935080201') }
 
   # Publication for TIFF fixtures:
-  let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn_tiff) }
+  let(:publication) { IiifPrint::Ingest::PublicationInfo.new(lccn_tiff) }
 
   # Publication for JP2 fixtures:
-  let(:publication_jp2) { NewspaperWorks::Ingest::PublicationInfo.new(lccn_jp2) }
+  let(:publication_jp2) { IiifPrint::Ingest::PublicationInfo.new(lccn_jp2) }
 
   let(:issue) { described_class.new(tiff_issue_path, publication) }
 
@@ -44,7 +44,7 @@ RSpec.describe NewspaperWorks::Ingest::IssueImages do
       issue.entries.each_with_index do |pair, idx|
         # PageImage object value:
         page_image = pair[1]
-        expect(page_image).to be_a NewspaperWorks::Ingest::PageImage
+        expect(page_image).to be_a IiifPrint::Ingest::PageImage
         expect(page_image.lccn).to eq publication.lccn
         # path key
         expect(page_image.path).to eq pair[0]

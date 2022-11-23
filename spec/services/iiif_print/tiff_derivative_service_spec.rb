@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::TIFFDerivativeService do
+RSpec.describe IiifPrint::TIFFDerivativeService do
   let(:valid_file_set) do
     file_set = FileSet.new
     file_set.save!(validate: false)
@@ -8,7 +8,7 @@ RSpec.describe NewspaperWorks::TIFFDerivativeService do
 
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 
@@ -22,7 +22,7 @@ RSpec.describe NewspaperWorks::TIFFDerivativeService do
     end
 
     def get_res(path)
-      tool = NewspaperWorks::ImageTool.new(path)
+      tool = IiifPrint::ImageTool.new(path)
       "#{tool.metadata[:width]}x#{tool.metadata[:height]}"
     end
 
@@ -38,7 +38,7 @@ RSpec.describe NewspaperWorks::TIFFDerivativeService do
       svc = described_class.new(valid_file_set)
       svc.create_derivatives(path)
       expect(File.exist?(expected)).to be true
-      mime = NewspaperWorks::ImageTool.new(expected).metadata[:content_type]
+      mime = IiifPrint::ImageTool.new(expected).metadata[:content_type]
       expect(mime).to eq 'image/tiff'
       check_dpi_match(path, expected)
       svc.cleanup_derivatives

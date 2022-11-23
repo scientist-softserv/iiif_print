@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::PageFinder do
+RSpec.describe IiifPrint::PageFinder do
   # use before(:all) so we only create fixtures once
   before(:all) do
     @issue = NewspaperIssue.new
@@ -26,7 +26,7 @@ RSpec.describe NewspaperWorks::PageFinder do
     @page3_solr_doc = SolrDocument.find(@page3.id)
   end
 
-  let(:controller) { NewspaperWorks::NewspapersController.new }
+  let(:controller) { IiifPrint::NewspapersController.new }
 
   let(:ordered_pages_array) { [@page1_solr_doc, @page2_solr_doc, @page3_solr_doc] }
 

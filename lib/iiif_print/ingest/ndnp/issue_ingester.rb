@@ -1,10 +1,10 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class IssueIngester
-        include NewspaperWorks::Logging
-        include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
-        include NewspaperWorks::Ingest::PubFinder
+        include IiifPrint::Logging
+        include IiifPrint::Ingest::NDNP::NDNPAssetHelper
+        include IiifPrint::Ingest::PubFinder
 
         attr_accessor :issue, :target, :opts
 
@@ -20,7 +20,7 @@ module NewspaperWorks
           :issue_number
         ].freeze
 
-        # @param issue [NewspaperWorks::Ingest::NDNP::IssueIngest]
+        # @param issue [IiifPrint::Ingest::NDNP::IssueIngest]
         #   source issue data
         # @param opts [Hash]
         #   ingest options, e.g. administrative metadata
@@ -34,7 +34,7 @@ module NewspaperWorks
         def ingest
           construct_issue
           ingest_pages
-          NewspaperWorks::ComposeIssuePDFJob.perform_later(@target)
+          IiifPrint::ComposeIssuePDFJob.perform_later(@target)
         end
 
         def construct_issue
@@ -51,7 +51,7 @@ module NewspaperWorks
         private
 
         def page_ingester(page_data)
-          NewspaperWorks::Ingest::NDNP::PageIngester.new(
+          IiifPrint::Ingest::NDNP::PageIngester.new(
             page_data,
             @target,
             @opts

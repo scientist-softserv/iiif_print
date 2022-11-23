@@ -1,17 +1,17 @@
 require 'spec_helper'
 require 'mini_magick'
 
-RSpec.describe NewspaperWorks::Ingest::PdfPages do
+RSpec.describe IiifPrint::Ingest::PdfPages do
   let(:sample1) do
-    base = Pathname.new(NewspaperWorks::GEM_PATH).join('spec/fixtures/files')
+    base = Pathname.new(IiifPrint::GEM_PATH).join('spec/fixtures/files')
     base.join('sample-4page-issue.pdf').to_s
   end
   let(:sample2) do
-    base = Pathname.new(NewspaperWorks::GEM_PATH).join('spec/fixtures/files')
+    base = Pathname.new(IiifPrint::GEM_PATH).join('spec/fixtures/files')
     base.join('sample-color-newsletter.pdf').to_s
   end
   let(:sample3) do
-    base = Pathname.new(NewspaperWorks::GEM_PATH).join('spec/fixtures/files')
+    base = Pathname.new(IiifPrint::GEM_PATH).join('spec/fixtures/files')
     base.join('ndnp-sample1.pdf').to_s
   end
   let(:onebitpages) { described_class.new(sample1) }
@@ -21,7 +21,7 @@ RSpec.describe NewspaperWorks::Ingest::PdfPages do
   describe "implementation details" do
     it "pdfinfo gets PdfImages, memoized" do
       pdfimages = onebitpages.pdfinfo
-      expect(pdfimages).to be_a(NewspaperWorks::Ingest::PdfImages)
+      expect(pdfimages).to be_a(IiifPrint::Ingest::PdfImages)
       pdfimages2 = onebitpages.pdfinfo
       # same object, method only fetches once:
       expect(pdfimages2).to equal pdfimages

@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # hide Title, Container, and Issue objects if this is a keyword search
   # can be added to default_processor_chain in a SearchBuilder class
   module ExcludeModels

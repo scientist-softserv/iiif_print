@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
+RSpec.describe IiifPrint::Ingest::NDNP::BatchIngester do
   include_context "ndnp fixture setup"
 
   describe "adapter construction" do
     it "loads batch to operate on" do
       adapter = described_class.new(batch1)
-      expect(adapter.batch).to be_a NewspaperWorks::Ingest::NDNP::BatchXMLIngest
+      expect(adapter.batch).to be_a IiifPrint::Ingest::NDNP::BatchXMLIngest
       expect(adapter.batch.path).to eq adapter.path
     end
 
@@ -42,7 +42,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
       adapter = described_class.new(batch1)
       issue_ingest_call_count = 0
       # rubocop:disable RSpec/AnyInstance (we really need to stub this way)
-      allow_any_instance_of(NewspaperWorks::Ingest::NDNP::IssueIngester).to \
+      allow_any_instance_of(IiifPrint::Ingest::NDNP::IssueIngester).to \
         receive(:ingest) { issue_ingest_call_count += 1 }
       # rubocop:enable RSpec/AnyInstance
       expect_start_finish_logging(adapter)
@@ -55,13 +55,13 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
     def construct(args)
       described_class.from_command(
         args,
-        'rake newspaper_works:ingest_ndnp --'
+        'rake iiif_print:ingest_ndnp --'
       )
     end
 
     let(:fake_argv) do
       [
-        'newspaper_works:ingest_ndnp',
+        'iiif_print:ingest_ndnp',
         '--',
         "--path=#{batch1}"
       ]
@@ -69,7 +69,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
 
     let(:fake_argv2) do
       [
-        'newspaper_works:ingest_ndnp',
+        'iiif_print:ingest_ndnp',
         '--',
         "--path=#{batch1}",
         "--admin_set=admin_set/default",
@@ -96,7 +96,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
     it "creates ingester from command with dir path" do
       # command can accept a parent directory for batch:
       base_path = File.dirname(batch1)
-      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=#{base_path}"]
+      fake_argv = ['iiif_print:ingest_ndnp', '--', "--path=#{base_path}"]
       adapter = construct(fake_argv)
       expect(adapter).to be_a described_class
       # adapter.path is path to actual XML
@@ -104,7 +104,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
     end
 
     it "exits on file not found for batch" do
-      fake_argv = ['newspaper_works:ingest_ndnp', '--', "--path=123/45/5678"]
+      fake_argv = ['iiif_print:ingest_ndnp', '--', "--path=123/45/5678"]
       begin
         construct(fake_argv)
       rescue SystemExit => e
@@ -113,7 +113,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
     end
 
     it "exits on missing path for batch" do
-      fake_argv = ['newspaper_works:ingest_ndnp', '--']
+      fake_argv = ['iiif_print:ingest_ndnp', '--']
       begin
         construct(fake_argv)
       rescue SystemExit => e
@@ -122,7 +122,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::BatchIngester do
     end
 
     it "exits on unexpected arguments" do
-      fake_argv = ['newspaper_works:ingest_ndnp', '--', '--foo=bar']
+      fake_argv = ['iiif_print:ingest_ndnp', '--', '--foo=bar']
       expect { construct(fake_argv) }.to raise_error(
         OptionParser::InvalidOption
       )

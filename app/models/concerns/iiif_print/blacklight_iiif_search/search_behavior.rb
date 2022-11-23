@@ -1,5 +1,5 @@
 # customize behavior for IiifSearch
-module NewspaperWorks
+module IiifPrint
   module BlacklightIiifSearch
     module SearchBehavior
       ##

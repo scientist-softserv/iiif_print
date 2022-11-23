@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'tmpdir'
 
-describe NewspaperWorks::ImageTool do
-  let(:fixtures) { File.join(NewspaperWorks::GEM_PATH, 'spec/fixtures/files') }
+describe IiifPrint::ImageTool do
+  let(:fixtures) { File.join(IiifPrint::GEM_PATH, 'spec/fixtures/files') }
 
   # Image fixtures to test identification, metadata extraction for:
   let(:gray_jp2) { File.join(fixtures, 'ocr_gray.jp2') }
@@ -99,8 +99,8 @@ describe NewspaperWorks::ImageTool do
     end
 
     # Not yet supported to use this tool to make JP2, for now the only
-    #   component in NewspaperWorks doing that is
-    #   NewspaperWorks::JP2DerivativeService
+    #   component in IiifPrint doing that is
+    #   IiifPrint::JP2DerivativeService
     it "raises error on JP2 destination" do
       expect { described_class.new(gray_tiff).convert('out.jp2') }.to \
         raise_error(RuntimeError)

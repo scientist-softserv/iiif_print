@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::ChronAmPublicationInfo do
+RSpec.describe IiifPrint::Ingest::ChronAmPublicationInfo do
   let(:lccn1) { 'sn94051019' }
   let(:lccn2) { 'sn84038814' }
   let(:bad_lccn) { 'sn99999999' }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::TextExtraction::WordCoordsBuilder do
+RSpec.describe IiifPrint::TextExtraction::WordCoordsBuilder do
   let(:words) do
     [
       { word: "foo", coordinates: [1, 2, 3, 4] },

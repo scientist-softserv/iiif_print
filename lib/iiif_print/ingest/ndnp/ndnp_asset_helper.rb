@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       # Mixin for mets-specific XPath and traversal of issue/page data
@@ -9,7 +9,7 @@ module NewspaperWorks
         #   consuming class implements @target pointing to work asset
         #   consuming class implements @opts pointing to Hash
         def assign_administrative_metadata(work = nil)
-          NewspaperWorks::Ingest.assign_administrative_metadata(
+          IiifPrint::Ingest.assign_administrative_metadata(
             work || @target,
             @opts
           )

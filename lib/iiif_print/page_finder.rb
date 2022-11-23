@@ -1,5 +1,5 @@
 # useful methods for retrieving and ordering NewspaperPage objects
-module NewspaperWorks
+module IiifPrint
   module PageFinder
     ##
     # find all pages for an issue, return in order

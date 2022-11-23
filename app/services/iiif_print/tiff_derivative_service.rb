@@ -1,6 +1,6 @@
 require 'open3'
 
-module NewspaperWorks
+module IiifPrint
   class TIFFDerivativeService < NewspaperPageDerivativeService
     TARGET_EXT = 'tiff'.freeze
 

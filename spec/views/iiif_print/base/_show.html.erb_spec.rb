@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe 'newspaper_works/base/_show.html.erb', type: :view do
+RSpec.describe 'iiif_print/base/_show.html.erb', type: :view do
   let(:work_solr_document) do
     SolrDocument.new(id: '999',
                      title_tesim: ['My Title'],
@@ -55,24 +55,24 @@ RSpec.describe 'newspaper_works/base/_show.html.erb', type: :view do
     allow(view).to receive(:signed_in?)
     allow(view).to receive(:on_the_dashboard?).and_return(false)
     stub_template 'hyrax/base/_metadata.html.erb' => ''
-    stub_template 'newspaper_works/base/_relationships.html.erb' => ''
+    stub_template 'iiif_print/base/_relationships.html.erb' => ''
     stub_template 'hyrax/base/_show_actions.html.erb' => ''
-    stub_template 'newspaper_works/base/_social_media.html.erb' => ''
-    stub_template 'newspaper_works/base/_citations.html.erb' => ''
-    stub_template 'newspaper_works/base/_items.html.erb' => ''
-    stub_template 'newspaper_works/base/_representative_media.html.erb' => ''
-    stub_template 'newspaper_works/base/_workflow_actions_widget.html.erb' => ''
-    stub_template 'newspaper_works/base/_work_description.html.erb' => ''
-    stub_template 'newspaper_works/base/_work_type.html.erb' => ''
-    stub_template 'newspaper_works/base/_work_title.html.erb' => ''
+    stub_template 'iiif_print/base/_social_media.html.erb' => ''
+    stub_template 'iiif_print/base/_citations.html.erb' => ''
+    stub_template 'iiif_print/base/_items.html.erb' => ''
+    stub_template 'iiif_print/base/_representative_media.html.erb' => ''
+    stub_template 'iiif_print/base/_workflow_actions_widget.html.erb' => ''
+    stub_template 'iiif_print/base/_work_description.html.erb' => ''
+    stub_template 'iiif_print/base/_work_type.html.erb' => ''
+    stub_template 'iiif_print/base/_work_title.html.erb' => ''
     stub_template '_masthead.html.erb' => ''
-    stub_template 'newspaper_works/base/_newspaper_hierarchy.html.erb' => ''
+    stub_template 'iiif_print/base/_newspaper_hierarchy.html.erb' => ''
     assign(:presenter, presenter)
     # render template: 'hyrax/base/show.html.erb', layout: 'layouts/hyrax/1_column'
   end
 
   it 'shows the issue search form partial' do
     render
-    expect(rendered).to render_template(partial: 'newspaper_works/base/_newspaper_hierarchy')
+    expect(rendered).to render_template(partial: 'iiif_print/base/_newspaper_hierarchy')
   end
 end

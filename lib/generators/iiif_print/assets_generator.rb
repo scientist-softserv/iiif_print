@@ -1,6 +1,6 @@
 require 'rails/generators'
 
-module NewspaperWorks
+module IiifPrint
   class AssetsGenerator < Rails::Generators::Base
     desc "This generator installs the newspaper_works CSS assets into your application"
 

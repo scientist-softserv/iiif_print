@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::IndexesPlaceOfPublication do
+RSpec.describe IiifPrint::IndexesPlaceOfPublication do
   let(:ntitle) { NewspaperTitle.new }
   let(:test_indexer) { NewspaperTitleIndexer.new(ntitle) }
   let(:geonames_id) { '4950065' }

@@ -1,6 +1,6 @@
 require 'open3'
 
-module NewspaperWorks
+module IiifPrint
   class PDFDerivativeService < NewspaperPageDerivativeService
     TARGET_EXT = 'pdf'.freeze
 

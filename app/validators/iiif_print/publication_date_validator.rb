@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # validates that a properly formatted date has been entered
   class PublicationDateValidator < ActiveModel::Validator
     DATE_REGEX = /\A\d{4}-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1]))\z/

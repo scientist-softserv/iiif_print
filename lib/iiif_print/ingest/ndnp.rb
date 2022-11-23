@@ -12,7 +12,7 @@ require 'newspaper_works/ingest/ndnp/container_metadata'
 require 'newspaper_works/ingest/ndnp/batch_xml_ingest'
 require 'newspaper_works/ingest/ndnp/batch_ingester'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Module for NDNP-specific ingest components
     module NDNP

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'newspaper_works_fixtures'
 
-RSpec.describe NewspaperWorks::Ingest::BatchIssueIngester do
+RSpec.describe IiifPrint::Ingest::BatchIssueIngester do
   include_context "ingest test fixtures"
 
   # lccn, paths for respective media:
@@ -35,7 +35,7 @@ RSpec.describe NewspaperWorks::Ingest::BatchIssueIngester do
 
     it "constructs ingester with publication metadata" do
       ingester = described_class.new(pdf_path)
-      expect(ingester.publication).to be_a NewspaperWorks::Ingest::PublicationInfo
+      expect(ingester.publication).to be_a IiifPrint::Ingest::PublicationInfo
       expect(ingester.publication.lccn).to eq ingester.lccn
       expect(ingester.publication.title).to eq 'The weekly journal'
     end
@@ -54,7 +54,7 @@ RSpec.describe NewspaperWorks::Ingest::BatchIssueIngester do
       pdfs = Dir.entries(pdf_path).select { |name| name.end_with?('.pdf') }
       paths = pdfs.map { |name| File.join(pdf_path, name) }
       issues = ingester.issues
-      expect(issues).to be_a NewspaperWorks::Ingest::PDFIssues
+      expect(issues).to be_a IiifPrint::Ingest::PDFIssues
       expect(issues.size).to eq pdfs.size
       expect(issues.keys).to match_array paths
     end
@@ -65,7 +65,7 @@ RSpec.describe NewspaperWorks::Ingest::BatchIssueIngester do
                    .map { |name| File.join(tiff_path, name) }
                    .select { |v| !v.end_with?('.') && File.directory?(v) }
       issues = ingester.issues
-      expect(issues).to be_a NewspaperWorks::Ingest::ImageIngestIssues
+      expect(issues).to be_a IiifPrint::Ingest::ImageIngestIssues
       expect(issues.size).to eq 2
       expect(issues.keys).to match_array entries
     end

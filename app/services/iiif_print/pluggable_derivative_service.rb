@@ -1,4 +1,4 @@
-# General derivative service for NewspaperWorks, which is meant to wrap
+# General derivative service for IiifPrint, which is meant to wrap
 #   and replace the stock Hyrax::FileSetDerivativeService with a proxy
 #   that runs one or more derivative service "plugin" components.
 #
@@ -15,13 +15,13 @@
 #
 # This should be registered to take precedence over default by:
 #   Hyrax::DerivativeService.services.unshift(
-#     NewspaperWorks::PluggableDerivativeService
+#     IiifPrint::PluggableDerivativeService
 #   )
 #
-#   Modify NewspaperWorks::PluggableDerivativeService.plugins
+#   Modify IiifPrint::PluggableDerivativeService.plugins
 #   to add, remove, or reorder plugin (derivative service) classes.
 #
-class NewspaperWorks::PluggableDerivativeService
+class IiifPrint::PluggableDerivativeService
   attr_reader :file_set
   delegate :uri, :mime_type, to: :file_set
 
@@ -101,7 +101,7 @@ class NewspaperWorks::PluggableDerivativeService
   #   -- avoids stomping over pre-made derivative
   #      for which an attachment is still in-progress.
   def impending_derivative?(name)
-    result = NewspaperWorks::DerivativeAttachment.find_by(
+    result = IiifPrint::DerivativeAttachment.find_by(
       fileset_id: file_set.id,
       destination_name: name
     )

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe NewspaperWorks::Logging do
+describe IiifPrint::Logging do
   describe "mixin logging module" do
     let(:klass) do
       Class.new do
-        include NewspaperWorks::Logging
+        include IiifPrint::Logging
       end
     end
 

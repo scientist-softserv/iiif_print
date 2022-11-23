@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::NewspaperPageDerivativeService do
+RSpec.describe IiifPrint::NewspaperPageDerivativeService do
   let(:valid_file_set) do
     fs = FileSet.new
     work = NewspaperPage.new
@@ -23,7 +23,7 @@ RSpec.describe NewspaperWorks::NewspaperPageDerivativeService do
 
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 

@@ -1,9 +1,9 @@
 # indexes parent relationships e.g. issue->title, page->issue, etc
-module NewspaperWorks
+module IiifPrint
   module IndexesRelationships
     # index relationships
     #
-    # @param object [Newspaper*] an instance of a NewspaperWorks model
+    # @param object [Newspaper*] an instance of a IiifPrint model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_relationships(object, solr_doc)
       index_publication(object, solr_doc) unless object.is_a?(NewspaperTitle)
@@ -21,14 +21,14 @@ module NewspaperWorks
 
     # index the publication info
     #
-    # @param object [Newspaper*] an instance of a NewspaperWorks model
+    # @param object [Newspaper*] an instance of a IiifPrint model
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_publication(object, solr_doc)
       newspaper_title = object.publication
       return unless newspaper_title.is_a?(NewspaperTitle)
       solr_doc['publication_id_ssi'] = newspaper_title.id
       solr_doc['publication_title_ssi'] = newspaper_title.title.first
-      publication_unique_id = newspaper_title.send(NewspaperWorks.config.publication_unique_id_property)
+      publication_unique_id = newspaper_title.send(IiifPrint.config.publication_unique_id_property)
       solr_doc['publication_unique_id_ssi'] = publication_unique_id
       index_parent_facets(newspaper_title, solr_doc)
     end

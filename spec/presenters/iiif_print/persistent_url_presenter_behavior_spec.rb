@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::PersistentUrlPresenterBehavior do
+RSpec.describe IiifPrint::PersistentUrlPresenterBehavior do
   let(:request) { double(host: 'example.org') }
   let(:solr_document) { SolrDocument.new(id: 'abc123', lccn_tesim: ['sn1234567']) }
 

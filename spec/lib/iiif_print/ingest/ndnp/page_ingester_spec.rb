@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ndnp_shared'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
+RSpec.describe IiifPrint::Ingest::NDNP::PageIngester do
   include_context "ndnp fixture setup"
   include_context "shared setup"
 
@@ -11,7 +11,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
 
   # We need page source data as PageIngest
   let(:page_data) do
-    NewspaperWorks::Ingest::NDNP::PageIngest.new(issue1, 'pageModsBib8')
+    IiifPrint::Ingest::NDNP::PageIngest.new(issue1, 'pageModsBib8')
   end
 
   let(:metadata) { page_data.metadata }
@@ -90,7 +90,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
     end
 
     let(:issue_data) do
-      NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue2)
+      IiifPrint::Ingest::NDNP::IssueIngest.new(issue2)
     end
 
     let(:page_data) do
@@ -119,7 +119,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
     do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
 
     let(:issue_data) do
-      NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue2)
+      IiifPrint::Ingest::NDNP::IssueIngest.new(issue2)
     end
 
     let(:page_data_minus_tiff) { issue_data.to_a[0] }
@@ -164,7 +164,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::PageIngester do
       adapter.ingest
       page = adapter.target
       check_fileset(page)
-      derivatives = NewspaperWorks::Data::WorkDerivatives.new(page)
+      derivatives = IiifPrint::Data::WorkDerivatives.new(page)
       expect(derivatives.keys).to match_array ["jp2", "xml", "pdf"]
     end
 

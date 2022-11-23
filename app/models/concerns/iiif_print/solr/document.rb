@@ -1,4 +1,4 @@
-module NewspaperWorks::Solr::Document
+module IiifPrint::Solr::Document
   SOLR_NAMES = %w[alternative_title genre place_of_publication
                   issn lccn oclcnum held_by text_direction
                   page_number section author photographer

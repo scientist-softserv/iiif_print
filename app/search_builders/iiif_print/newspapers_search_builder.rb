@@ -2,7 +2,7 @@
 # this class is used to set params on the search that is performed to
 # display facet values on the Newspapers Search form,
 # NOT the search results when a user submits the form
-module NewspaperWorks
+module IiifPrint
   class NewspapersSearchBuilder < Hyrax::SearchBuilder
     self.default_processor_chain += [:facets_for_newspapers_search_form, :newspaper_pages_only]
 

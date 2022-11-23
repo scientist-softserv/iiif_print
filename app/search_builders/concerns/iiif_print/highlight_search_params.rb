@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # add highlighting on _stored_ full text field if this is a keyword search
   # can be added to default_processor_chain in a SearchBuilder class
   module HighlightSearchParams

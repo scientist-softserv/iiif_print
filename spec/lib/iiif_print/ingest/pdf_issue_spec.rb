@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PDFIssue do
+RSpec.describe IiifPrint::Ingest::PDFIssue do
   include_context 'ingest test fixtures'
 
   let(:lccn) { 'sn93059126' }
 
   let(:pdf_path) { File.join(pdf_fixtures, lccn, '1853060401.pdf') }
 
-  let(:publication) { NewspaperWorks::Ingest::PublicationInfo.new(lccn) }
+  let(:publication) { IiifPrint::Ingest::PublicationInfo.new(lccn) }
 
   describe "issue construction and metadata" do
     it "constructs with path and publication" do

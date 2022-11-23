@@ -1,10 +1,10 @@
-module NewspaperWorks
+module IiifPrint
   class NewspapersController < ApplicationController
     # Adds Hyrax behaviors to the controller.
     include Hyrax::WorksControllerBehavior
     include Hyrax::BreadcrumbsForWorks
 
-    include NewspaperWorks::PageFinder
+    include IiifPrint::PageFinder
 
     before_action :find_title
     before_action :find_issue, only: [:issue, :page]
@@ -64,7 +64,7 @@ module NewspaperWorks
     end
 
     def find_title
-      unique_id_field = NewspaperWorks.config.publication_unique_id_field
+      unique_id_field = IiifPrint.config.publication_unique_id_field
       solr_params = ["has_model_ssim:\"NewspaperTitle\""]
       solr_params << "#{unique_id_field}:\"#{params[:unique_id]}\""
       @title = find_object(solr_params.join(' AND '))

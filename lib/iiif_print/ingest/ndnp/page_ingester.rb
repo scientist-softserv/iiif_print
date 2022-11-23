@@ -1,11 +1,11 @@
 require 'newspaper_works/logging'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class PageIngester
-        include NewspaperWorks::Logging
-        include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
+        include IiifPrint::Logging
+        include IiifPrint::Ingest::NDNP::NDNPAssetHelper
 
         attr_accessor :page, :issue, :target, :opts
 
@@ -22,7 +22,7 @@ module NewspaperWorks
           :identifier
         ].freeze
 
-        # @param page [NewspaperWorks::Ingest::NDNP::PageIngest]
+        # @param page [IiifPrint::Ingest::NDNP::PageIngest]
         #   source page data
         # @param issue [NewspaperIssue]
         #   source issue data
@@ -58,11 +58,11 @@ module NewspaperWorks
         end
 
         # Ingest primary, derivative files; other derivatives including
-        #   thumbnail, plain-text, json will be made by NewspaperWorks
+        #   thumbnail, plain-text, json will be made by IiifPrint
         #   derivative service components as a consequence of commiting
         #   files assigned (via actor stack, via WorkFiles).
         def ingest_page_files
-          @work_files = NewspaperWorks::Data::WorkFiles.new(@target)
+          @work_files = IiifPrint::Data::WorkFiles.new(@target)
           page.files.each do |path|
             ext = path.downcase.split('.')[-1]
             if ['tif', 'tiff'].include?(ext)
@@ -79,7 +79,7 @@ module NewspaperWorks
         def link_reel
           reel_data = @page.container
           return if reel_data.nil?
-          ingester = NewspaperWorks::Ingest::NDNP::ContainerIngester.new(
+          ingester = IiifPrint::Ingest::NDNP::ContainerIngester.new(
             reel_data,
             issue.publication,
             @opts
@@ -131,7 +131,7 @@ module NewspaperWorks
             Logger::WARN
           )
           whitelist.push(Dir.tmpdir) unless whitelist.include?(Dir.tmpdir)
-          NewspaperWorks::Ingest::PdfPages.new(pdf_path).to_a[0]
+          IiifPrint::Ingest::PdfPages.new(pdf_path).to_a[0]
         end
 
         # Page title as issue title plus page title

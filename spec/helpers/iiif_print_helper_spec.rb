@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorksHelper do
+RSpec.describe IiifPrintHelper do
   let(:query_term) { 'suffrage' }
   let(:query_params_hash) { { q: query_term } }
   let(:document) { build(:newspaper_page_solr_document) }

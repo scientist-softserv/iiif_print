@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::BlacklightIiifSearch::AnnotationBehavior do
+RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationBehavior do
   let(:page_document) { build(:newspaper_page_solr_document) }
   let(:controller) { CatalogController.new }
   let(:coordinates) do

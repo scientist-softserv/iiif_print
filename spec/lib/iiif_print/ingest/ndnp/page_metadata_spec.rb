@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::PageMetadata do
+RSpec.describe IiifPrint::Ingest::NDNP::PageMetadata do
   include_context "ndnp fixture setup"
 
   describe "sample fixture 'batch_local'" do

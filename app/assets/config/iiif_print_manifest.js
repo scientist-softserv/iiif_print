@@ -1,2 +1,2 @@
-//= link_directory ../javascripts/newspaper_works .js
-//= link_directory ../stylesheets/newspaper_works .css
+//= link_directory ../javascripts/iiif_print .js
+//= link_directory ../stylesheets/iiif_print .css

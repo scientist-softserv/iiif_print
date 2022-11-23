@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PubFinder do
+RSpec.describe IiifPrint::Ingest::PubFinder do
   describe "mixin publication find-or-create module" do
     let(:klass) do
       Class.new do
-        include NewspaperWorks::Ingest::PubFinder
+        include IiifPrint::Ingest::PubFinder
       end
     end
 

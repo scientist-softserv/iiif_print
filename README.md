@@ -1,7 +1,7 @@
-NewspaperWorks
+IiifPrint
 ===================================================
 Code:
-[![Build Status](https://travis-ci.org/samvera-labs/newspaper_works.svg?branch=master)](https://travis-ci.org/samvera-labs/newspaper_works) [![Coverage Status](https://coveralls.io/repos/github/samvera-labs/newspaper_works/badge.svg?branch=master)](https://coveralls.io/github/samvera-labs/newspaper_works?branch=master)
+[![Build Status](https://travis-ci.org/samvera-labs/iiif_print.svg?branch=master)](https://travis-ci.org/samvera-labs/iiif_print) [![Coverage Status](https://coveralls.io/repos/github/samvera-labs/iiif_print/badge.svg?branch=master)](https://coveralls.io/github/samvera-labs/iiif_print?branch=master)
 
 Docs:
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
@@ -30,11 +30,11 @@ Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samv
 <!-- /TOC -->
 
 # Overview
-NewspaperWorks is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/) -based digital repository applications to support ingest, management, and display of digitized newspaper content.
+IiifPrint is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/) -based digital repository applications to support ingest, management, and display of digitized newspaper content.
 
-NewspaperWorks is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (v2.5-v2.9.4) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
+IiifPrint is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (v2.5-v2.9.4) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
 
-NewspaperWorks supports:
+IiifPrint supports:
 * models for Title, Issue, Page, and Article
 * batch ingest via command line
 * OCR and ALTO creation
@@ -45,10 +45,10 @@ NewspaperWorks supports:
 * OCR keyword match highlighting
 * viewer with page navigation and deep zooming
 
-A complete list of features can be found [here](https://github.com/samvera-labs/newspaper_works/wiki/Features-List).
+A complete list of features can be found [here](https://github.com/samvera-labs/iiif_print/wiki/Features-List).
 
 ## Documentation
-A set of helpful documents to help you learn more and deploy NewspaperWorks can be found on the [Project Wiki](https://github.com/samvera-labs/newspaper_works/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
+A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/samvera-labs/iiif_print/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
 
 ## Requirements
 
@@ -71,14 +71,14 @@ A set of helpful documents to help you learn more and deploy NewspaperWorks can 
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
   * [libgbm1](https://packages.debian.org/sid/libgbm1)
 
-See the [wiki](https://github.com/samvera-labs/newspaper_works/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
+See the [wiki](https://github.com/samvera-labs/iiif_print/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
 
 # Installation
-NewspaperWorks easily integrates with your Hyrax 2.x applications.
+IiifPrint easily integrates with your Hyrax 2.x applications.
 
-* Add `gem 'newspaper_works'` to your Gemfile.
+* Add `gem 'iiif_print'` to your Gemfile.
 * Run `bundle install`
-* Run `rails generate newspaper_works:install`
+* Run `rails generate iiif_print:install`
 * Set config options as indicated below...
 
 ## Application/Site Specific Configuration
@@ -106,11 +106,11 @@ NewspaperWorks easily integrates with your Hyrax 2.x applications.
 
 # Ingesting Content
 
-NewspaperWorks supports a range of different ingest workflows:
+IiifPrint supports a range of different ingest workflows:
 * single-item ingest via the UI
-* batch ingest of [NDNP materials](https://github.com/samvera-labs/newspaper_works/wiki/NDNP-Batch-Ingest-Guide) (page-level digitization) via command line
-* batch ingest of [PDF issues](https://github.com/samvera-labs/newspaper_works/wiki/PDF-Batch-Ingest-Guide) via command line
-* batch ingest of [TIFF or JP2 master files](https://github.com/samvera-labs/newspaper_works/wiki/TIFF-or-JP2-Batch-Ingest-Guide) via command line
+* batch ingest of [NDNP materials](https://github.com/samvera-labs/iiif_print/wiki/NDNP-Batch-Ingest-Guide) (page-level digitization) via command line
+* batch ingest of [PDF issues](https://github.com/samvera-labs/iiif_print/wiki/PDF-Batch-Ingest-Guide) via command line
+* batch ingest of [TIFF or JP2 master files](https://github.com/samvera-labs/iiif_print/wiki/TIFF-or-JP2-Batch-Ingest-Guide) via command line
 
 The ingest process creates a full complement of derivatives for each Page object, including:
 * TIFF
@@ -119,15 +119,15 @@ The ingest process creates a full complement of derivatives for each Page object
 * OCR text
 * word-coordinate JSON
 
-For more information on derivatives, see the [wiki](https://github.com/samvera-labs/newspaper_works/wiki/Image-Format-and-Derivative-Notes).
+For more information on derivatives, see the [wiki](https://github.com/samvera-labs/iiif_print/wiki/Image-Format-and-Derivative-Notes).
 
 # Developing, Testing, and Contributing
 
-Detailed information regarding development and testing environments setup and configuration can be found [here](https://github.com/samvera-labs/newspaper_works/wiki/Installing,-Developing,-and-Testing)
+Detailed information regarding development and testing environments setup and configuration can be found [here](https://github.com/samvera-labs/iiif_print/wiki/Installing,-Developing,-and-Testing)
 
-A Vagrant VM is available for users and developers to quickly and easily deploy the latest NewspaperWorks codebase using Vagrant and VirtualBox. See [samvera-newspapers-vagrant](https://github.com/samvera-labs/samvera-newspapers-vagrant) for more.
+A Vagrant VM is available for users and developers to quickly and easily deploy the latest IiifPrint codebase using Vagrant and VirtualBox. See [samvera-newspapers-vagrant](https://github.com/samvera-labs/samvera-newspapers-vagrant) for more.
 
-Additionally, the [NewspaperWorks Demo Site](https://newspaperworks.digitalnewspapers.org/) is available for those interested in testing out NewspaperWorks as deployed in a vanilla Hyrax application. (**NOTE:** The demo site may not be running the latest release of NewspaperWorks.)
+Additionally, the [IiifPrint Demo Site](https://newspaperworks.digitalnewspapers.org/) is available for those interested in testing out IiifPrint as deployed in a vanilla Hyrax application. (**NOTE:** The demo site may not be running the latest release of IiifPrint.)
 
 ## Contributing
 

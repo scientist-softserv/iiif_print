@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module NewspaperWorks
+module IiifPrint
   RSpec.describe IngestFileRelation, type: :model do
     def make_test_records
       # two unique values

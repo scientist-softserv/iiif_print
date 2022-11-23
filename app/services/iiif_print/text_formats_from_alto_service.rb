@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # Plugin to make text format derviatives (JSON, plain-text) from ALTO,
   #   either existing derivative, or an impending attachment.
   #   NOTE: to keep this from conflicting with TextExtractionDerivativeService,
@@ -29,7 +29,7 @@ module NewspaperWorks
     # if there was no derivative yet, there might be one in-transit from
     #   an ingest, so check for that, and use its source if applicable:
     def incoming_alto_path
-      path = NewspaperWorks::DerivativeAttachment.where(
+      path = IiifPrint::DerivativeAttachment.where(
         fileset_id: @file_set.id,
         destination_name: 'xml'
       ).pluck(:path).uniq.first
@@ -60,7 +60,7 @@ module NewspaperWorks
       width = file.nil? ? nil : file.width[0].to_i
       height = file.nil? ? nil : file.height[0].to_i
       # ALTOReader is responsible for transcoding, this class just saves result
-      reader = NewspaperWorks::TextExtraction::AltoReader.new(
+      reader = IiifPrint::TextExtraction::AltoReader.new(
         source_file,
         width,
         height
@@ -70,7 +70,7 @@ module NewspaperWorks
     end
 
     def cleanup_derivatives(*args)
-      # do nothing here; NewspaperWorks::TextExtractionDerivativeService
+      # do nothing here; IiifPrint::TextExtractionDerivativeService
       # has this job instead for cleaning ALTO, JSON, TXT.
     end
   end

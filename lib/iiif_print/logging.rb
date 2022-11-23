@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Logging
     class << self
       attr_accessor :configured
@@ -39,7 +39,7 @@ module NewspaperWorks
     #   has checks to prevent duplicate configuration if already configured.
     def configure_logger(name)
       @logger = Rails.logger
-      return if NewspaperWorks::Logging.configured.include?(name)
+      return if IiifPrint::Logging.configured.include?(name)
       path = Rails.root.join("log/#{name}.log")
       @named_log = ActiveSupport::Logger.new(path)
       @named_log.formatter = proc do |_severity, datetime, _progname, msg|
@@ -48,7 +48,7 @@ module NewspaperWorks
       # rails will log to named_log in addition to any other configured
       #   or default logging destinations:
       @logger.extend(ActiveSupport::Logger.broadcast(@named_log))
-      NewspaperWorks::Logging.configured.push(name)
+      IiifPrint::Logging.configured.push(name)
     end
   end
 end

@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   class NewspaperCoreFormData < Hyrax::Forms::WorkForm
     self.terms += [:resource_type, :place_of_publication, :issn, :lccn,
                    :oclcnum, :held_by]

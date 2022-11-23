@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 # Core Metadata Spec Tests
-RSpec.describe NewspaperWorks::PlaceOfPublicationBehavior do
+RSpec.describe IiifPrint::PlaceOfPublicationBehavior do
   class NewspaperishWork < ActiveFedora::Base
     include ::Hyrax::WorkBehavior
-    include NewspaperWorks::NewspaperCoreMetadata
+    include IiifPrint::NewspaperCoreMetadata
     include ::Hyrax::BasicMetadata
-    include NewspaperWorks::PlaceOfPublicationBehavior
+    include IiifPrint::PlaceOfPublicationBehavior
   end
 
   let(:work) { NewspaperishWork.new }

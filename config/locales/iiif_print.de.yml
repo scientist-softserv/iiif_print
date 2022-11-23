@@ -1,6 +1,6 @@
 ---
 de:
-  newspaper_works:
+  iiif_print:
     attributes:
       held_by:
         label: 'Halteort'

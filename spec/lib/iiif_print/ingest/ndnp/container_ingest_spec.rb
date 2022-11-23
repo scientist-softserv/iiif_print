@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngest do
+RSpec.describe IiifPrint::Ingest::NDNP::ContainerIngest do
   include_context "ndnp fixture setup"
 
   describe "sample fixture 'batch_test_ver01'" do
@@ -9,7 +9,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngest do
 
     it "gets metadata" do
       expect(reel.metadata).to be_a \
-        NewspaperWorks::Ingest::NDNP::ContainerMetadata
+        IiifPrint::Ingest::NDNP::ContainerMetadata
       # uses same Nokogiri document context:
       expect(reel.metadata.doc).to be reel.doc
       # has identifier method equivalent to reel number
@@ -18,7 +18,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngest do
 
     it "gets control image as PageIngest, by dmdid" do
       page = reel.page_by_dmdid('targetModsBib1')
-      expect(page).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
+      expect(page).to be_a IiifPrint::Ingest::NDNP::PageIngest
       expect(page.dmdid).to eq 'targetModsBib1'
     end
 
@@ -31,7 +31,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerIngest do
       # enumerate by casting reel to Array
       issues = reel.to_a
       expect(issues.size).to eq 2
-      expect(issues[0]).to be_a NewspaperWorks::Ingest::NDNP::IssueIngest
+      expect(issues[0]).to be_a IiifPrint::Ingest::NDNP::IssueIngest
       expect(issues[0].path).to eq reel.issue_paths[0]
     end
 

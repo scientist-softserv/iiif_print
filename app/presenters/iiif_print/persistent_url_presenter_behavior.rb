@@ -1,5 +1,5 @@
 # mixin to provide persistent URL methods
-module NewspaperWorks
+module IiifPrint
   module PersistentUrlPresenterBehavior
     # Default for NewspaperContainer and NewspaperArticle,
     # since we don't support ChronAm-style URLs for those object types.

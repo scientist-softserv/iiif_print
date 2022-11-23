@@ -1,10 +1,10 @@
-module NewspaperWorks
-  # generic/base NewspaperWorks-specific exception:
-  class NewspaperWorksError < StandardError
+module IiifPrint
+  # generic/base IiifPrint-specific exception:
+  class IiifPrintError < StandardError
   end
 
   # Data transformation or read-error:
-  class DataError < NewspaperWorksError
+  class DataError < IiifPrintError
   end
 
   # Specific exception for temporary state where one or more PDF page source

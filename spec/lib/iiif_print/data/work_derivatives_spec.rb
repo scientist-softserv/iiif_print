@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Data::WorkDerivatives do
+RSpec.describe IiifPrint::Data::WorkDerivatives do
   include_context "shared setup"
 
   let(:bare_work) do
@@ -190,7 +190,7 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
 
     it "persists log of attachment to RDBMS" do
       adapter.assign(txt1.path)
-      result = NewspaperWorks::DerivativeAttachment.find_by(
+      result = IiifPrint::DerivativeAttachment.find_by(
         fileset_id: adapter.fileset.id,
         path: txt1.path,
         destination_name: 'txt'
@@ -201,11 +201,11 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
     it "persists a log of path relation to primary file" do
       # this is an integration test by practical necessity, with
       #   WorkFiles adapting a bare work with no fileset.
-      work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
+      work_files = IiifPrint::Data::WorkFiles.of(bare_work)
       work_files.assign(example_gray_jp2)
       adapter = work_files.derivatives
       adapter.assign(txt1.path)
-      result = NewspaperWorks::IngestFileRelation.find_by(
+      result = IiifPrint::IngestFileRelation.find_by(
         derivative_path: txt1.path,
         file_path: example_gray_jp2
       )
@@ -213,8 +213,8 @@ RSpec.describe NewspaperWorks::Data::WorkDerivatives do
     end
 
     it "commits queued derivatives" do
-      NewspaperWorks::IngestFileRelation.where(file_path: example_gray_jp2).delete_all
-      work_files = NewspaperWorks::Data::WorkFiles.of(bare_work)
+      IiifPrint::IngestFileRelation.where(file_path: example_gray_jp2).delete_all
+      work_files = IiifPrint::Data::WorkFiles.of(bare_work)
       work_files.assign(example_gray_jp2)
       adapter = work_files.derivatives
       adapter.assign(txt1.path)

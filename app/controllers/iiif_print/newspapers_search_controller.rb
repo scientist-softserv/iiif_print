@@ -1,8 +1,8 @@
 # based heavily on BlacklightAdvancedSearch::AdvancedController
-module NewspaperWorks
+module IiifPrint
   class NewspapersSearchController < CatalogController
     def search_builder_class
-      NewspaperWorks::NewspapersSearchBuilder
+      IiifPrint::NewspapersSearchBuilder
     end
 
     def search

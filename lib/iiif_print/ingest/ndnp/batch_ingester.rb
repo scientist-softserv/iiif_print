@@ -2,12 +2,12 @@ require 'date'
 require 'find'
 require 'optparse'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class BatchIngester
-        extend NewspaperWorks::Ingest::FromCommand
-        include NewspaperWorks::Logging
+        extend IiifPrint::Ingest::FromCommand
+        include IiifPrint::Logging
 
         attr_accessor :path, :batch, :opts
 
@@ -48,11 +48,11 @@ module NewspaperWorks
 
           # Return BatchIngest object as enumerable of issues:
         def batch_enumerator
-          NewspaperWorks::Ingest::NDNP::BatchXMLIngest.new(path)
+          IiifPrint::Ingest::NDNP::BatchXMLIngest.new(path)
         end
 
         def issue_ingester(issue)
-          NewspaperWorks::Ingest::NDNP::IssueIngester.new(issue, @opts)
+          IiifPrint::Ingest::NDNP::IssueIngester.new(issue, @opts)
         end
 
         def normalize_date(v)

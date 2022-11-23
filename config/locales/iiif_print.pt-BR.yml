@@ -1,6 +1,6 @@
 ---
 pt-BR:
-  newspaper_works:
+  iiif_print:
     attributes:
       held_by:
         label: 'Segurando localização'

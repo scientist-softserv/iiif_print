@@ -1,8 +1,8 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class IssueMetadata
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :path, :doc, :parent
 

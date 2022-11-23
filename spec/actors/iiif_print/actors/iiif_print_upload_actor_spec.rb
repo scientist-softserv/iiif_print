@@ -2,7 +2,7 @@ require 'faraday'
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::Actors::NewspaperWorksUploadActor, :perform_enqueued do
+RSpec.describe IiifPrint::Actors::IiifPrintUploadActor, :perform_enqueued do
   include_context 'shared setup'
 
   let(:issue) { build(:newspaper_issue) }
@@ -36,7 +36,7 @@ RSpec.describe NewspaperWorks::Actors::NewspaperWorksUploadActor, :perform_enque
 
   describe "NewspaperIssue upload of PDF" do
     do_now_jobs = [
-      NewspaperWorks::CreateIssuePagesJob,
+      IiifPrint::CreateIssuePagesJob,
       IngestLocalFileJob,
       IngestJob
     ]

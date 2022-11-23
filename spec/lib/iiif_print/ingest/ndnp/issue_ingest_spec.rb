@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
+RSpec.describe IiifPrint::Ingest::NDNP::IssueIngest do
   include_context "ndnp fixture setup"
 
   describe "sample fixture 'batch_local'" do
     let(:issue) { described_class.new(issue1) }
 
     it "gets metadata" do
-      expect(issue.metadata).to be_a NewspaperWorks::Ingest::NDNP::IssueMetadata
+      expect(issue.metadata).to be_a IiifPrint::Ingest::NDNP::IssueMetadata
       # uses same Nokogiri document context:
       expect(issue.metadata.doc).to be issue.doc
       # has identifier method equivalent to lccn
@@ -22,7 +22,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
 
     it "gets page by dmdid" do
       page = issue.page_by_dmdid('pageModsBib8')
-      expect(page).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
+      expect(page).to be_a IiifPrint::Ingest::NDNP::PageIngest
       expect(page.metadata.page_sequence_number).to eq 1
       expect(page.dmdid).to eq 'pageModsBib8'
     end
@@ -45,7 +45,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
       # enumerate by casting issue to Array
       pages = issue.to_a
       expect(pages.size).to eq 2
-      expect(pages[0]).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
+      expect(pages[0]).to be_a IiifPrint::Ingest::NDNP::PageIngest
       expect(pages[0].metadata.page_sequence_number).to eq 1
     end
 
@@ -61,12 +61,12 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
 
     it "gets a ContainerIngest for reel providing issue" do
       reel = issue.container
-      expect(reel).to be_a NewspaperWorks::Ingest::NDNP::ContainerIngest
+      expect(reel).to be_a IiifPrint::Ingest::NDNP::ContainerIngest
       expect(reel.path).to end_with '_1.xml'
     end
 
     it "gets metadata" do
-      expect(issue.metadata).to be_a NewspaperWorks::Ingest::NDNP::IssueMetadata
+      expect(issue.metadata).to be_a IiifPrint::Ingest::NDNP::IssueMetadata
       # uses same Nokogiri document context:
       expect(issue.metadata.doc).to be issue.doc
       # has identifier method equivalent to lccn
@@ -75,7 +75,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
 
     it "gets page by dmdid" do
       page = issue.page_by_dmdid('pageModsBib1')
-      expect(page).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
+      expect(page).to be_a IiifPrint::Ingest::NDNP::PageIngest
       expect(page.metadata.page_sequence_number).to eq 1
       expect(page.dmdid).to eq 'pageModsBib1'
     end
@@ -95,7 +95,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngest do
       # enumerate by casting issue to Array
       pages = issue.to_a
       expect(pages.size).to eq 1
-      expect(pages[0]).to be_a NewspaperWorks::Ingest::NDNP::PageIngest
+      expect(pages[0]).to be_a IiifPrint::Ingest::NDNP::PageIngest
       expect(pages[0].metadata.page_sequence_number).to eq 1
     end
 

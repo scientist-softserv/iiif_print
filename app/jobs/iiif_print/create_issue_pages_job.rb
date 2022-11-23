@@ -1,6 +1,6 @@
-module NewspaperWorks
+module IiifPrint
   # Create child page works for issue
-  class CreateIssuePagesJob < NewspaperWorks::ApplicationJob
+  class CreateIssuePagesJob < IiifPrint::ApplicationJob
     def perform(work, pdf_paths, user, admin_set_id)
       # we will need depositor set on work, if it is nil
       work.depositor ||= user
@@ -8,7 +8,7 @@ module NewspaperWorks
       work.admin_set_id ||= admin_set_id
       # create child pages for each page within each PDF uploaded:
       pdf_paths.each do |path|
-        adapter = NewspaperWorks::Ingest::NewspaperIssueIngest.new(work)
+        adapter = IiifPrint::Ingest::NewspaperIssueIngest.new(work)
         adapter.load(path)
         adapter.create_child_pages
       end

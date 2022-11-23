@@ -2,11 +2,11 @@
 
 require 'hyrax'
 
-module NewspaperWorks
+module IiifPrint
   module Data
     # WorkFile is a read-only convenience wrapper for just-in-time
     #   file operations, and is the type of values returned by
-    #   NewspaperWorks::Data::WorkFiles (container) adapter.
+    #   IiifPrint::Data::WorkFiles (container) adapter.
     class WorkFile
       # accessors for adaptation relationships:
       attr_accessor :work, :parent, :fileset
@@ -72,9 +72,9 @@ module NewspaperWorks
       end
 
       # Derivatives for fileset associated with this primary file object
-      # @return [NewspaperWorks::Data::WorkDerviatives] derivatives adapter
+      # @return [IiifPrint::Data::WorkDerviatives] derivatives adapter
       def derivatives
-        NewspaperWorks::Data::WorkDerivatives.of(work, fileset, self)
+        IiifPrint::Data::WorkDerivatives.of(work, fileset, self)
       end
 
       private

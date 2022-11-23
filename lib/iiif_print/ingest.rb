@@ -23,7 +23,7 @@ require 'newspaper_works/ingest/ndnp'
 require 'newspaper_works/ingest/newspaper_page_ingest'
 require 'newspaper_works/ingest/newspaper_issue_ingest'
 
-module NewspaperWorks
+module IiifPrint
   # Module for Ingest adapters that import files into model objects
   module Ingest
     # Get Geonames URI for closest place match
@@ -39,7 +39,7 @@ module NewspaperWorks
       query = URI.encode(place_name)
       geo_qs = "q=#{query}&username=#{username}"
       url = "http://api.geonames.org/search?#{geo_qs}"
-      resp = NewspaperWorks::ResourceFetcher.get url
+      resp = IiifPrint::ResourceFetcher.get url
       doc = Nokogiri.XML(resp['body'])
       geonames_id = doc.xpath('//geonames/geoname[1]/geonameId').first
       return if geonames_id.nil?
@@ -57,7 +57,7 @@ module NewspaperWorks
     # Get publication metadata from LC catalog MODS data, if available,
     #   and from ChronAm, as a fallback.
     # @param lccn [String] Library of Congress Control number for publication
-    # @return [NewspaperWorks::Ingest::PublicationInfo] proxy to metadata
+    # @return [IiifPrint::Ingest::PublicationInfo] proxy to metadata
     #   source, an object for accessors for publication fields.
     def self.publication_metadata(lccn)
       PublicationInfo.new(lccn)

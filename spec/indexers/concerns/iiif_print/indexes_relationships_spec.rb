@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'model_shared'
 
-RSpec.describe NewspaperWorks::IndexesRelationships do
+RSpec.describe IiifPrint::IndexesRelationships do
   # use an instance var so we can create fixtures only once
   before(:all) { @page_for_indexrel, @page2 = model_fixtures(:newspaper_pages) }
   let(:page_indexer) { NewspaperPageIndexer.new(@page_for_indexrel) }

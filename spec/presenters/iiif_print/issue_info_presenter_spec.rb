@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::IssueInfoPresenter do
+RSpec.describe IiifPrint::IssueInfoPresenter do
   let(:solr_document) { SolrDocument.new(attributes) }
   let(:attributes) do
     {

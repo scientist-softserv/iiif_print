@@ -1,8 +1,8 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class ImageIngestIssues
       include Enumerable
-      include NewspaperWorks::Ingest::PathEnumeration
+      include IiifPrint::Ingest::PathEnumeration
 
       attr_accessor :path, :publication
 
@@ -29,7 +29,7 @@ module NewspaperWorks
       end
 
       def info(path)
-        NewspaperWorks::Ingest::IssueImages.new(path, @publication)
+        IiifPrint::Ingest::IssueImages.new(path, @publication)
       end
 
       private

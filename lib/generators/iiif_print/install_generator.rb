@@ -1,6 +1,6 @@
 require 'rails/generators'
 
-module NewspaperWorks
+module IiifPrint
   # Install Generator Class
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
@@ -20,7 +20,7 @@ module NewspaperWorks
           "  config.register_curation_concern :newspaper_title\n" \
           "  config.callback.set(:after_create_fileset) do |file_set, user|\n" \
           "    require 'newspaper_works'\n" \
-          "    NewspaperWorks::Data.handle_after_create_fileset(file_set, user)\n" \
+          "    IiifPrint::Data.handle_after_create_fileset(file_set, user)\n" \
           "  end\n" \
           "  #== END GENERATED newspaper_works CONFIG ==\n\n"
       end
@@ -29,14 +29,14 @@ module NewspaperWorks
     def inject_routes
       inject_into_file 'config/routes.rb',
                        after: "Rails.application.routes.draw do\n" do
-        "\n  mount NewspaperWorks::Engine => '/'\n"
+        "\n  mount IiifPrint::Engine => '/'\n"
       end
     end
 
     def add_solr_doc
       inject_into_file 'app/models/solr_document.rb',
                        after: "include Hyrax::SolrDocumentBehavior" do
-        "\n  include NewspaperWorks::Solr::Document\n"
+        "\n  include IiifPrint::Solr::Document\n"
       end
     end
 

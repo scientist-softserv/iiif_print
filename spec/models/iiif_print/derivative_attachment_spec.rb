@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module NewspaperWorks
+module IiifPrint
   RSpec.describe DerivativeAttachment, type: :model do
     it "requires some columns to be considered complete" do
       model = described_class.create

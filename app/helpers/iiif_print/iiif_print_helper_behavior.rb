@@ -1,5 +1,5 @@
-module NewspaperWorks
-  module NewspaperWorksHelperBehavior
+module IiifPrint
+  module IiifPrintHelperBehavior
     ##
     # create link anchor to be read by UniversalViewer
     # in order to show keyword search

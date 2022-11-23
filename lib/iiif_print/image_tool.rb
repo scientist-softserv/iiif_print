@@ -1,7 +1,7 @@
 require 'open3'
 require 'tmpdir'
 
-module NewspaperWorks
+module IiifPrint
   class ImageTool
     attr_accessor :path, :ftype
 
@@ -54,7 +54,7 @@ module NewspaperWorks
     end
 
     def jp2_metadata
-      result = NewspaperWorks::JP2ImageMetadata.new(path).technical_metadata
+      result = IiifPrint::JP2ImageMetadata.new(path).technical_metadata
       result[:content_type] = 'image/jp2'
       result
     end

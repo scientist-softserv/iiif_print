@@ -1,5 +1,5 @@
 # module comment...
-module NewspaperWorks
+module IiifPrint
   # core metadata for newspaper models
   module NewspaperCoreMetadata
     extend ActiveSupport::Concern

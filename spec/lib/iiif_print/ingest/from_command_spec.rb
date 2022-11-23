@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'newspaper_works_fixtures'
 
-RSpec.describe NewspaperWorks::Ingest::FromCommand do
+RSpec.describe IiifPrint::Ingest::FromCommand do
   include_context "ingest test fixtures"
 
   describe "alternate construction" do
     let(:klass) do
       Class.new do
-        extend NewspaperWorks::Ingest::FromCommand
+        extend IiifPrint::Ingest::FromCommand
 
         attr_accessor :path, :opts
 
@@ -21,7 +21,7 @@ RSpec.describe NewspaperWorks::Ingest::FromCommand do
     def construct(args)
       klass.from_command(
         args,
-        'rake newspaper_works:ingest_pdf_issues --'
+        'rake iiif_print:ingest_pdf_issues --'
       )
     end
 
@@ -31,7 +31,7 @@ RSpec.describe NewspaperWorks::Ingest::FromCommand do
 
     let(:fake_argv) do
       [
-        'newspaper_works:ingest_pdf_issues',
+        'iiif_print:ingest_pdf_issues',
         '--',
         "--path=#{pdf_path}"
       ]

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::IndexesPublicationDateRange do
+RSpec.describe IiifPrint::IndexesPublicationDateRange do
   let(:ntitle) { NewspaperTitle.new }
   let(:test_indexer) { NewspaperTitleIndexer.new(ntitle) }
   let(:solr_doc) { {} }

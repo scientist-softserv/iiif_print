@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NewspaperWorks::ResourceFetcher do
+describe IiifPrint::ResourceFetcher do
   describe "cache hit and expiration handling" do
     cached_time_url1 = 0
     cached_time_url2 = 0

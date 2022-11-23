@@ -1,5 +1,5 @@
-module NewspaperWorks
+module IiifPrint
   module NewspapersHelper
-    include NewspaperWorks::BreadcrumbHelper
+    include IiifPrint::BreadcrumbHelper
   end
 end

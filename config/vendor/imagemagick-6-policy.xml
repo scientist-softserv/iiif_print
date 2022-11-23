@@ -48,7 +48,7 @@
     exceeds policy maximum so memory limit is 1GB).
   -->
 
-  <!-- NewspaperWorks: allow more than default Ubuntu policy, re: RAM, Disk -->
+  <!-- IiifPrint: allow more than default Ubuntu policy, re: RAM, Disk -->
   <policy domain="resource" name="memory" value="512MiB"/>
   <policy domain="resource" name="map" value="1GiB"/>
   <policy domain="resource" name="width" value="20KP"/>
@@ -71,6 +71,6 @@
   <policy domain="coder" rights="none" pattern="PS" />
   <policy domain="coder" rights="none" pattern="EPS" />
   <policy domain="coder" rights="none" pattern="XPS" />
-  <!-- NewspaperWorks: we need to allow PDF here -->
+  <!-- IiifPrint: we need to allow PDF here -->
   <!-- <policy domain="coder" rights="none" pattern="PDF" /> -->
 </policymap>

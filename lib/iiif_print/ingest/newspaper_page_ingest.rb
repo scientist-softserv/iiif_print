@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class NewspaperPageIngest < BaseIngest
     end

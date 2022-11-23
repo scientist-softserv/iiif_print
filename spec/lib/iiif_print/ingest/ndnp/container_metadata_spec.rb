@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::ContainerMetadata do
+RSpec.describe IiifPrint::Ingest::NDNP::ContainerMetadata do
   include_context "ndnp fixture setup"
 
   describe "sample fixture 'batch_test_ver01'" do

@@ -1,5 +1,5 @@
 # module comment...
-module NewspaperWorks
+module IiifPrint
   # setting this allows us to use GeoNames autocomplete for place_of_publication property
   # needs to be included in models after Hyrax::BasicMetadata
   module PlaceOfPublicationBehavior

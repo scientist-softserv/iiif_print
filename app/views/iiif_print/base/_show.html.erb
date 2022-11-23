@@ -14,7 +14,7 @@
         <%= render 'work_title', presenter: @presenter %>
       </div>
       <div class="panel-body">
-        <%= render 'newspaper_works/base/newspaper_hierarchy', presenter: @presenter %>
+        <%= render 'iiif_print/base/newspaper_hierarchy', presenter: @presenter %>
         <div class="row">
           <%= render 'workflow_actions_widget', presenter: @presenter %>
           <% if @presenter.iiif_viewer? %>
@@ -29,7 +29,7 @@
           </div>
           <div class="col-sm-9">
             <%= render 'work_description', presenter: @presenter %>
-            <%= render 'newspaper_works/base/metadata', presenter: @presenter %>
+            <%= render 'iiif_print/base/metadata', presenter: @presenter %>
           </div>
           <div class="col-sm-12">
             <%= render 'relationships', presenter: @presenter %>

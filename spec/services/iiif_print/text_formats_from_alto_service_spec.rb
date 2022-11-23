@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
+RSpec.describe IiifPrint::TextFormatsFromALTOService do
   include_context "shared setup"
 
   let(:valid_file_set) do
@@ -23,7 +23,7 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
   end
 
   def log_incoming_attachment(fsid)
-    NewspaperWorks::DerivativeAttachment.create!(
+    IiifPrint::DerivativeAttachment.create!(
       fileset_id: fsid,
       path: minimal_alto,
       destination_name: 'xml'
@@ -31,7 +31,7 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
   end
 
   def derivatives_of(work, fileset)
-    NewspaperWorks::Data::WorkDerivatives.of(work, fileset)
+    IiifPrint::Data::WorkDerivatives.of(work, fileset)
   end
 
   describe "Saves other formats from ALTO" do
@@ -73,8 +73,8 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
     # remove any previous test run (development) artifacts in file
     #   attachment logging tables
     before(:all) do
-      NewspaperWorks::DerivativeAttachment.all.delete_all
-      NewspaperWorks::IngestFileRelation.all.delete_all
+      IiifPrint::DerivativeAttachment.all.delete_all
+      IiifPrint::IngestFileRelation.all.delete_all
     end
 
     let(:work) do
@@ -88,9 +88,9 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
     end
 
     def attach_primary_file(work)
-      NewspaperWorks::Data::WorkFiles.assign!(to: work, path: tiff_path)
+      IiifPrint::Data::WorkFiles.assign!(to: work, path: tiff_path)
       work.reload
-      pcdm_file = NewspaperWorks::Data::WorkFiles.of(work).values[0].unwrapped
+      pcdm_file = IiifPrint::Data::WorkFiles.of(work).values[0].unwrapped
       expect(pcdm_file).not_to be_nil
       # we have image dimensions (px) to work with:
       expect(pcdm_file.width[0].to_i).to be_an Integer
@@ -98,7 +98,7 @@ RSpec.describe NewspaperWorks::TextFormatsFromALTOService do
     end
 
     def derivatives_of(work)
-      NewspaperWorks::Data::WorkFiles.of(work).derivatives
+      IiifPrint::Data::WorkFiles.of(work).derivatives
     end
 
     def attach_alto(work)

@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       # Ingester for reel/container, given reel source data
@@ -6,12 +6,12 @@ module NewspaperWorks
       #   Responsibile for creating/finding container, linking
       #   to (parent) publication and (child) pages.
       class ContainerIngester
-        include NewspaperWorks::Ingest::NDNP::NDNPAssetHelper
+        include IiifPrint::Ingest::NDNP::NDNPAssetHelper
 
         attr_accessor :source, :target, :publication, :opts
 
         # Create ingester in context of source reel data, NewspaperTitle
-        # @param source [NewspaperWorks::Ingest::NDNP::ContainerIngest]
+        # @param source [IiifPrint::Ingest::NDNP::ContainerIngest]
         # @param publication [NewspaperTitle] Required publication to link to
         # @param opts [Hash]
         #   ingest options, e.g. administrative metadata

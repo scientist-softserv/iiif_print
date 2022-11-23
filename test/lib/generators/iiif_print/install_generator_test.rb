@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'generators/install/install_generator'
 
-module NewspaperWorks
+module IiifPrint
   class InstallGeneratorTest < Rails::Generators::TestCase
     tests InstallGenerator
     destination Rails.root.join('tmp', 'generators')

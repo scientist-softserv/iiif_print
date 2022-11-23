@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::Ingest::PdfImages do
+RSpec.describe IiifPrint::Ingest::PdfImages do
   let(:path) do
-    base = Pathname.new(NewspaperWorks::GEM_PATH).join('spec/fixtures/files')
+    base = Pathname.new(IiifPrint::GEM_PATH).join('spec/fixtures/files')
     base.join('sample-4page-issue.pdf').to_s
   end
   let(:pdfimages) { described_class.new(path) }

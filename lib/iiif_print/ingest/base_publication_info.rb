@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class BasePublicationInfo
       attr_accessor :lccn, :issn

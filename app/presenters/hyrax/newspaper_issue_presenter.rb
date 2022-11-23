@@ -2,9 +2,9 @@
 #  `rails generate hyrax:work NewspaperIssue`
 module Hyrax
   class NewspaperIssuePresenter < Hyrax::WorkShowPresenter
-    include NewspaperWorks::NewspaperCorePresenter
-    include NewspaperWorks::TitleInfoPresenter
-    include NewspaperWorks::IiifManifestPresenterBehavior
+    include IiifPrint::NewspaperCorePresenter
+    include IiifPrint::TitleInfoPresenter
+    include IiifPrint::IiifManifestPresenterBehavior
 
     delegate :volume, :edition_number, :edition_name,
              :issue_number, :extent, to: :solr_document
@@ -20,7 +20,7 @@ module Hyrax
 
     def persistent_url
       return nil unless publication_unique_id && issue_date_for_url
-      NewspaperWorks::Engine.routes.url_helpers.newspaper_issue_edition_url(unique_id: publication_unique_id,
+      IiifPrint::Engine.routes.url_helpers.newspaper_issue_edition_url(unique_id: publication_unique_id,
                                                                             date: issue_date_for_url,
                                                                             edition: edition_for_url,
                                                                             host: request.host)

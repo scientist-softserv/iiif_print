@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   # in-memory caching fetcher for HTTP GET requests, wraps Faraday.get
   class ResourceFetcher
     # only cache following HTTP response codes, per Section 6.1, RFC 7231

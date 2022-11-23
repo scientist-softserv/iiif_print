@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::PDFDerivativeService do
+RSpec.describe IiifPrint::PDFDerivativeService do
   let(:valid_file_set) do
     file_set = FileSet.new
     file_set.save!(validate: false)
@@ -8,7 +8,7 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
 
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 
@@ -23,7 +23,7 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
 
     # given output file name, check DPI is 150
     def check_dpi(expected)
-      metadata = NewspaperWorks::ImageTool.new(expected).metadata
+      metadata = IiifPrint::ImageTool.new(expected).metadata
       # get width of pdf in points (via imagemagick), should be 864x == 12in
       page_width = metadata[:width]
       expect(page_width).to eq 864
@@ -41,7 +41,7 @@ RSpec.describe NewspaperWorks::PDFDerivativeService do
       svc = described_class.new(valid_file_set)
       svc.create_derivatives(source_image(filename))
       expect(File.exist?(expected)).to be true
-      metadata = NewspaperWorks::ImageTool.new(expected).metadata
+      metadata = IiifPrint::ImageTool.new(expected).metadata
       expect(metadata[:content_type]).to eq 'application/pdf'
       check_dpi(expected)
       svc.cleanup_derivatives

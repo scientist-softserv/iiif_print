@@ -1,9 +1,9 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class IssueIngest
         include Enumerable
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :path, :doc, :dmdids
 
@@ -32,7 +32,7 @@ module NewspaperWorks
 
         def page_by_dmdid(dmdid)
           return @page_cache[dmdid] if @page_cache.key?(dmdid)
-          p = NewspaperWorks::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
+          p = IiifPrint::Ingest::NDNP::PageIngest.new(@path, dmdid, self)
           @page_cache[dmdid] = p
           p
         end
@@ -59,7 +59,7 @@ module NewspaperWorks
 
         def metadata
           return @metadata unless @metadata.nil?
-          @metadata = NewspaperWorks::Ingest::NDNP::IssueMetadata.new(
+          @metadata = IiifPrint::Ingest::NDNP::IssueMetadata.new(
             path,
             self
           )

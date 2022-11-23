@@ -1,5 +1,5 @@
 require 'spec_helper'
-RSpec.describe NewspaperWorks::JP2DerivativeService do
+RSpec.describe IiifPrint::JP2DerivativeService do
   let(:valid_file_set) do
     file_set = FileSet.new
     file_set.save!(validate: false)
@@ -8,7 +8,7 @@ RSpec.describe NewspaperWorks::JP2DerivativeService do
 
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 
@@ -22,8 +22,8 @@ RSpec.describe NewspaperWorks::JP2DerivativeService do
     end
 
     def metadata_match_checker(source, target)
-      target_meta = NewspaperWorks::ImageTool.new(target).metadata
-      source_meta = NewspaperWorks::ImageTool.new(source).metadata
+      target_meta = IiifPrint::ImageTool.new(target).metadata
+      source_meta = IiifPrint::ImageTool.new(source).metadata
       expect(target_meta[:content_type]).to eq 'image/jp2'
       expect(target_meta[:width]).to eq source_meta[:width]
       expect(target_meta[:height]).to eq source_meta[:height]

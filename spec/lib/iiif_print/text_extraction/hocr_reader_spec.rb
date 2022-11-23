@@ -2,10 +2,10 @@ require 'json'
 require 'nokogiri'
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::TextExtraction::HOCRReader do
+RSpec.describe IiifPrint::TextExtraction::HOCRReader do
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 

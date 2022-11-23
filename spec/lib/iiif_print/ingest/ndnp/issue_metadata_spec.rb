@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ndnp_shared'
 
-RSpec.describe NewspaperWorks::Ingest::NDNP::IssueMetadata do
+RSpec.describe IiifPrint::Ingest::NDNP::IssueMetadata do
   include_context "ndnp fixture setup"
 
   describe "sample fixture 'batch_local'" do
@@ -40,7 +40,7 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueMetadata do
   describe "sample fixture 'batch_test_ver01" do
     let(:issue) { described_class.new(issue2) }
     let(:issue_ingest) do
-      NewspaperWorks::Ingest::NDNP::IssueIngest.new(issue2)
+      IiifPrint::Ingest::NDNP::IssueIngest.new(issue2)
     end
 
     it "gets lccn" do

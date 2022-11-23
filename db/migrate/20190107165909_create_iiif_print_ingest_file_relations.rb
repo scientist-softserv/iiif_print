@@ -1,4 +1,4 @@
-class CreateNewspaperWorksIngestFileRelations < ActiveRecord::Migration[5.0]
+class CreateIiifPrintIngestFileRelations < ActiveRecord::Migration[5.0]
   def change
     create_table :newspaper_works_ingest_file_relations do |t|
       t.string :file_path

@@ -1,15 +1,15 @@
 require 'open3'
 require 'tmpdir'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     class BatchIssueIngester
       # CLI constructor, related class methods:
-      extend NewspaperWorks::Ingest::FromCommand
+      extend IiifPrint::Ingest::FromCommand
 
-      include NewspaperWorks::Ingest::PubFinder
-      include NewspaperWorks::Ingest::BatchIngestHelper
-      include NewspaperWorks::Logging
+      include IiifPrint::Ingest::PubFinder
+      include IiifPrint::Ingest::BatchIngestHelper
+      include IiifPrint::Logging
 
       attr_accessor :path, :lccn, :publication, :opts, :issues
 
@@ -18,7 +18,7 @@ module NewspaperWorks
         lccn = opts[:lccn] || lccn_from_path(path)
         @lccn = normalize_lccn(lccn)
         # get publication info for LCCN from authority web service:
-        @publication = NewspaperWorks::Ingest::PublicationInfo.new(@lccn)
+        @publication = IiifPrint::Ingest::PublicationInfo.new(@lccn)
         # issues for publication, as enumerable of PDFIssue
         @issues = issue_enumerator(publication: publication, path: path)
         @opts = opts
@@ -45,10 +45,10 @@ module NewspaperWorks
 
       private
 
-      # @see NewspaperWorks::Ingest::BatchIngestHelper for the default media assumption.
+      # @see IiifPrint::Ingest::BatchIngestHelper for the default media assumption.
       def issue_enumerator(publication:, path:)
-        impl = NewspaperWorks::Ingest::PDFIssues
-        impl = NewspaperWorks::Ingest::ImageIngestIssues if detect_media(path) == NewspaperWorks::Ingest::BatchIngestHelper::MEDIA_IMAGE
+        impl = IiifPrint::Ingest::PDFIssues
+        impl = IiifPrint::Ingest::ImageIngestIssues if detect_media(path) == IiifPrint::Ingest::BatchIngestHelper::MEDIA_IMAGE
         # issue enumerator depends on detected media:
         impl.new(path, publication)
       end
@@ -66,7 +66,7 @@ module NewspaperWorks
         # NOTE: Do we need to `.create` or can we do `.new` ?  With `.create`
         issue = NewspaperIssue.create
         copy_issue_metadata(issue_data, issue)
-        NewspaperWorks::Ingest.assign_administrative_metadata(issue, @opts)
+        IiifPrint::Ingest.assign_administrative_metadata(issue, @opts)
         issue.save!
         write_log(
           "Created new NewspaperIssue work with date, lccn, edition metadata:"\
@@ -95,7 +95,7 @@ module NewspaperWorks
         page.save!
         # Link page as a child of issue, via ordered members:
         issue.ordered_members << page
-        NewspaperWorks::Ingest.assign_administrative_metadata(page, @opts)
+        IiifPrint::Ingest.assign_administrative_metadata(page, @opts)
         issue.save!
         # Ensure we have a source TIFF file, attach to page:
         path = page_image.path
@@ -109,7 +109,7 @@ module NewspaperWorks
         # Make an issue PDF from constituent pages, via retryable async job,
         #   which will not succeed until the PDF derivatives are created
         #   for each page, but should eventually succeed on that condition:
-        NewspaperWorks::ComposeIssuePDFJob.perform_later(issue)
+        IiifPrint::ComposeIssuePDFJob.perform_later(issue)
       end
 
       def make_tiff(path)
@@ -130,7 +130,7 @@ module NewspaperWorks
       end
 
       def ingest_type
-        return TACTIC_ISSUE_PDF if @issues.class == NewspaperWorks::Ingest::PDFIssues
+        return TACTIC_ISSUE_PDF if @issues.class == IiifPrint::Ingest::PDFIssues
         TACTIC_PAGE_IMAGE
       end
     end

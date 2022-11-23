@@ -1,15 +1,15 @@
 require 'spec_helper'
 require 'rake'
 require 'ndnp_shared'
-require 'lib/newspaper_works/ingest/ingest_shared'
+require 'lib/iiif_print/ingest/ingest_shared'
 require 'active_fedora/cleaner'
 
-describe 'newspaper_works rake tasks' do
+describe 'iiif_print rake tasks' do
   include_context 'ndnp fixture setup'
   include_context 'ingest test fixtures'
 
   before(:all) do
-    Rake.application.rake_require '../lib/tasks/newspaper_works_tasks'
+    Rake.application.rake_require '../lib/tasks/iiif_print_tasks'
     Rake::Task.define_task(:environment)
   end
 
@@ -34,11 +34,11 @@ describe 'newspaper_works rake tasks' do
     end
 
     let(:run_ndnp_ingest_task) do
-      task = 'newspaper_works:ingest_ndnp'
+      task = 'iiif_print:ingest_ndnp'
       stub_const(
         'ARGV',
         [
-          'newspaper_works:ingest_ndnp',
+          'iiif_print:ingest_ndnp',
           '--',
           "--path=#{batch1}"
         ]
@@ -48,11 +48,11 @@ describe 'newspaper_works rake tasks' do
     end
 
     let(:run_pdf_ingest_task) do
-      task = 'newspaper_works:ingest_pdf_issues'
+      task = 'iiif_print:ingest_pdf_issues'
       stub_const(
         'ARGV',
         [
-          'newspaper_works:ingest_pdf_issues',
+          'iiif_print:ingest_pdf_issues',
           '--',
           "--path=#{single_issue_dir}"
         ]
@@ -68,7 +68,7 @@ describe 'newspaper_works rake tasks' do
     end
 
     def expect_generated_issues(publication)
-      batch = NewspaperWorks::Ingest::NDNP::BatchXMLIngest.new(batch1)
+      batch = IiifPrint::Ingest::NDNP::BatchXMLIngest.new(batch1)
       relevant = batch.select { |i| i.metadata.lccn == publication.lccn }
       issue_dates = relevant.map(&:publication_date)
       expect(publication.issues.size).to eq issue_dates.size

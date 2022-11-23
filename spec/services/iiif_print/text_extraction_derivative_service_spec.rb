@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::TextExtractionDerivativeService do
+RSpec.describe IiifPrint::TextExtractionDerivativeService do
   include_context "shared setup"
 
   let(:valid_file_set) do
@@ -68,7 +68,7 @@ RSpec.describe NewspaperWorks::TextExtractionDerivativeService do
 
     it "defers to existing ALTO sources, when present" do
       # Attach some ALTO to a work
-      derivatives = NewspaperWorks::Data::WorkDerivatives.of(
+      derivatives = IiifPrint::Data::WorkDerivatives.of(
         work,
         valid_file_set
       )

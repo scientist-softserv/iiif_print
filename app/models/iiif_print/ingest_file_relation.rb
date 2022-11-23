@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   class IngestFileRelation < ApplicationRecord
     validates :file_path, presence: true
     validates :derivative_path, presence: true

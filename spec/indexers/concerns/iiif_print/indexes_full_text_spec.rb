@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe NewspaperWorks::IndexesFullText do
+RSpec.describe IiifPrint::IndexesFullText do
   include_context "shared setup"
 
   let(:indexer) { NewspaperPageIndexer.new(sample_work) }

@@ -1,7 +1,7 @@
 require 'spec_helper'
-include NewspaperWorks::BreadcrumbHelper
+include IiifPrint::BreadcrumbHelper
 include Hyrax::NewspaperPagesHelper
-RSpec.describe 'newspaper_works/base/_newspaper_hierarchy.html.erb', type: :view do
+RSpec.describe 'iiif_print/base/_newspaper_hierarchy.html.erb', type: :view do
   let(:url) { "http://example.com" }
   let(:title) { "2018-05-18: Page 1" }
   let(:issn) { "2049-3630" }

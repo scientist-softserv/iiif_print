@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NewspaperWorks::Ingest do
+describe IiifPrint::Ingest do
   describe "Ingest module methods" do
     it "gets default admin set" do
       admin_set = described_class.find_admin_set
@@ -38,7 +38,7 @@ describe NewspaperWorks::Ingest do
     it "has method to get publication metadata for lccn" do
       lccn = 'sn84038814'
       metadata = described_class.publication_metadata(lccn)
-      expect(metadata).to be_a NewspaperWorks::Ingest::PublicationInfo
+      expect(metadata).to be_a IiifPrint::Ingest::PublicationInfo
       expect(metadata.lccn).to eq lccn
     end
   end

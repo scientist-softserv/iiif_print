@@ -1,8 +1,8 @@
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       class PageIngest
-        include NewspaperWorks::Ingest::NDNP::NDNPMetsHelper
+        include IiifPrint::Ingest::NDNP::NDNPMetsHelper
 
         attr_accessor :path, :dmdid, :doc, :files
 
@@ -28,7 +28,7 @@ module NewspaperWorks
 
         def metadata
           return @metadata unless @metadata.nil?
-          @metadata = NewspaperWorks::Ingest::NDNP::PageMetadata.new(
+          @metadata = IiifPrint::Ingest::NDNP::PageMetadata.new(
             path,
             self,
             dmdid

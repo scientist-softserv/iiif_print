@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   class JP2ImageMetadata
     TOKEN_MARKER_START = "\xFF".force_encoding("BINARY").freeze
     TOKEN_MARKER_SIZ = "\x51".force_encoding("BINARY").freeze

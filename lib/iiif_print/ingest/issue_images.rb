@@ -1,17 +1,17 @@
 require 'date'
 require 'find'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Represents TIFF/JP2 issue, provides metadata, enumerates PageImage objects
     class IssueImages
       # most acccessors for issue/edition metadata, publication metadata
       #   provided by including this mixin:
-      include NewspaperWorks::Ingest::NamedIssueMetadata
+      include IiifPrint::Ingest::NamedIssueMetadata
 
       # Path enumeration by mixing in Enumerable, PathEnumeration
       include Enumerable
-      include NewspaperWorks::Ingest::PathEnumeration
+      include IiifPrint::Ingest::PathEnumeration
 
       attr_accessor :path, :publication
 
@@ -22,7 +22,7 @@ module NewspaperWorks
         @path = path
         raise ArgumentError, 'Path not directory' unless File.directory?(path)
         validate_path
-        # as a NewspaperWorks::Ingest::PublicationInfo object:
+        # as a IiifPrint::Ingest::PublicationInfo object:
         @publication = publication
         @pages = nil
       end
@@ -42,7 +42,7 @@ module NewspaperWorks
 
       def info(path)
         page_seq_num = page_paths.index(path) + 1
-        NewspaperWorks::Ingest::PageImage.new(path, self, page_seq_num)
+        IiifPrint::Ingest::PageImage.new(path, self, page_seq_num)
       end
 
       alias paths page_paths

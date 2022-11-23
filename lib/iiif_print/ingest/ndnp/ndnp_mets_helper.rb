@@ -1,6 +1,6 @@
 require 'nokogiri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     module NDNP
       # Mixin for mets-specific XPath and traversal of issue/page data
@@ -62,7 +62,7 @@ module NewspaperWorks
         def container
           reel_path = container_path
           return unless File.exist?(reel_path)
-          NewspaperWorks::Ingest::NDNP::ContainerIngest.new(reel_path)
+          IiifPrint::Ingest::NDNP::ContainerIngest.new(reel_path)
         end
       end
     end

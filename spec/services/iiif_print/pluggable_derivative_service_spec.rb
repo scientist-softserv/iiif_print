@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'spec_helper'
 
-RSpec.describe NewspaperWorks::PluggableDerivativeService do
+RSpec.describe IiifPrint::PluggableDerivativeService do
   let(:valid_file_set) { FileSet.new }
 
   let(:persisted_file_set) do
@@ -17,7 +17,7 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
 
   let(:fixture_path) do
     File.join(
-      NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files'
+      IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
   end
 
@@ -139,10 +139,10 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
     def expected_plugins
       [
         Hyrax::FileSetDerivativesService,
-        NewspaperWorks::JP2DerivativeService,
-        NewspaperWorks::PDFDerivativeService,
-        NewspaperWorks::TextExtractionDerivativeService,
-        NewspaperWorks::TIFFDerivativeService
+        IiifPrint::JP2DerivativeService,
+        IiifPrint::PDFDerivativeService,
+        IiifPrint::TextExtractionDerivativeService,
+        IiifPrint::TIFFDerivativeService
       ]
     end
 
@@ -175,7 +175,7 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
   describe "ingest integration" do
     def log_attachment(file_set)
       # create a log entry for the fileset given destination name 'jp2'
-      NewspaperWorks::DerivativeAttachment.create(
+      IiifPrint::DerivativeAttachment.create(
         fileset_id: file_set.id,
         path: '/some/arbitrary/path/to.jp2',
         destination_name: 'jp2'
@@ -183,7 +183,7 @@ RSpec.describe NewspaperWorks::PluggableDerivativeService do
     end
 
     def jp2_plugin?(plugins)
-      r = plugins.select { |p| p.class == NewspaperWorks::JP2DerivativeService }
+      r = plugins.select { |p| p.class == IiifPrint::JP2DerivativeService }
       !r.empty?
     end
 

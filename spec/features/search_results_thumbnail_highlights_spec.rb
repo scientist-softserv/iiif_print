@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'thumbnail_highlights', js: true do
-  fixture_path = File.join(NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files')
+  fixture_path = File.join(IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files')
   let(:query_term) { 'rotunda' }
 
   # use before(:all) so we only create fixtures once
@@ -15,7 +15,7 @@ RSpec.describe 'thumbnail_highlights', js: true do
       visibility: "open"
     )
 
-    NewspaperWorks::Data::WorkFiles.assign!(
+    IiifPrint::Data::WorkFiles.assign!(
       to: @work,
       path: File.join(fixture_path, 'ocr_mono.tiff'),
       derivative_paths: [

@@ -1,13 +1,13 @@
 require 'hyrax'
 
-module NewspaperWorks
+module IiifPrint
   module Data
     #   TODO: consider compositional refactoring (not mixins), but this
     #         may make readability/comprehendability higher, and yield
     #         higher applied/practical complexity.
     class WorkDerivatives
-      include NewspaperWorks::Data::FilesetHelper
-      include NewspaperWorks::Data::PathHelper
+      include IiifPrint::Data::FilesetHelper
+      include IiifPrint::Data::PathHelper
 
       # Work is primary adapted context
       # @return [ActiveFedora::Base] Hyrax work-type object
@@ -18,7 +18,7 @@ module NewspaperWorks
       attr_accessor :fileset
 
       # Parent pointer to WorkFile object representing fileset
-      # @return [NewspaperWorks::Data::WorkFile] WorkFile for fileset, work pair
+      # @return [IiifPrint::Data::WorkFile] WorkFile for fileset, work pair
       attr_accessor :parent
 
       # Assigned attachment queue (of paths)
@@ -61,7 +61,7 @@ module NewspaperWorks
         @assigned = []
         # un-assignments for deletion
         @unassigned = []
-        # parent is NewspaperWorks::Data::WorkFile object for derivatives
+        # parent is IiifPrint::Data::WorkFile object for derivatives
         @parent = parent
       end
 
@@ -254,14 +254,14 @@ module NewspaperWorks
       def log_primary_file_relation(path)
         file_path = primary_file_path
         return if file_path.nil?
-        NewspaperWorks::IngestFileRelation.create!(
+        IiifPrint::IngestFileRelation.create!(
           file_path: file_path,
           derivative_path: path
         )
       end
 
       def log_assignment(path, name)
-        NewspaperWorks::DerivativeAttachment.create!(
+        IiifPrint::DerivativeAttachment.create!(
           fileset_id: fileset_id,
           path: path,
           destination_name: name
@@ -271,12 +271,12 @@ module NewspaperWorks
 
       def unlog_assignment(path, name)
         if fileset_id.nil?
-          NewspaperWorks::DerivativeAttachment.where(
+          IiifPrint::DerivativeAttachment.where(
             path: path,
             destination_name: name
           ).destroy_all
         else
-          NewspaperWorks::DerivativeAttachment.where(
+          IiifPrint::DerivativeAttachment.where(
             fileset_id: fileset_id,
             path: path,
             destination_name: name

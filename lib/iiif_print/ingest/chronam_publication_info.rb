@@ -1,7 +1,7 @@
 require 'faraday'
 require 'nokogiri'
 
-module NewspaperWorks
+module IiifPrint
   module Ingest
     # Publication info from ChronAm as remote authority for metadata
     class ChronAmPublicationInfo < BasePublicationInfo
@@ -41,7 +41,7 @@ module NewspaperWorks
         place_match = find('//rda:placeOfPublication')
         return if place_match.nil?
         @place_name = place_match.first.text
-        @place_of_publication = NewspaperWorks::Ingest.geonames_place_uri(
+        @place_of_publication = IiifPrint::Ingest.geonames_place_uri(
           @place_name
         )
       end
@@ -51,7 +51,7 @@ module NewspaperWorks
       end
 
       def load
-        resp = NewspaperWorks::ResourceFetcher.get url
+        resp = IiifPrint::ResourceFetcher.get url
         return if resp['status'] == 404
         @doc = Nokogiri.XML(resp['body'])
         @title = normalize_title(find('//dcterms:title').first.text)
@@ -84,7 +84,7 @@ module NewspaperWorks
       private
 
       def normalize_title(value)
-        NewspaperWorks::Ingest.normalize_title(value)
+        IiifPrint::Ingest.normalize_title(value)
       end
 
       # Returns URL to LC catalog, provided such exists, on the basis of
@@ -92,7 +92,7 @@ module NewspaperWorks
       def lc_catalog_url(lccn)
         content_url = "https://lccn.loc.gov/#{lccn}"
         url = "#{content_url}/mods"
-        resp = NewspaperWorks::ResourceFetcher.get url
+        resp = IiifPrint::ResourceFetcher.get url
         doc = Nokogiri.XML(resp['body'])
         return content_url unless doc.root.children.empty?
       end
@@ -124,7 +124,7 @@ module NewspaperWorks
         code = code.split('/')[-1]
         lookup_url = 'https://www.loc.gov/standards/iso639-2/php/langcodes_name.php'
         lookup_url += "?iso_639_1=#{code}"
-        resp = NewspaperWorks::ResourceFetcher.get lookup_url
+        resp = IiifPrint::ResourceFetcher.get lookup_url
         html = Nokogiri::HTML(resp['body'])
         html.xpath('//table[1]/tr[2]/td[2]').first.text.strip
       end

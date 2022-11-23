@@ -1,21 +1,21 @@
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 # version updated in one place:
-require 'newspaper_works/version'
+require 'iiif_print/version'
 
 # Gem description:
 Gem::Specification.new do |spec|
-  spec.name        = 'newspaper_works'
-  spec.version     = NewspaperWorks::VERSION
+  spec.name        = 'iiif_print'
+  spec.version     = IiifPrint::VERSION
   spec.authors     = ['Sean Upton', 'Jacob Reed', 'Brian McBride',
                       'Eben English']
   spec.email       = ['sean.upton@utah.edu', 'jacob.reed@utah.edu',
                       'brian.mcbride@utah.edu', 'eenglish@bpl.org']
-  spec.homepage    = 'https://github.com/samvera-labs/newspaper_works'
+  spec.homepage    = 'https://github.com/samvera-labs/iiif_print'
   spec.description = 'Gem/Engine for Newspaper Works in Hyrax-based Samvera
                       Application.'
   spec.summary     = <<-SUMMARY
-  newspaper_works is a Rails Engine gem providing model and administrative
+  iiif_print is a Rails Engine gem providing model and administrative
   functions to Hyrax-based Samvera applications, for management of
   (primarily scanned) archival newspaper content.
 SUMMARY

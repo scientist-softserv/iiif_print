@@ -1,4 +1,4 @@
-module NewspaperWorks
+module IiifPrint
   module Data
     # Mixin module for fileset methods for work, presumes an @work
     #   instance attribute refering to a work object

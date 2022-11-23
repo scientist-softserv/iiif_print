@@ -1,5 +1,5 @@
 # NewspaperIssue ancestor data
-module NewspaperWorks
+module IiifPrint
   # shared NewspaperIssue info for multiple newspaper models
   module IssueInfoPresenter
     def issue_id

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../newspaper_works/scanned_media_presenter_spec'
+require_relative '../iiif_print/scanned_media_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperPagePresenter do
   let(:ability) { double 'Ability' }
