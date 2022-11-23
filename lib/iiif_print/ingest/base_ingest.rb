@@ -1,4 +1,4 @@
-require 'newspaper_works/data'
+require 'iiif_print/data'
 
 module IiifPrint
   module Ingest

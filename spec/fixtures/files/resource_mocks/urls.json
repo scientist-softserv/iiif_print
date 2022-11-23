@@ -37,23 +37,23 @@
       "local": "lccn/sn84038814"
     },
     {
-      "url": "http://api.geonames.org/search?q=Chicopee&username=newspaper_works",
+      "url": "http://api.geonames.org/search?q=Chicopee&username=iiif_print",
       "local": "geonames/Chicopee"
     },
     {
-      "url": "http://api.geonames.org/search?q=Salt%20Lake%20City,%20Utah&username=newspaper_works",
+      "url": "http://api.geonames.org/search?q=Salt%20Lake%20City,%20Utah&username=iiif_print",
       "local": "geonames/SLC"
     },
     {
-      "url": "http://api.geonames.org/search?q=Marysville,%20Calif&username=newspaper_works",
+      "url": "http://api.geonames.org/search?q=Marysville,%20Calif&username=iiif_print",
       "local": "geonames/Marysville"
     },
     {
-      "url": "http://api.geonames.org/search?q=Denver,%20Colorado&username=newspaper_works",
+      "url": "http://api.geonames.org/search?q=Denver,%20Colorado&username=iiif_print",
       "local": "geonames/Denver"
     },
     {
-      "url": "http://api.geonames.org/search?q=Marysville,%20California&username=newspaper_works",
+      "url": "http://api.geonames.org/search?q=Marysville,%20California&username=iiif_print",
       "local": "geonames/Marysville2"
     },
     {

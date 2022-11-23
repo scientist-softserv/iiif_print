@@ -5,7 +5,7 @@ require 'blacklight_advanced_search'
 
 module IiifPrint
   # module constants:
-  GEM_PATH = Gem::Specification.find_by_name("newspaper_works").gem_dir
+  GEM_PATH = Gem::Specification.find_by_name("iiif_print").gem_dir
 
   # Engine Class
   class Engine < ::Rails::Engine

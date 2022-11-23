@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'newspaper_works/newspapers_search/search.html.erb', type: :view do
+RSpec.describe 'iiif_print/newspapers_search/search.html.erb', type: :view do
   let(:search_params) { CatalogController.blacklight_config.advanced_search.newspapers_search[:form_solr_parameters] }
 
   # create some fixtures, so we have facets to display
@@ -25,11 +25,11 @@ RSpec.describe 'newspaper_works/newspapers_search/search.html.erb', type: :view 
 
   describe 'partial rendering' do
     it 'renders the newspapers_search_form partial' do
-      expect(rendered).to render_template(partial: 'newspaper_works/newspapers_search/_newspapers_search_form')
+      expect(rendered).to render_template(partial: 'iiif_print/newspapers_search/_newspapers_search_form')
     end
 
     it 'renders the newspapers_search_help partial' do
-      expect(rendered).to render_template(partial: 'newspaper_works/newspapers_search/_newspapers_search_help')
+      expect(rendered).to render_template(partial: 'iiif_print/newspapers_search/_newspapers_search_help')
     end
   end
 

@@ -1,5 +1,5 @@
-require 'newspaper_works/logging'
-require 'newspaper_works/ingest'
+require 'iiif_print/logging'
+require 'iiif_print/ingest'
 
 module IiifPrint
   module Ingest

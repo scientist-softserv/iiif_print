@@ -1,6 +1,6 @@
 FROM ghcr.io/scientist-softserv/dev-ops/samvera:e9200061 as hyku-base
 USER root
-RUN apk add --no-cache sqlite chromium-chromedriver
+RUN apk add --no-cache sqlite
 USER app
 
 RUN sh -l -c " \

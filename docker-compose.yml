@@ -40,8 +40,6 @@ services:
     environment:
       - VIRTUAL_PORT=8983
       - VIRTUAL_HOST=solr.iiif_print.test
-    ports:
-      - 8983:8983
     command:
       - sh
       - "-c"

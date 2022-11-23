@@ -1,8 +1,8 @@
-require 'newspaper_works/data/fileset_helper'
-require 'newspaper_works/data/path_helper'
-require 'newspaper_works/data/work_derivatives'
-require 'newspaper_works/data/work_files'
-require 'newspaper_works/data/work_file'
+require 'iiif_print/data/fileset_helper'
+require 'iiif_print/data/path_helper'
+require 'iiif_print/data/work_derivatives'
+require 'iiif_print/data/work_files'
+require 'iiif_print/data/work_file'
 
 module IiifPrint
   # Module for data access helper / adapter classes supporting, enhancing
@@ -10,10 +10,10 @@ module IiifPrint
   module Data
     # Handler for after_create_fileset, to be called by block subscribing to
     #   and overriding default Hyrax `:after_create_fileset` handler, via
-    #   app integrating newspaper_works.
+    #   app integrating iiif_print.
     def self.handle_after_create_fileset(file_set, user)
       handle_queued_derivative_attachments(file_set)
-      # Hyrax queues this job by default, and since newspaper_works
+      # Hyrax queues this job by default, and since iiif_print
       #   overrides the single subscriber Hyrax uses to do so, we
       #   must call this here:
       FileSetAttachedEventJob.perform_later(file_set, user)

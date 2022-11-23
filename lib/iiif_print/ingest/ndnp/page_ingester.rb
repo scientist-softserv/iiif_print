@@ -1,4 +1,4 @@
-require 'newspaper_works/logging'
+require 'iiif_print/logging'
 
 module IiifPrint
   module Ingest
