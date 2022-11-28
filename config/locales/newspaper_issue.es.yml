@@ -1,8 +1,0 @@
-es:
-  hyrax:
-    icons:
-      newspaper_issue: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_issue:
-        name:          "Edición del periódico"
-        description:   "Un edición del periodico"

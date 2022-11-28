@@ -1,8 +1,0 @@
-en:
-  hyrax:
-    icons:
-      newspaper_container: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_container:
-        name:              "Newspaper Container"
-        description:       "A physical container (microfilm, bound volume, etc.) that contains newspaper issues"

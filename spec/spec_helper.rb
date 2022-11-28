@@ -93,9 +93,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.include Devise::Test::ControllerHelpers, type: :controller
 
-  # require shared examples
-  require 'lib/iiif_print/ingest/ingest_shared'
-
   config.include(ControllerLevelHelpers, type: :helper)
   config.before(:each, type: :helper) { initialize_controller_helpers(helper) }
 

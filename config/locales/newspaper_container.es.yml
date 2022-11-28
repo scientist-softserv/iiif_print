@@ -1,8 +1,0 @@
-es:
-  hyrax:
-    icons:
-      newspaper_container: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_container:
-        name:              "Contenedor de periodico"
-        description:       "Un contenedor físico (microfilm, volumen encuadernado, etc.) que contiene números de periódicos."

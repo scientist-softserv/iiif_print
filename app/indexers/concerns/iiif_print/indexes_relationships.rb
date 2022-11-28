@@ -33,17 +33,6 @@ module IiifPrint
       index_parent_facets(newspaper_title, solr_doc)
     end
 
-    # index the container info
-    #
-    # @param page [NewspaperPage]
-    # @param solr_doc [Hash] the hash of field data to be pushed to Solr
-    def index_container(page, solr_doc)
-      newspaper_container = page.container
-      return unless newspaper_container.is_a?(NewspaperContainer)
-      solr_doc['container_id_ssi'] = newspaper_container.id
-      solr_doc['container_title_ssi'] = newspaper_container.title.first
-    end
-
     # index the issue info
     #
     # @param object [NewspaperPage||NewspaperArticle]
