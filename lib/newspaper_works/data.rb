@@ -25,7 +25,7 @@ module NewspaperWorks
 
     def self.handle_queued_derivative_attachments(file_set)
       return if file_set.import_url.nil?
-      work = file_set.member_of.select(&:work?)[0]
+      work = file_set.member_of.find(&:work?)
       derivatives = NewspaperWorks::Data::WorkDerivatives.of(work)
       # For now, becuase this is IO-bound operation, it makes sense to have
       #   this not be a job, but run inline:

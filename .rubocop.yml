@@ -5,7 +5,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.7
   DisplayCopNames: true
   Exclude:
     - 'db/**/*'

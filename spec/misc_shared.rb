@@ -40,7 +40,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
     #   a persisted file, so we use the shared work sample, and expand
     #   on it with actual file data/metadata.
     work = sample_work
-    fileset = work.members.select { |m| m.class == FileSet }[0]
+    fileset = work.members.find { |m| m.class == FileSet }
     file = Hydra::PCDM::File.create
     fileset.original_file = file
     # Set binary content on file via ActiveFedora content= mutator method
@@ -61,7 +61,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
   end
 
   def work_file_set(work)
-    work.members.select { |m| m.class == FileSet }[0]
+    work.members.find { |m| m.class == FileSet }
   end
 
   def text_path(work)
