@@ -24,10 +24,10 @@ SUMMARY
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
   spec.add_dependency 'blacklight_advanced_search', '6.4.1'
-  spec.add_dependency 'hyrax', '>= 2.5', '< 3.0'
-  spec.add_dependency 'nokogiri', '=1.10.10'
+  spec.add_dependency 'hyrax', '>= 2.5', '< 4.0'
+  spec.add_dependency 'nokogiri', '>=1.13.2'
   spec.add_dependency 'rails', '~> 5.0'
-  spec.add_dependency 'rdf-vocab', '< 3.1.5'
+  spec.add_dependency 'rdf-vocab', '~> 3.0'
   spec.add_dependency 'sass-rails', '~> 5.0'
 
   spec.add_development_dependency 'bixby'
@@ -37,7 +37,7 @@ SUMMARY
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'
-  spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
+  # spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
   spec.add_development_dependency 'rspec-activemodel-mocks'
