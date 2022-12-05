@@ -15,12 +15,14 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'hyrax:install', '-f'
   end
 
-  def create_config_files
-    copy_file 'config/blacklight.yaml', 'config/blacklight.yaml'
-    copy_file 'config/fcrepo.yaml', 'config/fcrepo.yaml'
-    copy_file 'config/redis.yaml', 'config/redis.yaml'
-    copy_file 'config/solr.yaml', 'config/solr.yaml'
-  end
+  # TODO not sure why this doesnt work
+  # just copy them manually for the moment
+  # def install_config_files
+  #   copy_file 'blacklight.yml', 'config/blacklight.yml'
+  #   copy_file 'fcrepo.yml', 'config/fcrepo.yml'
+  #   copy_file 'redis.yml', 'config/redis.yml'
+  #   copy_file 'solr.yml', 'config/solr.yml'
+  # end
 
   def install_engine
     generate 'newspaper_works:install'

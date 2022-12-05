@@ -8,8 +8,8 @@ group :development, :test do
 end
 
 # BEGIN ENGINE_CART BLOCK
-# engine_cart: 1.2.0
-# engine_cart stanza: 0.10.0
+# engine_cart: 2.5.0
+# engine_cart stanza: 2.5.0
 # the below comes from engine_cart, a gem used to test this Rails engine gem in the context of a Rails app.
 file = File.expand_path('Gemfile', ENV['ENGINE_CART_DESTINATION'] || ENV['RAILS_ROOT'] || File.expand_path('.internal_test_app', File.dirname(__FILE__)))
 if File.exist?(file)
@@ -27,21 +27,26 @@ else
       gem 'rails', github: 'rails/rails'
       ENV['ENGINE_CART_RAILS_OPTIONS'] = '--edge --skip-turbolinks'
     else
-      # rubocop:disable Bundler/DuplicatedGem
       gem 'rails', ENV['RAILS_VERSION']
+    end
+
+    case ENV['RAILS_VERSION']
+    when /^6.0/
+      gem 'sass-rails', '>= 6'
+      gem 'webpacker', '~> 4.0'
+    when /^5.[12]/
+      gem 'sass-rails', '~> 5.0'
+      gem 'sprockets', '~> 3.7'
+      gem 'thor', '~> 0.20'
+    when /^4.2/
+      gem 'coffee-rails', '~> 4.1.0'
+      gem 'responders', '~> 2.0'
+      gem 'sass-rails', '>= 5.0'
+    when /^4.[01]/
+      # rubocop:disable Bundler/DuplicatedGem
+      gem 'sass-rails', '< 5.0'
       # rubocop:enable Bundler/DuplicatedGem
     end
-  end
-
-  case ENV['RAILS_VERSION']
-  when /^4.2/
-    gem 'coffee-rails', '~> 4.1.0'
-    gem 'responders', '~> 2.0'
-    gem 'sass-rails', '>= 5.0'
-  when /^4.[01]/
-    # rubocop:disable Bundler/DuplicatedGem
-    gem 'sass-rails', '< 5.0'
-    # rubocop:enable Bundler/DuplicatedGem
   end
 end
 # END ENGINE_CART BLOCK

@@ -115,30 +115,6 @@ RSpec.describe NewspaperWorks::Ingest::BatchIssueIngester do
       expect(work.visibility).to eq 'open'
     end
 
-    # rubocop:disable Metrics/AbcSize
-    def issue_ingest(lccn, path, page_count, metadata)
-      dir = single_issue_dir(lccn, path)
-      ingester = described_class.new(dir)
-      ingester.ingest
-      # Outcomes tested:
-      # 1. NewspaperTitle for Publication created, and contains issue
-      issue = NewspaperTitle.where(lccn: lccn).first.members.to_a[0]
-      # 2. Metadata:
-      expect(issue.publication_date).to eq metadata[:publication_date]
-      expect(issue.title).to contain_exactly metadata[:title]
-      expect_administrative_metadata(issue)
-      if page_count > 0
-        # 3. Child pages created
-        expect(issue.pages.size).to eq page_count
-        expect_administrative_metadata(issue.pages[0])
-        # 4. Creation of issue PDF enqueued:
-        expect(job_enqueued?(NewspaperWorks::ComposeIssuePDFJob)).to be true
-      end
-      # clean up after temp dir:
-      FileUtils.rmtree(File.dirname(dir))
-    end
-    # rubocop:enable Metrics/AbcSize
-
     it "ingests PDFs" do
       expected_metadata = {
         title: "The weekly journal: June 4, 1853",

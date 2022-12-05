@@ -81,7 +81,7 @@ module NewspaperWorks
 
       def title
         return if empty?
-        NewspaperWorks::Ingest.normalize_title(@full_title.split(/ [\(]/)[0])
+        NewspaperWorks::Ingest.normalize_title(@full_title&.split(/ [\(]/)&.[](0))
       end
 
       # ISO-639-2 three character language code, default is 'eng' (English)

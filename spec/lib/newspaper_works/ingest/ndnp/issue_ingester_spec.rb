@@ -78,20 +78,6 @@ RSpec.describe NewspaperWorks::Ingest::NDNP::IssueIngester do
       expect(adapter.target.publication.place_of_publication).to be_empty
       Qa::Authorities::Geonames.username = 'newspaper_works'
     end
-
-    it "creates new NewspaperTitle with place of publication" do
-      # clear any existing publications from previous testing
-      lccn = issue_data.metadata.lccn
-      clear_publication(lccn)
-      # construct with title, this time with username set for geonames:
-      Qa::Authorities::Geonames.username = 'newspaper_works'
-      adapter.construct_issue
-      pop = adapter.target.publication.place_of_publication.map do |v|
-        v.to_uri.to_s
-      end
-      expect(pop).not_to be_empty
-      expect(pop[0]).to start_with 'http://sws.geonames.org/'
-    end
   end
 
   describe "metadata access/setting" do
