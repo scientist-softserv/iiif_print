@@ -96,16 +96,12 @@ module IiifPrint
 
     # index common facet properties
     # TODO: this could probably be DRY'd out a bit,
-    # overlaps with IndexesPlaceOfPublication#index_pop
     #
     # @param parent [NewspaperTitle||NewspaperIssue]
     # @param solr_doc [Hash] the hash of field data to be pushed to Solr
     def index_parent_facets(parent, solr_doc)
       parent_doc = parent.to_solr
-      fields = %w[language_sim place_of_publication_label_sim
-                  place_of_publication_city_sim place_of_publication_county_sim
-                  place_of_publication_state_sim place_of_publication_country_sim
-                  place_of_publication_coords_sim place_of_publication_label_tesim]
+      fields = %w[language_sim]
       fields.each do |field|
         solr_doc[field] ||= parent_doc[field]
       end
