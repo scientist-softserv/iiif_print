@@ -1,4 +1,0 @@
-<%# based on hyrax/app/views/records/edit_fields/_resource_type.html.erb %>
-<%= f.input :genre, as: :select,
-            collection: Hyrax::ArticleGenreService.new.select_active_options,
-            input_html: { class: 'form-control', multiple: true } %>

@@ -4,7 +4,6 @@
 # - IiifPrint::ExcludeModels, to remove NewspaperTitle, NewspaperContainer,
 #     and NewspaperIssue objects from keyword searches
 class CustomSearchBuilder < Hyrax::CatalogSearchBuilder
-  include BlacklightAdvancedSearch::AdvancedSearchBuilder
   include IiifPrint::HighlightSearchParams
   include IiifPrint::ExcludeModels
 

@@ -1,11 +1,5 @@
 $highlight-background-color: rgba(5,166,86,0.36);
 
-#search-results .thumbnail_highlight, #documents .thumbnail_highlight {
-  background-color: $highlight-background-color;
-  z-index: 1000;
-  position: absolute;
-}
-
 .metadata em {
   background-color: $highlight-background-color;
   font-weight: bold;

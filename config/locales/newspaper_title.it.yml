@@ -1,8 +1,0 @@
-it:
-  hyrax:
-    icons:
-      newspaper_title: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_title:
-        name:          "Titolo del giornale"
-        description:   "Record a livello di pubblicazione del titolo del giornale"

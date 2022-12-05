@@ -1,8 +1,0 @@
-zh:
-  hyrax:
-    icons:
-      newspaper_issue: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_issue:
-        name:          "报纸"
-        description:   "报纸"

@@ -1,9 +1,0 @@
-<div class="document col-xs-6 col-md-3">
-  <div class="thumbnail" data-fileset="<%= document.file_set_ids&.first %>" data-query="<%= highlight_matches(document, 'all_text_tsimv', 'em') || search_query(current_search_session.query_params) %>">
-    <%= render_newspaper_thumbnail_tag(document,
-                                       current_search_session.query_params) %>
-    <div class="caption">
-      <%= render_document_partials document, blacklight_config.view_config(:gallery).partials, :document_counter => document_counter %>
-    </div>
-  </div>
-</div>

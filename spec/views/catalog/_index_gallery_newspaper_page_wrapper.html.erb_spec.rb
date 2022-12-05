@@ -29,8 +29,4 @@ RSpec.describe 'catalog/_index_gallery_newspaper_page_wrapper.html.erb', type: :
                               href: "/concern/newspaper_pages/#{document[:id]}#?h=#{query}")
   end
 
-  it 'has data attributes for thumbnail highlighting' do
-    expect(page).to have_selector("div[data-fileset='#{document[:file_set_ids_ssim].first}']")
-    expect(page).to have_selector("div[data-query='#{query}']")
-  end
 end

@@ -1,8 +1,0 @@
-it:
-  hyrax:
-    icons:
-      newspaper_issue: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_issue:
-        name:          "Emissione del giornale"
-        description:   "Emissione del giornale"

@@ -19,20 +19,6 @@ RSpec.describe IiifPrintHelper do
     end
   end
 
-  describe '#render_newspaper_thumbnail_tag' do
-    it 'returns a thumbnail link with image and iiif search anchor' do
-      result = helper.render_newspaper_thumbnail_tag(document, query_params_hash)
-      expect(result).to include "concern/newspaper_pages/#{document[:id]}#?h=#{query_term}"
-    end
-  end
-
-  describe '#newspaper_thumbnail_tag' do
-    it 'returns a thumbnail' do
-      result = helper.newspaper_thumbnail_tag(document)
-      expect(result).to include "img src=\"#{document[:thumbnail_path_ss]}"
-    end
-  end
-
   describe '#highlight_matches' do
     let(:hl_fl) { 'all_text_tsimv' }
 

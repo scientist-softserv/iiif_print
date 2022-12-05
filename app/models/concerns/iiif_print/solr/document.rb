@@ -1,12 +1,11 @@
 module IiifPrint::Solr::Document
-  SOLR_NAMES = %w[alternative_title genre place_of_publication
+  SOLR_NAMES = %w[alternative_title genre
                   issn lccn oclcnum held_by text_direction
                   page_number section author photographer
                   volume issue_number geographic_coverage
                   extent publication_date height width
                   edition_number edition_name frequency preceded_by
-                  succeeded_by publication_date_start
-                  publication_date_end].freeze
+                  succeeded_by].freeze
 
   def method_missing(m, *args, &block)
     super unless SOLR_NAMES.include? m.to_s

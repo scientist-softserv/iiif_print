@@ -24,19 +24,6 @@ module IiifPrint
                 "config.search_builder_class = CustomSearchBuilder")
     end
 
-    def add_newspapers_advanced_config
-      marker = 'config.advanced_search ||= Blacklight::OpenStructWithHashAccess.new'
-      inject_into_file 'app/controllers/catalog_controller.rb', after: marker do
-        "\n    config.advanced_search[:newspapers_search] = {\n"\
-        "      form_solr_parameters: {\n"\
-        "        \"facet.field\" => [\"publication_title_ssi\", \"place_of_publication_label_sim\", \"language_sim\", \"genre_sim\"],\n"\
-        "        \"facet.limit\" => -1,\n"\
-        "        \"facet.sort\" => \"index\"\n"\
-        "      }\n"\
-        "    }\n"
-      end
-    end
-
     def inject_initializer
       copy_file 'config/initializers/patch_blacklight_advanced_search.rb'
     end

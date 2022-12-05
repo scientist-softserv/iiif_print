@@ -1,8 +1,0 @@
-zh:
-  hyrax:
-    icons:
-      newspaper_container: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_container:
-        name:              "报纸容器"
-        description:       "装有报纸的实物容器（缩微胶卷，装订的体积等"

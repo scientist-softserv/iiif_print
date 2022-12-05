@@ -1,8 +1,0 @@
-pt-BR:
-  hyrax:
-    icons:
-      newspaper_container: 'fa fa-newspaper-o'
-    select_type:
-      newspaper_container:
-        name:              "Contêiner de jornal"
-        description:       "Um contêiner físico (microfilme, volume encadernado etc.) que contém edições de jornais"
