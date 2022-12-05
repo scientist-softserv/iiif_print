@@ -1,0 +1,7 @@
+# This is a sample config file that points to a solr server for each environment
+development:
+  url: <%= ENV['SOLR_URL'] %>/hyrax
+test:
+  url: <%= ENV['SOLR_URL'] %>/hyrax_test
+production:
+  url: <%= ENV['SOLR_URL'] || "http://your.production.server:8080/bl_solr/core0" %>

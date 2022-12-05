@@ -45,3 +45,4 @@ fcrepo-webapp-*
 # ignore gem builds
 *.gem
 pkg/
+*~undo-tree~

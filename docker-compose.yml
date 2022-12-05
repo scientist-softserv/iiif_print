@@ -1,0 +1,126 @@
+version: '3.8'
+
+x-app: &app
+  build:
+    context: .
+    target: hyku-base
+    args:
+      - EXTRA_APK_PACKAGES=less vim bash openjdk11-jre ffmpeg rsync exiftool
+  # image: ghcr.io/scientist-softserv/palni-palci:${TAG:-latest}
+  env_file:
+    - .env
+  # NOTE: all common env variables moved to .env
+  volumes:
+    - node_modules:/app/samvera/hyrax-webapp/node_modules:cached
+    - uploads:/app/samvera/hyrax-webapp/public/uploads:cached
+    - assets:/app/samvera/hyrax-webapp/public/assets:cached
+    - cache:/app/samvera/hyrax-webapp/tmp/cache:cached
+    - .:/app/samvera/hyrax-webapp
+  networks:
+    internal:
+
+volumes:
+  assets:
+  cache:
+  db:
+  fcrepo:
+  node_modules:
+  redis:
+  solr:
+  uploads:
+  zk:
+  zoo:
+
+networks:
+  internal:
+
+services:
+  solr:
+    image: solr:7.7.2
+    environment:
+      - VIRTUAL_PORT=8983
+      - VIRTUAL_HOST=solr.iiif_print.test
+    ports:
+      - 8983:8983
+    command:
+      - sh
+      - "-c"
+      - "precreate-core hyrax_test /opt/solr/server/configsets/hyraxconf; solr-precreate hyrax /opt/solr/server/configsets/hyraxconf"
+    volumes:
+      - solr:/var/solr/data:cached
+      - .internal_test_app/solr/conf:/opt/solr/server/configsets/hyraxconf
+    networks:
+      - internal
+
+  fcrepo:
+    image: ghcr.io/samvera/fcrepo4:4.7.5
+    volumes:
+      - fcrepo:/data:cached
+    env_file:
+      - .env
+    environment:
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_HOST=fcrepo.hyku.test
+      - JAVA_OPTS=${JAVA_OPTS} -Dfcrepo.modeshape.configuration="classpath:/config/file-simple/repository.json" -Dfcrepo.object.directory="/data/objects" -Dfcrepo.binary.directory="/data/binaries"
+    expose:
+      - 8080
+    networks:
+      internal:
+
+  db:
+    image: postgres:11.1
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - VIRTUAL_PORT=5432
+      - VIRTUAL_HOST=db.hyku.test
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      internal:
+
+  web:
+    <<: *app
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_HOST=.hyku.test
+    command: tail -f /dev/null
+    depends_on:
+      db:
+        condition: service_started
+      solr:
+        condition: service_started
+      fcrepo:
+        condition: service_started
+      redis:
+        condition: service_started
+      chrome:
+        condition: service_started
+    expose:
+      - 3000
+
+  redis:
+    image: redis:5
+    command: redis-server
+    volumes:
+      - redis:/data
+    networks:
+      internal:
+
+  chrome:
+    # password is 'secret'
+    image: selenium/standalone-chrome-debug:3.141.59-20201010
+    logging:
+      driver: none
+    volumes:
+      - /dev/shm:/dev/shm
+    shm_size: 3G
+    networks:
+      internal:
+    environment:
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+      - VIRTUAL_PORT=7900
+      - VIRTUAL_HOST=chrome.hyku.test
