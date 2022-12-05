@@ -4,15 +4,15 @@ class NewspaperArticle < ActiveFedora::Base
   # depositor, title, date_uploaded, and date_modified.
   # https://samvera.github.io/customize-metadata-model.html#core-metadata
   include ::Hyrax::WorkBehavior
-  include NewspaperWorks::NewspaperCoreMetadata
-  include NewspaperWorks::ScannedMediaMetadata
+  include IiifPrint::NewspaperCoreMetadata
+  include IiifPrint::ScannedMediaMetadata
 
   self.indexer = NewspaperArticleIndexer
 
   # containment/aggregation:
   self.valid_child_concerns = [NewspaperPage]
 
-  validates_with NewspaperWorks::PublicationDateValidator
+  validates_with IiifPrint::PublicationDateValidator
 
   # Validation and required fields:
   validates :title, presence: {
@@ -133,7 +133,7 @@ class NewspaperArticle < ActiveFedora::Base
   include ::Hyrax::BasicMetadata
 
   # for GeoNames autocomplete lookup
-  include NewspaperWorks::PlaceOfPublicationBehavior
+  include IiifPrint::PlaceOfPublicationBehavior
 
   # relationship methods:
 

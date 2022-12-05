@@ -2,11 +2,11 @@
 #  `rails generate hyrax:work NewspaperArticle`
 module Hyrax
   class NewspaperArticlePresenter < Hyrax::WorkShowPresenter
-    include NewspaperWorks::NewspaperCorePresenter
-    include NewspaperWorks::ScannedMediaPresenter
-    include NewspaperWorks::TitleInfoPresenter
-    include NewspaperWorks::IssueInfoPresenter
-    include NewspaperWorks::IiifManifestPresenterBehavior
+    include IiifPrint::NewspaperCorePresenter
+    include IiifPrint::ScannedMediaPresenter
+    include IiifPrint::TitleInfoPresenter
+    include IiifPrint::IssueInfoPresenter
+    include IiifPrint::IiifManifestPresenterBehavior
 
     delegate :author, :photographer, :volume, :edition_number,
              :edition_name, :issue_number, :geographic_coverage, :extent,

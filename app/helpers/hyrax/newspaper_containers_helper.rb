@@ -1,5 +1,5 @@
 module Hyrax
   module NewspaperContainersHelper
-    include NewspaperWorks::BreadcrumbHelper
+    include IiifPrint::BreadcrumbHelper
   end
 end

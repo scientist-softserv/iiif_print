@@ -4,7 +4,7 @@ class NewspaperTitle < ActiveFedora::Base
   # depositor, title, date_uploaded, and date_modified.
   # https://samvera.github.io/customize-metadata-model.html#core-metadata
   include ::Hyrax::WorkBehavior
-  include NewspaperWorks::NewspaperCoreMetadata
+  include IiifPrint::NewspaperCoreMetadata
 
   self.indexer = NewspaperTitleIndexer
 
@@ -16,7 +16,7 @@ class NewspaperTitle < ActiveFedora::Base
     message: 'A newspaper title requires a title (publication name).'
   }
 
-  validates_with NewspaperWorks::PublicationDateStartEndValidator
+  validates_with IiifPrint::PublicationDateStartEndValidator
 
   # TODO: Implement validations
   # validates :resource_type, presence: {
@@ -98,7 +98,7 @@ class NewspaperTitle < ActiveFedora::Base
   include ::Hyrax::BasicMetadata
 
   # for GeoNames autocomplete lookup
-  include NewspaperWorks::PlaceOfPublicationBehavior
+  include IiifPrint::PlaceOfPublicationBehavior
 
   # relationship methods:
   def issues

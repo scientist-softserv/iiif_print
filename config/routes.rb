@@ -1,4 +1,4 @@
-NewspaperWorks::Engine.routes.draw do
+IiifPrint::Engine.routes.draw do
   # Chronicling America-style linking
   get 'newspapers/:unique_id', to: 'newspapers#title', as: 'newspaper_title'
   get 'newspapers/:unique_id/:date', to: 'newspapers#issue', as: 'newspaper_issue'

@@ -6,7 +6,7 @@ RSpec.describe 'newspapers_search' do
 
   # title_base_memo comes from fixtures_for_features
   before do
-    visit newspaper_works.newspapers_search_path
+    visit iiif_print.newspapers_search_path
     fill_in "all_fields", with: title_base_memo
   end
 

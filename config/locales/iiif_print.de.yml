@@ -1,0 +1,148 @@
+---
+de:
+  iiif_print:
+    attributes:
+      held_by:
+        label: 'Halteort'
+      identifier:
+        label: 'Kennung (lokal)'
+      issn:
+        label: 'ISSN'
+      lccn:
+        label: 'LCCN'
+      oclcnum:
+        label: 'OCLC #'
+      publication_date_end:
+        label: 'Erscheinungsdatum (Ende)'
+      publication_date_start:
+        label: 'Erscheinungsdatum (Beginn)'
+      publication_date:
+        label: 'Erscheinungsdatum'
+      alternative_title:
+        label: 'Zusätzlicher Titel'
+      edition_name:
+        label: 'Name der Ausgabe'
+      edition_number:
+        label: 'Nummer der Ausgabe'
+      volume:
+        label: 'Volumen'
+      issue_number:
+        label: 'Ausgabe Nummer'
+      page_number:
+        label: 'Seitennummer'
+      section:
+        label: 'Abschnitt'
+      extent:
+        label: 'Physikalischen Eigenschaften'
+      frequency:
+        label: 'Häufigkeit'
+      preceded_by:
+        label: 'Vorhergehender Titel'
+      succeeded_by:
+        label: 'Nachfolgender Titel'
+      genre:
+        label: 'Genre'
+      geographic_coverage:
+        label: 'Orte beschrieben'
+      author:
+        label: 'Autor'
+      photographer:
+        label: 'Fotograf'
+      height:
+        label: 'Höhe'
+      width:
+        label: 'Breite'
+      text_direction:
+        label: 'Richtung der Text'
+      place_of_publication:
+        label: 'Ort der veröffentlichung'
+      publication_title:
+        label: 'Zeitung'
+    newspapers_search:
+      title:                    'Suche nach Zeitungen'
+      text:                     'Verwenden Sie dieses Formular für die Suche nach Zeitungsinhalten im Volltext.'
+      help:
+        title:                  'Suchtipps für Zeitungen:'
+        tips:
+          open_date_range:      'Lassen Sie für ein unbefristetes Datumsbereichslimit (z. B. vor 1850, nach 1900 usw.) entweder das Feld "Start" oder "Ende" im Abschnitt "Datumsbereich" leer.'
+          undated_items:        'Wenn ein Datumsbereich in das Formular im Abschnitt "Datumsbereich" eingegeben wird, werden undatierte Elemente nicht in die Suchergebnisse aufgenommen.'
+          limiters:             'Wenn im Feldbegrenzungsbereich keine Kontrollkästchen aktiviert sind, werden alle Werte eingeschlossen.'
+          quotation_marks:      'Verwenden Sie Anführungszeichen, um nach einem Ausdruck zu suchen.'
+          boolean:              'Verwenden Sie "OR", "AND" und "NOT" im Schlüsselwortfeld, um eine komplexe boolesche Logik zu erstellen. Sie können auch Klammern verwenden.'
+          plus:                 'Verwenden Sie "+" vor einem Begriff, um ihn erforderlich zu machen.'
+          minus:                'Verwenden Sie "-" vor einem Wort oder einer Phrase, um es auszuschließen.'
+      fields:
+        date_end:               'Ende des Jahres'
+        date_range:             'Datumsbereich'
+        date_start:             'Beginnen Sie das Jahr'
+        front_pages:            'Suche auf Titelseiten beschränken'
+        keyword:                'Schlüsselwörter'
+
+    title_search_form:
+      label:                    'Suche in dieser Zeitung'
+      placeholder:              'Suche in dieser Zeitung...'
+      front_pages_link:         'Alle Titelseiten anzeigen'
+
+  simple_form:
+    hints:
+      defaults:
+        held_by:                'Der Name der Bibliothek oder Organisation, in der sich das Originalelement befindet.'
+        place_of_publication:   'Der Ort, an dem der Artikel veröffentlicht wurde.'
+        alternative_title:      'Ein zusätzlicher Titel oder Untertitel für den Artikel.'
+        edition_name:           'Der Name der Ausgabe des Artikels.'
+        edition_number:         "Die Nummer der Ausgabe des Artikels."
+        extent:                 'Eine Beschreibung der physikalischen Eigenschaften des Artikels.'
+        frequency:              'Häufigkeit der Veröffentlichung.'
+        preceded_by:            'Der Titel vor dieser Veröffentlichung.'
+        succeeded_by:           'Der Titel, der auf diese Veröffentlichung folgte.'
+        publication_date:       'Veröffentlichungsdatum (YYYY-MM-DD).'
+        publication_date_start: 'Erscheinungsdatum Beginn (YYYY-MM-DD).'
+        publication_date_end:   'Erscheinungsdatum Ende (YYYY-MM-DD).'
+        genre:                  'Art des Zeitungsartikels.'
+        geographic_coverage:    'Der in diesem Artikel beschriebene Speicherort.'
+        page_number:            'Die Paginierungsinformationen, wie auf der Seite geschrieben.'
+        text_direction:         'Die Richtung, in die der Text gelesen wird.'
+        section:                'Der Abschnitt der Zeitung, in dem der Artikel erscheint.'
+    labels:
+      defaults:
+        held_by:                'Halteort'
+        identifier:             'Kennung (lokal)'
+        issn:                   'ISSN'
+        lccn:                   'LCCN'
+        oclcnum:                'OCLC #'
+        publication_date_end:   'Erscheinungsdatum (Ende)'
+        publication_date_start: 'Erscheinungsdatum (Beginn)'
+        publication_date:       'Erscheinungsdatum'
+        place_of_publication:   'Ort der Veröffentlichung'
+        alternative_title:      'Zusätzlicher Titel'
+        edition_name:           "Name der Ausgabe"
+        edition_number:         "Nummer der Ausgabe"
+        volume:                 'Volumen'
+        issue_number:           'Ausgabe Nummer'
+        page_number:            'Seitennummer'
+        section:                'Abschnitt'
+        extent:                 "Physikalischen Eigenschaften"
+        frequency:              'Häufigkeit'
+        preceded_by:            'Vorhergehender Titel'
+        succeeded_by:           'Nachfolgender Titel'
+        genre:                  "Genre"
+        geographic_coverage:    "Orte beschrieben"
+        author:                 'Autor'
+        photographer:           'Fotograf'
+        height:                 'Höhe'
+        width:                  'Breite'
+        text_direction:         'Richtung der Text'
+
+  blacklight:
+    search:
+      fields:
+        all_text_tsimv: 'Keyword-Übereinstimmungen'
+        place_of_publication_label_tesim: 'Ort der Veröffentlichung'
+        publication_title_ssi: 'Zeitung'
+        publication_date_dtsi: 'Erscheinungsdatum'
+        publication_date_start_dtsi: 'Erscheinungsdatum (Beginn)'
+        publication_date_end_dtsi: 'Erscheinungsdatum (Ende)'
+      results:
+        snippets:
+          less: '<< weniger'
+          more: 'mehr >>'

@@ -2,7 +2,7 @@
 #  `rails generate hyrax:work NewspaperTitle`
 module Hyrax
   class NewspaperTitlePresenter < Hyrax::WorkShowPresenter
-    include NewspaperWorks::NewspaperCorePresenter
+    include IiifPrint::NewspaperCorePresenter
     delegate :edition_name, :frequency, :preceded_by,
              :succeeded_by, to: :solr_document
 
@@ -55,12 +55,12 @@ module Hyrax
     end
 
     def publication_unique_id
-      solr_document[NewspaperWorks.config.publication_unique_id_field]
+      solr_document[IiifPrint.config.publication_unique_id_field]
     end
 
     def persistent_url
       return nil unless publication_unique_id
-      NewspaperWorks::Engine.routes.url_helpers.newspaper_title_url(unique_id: publication_unique_id.first,
+      IiifPrint::Engine.routes.url_helpers.newspaper_title_url(unique_id: publication_unique_id.first,
                                                                     host: request.host)
     end
 

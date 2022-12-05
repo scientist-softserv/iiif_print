@@ -1,0 +1,18 @@
+<div id="keyword_input" class="form-group newspapers_search_field">
+  <label class="control-label col-sm-3" for="q_newspapers">
+    <%= t("iiif_print.newspapers_search.fields.keyword") %>
+  </label>
+  <div class="col-sm-7">
+    <div class="input-group">
+      <%= text_field_tag :q, current_search_parameters, class: "q form-control",
+                         name: "all_fields", id: "all_fields",
+                         placeholder: t("hyrax.search.form.q.placeholder") %>
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary" id="search-submit-newspapers">
+          <%= t('hyrax.search.button.html') %>
+        </button>
+      </div><!-- /.input-group-btn -->
+    </div><!-- /.input-group -->
+    <%= render 'front_pages_input' %>
+  </div>
+</div><!-- /.form-group -->

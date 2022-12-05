@@ -1,5 +1,5 @@
-class NewspaperPageIndexer < NewspaperWorks::NewspaperCoreIndexer
-  include NewspaperWorks::IndexesFullText
+class NewspaperPageIndexer < IiifPrint::NewspaperCoreIndexer
+  include IiifPrint::IndexesFullText
 
   def generate_solr_document
     super.tap do |solr_doc|

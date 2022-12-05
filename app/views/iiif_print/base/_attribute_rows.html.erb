@@ -1,0 +1,90 @@
+<%# newspaper_core_metadata attributes %>
+<%= presenter.attribute_to_html(:date_modified, label: t('hyrax.base.show.last_modified'), html_dl: true) %>
+<%= presenter.attribute_to_html(:alternative_title,
+                                label: t('iiif_print.attributes.alternative_title.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:genre,
+                                label: t('iiif_print.attributes.genre.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:publication_title,
+                                label: t('iiif_print.attributes.publication_title.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:place_of_publication_label,
+                                label: t('iiif_print.attributes.place_of_publication.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:issn,
+                                label: t('iiif_print.attributes.issn.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:lccn,
+                                label: t('iiif_print.attributes.lccn.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:oclcnum,
+                                label: t('iiif_print.attributes.oclcnum.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:held_by,
+                                label: t('iiif_print.attributes.held_by.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%# scanned_media_metadata attributes %>
+<%= presenter.attribute_to_html(:text_direction,
+                                label: t('iiif_print.attributes.text_direction.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:page_number,
+                                label: t('iiif_print.attributes.page_number.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:section,
+                                label: t('iiif_print.attributes.section.label'),
+                                html_dl: true) %>
+<%# newspaper_article attributes %>
+<%= presenter.attribute_to_html(:author,
+                                label: t('iiif_print.attributes.author.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:photographer,
+                                label: t('iiif_print.attributes.photographer.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:volume,
+                                label: t('iiif_print.attributes.volume.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:issue_number,
+                                label: t('iiif_print.attributes.issue_number.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:geographic_coverage,
+                                label: t('iiif_print.attributes.geographic_coverage.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:extent,
+                                label: t('iiif_print.attributes.extent.label'),html_dl: true) %>
+<%= presenter.attribute_to_html(:publication_date,
+                                label: t('iiif_print.attributes.publication_date.label'),
+                                render_as: :date, html_dl: true) %>
+<%# newspaper_title attributes %>
+<%= presenter.attribute_to_html(:edition_number,
+                                label: t('iiif_print.attributes.edition_number.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:edition_name,
+                                label: t('iiif_print.attributes.edition_name.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:frequency,
+                                label: t('iiif_print.attributes.frequency.label'),
+                                html_dl: true) %>
+<%= presenter.attribute_to_html(:preceded_by,
+                                label: t('iiif_print.attributes.preceded_by.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:succeeded_by,
+                                label: t('iiif_print.attributes.succeeded_by.label'),
+                                render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:publication_date_start,
+                                label: t('iiif_print.attributes.publication_date_start.label'),
+                                render_as: :date, html_dl: true) %>
+<%= presenter.attribute_to_html(:publication_date_end,
+                                label: t('iiif_print.attributes.publication_date_end.label'),
+                                render_as: :date, html_dl: true) %>
+<%# hyrax %>
+<%= presenter.attribute_to_html(:creator, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:contributor, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:subject, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:publisher, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:language, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:identifier, html_dl: true) %>
+<%= presenter.attribute_to_html(:resource_type, render_as: :faceted, html_dl: true) %>
+<%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
+<%# iiif_print persistent url %>
+<%= render 'iiif_print/base/persistent_url', presenter: presenter %>

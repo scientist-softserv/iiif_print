@@ -2,19 +2,19 @@
 #  `rails generate hyrax:work NewspaperPage`
 module Hyrax
   class NewspaperPagePresenter < Hyrax::WorkShowPresenter
-    include NewspaperWorks::ScannedMediaPresenter
-    include NewspaperWorks::TitleInfoPresenter
-    include NewspaperWorks::IssueInfoPresenter
-    include NewspaperWorks::IiifManifestPresenterBehavior
-    include NewspaperWorks::PersistentUrlPresenterBehavior
-    include NewspaperWorks::PageFinder
-    include NewspaperWorks::PlaceOfPublicationPresenterBehavior
+    include IiifPrint::ScannedMediaPresenter
+    include IiifPrint::TitleInfoPresenter
+    include IiifPrint::IssueInfoPresenter
+    include IiifPrint::IiifManifestPresenterBehavior
+    include IiifPrint::PersistentUrlPresenterBehavior
+    include IiifPrint::PageFinder
+    include IiifPrint::PlaceOfPublicationPresenterBehavior
 
     delegate :height, :width, to: :solr_document
 
     def persistent_url
       return nil unless publication_unique_id && issue_date_for_url
-      NewspaperWorks::Engine.routes.url_helpers.newspaper_page_url(unique_id: publication_unique_id,
+      IiifPrint::Engine.routes.url_helpers.newspaper_page_url(unique_id: publication_unique_id,
                                                                    date: issue_date_for_url,
                                                                    edition: edition_for_url,
                                                                    page: page_index_for_url,

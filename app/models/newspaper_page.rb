@@ -4,7 +4,7 @@ class NewspaperPage < ActiveFedora::Base
   # depositor, title, date_uploaded, and date_modified.
   # https://samvera.github.io/customize-metadata-model.html#core-metadata
   include ::Hyrax::WorkBehavior
-  include NewspaperWorks::ScannedMediaMetadata
+  include IiifPrint::ScannedMediaMetadata
 
   self.indexer = NewspaperPageIndexer
 

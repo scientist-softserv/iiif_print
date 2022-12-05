@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../newspaper_works/newspaper_core_presenter_spec'
+require_relative '../iiif_print/newspaper_core_presenter_spec'
 
 RSpec.describe Hyrax::NewspaperContainerPresenter do
   let(:solr_document) { SolrDocument.new(attributes) }

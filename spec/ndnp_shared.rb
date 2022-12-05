@@ -2,7 +2,7 @@ require 'newspaper_works_fixtures'
 
 RSpec.shared_context "ndnp fixture setup", shared_context: :metadata do
   let(:ndnp_fixture_path) do
-    path = File.join(NewspaperWorksFixtures.file_fixtures, 'ndnp')
+    path = File.join(IiifPrintFixtures.file_fixtures, 'ndnp')
     whitelist = Hyrax.config.whitelisted_ingest_dirs
     whitelist.push(path) unless whitelist.include?(path)
     path

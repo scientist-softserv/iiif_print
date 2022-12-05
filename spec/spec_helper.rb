@@ -28,7 +28,7 @@ include WebMock::API
 WebMock.allow_net_connect!
 
 # test account for Geonames-related specs
-Qa::Authorities::Geonames.username = 'newspaper_works'
+Qa::Authorities::Geonames.username = 'iiif_print'
 
 require 'rails-controller-testing'
 require 'rspec/rails'
@@ -60,7 +60,7 @@ ActiveJob::Base.queue_adapter = :test
 
 module EngineRoutes
   def self.included(base)
-    base.routes { NewspaperWorks::Engine.routes }
+    base.routes { IiifPrint::Engine.routes }
   end
 end
 
@@ -94,7 +94,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # require shared examples
-  require 'lib/newspaper_works/ingest/ingest_shared'
+  require 'lib/iiif_print/ingest/ingest_shared'
 
   config.include(ControllerLevelHelpers, type: :helper)
   config.before(:each, type: :helper) { initialize_controller_helpers(helper) }
@@ -154,7 +154,7 @@ RSpec.configure do |config|
     WebMock.enable!
     WebMock.allow_net_connect!
     # Load stubs from manifest
-    fixtures = File.join(NewspaperWorks::GEM_PATH, 'spec', 'fixtures', 'files')
+    fixtures = File.join(IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files')
     manifest_path = File.join(fixtures, 'resource_mocks', 'urls.json')
     manifest = JSON.parse(File.read(manifest_path))
     manifest['urls'].each do |r|

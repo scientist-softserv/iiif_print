@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Please see newspaper_works.gemspec for dependency information.
+# Please see iiif_print.gemspec for dependency information.
 gemspec
 
 group :development, :test do

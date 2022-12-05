@@ -1,6 +1,6 @@
 # Generated via
 #  `rails generate hyrax:work NewspaperArticle`
-class NewspaperArticleIndexer < NewspaperWorks::NewspaperCoreIndexer
+class NewspaperArticleIndexer < IiifPrint::NewspaperCoreIndexer
   def generate_solr_document
     super.tap do |solr_doc|
       # index the labels for the genre URIs, as searchable and facetable
