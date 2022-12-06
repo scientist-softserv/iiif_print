@@ -6,7 +6,6 @@ require "iiif_print/issue_pdf_composer"
 require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
-require "iiif_print/page_finder"
 require "iiif_print/resource_fetcher"
 
 # Newspaper works modules
