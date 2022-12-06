@@ -25,7 +25,6 @@ AllCops:
     - 'lib/newspaper_works/ingest/ndnp/batch_ingester.rb'
     - 'app/indexers/newspaper_issue_indexer.rb'
     - 'lib/newspaper_works/ingest/pdf_pages.rb'
-    - 'lib/newspaper_works/page_finder.rb'
     - 'lib/newspaper_works/text_extraction/hocr_reader.rb'
     - 'lib/tasks/newspaper_works_tasks.rake'
     - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
@@ -68,7 +67,6 @@ Metrics/MethodLength:
   Exclude:
     - 'app/helpers/newspaper_works/breadcrumb_helper.rb'
     - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
-    - 'lib/newspaper_works/page_finder.rb'
     - 'lib/newspaper_works/ingest/ndnp/ndnp_mets_helper.rb'
     - 'lib/newspaper_works/ingest/pdf_issue_ingester.rb'
     - 'spec/model_shared.rb'
