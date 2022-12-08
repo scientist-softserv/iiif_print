@@ -1,7 +1,7 @@
 module IiifPrint
   # Create child page works for issue
   class CreateIssuePagesJob < IiifPrint::ApplicationJob
-    def perform(work, pdf_paths, user, admin_set_id)
+    def perform(work, _pdf_paths, user, admin_set_id)
       # we will need depositor set on work, if it is nil
       work.depositor ||= user
       # if we do not have admin_set_id yet, set it on the issue work:

@@ -13,34 +13,37 @@ AllCops:
     - 'spec/test_app_templates/**/*'
     - 'vendor/**/*'
     # Resole the issues below
-    - 'app/helpers/newspaper_works/breadcrumb_helper.rb'
-    - 'app/helpers/newspaper_works/newspaper_works_helper_behavior.rb'
-    - 'app/helpers/newspaper_works/newspaper_works_helper_behavior.rb'
+    - 'app/helpers/iiif_print/breadcrumb_helper.rb'
+    - 'app/helpers/iiif_print/iiif_print_helper_behavior.rb'
+    - 'app/helpers/iiif_print/iiif_print_helper_behavior.rb'
     - 'app/models/newspaper_article.rb'
-    - 'app/validators/newspaper_works/publication_date_start_end_validator.rb'
-    - 'app/validators/newspaper_works/publication_date_validator.rb'
-    - 'lib/newspaper_works/data/work_derivatives.rb'
-    - 'lib/newspaper_works/data/work_files.rb'
-    - 'lib/newspaper_works/ingest.rb'
-    - 'lib/newspaper_works/ingest/ndnp/batch_ingester.rb'
+    - 'app/validators/iiif_print/publication_date_start_end_validator.rb'
+    - 'app/validators/iiif_print/publication_date_validator.rb'
+    - 'lib/iiif_print/data/work_derivatives.rb'
+    - 'lib/iiif_print/data/work_files.rb'
+    - 'lib/iiif_print/ingest.rb'
+    - 'lib/iiif_print/ingest/ndnp/batch_ingester.rb'
     - 'app/indexers/newspaper_issue_indexer.rb'
-    - 'lib/newspaper_works/ingest/pdf_pages.rb'
-    - 'lib/newspaper_works/text_extraction/hocr_reader.rb'
-    - 'lib/tasks/newspaper_works_tasks.rake'
-    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
-    - 'spec/lib/newspaper_works/data/work_files_spec.rb'
-    - 'spec/lib/newspaper_works/ingest/ndnp/container_ingester_spec.rb'
+    - 'lib/iiif_print/ingest/pdf_pages.rb'
+    - 'lib/iiif_print/text_extraction/hocr_reader.rb'
+    - 'lib/tasks/iiif_print_tasks.rake'
+    - 'spec/lib/iiif_print/data/work_derivatives_spec.rb'
+    - 'spec/lib/iiif_print/data/work_files_spec.rb'
+    - 'spec/lib/iiif_print/ingest/ndnp/container_ingester_spec.rb'
     - 'tasks/newspaperworks_dev.rake'
+
+Layout/HashAlignment:
+  Enabled: false
 
 Layout/LineLength:
   Exclude:
-    - 'spec/lib/newspaper_works/data/work_derivatives_spec.rb'
-    - 'spec/lib/newspaper_works/ingest/ndnp/issue_ingester_spec.rb'
-    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
+    - 'spec/lib/iiif_print/data/work_derivatives_spec.rb'
+    - 'spec/lib/iiif_print/ingest/ndnp/issue_ingester_spec.rb'
+    - 'lib/generators/iiif_print/catalog_controller_generator.rb'
 
 Lint/ImplicitStringConcatenation:
   Exclude:
-    - 'lib/generators/newspaper_works/**/*'
+    - 'lib/generators/iiif_print/**/*'
 
 Metrics/AbcSize:
   Exclude:
@@ -49,7 +52,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   ExcludedMethods: ['included']
   Exclude:
-    - 'newspaper_works.gemspec'
+    - 'iiif_print.gemspec'
     - 'lib/tasks/*.rake'
     - 'spec/**/*.rb'
 
@@ -59,16 +62,16 @@ Metrics/CyclomaticComplexity:
 
 Metrics/ClassLength:
   Exclude:
-    - 'lib/newspaper_works/data/work_derivatives.rb'
-    - 'lib/newspaper_works/ingest/ndnp/page_ingester.rb'
-    - 'lib/newspaper_works/ingest/lc_publication_info.rb'
+    - 'lib/iiif_print/data/work_derivatives.rb'
+    - 'lib/iiif_print/ingest/ndnp/page_ingester.rb'
+    - 'lib/iiif_print/ingest/lc_publication_info.rb'
 
 Metrics/MethodLength:
   Exclude:
-    - 'app/helpers/newspaper_works/breadcrumb_helper.rb'
-    - 'lib/generators/newspaper_works/catalog_controller_generator.rb'
-    - 'lib/newspaper_works/ingest/ndnp/ndnp_mets_helper.rb'
-    - 'lib/newspaper_works/ingest/pdf_issue_ingester.rb'
+    - 'app/helpers/iiif_print/breadcrumb_helper.rb'
+    - 'lib/generators/iiif_print/catalog_controller_generator.rb'
+    - 'lib/iiif_print/ingest/ndnp/ndnp_mets_helper.rb'
+    - 'lib/iiif_print/ingest/pdf_issue_ingester.rb'
     - 'spec/model_shared.rb'
 
 Naming/PredicateName:
@@ -77,7 +80,7 @@ Naming/PredicateName:
 
 Performance/StringReplacement:
   Exclude:
-    - 'app/indexers/concerns/newspaper_works/indexes_full_text.rb'
+    - 'app/indexers/concerns/iiif_print/indexes_full_text.rb'
 
 Style/AsciiComments:
   Enabled: false
@@ -116,8 +119,8 @@ Rails/FilePath:
 
 Rails/OutputSafety:
   Exclude:
-    - 'lib/generators/newspaper_works/templates/config/initializers/patch_blacklight_advanced_search.rb'
-    - 'spec/helpers/newspaper_works_helper_spec.rb'
+    - 'lib/generators/iiif_print/templates/config/initializers/patch_blacklight_advanced_search.rb'
+    - 'spec/helpers/iiif_print_helper_spec.rb'
 
 RSpec/DescribeClass:
   Exclude:
@@ -163,4 +166,7 @@ RSpec/ExampleLength:
   Max: 19
 
 Rails/RakeEnvironment:
+  Enabled: false
+
+Style/IdenticalConditionalBranches:
   Enabled: false
