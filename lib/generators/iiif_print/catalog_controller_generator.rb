@@ -28,6 +28,5 @@ module IiifPrint
         "    config.add_facet_field 'first_page_bsi', label: 'First page', if: false\n"
       end
     end
-
   end
 end

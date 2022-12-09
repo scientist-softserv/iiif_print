@@ -28,5 +28,4 @@ RSpec.describe 'catalog/_index_gallery_newspaper_page_wrapper.html.erb', type: :
     expect(page).to have_link(document[:title_tesim].first,
                               href: "/concern/newspaper_pages/#{document[:id]}#?h=#{query}")
   end
-
 end

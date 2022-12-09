@@ -46,7 +46,7 @@ services:
       - "precreate-core hyrax_test /opt/solr/server/configsets/hyraxconf; solr-precreate hyrax /opt/solr/server/configsets/hyraxconf"
     volumes:
       - solr:/var/solr/data:cached
-      - .internal_test_app/solr/conf:/opt/solr/server/configsets/hyraxconf
+      - ./spec/test_app_templates/solr/conf/:/opt/solr/server/configsets/hyraxconf
     networks:
       - internal
 
