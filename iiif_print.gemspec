@@ -24,6 +24,7 @@ SUMMARY
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
   spec.add_dependency 'blacklight_advanced_search', '6.4.1'
+  spec.add_dependency 'dry-monads', '~> 1.4.0'
   spec.add_dependency 'hyrax', '>= 2.5', '< 4.0'
   spec.add_dependency 'nokogiri', '>=1.13.2'
   spec.add_dependency 'rails', '~> 5.0'
