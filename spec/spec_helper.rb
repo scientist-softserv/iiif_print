@@ -115,9 +115,14 @@ RSpec.configure do |config|
   # ensure Hyrax has active sipity workflow for default admin set:
   config.before(:suite) do
     require 'active_fedora/cleaner'
+    require 'database_cleaner'
+
     ActiveFedora::Cleaner.clean!
+    DatabaseCleaner.clean_with(:truncation)
 
     begin
+      # TODO: switch the below methods to use the appropriate services
+      # rather than the deprecated methods currently being used.
       # ensure permission template actually exists in RDBMS:
       id = 'admin_set/default'
       no_template = Hyrax::PermissionTemplate.find_by(source_id: id).nil?
