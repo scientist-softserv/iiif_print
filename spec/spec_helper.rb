@@ -121,9 +121,8 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
 
     begin
-      # # admin_set = Hyrax::AdminSetCreateService.find_or_create_default_admin_set
-      # admin_set = AdminSet.find(ensure_well_formed_admin_set_service.call(admin_set_id: nil))
-
+      # TODO: switch the below methods to use the appropriate services
+      # rather than the deprecated methods currently being used.
       # ensure permission template actually exists in RDBMS:
       id = 'admin_set/default'
       no_template = Hyrax::PermissionTemplate.find_by(source_id: id).nil?
