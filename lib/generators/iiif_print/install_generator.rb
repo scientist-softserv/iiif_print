@@ -85,10 +85,8 @@ module IiifPrint
 
       @work_types = model_name.presence&.map(&:to_s)&.map(&:camelcase) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
       @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
-      if @work_types.blank?
-        say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
-        exit 0
-      end
+
+      say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red) if @work_types.blank?
     end
 
     def add_additional_indexers
@@ -96,7 +94,7 @@ module IiifPrint
       @work_types.each do |work_type|
         file = "app/indexers/#{work_type.underscore}_indexer.rb"
         file_text = File.read(file)
-        insert = "  include SetChildFlag\n"
+        insert = "  include IiifPrint::ChildIndexer\n"
         next if file_text.include?(insert)
         insert_into_file file, before: /\nend/ do
           "\n#{insert}\n"
@@ -109,13 +107,13 @@ module IiifPrint
       file = "app/indexers/*/file_set_indexer.rb"
       if File.exist?(file)
         file_text = File.read(file)
-        insert = "  include IiifPrintFileSetIndexer\n"
+        insert = "  include IiifPrint::FileSetIndexer\n"
         next if file_text.include?(insert)
         insert_into_file file, before: /\nend/ do
           "\n#{insert}\n"
         end
       else
-        # TODO (shanalmoore) - how to handle the following? if file doesn't exist
+        # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
         create_file "app/indexers/file_set_indexer.rb"
         copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
         "app/indexers/file_set_indexer.rb"

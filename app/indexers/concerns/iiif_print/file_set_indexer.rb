@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module IiifPrint
-  module IiifPrintFileSetIndexer < ActiveFedora::IndexingService
+  module FileSetIndexer < ActiveFedora::IndexingService
     # rubocop:disable Metrics/AbcSize
     def generate_solr_document
       super.tap do |solr_doc|
