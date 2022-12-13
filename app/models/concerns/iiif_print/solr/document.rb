@@ -7,6 +7,8 @@ module IiifPrint::Solr::Document
                   edition_number edition_name frequency preceded_by
                   succeeded_by].freeze
 
+  attribute :is_child, Solr::String, "is_child_bsi"
+
   def method_missing(m, *args, &block)
     super unless SOLR_NAMES.include? m.to_s
     self[Solrizer.solr_name(m.to_s)]
