@@ -1,6 +1,6 @@
 module IiifPrint
-  # Create child page works for issue
-  class CreateIssuePagesJob < IiifPrint::ApplicationJob
+  # Break a pdf into individual pages
+  class CreatePagesJob < IiifPrint::ApplicationJob
     def perform(work, _pdf_paths, user, admin_set_id)
       # we will need depositor set on work, if it is nil
       work.depositor ||= user

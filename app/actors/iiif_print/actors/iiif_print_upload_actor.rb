@@ -1,60 +1,27 @@
 module IiifPrint
   module Actors
     class IiifPrintUploadActor < Hyrax::Actors::AbstractActor
+      # An actor which locates all uploaded PDF paths and
+      # spins off IiifPrint::CreatePagesJob to split them.
       def create(env)
-        # Ensure that work has title, set from form data if present
+        # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
-        # If NewspaperIssue, we might have a PDF to split; make a list of
-        #   paths to PDF uploads before next_actor removes them
-        #   from env.attributes, with state kept in instance variable
-        #   until late in "heading back up" phase of the actor stack, where
-        #   correct depositor value is already set on the issue (only
-        #   at that point should we queue the job to create child pages).
         @pdf_paths = []
-        hold_upload_paths(env) if env.curation_concern.class == NewspaperIssue
-        # pass to next actor, then handle issue uploads after other actors
-        #   that are lower on the stack
+        hold_upload_paths(env) if responds_to_split?(env.curation_concern)
         next_actor.create(env) && after_other_actors(env)
       end
 
-      def after_other_actors(env)
-        handle_issue_upload(env) if env.curation_concern.class == NewspaperIssue
-        # needs to return true to not break actor stack traversal
-        true
-      end
-
-      # Work must have a title to save, and this actor's .create/.update
-      #   methods run prior to the setting of form data.  This ensures
-      #   appropriate title is set on model.
-      def ensure_title(env)
-        form_title = env.attributes['title']
-        return if form_title.nil?
-        env.curation_concern.title = form_title
-      end
-
       def update(env)
-        # Ensure that work has title, set from form data if present
+        # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
         @pdf_paths = []
-        hold_upload_paths(env) if env.curation_concern.class == NewspaperIssue
-        # pass to next actor, then handle issue uploads after other actors
-        #   that are lower on the stack
+        hold_upload_paths(env) if responds_to_split?(env.curation_concern)
         next_actor.update(env) && after_other_actors(env)
       end
 
-      def default_admin_set
-        AdminSet.find_or_create_default_admin_set_id
-      end
+      private
 
-      def queue_job(work, paths, user, admin_set_id)
-        IiifPrint::CreateIssuePagesJob.perform_later(
-          work,
-          paths,
-          user,
-          admin_set_id
-        )
-      end
-
+      # fill the array of pdf files' upload paths
       def hold_upload_paths(env)
         return unless env.attributes.keys.include? 'uploaded_files'
         upload_ids = filter_file_ids(env.attributes['uploaded_files'])
@@ -62,6 +29,17 @@ module IiifPrint
         uploads = Hyrax::UploadedFile.find(upload_ids)
         paths = uploads.map(&method(:upload_path))
         @pdf_paths = paths.select { |path| path.end_with?('.pdf') }
+      end
+
+      def responds_to_split?(curation_concern)
+        return true if curation_concern.respond_to?(:split_pdf)
+        false
+      end
+
+      def after_other_actors(env)
+        handle_issue_upload(env) if responds_to_split?(env.curation_concern)
+        # needs to return true to not break actor stack traversal
+        true
       end
 
       def handle_issue_upload(env)
@@ -72,6 +50,30 @@ module IiifPrint
         user = env.current_ability.current_user.user_key
         env.attributes[:admin_set_id] ||= default_admin_set
         queue_job(work, @pdf_paths, user, env.attributes[:admin_set_id])
+      end
+
+      def queue_job(work, paths, user, admin_set_id)
+        IiifPrint::CreatePagesJob.perform_later(
+          work,
+          paths,
+          user,
+          admin_set_id
+        )
+      end
+
+      # TODO: test what happens when ensure_title is removed... the
+      # work is saved after all other actors, so this may be a non-issue?
+      # Work must have a title to save, and this actor's .create/.update
+      # methods run prior to the setting of form data.  This ensures
+      # appropriate title is set on model.
+      def ensure_title(env)
+        form_title = env.attributes['title']
+        return if form_title.nil?
+        env.curation_concern.title = form_title
+      end
+
+      def default_admin_set
+        AdminSet.find_or_create_default_admin_set_id
       end
 
       # Given Hyrax::Upload object, return path to file on local filesystem
