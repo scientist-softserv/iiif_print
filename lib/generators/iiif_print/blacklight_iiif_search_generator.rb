@@ -17,7 +17,8 @@ module IiifPrint
     def adjust_catalog_controller_config
       gsub_file('app/controllers/catalog_controller.rb',
                 "full_text_field: 'text',",
-                "full_text_field: 'all_text_tsimv',")
+                "full_text_field: 'all_text_tsimv',",
+                "object_relation_field: 'is_page_of_ssim',")
     end
 
     # Update the IiifSearchBuilder

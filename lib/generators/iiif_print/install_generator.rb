@@ -77,5 +77,45 @@ module IiifPrint
     def inject_assets
       generate 'iiif_print:assets'
     end
+
+    def gather_work_types
+      # check if this is a hyku application
+      switch!(Account.first) if defined? Account
+
+      @work_types = model_name.presence&.map(&:to_s)&.map(&:camelcase) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
+      @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
+      if @work_types.blank?
+        say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
+        exit 0
+      end
+    end
+
+    def add_additional_indexers
+      # adds to work type indexers
+      @work_types.each do |work_type|
+        file = "app/indexers/#{work_type.underscore}_indexer.rb"
+        file_text = File.read(file)
+        insert = "  include SetChildFlag\n"
+        next if file_text.include?(insert)
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}\n"
+        end
+      end
+
+      # adds to file_set indexers
+      create_file "app/indexers/hyrax/file_set_indexer.rb"
+      copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
+      "app/indexers/hyrax/file_set_indexer.rb"
+    end
+
+    def add_set_child_module
+      # add additional modules to generated classes
+      @work_types.each do |work_type|
+        file = "app/models/#{work_type.underscore}.rb"
+        file_text = File.read(file)
+        insert = "  include SetChildFlag\n"
+        next if file_text.include?(insert)
+      end
+    end
   end
 end
