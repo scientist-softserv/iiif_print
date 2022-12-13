@@ -2,6 +2,7 @@ require 'rails/generators'
 
 module IiifPrint
   # Install Generator Class
+  # rubocop:disable Metrics/ClassLength
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
@@ -91,7 +92,7 @@ module IiifPrint
     end
 
     def add_additional_indexers
-      # adds to work type indexers
+      # adds SetChildFlag to work type indexers
       @work_types.each do |work_type|
         file = "app/indexers/#{work_type.underscore}_indexer.rb"
         file_text = File.read(file)
@@ -101,11 +102,24 @@ module IiifPrint
           "\n#{insert}\n"
         end
       end
+    end
 
+    def add_file_set_indexer
       # adds to file_set indexers
-      create_file "app/indexers/hyrax/file_set_indexer.rb"
-      copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
-      "app/indexers/hyrax/file_set_indexer.rb"
+      file = "app/indexers/*/file_set_indexer.rb"
+      if File.exist?(file)
+        file_text = File.read(file)
+        insert = "  include IiifPrintFileSetIndexer\n"
+        next if file_text.include?(insert)
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}\n"
+        end
+      else
+        # TODO (shanalmoore) - how to handle the following? if file doesn't exist
+        create_file "app/indexers/file_set_indexer.rb"
+        copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
+        "app/indexers/file_set_indexer.rb"
+      end
     end
 
     def add_set_child_module
@@ -117,5 +131,6 @@ module IiifPrint
         next if file_text.include?(insert)
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end
