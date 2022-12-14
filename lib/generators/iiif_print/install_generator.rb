@@ -32,7 +32,7 @@ module IiifPrint
     def add_solr_doc
       inject_into_file 'app/models/solr_document.rb',
                        after: "include Hyrax::SolrDocumentBehavior" do
-        "\n  include IiifPrint::Solr::Document\n"
+        "\n  include IiifPrint::Solr::Document\n  attribute :is_child, Solr::String, 'is_child_bsi'"
       end
     end
 
@@ -104,20 +104,22 @@ module IiifPrint
 
     def add_file_set_indexer
       # adds to file_set indexers
-      file = "app/indexers/*/file_set_indexer.rb"
-      if File.exist?(file)
-        file_text = File.read(file)
-        insert = "  include IiifPrint::FileSetIndexer\n"
-        next if file_text.include?(insert)
-        insert_into_file file, before: /\nend/ do
-          "\n#{insert}\n"
-        end
-      else
-        # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
-        create_file "app/indexers/file_set_indexer.rb"
-        copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
-        "app/indexers/file_set_indexer.rb"
+      file = "app/indexers/hyrax/file_set_indexer.rb"
+      raise "Copy #{file} from Hyrax. Be sure you copy this app's matching version of Hyrax and try to install iiif_print again." unless File.exist?(file)
+
+      # if File.exist?(file)
+      file_text = File.read(file)
+      insert = "  include IiifPrint::FileSetIndexer\n"
+      next if file_text.include?(insert)
+      insert_into_file file, before: /\nend/ do
+        "\n#{insert}\n"
       end
+      # else
+      # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
+      # create_file "app/indexers/file_set_indexer.rb"
+      # copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
+      # "app/indexers/file_set_indexer.rb"
+      # end
     end
 
     def add_set_child_module
@@ -128,6 +130,11 @@ module IiifPrint
         insert = "  include SetChildFlag\n"
         next if file_text.include?(insert)
       end
+    end
+
+    def add_custom_is_child_term
+      create_file "lib/rdf/custom_is_child_term.rb"
+      copy_file "custom_is_child_term.rb", "lib/rdf/custom_is_child_term.rb"
     end
     # rubocop:enable Metrics/ClassLength
   end

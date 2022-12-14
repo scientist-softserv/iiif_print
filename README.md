@@ -84,8 +84,9 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 ## Application/Site Specific Configuration
 Running the generator should apply the following changes.
 Include SetChildFlag to the work models. 
-Include IiifPrint::ChildIndexer to the work's indexer models.
+Include IiifPrint::ChildIndexer to the work's indexers.
 Include IiifPrint::FileSetIndexer to the file set's indexer.
+Add custom_is_child_term to lib/rdf/.
 Add the following to solr_document.rb
   `attribute :is_child, Solr::String, "is_child_bsi"`
 ### Config changes made by the installer:

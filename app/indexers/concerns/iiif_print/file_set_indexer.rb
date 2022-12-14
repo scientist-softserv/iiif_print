@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module IiifPrint
-  module FileSetIndexer < ActiveFedora::IndexingService
+  module FileSetIndexer
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def generate_solr_document
       super.tap do |solr_doc|
         solr_doc['hasRelatedMediaFragment_ssim'] = object.representative_id
@@ -35,43 +36,44 @@ module IiifPrint
         index_full_text(object, solr_doc)
       end
     end
+    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
 
     private
 
-      def ancestor_ids(o)
-        a_ids = []
-        o.in_works.each do |work|
-          a_ids << work.id
-          a_ids += ancestor_ids(work) if work.is_child
-        end
-        a_ids
+    def ancestor_ids(o)
+      a_ids = []
+      o.in_works.each do |work|
+        a_ids << work.id
+        a_ids += ancestor_ids(work) if work.is_child
       end
+      a_ids
+    end
 
-      def digest_from_content
-        return unless object.original_file
-        object.original_file.digest.first.to_s
-      end
+    def digest_from_content
+      return unless object.original_file
+      object.original_file.digest.first.to_s
+    end
 
-      def original_file_id
-        return unless object.original_file
-        if object.original_file.versions.present?
-          ActiveFedora::File.uri_to_id(object.current_content_version_uri)
-        else
-          object.original_file.id
-        end
+    def original_file_id
+      return unless object.original_file
+      if object.original_file.versions.present?
+        ActiveFedora::File.uri_to_id(object.current_content_version_uri)
+      else
+        object.original_file.id
       end
+    end
 
-      # rubocop:disable Rails/Presence
-      def file_format
-        if object.mime_type.present? && object.format_label.present?
-          "#{object.mime_type.split('/').last} (#{object.format_label.join(', ')})"
-        elsif object.mime_type.present?
-          object.mime_type.split('/').last
-        elsif object.format_label.present?
-          object.format_label
-        end
+    # rubocop:disable Rails/Presence
+    def file_format
+      if object.mime_type.present? && object.format_label.present?
+        "#{object.mime_type.split('/').last} (#{object.format_label.join(', ')})"
+      elsif object.mime_type.present?
+        object.mime_type.split('/').last
+      elsif object.format_label.present?
+        object.format_label
       end
+    end
     # rubocop:enable Rails/Presence
   end
 end
