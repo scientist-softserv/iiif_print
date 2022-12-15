@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require Rails.root.to_s.join('lib', 'rdf', 'custom_is_child_term.rb')
+require Rails.root.join('lib', 'rdf', 'custom_is_child_term.rb')
 
 module SetChildFlag
   extend ActiveSupport::Concern

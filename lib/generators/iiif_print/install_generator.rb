@@ -83,14 +83,11 @@ module IiifPrint
       # check if this is a hyku application
       switch!(Account.first) if defined? Account
 
-      @work_types = model_name.presence&.map(&:to_s)&.map(&:camelcase) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
-      @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
-
-      say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red) if @work_types.blank?
+      @work_types = Hyrax.config.curation_concerns.map(&:to_s)
     end
 
-    def add_additional_indexers
-      # adds SetChildFlag to work type indexers
+    def add_child_indexer
+      # adds ChildIndexer to work indexers
       @work_types.each do |work_type|
         file = "app/indexers/#{work_type.underscore}_indexer.rb"
         file_text = File.read(file)
@@ -105,14 +102,19 @@ module IiifPrint
     def add_file_set_indexer
       # adds to file_set indexers
       file = "app/indexers/hyrax/file_set_indexer.rb"
-      raise "Copy #{file} from Hyrax. Be sure you copy this app's matching version of Hyrax and try to install iiif_print again." unless File.exist?(file)
+      raise "Copy #{file} from your version of Hyrax and try to install iiif_print again." unless File.exist?(file)
 
       # if File.exist?(file)
       file_text = File.read(file)
-      insert = "  include IiifPrint::FileSetIndexer\n"
-      next if file_text.include?(insert)
-      insert_into_file file, before: /\nend/ do
-        "\n#{insert}\n"
+      insert = "    include IiifPrint::FileSetIndexer\n"
+      if file_text.include?('    include Hyrax::IndexesBasicMetadata')
+        insert_into_file file, before: /    include Hyrax::IndexesBasicMetadata/ do
+          "\n#{insert}\n"
+        end
+      else
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}"
+        end
       end
       # else
       # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
@@ -123,17 +125,21 @@ module IiifPrint
     end
 
     def add_set_child_module
-      # add additional modules to generated classes
+      # adds SetChildFlag to work type indexers
       @work_types.each do |work_type|
         file = "app/models/#{work_type.underscore}.rb"
         file_text = File.read(file)
         insert = "  include SetChildFlag\n"
         next if file_text.include?(insert)
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}\n"
+        end
       end
     end
 
     def add_custom_is_child_term
-      create_file "lib/rdf/custom_is_child_term.rb"
+      file = "lib/rdf/custom_is_child_term.rb" 
+      create_file file unless File.exist?(file)
       copy_file "custom_is_child_term.rb", "lib/rdf/custom_is_child_term.rb"
     end
     # rubocop:enable Metrics/ClassLength
