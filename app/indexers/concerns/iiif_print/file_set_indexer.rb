@@ -2,6 +2,7 @@
 
 module IiifPrint
   module FileSetIndexer
+    include IiifPrint::IiifPrintBehavior
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def generate_solr_document
@@ -14,16 +15,5 @@ module IiifPrint
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
-
-    private
-
-    def ancestor_ids(o)
-      a_ids = []
-      o.in_works.each do |work|
-        a_ids << work.id
-        a_ids += ancestor_ids(work) if work.is_child
-      end
-      a_ids
-    end
   end
 end

@@ -3,6 +3,7 @@
 module IiifPrint
   module ChildIndexer
     extend ActiveSupport::Concern
+    include IiifPrint::IiifPrintBehavior
 
     def generate_solr_document
       super.tap do |solr_doc|
@@ -23,15 +24,6 @@ module IiifPrint
       # enables us to return parents when searching for child metadata
       all_my_children << o.member_ids
       all_my_children.flatten!.uniq.compact
-    end
-
-    def ancestor_ids(o)
-      a_ids = []
-      o.in_works.each do |work|
-        a_ids << work.id
-        a_ids += ancestor_ids(work) if work.is_child
-      end
-      a_ids
     end
   end
 end
