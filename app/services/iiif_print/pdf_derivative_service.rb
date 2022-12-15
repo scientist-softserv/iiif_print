@@ -1,7 +1,7 @@
 require 'open3'
 
 module IiifPrint
-  class PDFDerivativeService < NewspaperPageDerivativeService
+  class PDFDerivativeService < PageDerivativeService
     TARGET_EXT = 'pdf'.freeze
 
     # PDF (JPEG, 8 bit grayscale), 150ppi

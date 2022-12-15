@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe IiifPrint::NewspaperPageDerivativeService do
+RSpec.describe IiifPrint::PageDerivativeService do
   let(:valid_file_set) do
     fs = FileSet.new
     work = NewspaperPage.new
