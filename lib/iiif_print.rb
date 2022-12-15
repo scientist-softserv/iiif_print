@@ -8,8 +8,24 @@ require "iiif_print/data"
 require "iiif_print/configuration"
 require "iiif_print/resource_fetcher"
 
-# Newspaper works modules
 module IiifPrint
+  extend ActiveSupport::Autoload
+  autoload :Configuration
+
+  ##
+  # @api public
+  # Exposes the IiifPrint configuration.
+  #
+  # In the below examples, you would add the code to a `config/initializers/iiif_print_config.rb` file
+  # inside your application
+  #
+  # @example
+  #   IiifPrint.config do |config|
+  #     config.work_types_for_derivative_service = [GenericWork, Image]
+  #   end
+  # @yield [IiifPrint::Configuration] if a block is passed
+  # @return [IiifPrint::Configuration]
+  # @see IiifPrint::Configuration for configuration options
   def self.config(&block)
     @config ||= IiifPrint::Configuration.new
     yield @config if block
