@@ -1,11 +1,5 @@
 module IiifPrint
   class Configuration
-    # 'publication_unique_id' configs used for Chronicling America style linking
-    # attr_writer :publication_unique_id_property
-    # def publication_unique_id_property
-    #   @publication_unique_id_property || :lccn
-    # end
-
     ##
     # @param value [Array<Class>]
     attr_writer :work_types_for_derivative_service
