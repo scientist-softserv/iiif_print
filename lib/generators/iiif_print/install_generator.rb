@@ -104,7 +104,6 @@ module IiifPrint
       file = "app/indexers/hyrax/file_set_indexer.rb"
       raise "Copy #{file} from your version of Hyrax and try to install iiif_print again." unless File.exist?(file)
 
-      # if File.exist?(file)
       file_text = File.read(file)
       insert = "    include IiifPrint::FileSetIndexer\n"
       if file_text.include?('    include Hyrax::IndexesBasicMetadata')
@@ -116,12 +115,10 @@ module IiifPrint
           "\n#{insert}"
         end
       end
-      # else
       # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
       # create_file "app/indexers/file_set_indexer.rb"
       # copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
       # "app/indexers/file_set_indexer.rb"
-      # end
     end
 
     def add_set_child_module
