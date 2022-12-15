@@ -70,10 +70,6 @@ module IiifPrint
       copy_file 'config/initializers/iiif_print.rb'
     end
 
-    def add_configuration
-      copy_file 'iiif_print_config.rb', 'config/initializers/iiif_print_config.rb'
-    end
-
     def add_helper
       copy_file "iiif_print_helper.rb", "app/helpers/iiif_print_helper.rb"
     end
