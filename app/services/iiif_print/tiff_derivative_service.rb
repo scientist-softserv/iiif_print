@@ -1,7 +1,7 @@
 require 'open3'
 
 module IiifPrint
-  class TIFFDerivativeService < NewspaperPageDerivativeService
+  class TIFFDerivativeService < PageDerivativeService
     TARGET_EXT = 'tiff'.freeze
 
     # For imagemagick commands, the output type is determined by the

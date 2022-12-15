@@ -1,6 +1,6 @@
 module IiifPrint
   # Base type for derivative services specific to NewspaperPage only
-  class NewspaperPageDerivativeService
+  class PageDerivativeService
     attr_reader :file_set, :master_format
     delegate :uri, to: :file_set
 
@@ -22,7 +22,7 @@ module IiifPrint
       # fallback to Fedora-stored relationships if work's aggregation of
       #   file set is not indexed in Solr
       parent = file_set.member_of.find(&:work?) if parent.nil?
-      parent.class == NewspaperPage
+      IiifPrint.config.work_types_for_derivative_service.include?(parent.class)
     end
 
     def derivative_path_factory
@@ -107,7 +107,5 @@ module IiifPrint
       # intermediate -> PDF
       im_convert
     end
-
-    # def cleanup_derivatives; end
   end
 end

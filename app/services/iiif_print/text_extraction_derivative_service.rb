@@ -1,5 +1,5 @@
 module IiifPrint
-  class TextExtractionDerivativeService < NewspaperPageDerivativeService
+  class TextExtractionDerivativeService < PageDerivativeService
     def initialize(file_set)
       super(file_set)
       @alto_path = nil

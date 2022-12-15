@@ -1,10 +1,25 @@
 require 'spec_helper'
 
-RSpec.describe IiifPrint::NewspaperPageDerivativeService do
+RSpec.describe IiifPrint::PageDerivativeService do
+  before do
+    class MyWorkNeedsDerivative < ActiveFedora::Base
+      attr_accessor :title, :members
+      def members
+        []
+      end
+    end
+
+    class MyWorkDoesNotNeedDerivative < ActiveFedora::Base
+      attr_accessor :title, :members
+      def members
+        []
+      end
+    end
+  end
+
   let(:valid_file_set) do
     fs = FileSet.new
-    work = NewspaperPage.new
-    work.title = ['This is a page!']
+    work.title = ['Hey Hey']
     work.members.push(fs)
     fs.save!(validate: false)
     work.save!(validate: false)
@@ -13,13 +28,14 @@ RSpec.describe IiifPrint::NewspaperPageDerivativeService do
 
   let(:unconsidered_file_set) do
     fs = FileSet.new
-    work = NewspaperIssue.new
     work.title = ['Hello Hello']
     work.members.push(fs)
     work.save!(validate: false)
     fs.save!(validate: false)
     fs
   end
+
+  let(:work) { MyWorkNeedsDerivative.new }
 
   let(:fixture_path) do
     File.join(
@@ -37,14 +53,24 @@ RSpec.describe IiifPrint::NewspaperPageDerivativeService do
       expect(svc.class.target_ext).to eq 'jpg'
     end
 
-    it "considers file_sets belonging to page work type" do
-      svc = MyDerivativeService.new(valid_file_set)
-      expect(svc.valid?).to eq true
+    context "valid" do
+      let(:work) { MyWorkNeedsDerivative.new }
+      it "considers file_sets belonging to configured work types" do
+        IiifPrint.config.work_types_for_derivative_service = [MyWorkNeedsDerivative]
+        allow(valid_file_set).to receive(:in_works).and_return([work])
+        svc = MyDerivativeService.new(valid_file_set)
+        expect(svc.valid?).to eq true
+      end
     end
 
-    it "ignores file_sets belonging to non-page work type" do
-      svc = MyDerivativeService.new(unconsidered_file_set)
-      expect(svc.valid?).to eq false
+    context "not valid" do
+      let(:work) { MyWorkDoesNotNeedDerivative.new }
+      it "ignores file_sets not belonging to configured work types" do
+        IiifPrint.config.work_types_for_derivative_service = [MyWorkNeedsDerivative]
+        allow(valid_file_set).to receive(:in_works).and_return([work])
+        svc = MyDerivativeService.new(unconsidered_file_set)
+        expect(svc.valid?).to eq false
+      end
     end
 
     it "gets derivative path factory for file extension" do
