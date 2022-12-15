@@ -55,7 +55,7 @@ RSpec.describe IiifPrint::PageDerivativeService do
 
     context "valid" do
       let(:work) { MyWorkNeedsDerivative.new }
-      it "considers file_sets belonging to page work type" do
+      it "considers file_sets belonging to configured work types" do
         IiifPrint.config.work_types_for_derivative_service = [MyWorkNeedsDerivative]
         allow(valid_file_set).to receive(:in_works).and_return([work])
         svc = MyDerivativeService.new(valid_file_set)
@@ -65,7 +65,7 @@ RSpec.describe IiifPrint::PageDerivativeService do
 
     context "not valid" do
       let(:work) { MyWorkDoesNotNeedDerivative.new }
-      it "ignores file_sets belonging to non-page work type" do
+      it "ignores file_sets not belonging to configured work types" do
         IiifPrint.config.work_types_for_derivative_service = [MyWorkNeedsDerivative]
         allow(valid_file_set).to receive(:in_works).and_return([work])
         svc = MyDerivativeService.new(unconsidered_file_set)
