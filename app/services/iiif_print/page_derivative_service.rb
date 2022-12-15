@@ -107,7 +107,5 @@ module IiifPrint
       # intermediate -> PDF
       im_convert
     end
-
-    # def cleanup_derivatives; end
   end
 end
