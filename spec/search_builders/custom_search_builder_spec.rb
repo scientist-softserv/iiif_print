@@ -35,7 +35,7 @@ RSpec.describe CustomSearchBuilder do
     it 'adds the facet fields to solr_parameters' do
       expect(solr_parameters[:fq]).to be_truthy
       expect(solr_parameters[:fq]).to(
-        include("-human_readable_type_sim:\"ExcludedModel\"", "-human_readable_type_sim:\"AnotherExcludedModel\"")
+        include("-human_readable_type_sim:\"Excluded Model\"", "-human_readable_type_sim:\"Another Excluded Model\"")
       )
     end
   end

@@ -8,10 +8,9 @@ module IiifPrint
       return unless solr_parameters[:q] || solr_parameters[:all_fields]
 
       solr_parameters[:fq] ||= []
-      solr_field_name = IiifPrint.config.solr_field_name_for_model
-      IiifPrint.config.models_to_be_excluded_from_search.each do |model|
-        solr_field_value = model.public_send(IiifPrint.config.name_for_model)
-        solr_parameters[:fq] << "-#{solr_field_name}:\"#{model}\""
+      key = IiifPrint.config.model_name_solr_field_key
+      IiifPrint.config.model_name_solr_field_values.each do |value|
+        solr_parameters[:fq] << "-#{key}:\"#{value}\""
       end
     end
   end
