@@ -94,7 +94,7 @@ module IiifPrint
         insert = "  include IiifPrint::ChildIndexer\n"
         next if file_text.include?(insert)
         insert_into_file file, before: /\nend/ do
-          "\n#{insert}\n"
+          "\n#{insert}"
         end
       end
     end
@@ -102,23 +102,19 @@ module IiifPrint
     def add_file_set_indexer
       # adds to file_set indexers
       file = "app/indexers/hyrax/file_set_indexer.rb"
-      raise "Copy #{file} from your version of Hyrax and try to install iiif_print again." unless File.exist?(file)
+      return copy_file "file_set_indexer_decorator.rb", "app/indexers/hyrax/file_set_indexer_decorator.rb" unless File.exist?(file)
 
       file_text = File.read(file)
       insert = "    include IiifPrint::FileSetIndexer\n"
       if file_text.include?('    include Hyrax::IndexesBasicMetadata')
-        insert_into_file file, before: /    include Hyrax::IndexesBasicMetadata/ do
-          "\n#{insert}\n"
+        insert_into_file file, after: /    include Hyrax::IndexesBasicMetadata/ do
+          "\n#{insert}"
         end
       else
         insert_into_file file, before: /\nend/ do
           "\n#{insert}"
         end
       end
-      # TODO: (shanalmoore) - how to handle the following? if file doesn't exist
-      # create_file "app/indexers/file_set_indexer.rb"
-      # copy_file 'app/indexers/iiif_print_file_set_indexer.rb',
-      # "app/indexers/file_set_indexer.rb"
     end
 
     def add_set_child_module
@@ -129,7 +125,7 @@ module IiifPrint
         insert = "  include SetChildFlag\n"
         next if file_text.include?(insert)
         insert_into_file file, before: /\nend/ do
-          "\n#{insert}\n"
+          "\n#{insert}"
         end
       end
     end
