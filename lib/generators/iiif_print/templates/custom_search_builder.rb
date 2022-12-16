@@ -10,7 +10,7 @@ class CustomSearchBuilder < Hyrax::CatalogSearchBuilder
   # :exclude_models and :highlight_search_params must be added after advanced_search
   #   so keyword query input can be properly eval'd
   self.default_processor_chain += [:add_advanced_parse_q_to_solr, :add_advanced_search_to_solr,
-                                   :exclude_models, :highlight_search_params :show_parents_only]
+                                   :exclude_models, :highlight_search_params, :show_parents_only]
 
   # add logic to BlacklightAdvancedSearch::AdvancedSearchBuilder
   # so that date range params are recognized as advanced search

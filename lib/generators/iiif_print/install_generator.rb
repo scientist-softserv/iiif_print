@@ -133,12 +133,6 @@ module IiifPrint
         end
       end
     end
-
-    def add_custom_is_child_term
-      file = "lib/rdf/custom_is_child_term.rb"
-      create_file file unless File.exist?(file)
-      copy_file "custom_is_child_term.rb", "lib/rdf/custom_is_child_term.rb"
-    end
     # rubocop:enable Metrics/ClassLength
   end
 end
