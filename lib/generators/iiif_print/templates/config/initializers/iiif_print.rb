@@ -6,7 +6,7 @@ IiifPrint.config do |config|
   #   # config.work_types_for_derivative_service = [GenericWork, Image]
   # config.work_types_for_derivative_service = []
 
-  # Add models to be exluded from search so the user
+  # Add models to be excluded from search so the user
   # would not see them in the search results
   # @example
   #  # config.models_to_be_excluded_from_search = [Attachment]
