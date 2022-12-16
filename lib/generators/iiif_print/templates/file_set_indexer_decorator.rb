@@ -7,6 +7,3 @@ module Hyrax
 end
 
 Hyrax::FileSetIndexer.prepend(Hyrax::FileSetIndexerDecorator)
-# Hyrax::FileSetIndexer.class_eval do
-#   include IiifPrint::FileSetIndexer
-# end
