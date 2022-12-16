@@ -6,10 +6,10 @@ module IiifPrint
 
     def exclude_models(solr_parameters)
       return unless solr_parameters[:q] || solr_parameters[:all_fields]
-      type_field = 'human_readable_type_sim'
+
       solr_parameters[:fq] ||= []
-      %w[Title Container Issue].each do |model|
-        solr_parameters[:fq] << '-' + type_field + ':"Newspaper ' + model + '"'
+      IiifPrint.config.models_to_be_excluded_from_search.each do |model|
+        solr_parameters[:fq] << "-human_readable_type_sim:\"#{model}\""
       end
     end
   end
