@@ -25,18 +25,33 @@ RSpec.describe CustomSearchBuilder do
       expect(described_class.default_processor_chain).to include(:exclude_models)
     end
 
-    before do
-      class ExcludedModel; end
-      class AnotherExcludedModel; end
-      IiifPrint.config.models_to_be_excluded_from_search = [ExcludedModel, AnotherExcludedModel]
-      subject.exclude_models(solr_parameters)
-    end
+    context 'with configured model name solr field values' do
+      before do
+        IiifPrint.config.model_name_solr_field_values = ['Excluded Model', 'Another Excluded Model']
+        subject.exclude_models(solr_parameters)
+      end
 
-    it 'adds the facet fields to solr_parameters' do
-      expect(solr_parameters[:fq]).to be_truthy
-      expect(solr_parameters[:fq]).to(
-        include("-human_readable_type_sim:\"Excluded Model\"", "-human_readable_type_sim:\"Another Excluded Model\"")
-      )
+      it 'adds the facet fields to solr_parameters with default key' do
+        expect(solr_parameters[:fq]).to be_truthy
+        expect(solr_parameters[:fq]).to(
+          include("-human_readable_type_sim:\"Excluded Model\"", "-human_readable_type_sim:\"Another Excluded Model\"")
+        )
+      end
+
+      context 'with configured model name solr field key' do
+        before do
+          IiifPrint.config.model_name_solr_field_key = 'has_model_ssim'
+          IiifPrint.config.model_name_solr_field_values = ['ExcludedModel', 'AnotherExcludedModel']
+          subject.exclude_models(solr_parameters)
+        end
+
+        it 'adds the facet fields to solr_parameters with configured key' do
+          expect(solr_parameters[:fq]).to be_truthy
+          expect(solr_parameters[:fq]).to(
+            include("-has_model_ssim:\"ExcludedModel\"", "-has_model_ssim:\"AnotherExcludedModel\"")
+          )
+        end
+      end
     end
   end
 end

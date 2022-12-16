@@ -11,12 +11,17 @@ module IiifPrint
     end
 
     attr_writer :model_name_solr_field_values
+    # An array of human readable types such as ['Generic Work']
+    # as opposed to the model such as GenericWork
+    # @return [Array<String>]
     def model_name_solr_field_values
       return @model_name_solr_field_values unless @model_name_solr_field_values.nil?
       @model_name_solr_field_values = []
     end
 
     attr_writer :model_name_solr_field_key
+    # A string of a solr field key
+    # @return [String]
     def model_name_solr_field_key
       return "human_readable_type_sim" unless defined?(@model_name_solr_field_key)
       @model_name_solr_field_key

@@ -9,6 +9,9 @@ IiifPrint.config do |config|
   # Add models to be excluded from search so the user
   # would not see them in the search results
   # @example
-  #  # config.models_to_be_excluded_from_search = [Attachment]
-  # config.models_to_be_excluded_from_search = []
+  #   # config.model_name_solr_field_values = ['Generic Work']
+  # config.model_name_solr_field_values = []
+
+  # Add configurable solr field key for searching, default is:
+  # config.model_name_solr_field_key = 'human_readable_type_sim'
 end
