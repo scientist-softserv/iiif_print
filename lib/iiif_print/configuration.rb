@@ -15,5 +15,17 @@ module IiifPrint
       return @models_to_be_excluded_from_search unless @models_to_be_excluded_from_search.nil?
       @models_to_be_excluded_from_search = []
     end
+
+    attr_writer :name_for_model
+    def name_for_model
+      return "human_readable_type" unless defined?(@name_for_model)
+      @name_for_model
+    end
+
+    attr_writer :solr_field_name_for_model
+    def solr_field_name_for_model
+      return "#{name_for_model}_sim" unless defined?(@solr_field_name_for_model)
+      @solr_field_name_for_model
+    end
   end
 end
