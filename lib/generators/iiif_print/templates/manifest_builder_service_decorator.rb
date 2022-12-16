@@ -3,6 +3,7 @@
 # OVERRIDE Hyrax 2.9.6 to make customizations to the manifest that
 # will allow metadata to be seen in the UV side panel
 module Hyrax
+  # rubocop:disable Metrics/ModuleLength TODO(shanalmoore) refactor to appease the cops
   module ManifestBuilderServiceDecorator
     ##
     # @api public
@@ -18,6 +19,8 @@ module Hyrax
 
     # OVERRIDE Hyrax 2.9.6 to make customizations to the manifest that
     # will allow metadata to be seen in the UV side panel
+    # rubocop:disable Metrics/AbcSize TODO(shanalmoore) refactor to appease the cops
+    # rubocop:disable Metrics/MethodLength TODO(shanalmoore) refactor to appease the cops
     def sanitized_manifest(presenter:)
       # ::IIIFManifest::ManifestBuilder#to_h returns a
       # IIIFManifest::ManifestBuilder::IIIFManifest, not a Hash.
@@ -50,6 +53,8 @@ module Hyrax
       sort_hash_by_identifier(hash)
       hash
     end
+    # rubocop:enable Metrics/MethodLength TODO(shanalmoore) refactor to appease the cops
+    # rubocop:enable Metrics/AbcSize TODO(shanalmoore) refactor to appease the cops
 
     def sort_hash_by_identifier(hash)
       hash["sequences"]&.first&.[]("canvases")&.sort_by! do |canvas|
@@ -90,6 +95,7 @@ module Hyrax
       end
     end
 
+    # rubocop:disable Style/MutableConstant TODO(shanalmoore) refactor to appease the cops
     MAKE_LINK_REGEX = %r{
       \b
       (
@@ -107,6 +113,7 @@ module Hyrax
         )
       )
     }ix
+    # rubocop:enable Style/MutableConstant TODO(shanalmoore) refactor to appease the cops
 
     # @note This method turns link looking strings into links
     def make_link(text)
@@ -127,6 +134,7 @@ module Hyrax
         .merge(searchable_text: {})
     end
 
+    # rubocop:disable Metrics/MethodLength TODO(shanalmoore) refactor to appease the cops
     def get_canvas_metadata(metadata_fields, image)
       metadata_fields.map do |field_name, options|
         label = Hyrax::Renderers::AttributeRenderer.new(field_name, nil).label
@@ -144,7 +152,9 @@ module Hyrax
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength TODO(shanalmoore) refactor to appease the cops
   end
+  # rubocop:enable Metrics/ModuleLength TODO(shanalmoore) refactor to appease the cops
 end
 
 Hyrax::ManifestBuilderService.prepend(Hyrax::ManifestBuilderServiceDecorator)
