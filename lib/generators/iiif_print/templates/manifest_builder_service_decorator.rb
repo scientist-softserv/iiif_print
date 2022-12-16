@@ -1,10 +1,23 @@
 # frozen_string_literal: true
 
-# OVERRIDE Hyrax 2.9.6 to make
+# OVERRIDE Hyrax 2.9.6 to make customizations to the manifest that
+# will allow metadata to be seen in the UV side panel
 module Hyrax
   module ManifestBuilderServiceDecorator
+    ##
+    # @api public
+    #
+    # @param presenter [Hyrax::WorkShowPresenter]
+    #
+    # @return [Hash] a Ruby hash representation of a IIIF manifest document
+    def manifest_for(presenter:)
+      sanitized_manifest(presenter: presenter)
+    end
+
     private
 
+      # OVERRIDE Hyrax 2.9.6 to make customizations to the manifest that
+      # will allow metadata to be seen in the UV side panel
       def sanitized_manifest(presenter:)
         # ::IIIFManifest::ManifestBuilder#to_h returns a
         # IIIFManifest::ManifestBuilder::IIIFManifest, not a Hash.
@@ -17,11 +30,11 @@ module Hyrax
         docs = get_solr_docs(presenter)
 
         hash = JSON.parse(manifest.to_json)
-        hash['label'] = sanitize_value(hash['label']) if hash.key?('label')
+        hash['label'] = CGI.unescapeHTML(sanitize_value(hash['label'])) if hash.key?('label')
         hash.delete('description') # removes default description since it's in the metadata fields
         hash['sequences']&.each do |sequence|
           sequence['canvases']&.each do |canvas|
-            canvas['label'] = sanitize_value(canvas['label'])
+            canvas['label'] = CGI.unescapeHTML(sanitize_value(canvas['label']))
             # uses the '@id' property which is a URL that contains the FileSet id
             file_set_id = canvas['@id'].split('/').last
             # finds the image that the FileSet is attached to and creates metadata on that canvas
@@ -40,12 +53,15 @@ module Hyrax
 
       def sort_hash_by_identifier(hash)
         hash["sequences"]&.first&.[]("canvases")&.sort_by! do |canvas|
-          canvas["metadata"].select { |h| h[:label] == "Identifier" }.first[:value]
+          identifier_metadata = canvas["metadata"].select { |h| h[:label] == "Identifier" }
+          identifier_metadata.first[:value] if identifier_metadata.present?
         end
       end
 
       def get_solr_docs(presenter)
-        parent_id_and_child_ids = ([presenter._source['id']] + presenter._source['member_ids_ssim'])
+        parent_id = [presenter._source['id']]
+        child_ids = presenter._source['member_ids_ssim']
+        parent_id_and_child_ids = parent_id + child_ids
         query = ActiveFedora::SolrQueryBuilder.construct_query_for_ids(parent_id_and_child_ids)
         solr_hits = ActiveFedora::SolrService.query(query, rows: 100_000)
         solr_hits.map { |solr_hit| ::SolrDocument.new(solr_hit) }
@@ -61,18 +77,16 @@ module Hyrax
               :"f[#{search_field}][]" => value, locale: I18n.locale
             )
             path += '&include_child_works=true' if image["is_child_bsi"] == true
-            "<a href='#{path}' target='_blank'>#{value}</a>"
+            "<a href='#{path}'>#{value}</a>"
           end
         else
           make_link(image.send(field_name))
         end
       end
 
-      def make_collection_link(collection_ids, collection_titles)
-        collection_ids_and_titles_map = {}
-        collection_ids.each_with_index.map { |id, i| collection_ids_and_titles_map[id] = collection_titles[i] }
-        collection_ids_and_titles_map.map do |id, title|
-          "<a href='/collections/#{id}' target='_blank'>#{title}</a>"
+      def make_collection_link(collection_documents)
+        collection_documents.map do |collection|
+          "<a href='/collections/#{collection.id}'>#{collection.title.first}</a>"
         end
       end
 
@@ -108,7 +122,8 @@ module Hyrax
         {
           title: {},
           description: {}
-        }.merge(HYKU_METADATA_RENDERING_ATTRIBUTES)
+        }.merge(Bulkrax.field_mappings)
+        #merge(HYKU_METADATA_RENDERING_ATTRIBUTES) # TODO(shanalmoore) need to implement
           .merge(searchable_text: {})
       end
 
@@ -117,9 +132,11 @@ module Hyrax
           label = Hyrax::Renderers::AttributeRenderer.new(field_name, nil).label
           if field_name == :collection
             next unless image[:member_of_collection_ids_ssim]&.present?
+            viewable_collections = Hyrax::CollectionMemberService.run(image, @current_ability)
+            next if viewable_collections.blank?
             {
               label: label,
-              value: make_collection_link(image[:member_of_collection_ids_ssim], image[:member_of_collections_ssim])
+              value: make_collection_link(viewable_collections)
             }
           else
             next if image.try(field_name)&.first.blank?
