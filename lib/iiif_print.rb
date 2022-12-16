@@ -31,4 +31,45 @@ module IiifPrint
     yield @config if block
     @config
   end
+
+  DEFAULT_MODEL_CONFIGURATION = {
+    # TODO: This should be a class and not a string; but I don't know what that should just now be.
+    pdf_splitter_job: "IiifPrint::DefaultPdfSplitterJob"
+  }.freeze
+
+  # This is the record level configuration for PDF split handling.
+  ModelConfig = Struct.new(:pdf_split_child_model, *DEFAULT_MODEL_CONFIGURATION.keys, keyword_init: true)
+
+  # This method is responsible for assisting in the configuration of a "model".
+  #
+  # @example
+  #   class Book < ActiveFedora::Base
+  #     include IiifPrint.model_configuration(pdf_split_child_model: Page)
+  #   end
+  #
+  # @param kwargs [Hash<Symbol,Object>] the configuration values that overrides the
+  #        DEFAULT_MODEL_CONFIGURATION.
+  #
+  # @return [Module]
+  #
+  # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
+  # @todo Because not every job will split PDFs and write to a child model, we may need a gem level
+  #       fallback.
+  def self.model_configuration(**kwargs)
+    Module.new do
+      def iiif_print_config?
+        true
+      end
+
+      # We don't know what you may want in your configuration, but from this gems implementation,
+      # we're going to provide the defaults to ensure that it works.
+      DEFAULT_MODEL_CONFIGURATION.each_pair do |key, value|
+        kwargs[key] ||= value
+      end
+
+      define_method(:iiif_print_config) do
+        @iiif_print_config ||= ModelConfig.new(**kwargs)
+      end
+    end
+  end
 end
