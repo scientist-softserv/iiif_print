@@ -82,7 +82,6 @@ module IiifPrint
     def add_manifest_builder_decorator
       # supports display of children in index and search
       copy_file 'manifest_builder_service_decorator.rb', 'app/services/hyrax/manifest_builder_service_decorator.rb'
-
     end
 
     def add_faceted_attribute_decorator

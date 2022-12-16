@@ -9,13 +9,14 @@ module IiifPrint
     def generate_solr_document
       super.tap do |solr_doc|
         # only UV viewable images should have is_page_of, it is only used for iiif search
-        solr_doc['is_page_of_ssim']         = [ancestor_ids(object)] if object.mime_type&.match(/image/)
+        solr_doc['is_page_of_ssim'] = [ancestor_ids(object)] if object.mime_type&.match(/image/)
         index_full_text(object, solr_doc)
       end
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
-    private 
+
+    private
 
     ##
     # relationship indexing for fileset and works
@@ -30,6 +31,6 @@ module IiifPrint
         a_ids += ancestor_ids(work) if work.is_child
       end
       a_ids
-    end 
+    end
   end
 end

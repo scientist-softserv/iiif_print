@@ -18,6 +18,7 @@ class CustomSearchBuilder < Hyrax::CatalogSearchBuilder
   def is_advanced_search?
     blacklight_params[:date_start].present? || blacklight_params[:date_end].present? || super
   end
+
   # rubocop:enable Naming/PredicateName
   def show_parents_only(solr_parameters)
     query = if blacklight_params["include_child_works"] == 'true'

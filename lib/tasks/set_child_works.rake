@@ -11,22 +11,20 @@ namespace :hyku do
           touch_records
         end
       else # this must be a hyrax app
-        touch_records 
+        touch_records
       end
-        puts "********************** DONE! **********************"
+      puts "********************** DONE! **********************"
     end
 
     def touch_records
-      begin
-        Hyrax.config.curation_concerns.each do |cc|
-          puts "********************** checking #{cc}s **********************"
-          next if cc.count.zero?
+      Hyrax.config.curation_concerns.each do |cc|
+        puts "********************** checking #{cc}s **********************"
+        next if cc.count.zero?
 
-          cc.find_each(&:save)
-        end
-      rescue StandardError => e
-        puts "********************** #{e} **********************"
+        cc.find_each(&:save)
       end
+    rescue StandardError => e
+      puts "********************** #{e} **********************"
     end
   end
 end
