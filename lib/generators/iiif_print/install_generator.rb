@@ -79,6 +79,17 @@ module IiifPrint
       generate 'iiif_print:assets'
     end
 
+    def add_manifest_builder_decorator
+      # supports display of children in index and search
+      copy_file 'manifest_builder_service_decorator.rb', 'app/services/hyrax/manifest_builder_service_decorator.rb'
+
+    end
+
+    def add_faceted_attribute_decorator
+      # supports display of children in index and search
+      copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
+    end
+
     def gather_work_types
       # check if this is a hyku application
       switch!(Account.first) if defined? Account
@@ -124,7 +135,7 @@ module IiifPrint
         file_text = File.read(file)
         insert = "  include IiifPrint::SetChildFlag\n"
         next if file_text.include?(insert)
-        insert_into_file file, before: /\nend/ do
+        insert_into_file file, after: /  include ::Hyrax::WorkBehavior/ do
           "\n#{insert}"
         end
       end

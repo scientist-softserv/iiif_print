@@ -3,7 +3,6 @@
 module Hyrax
   module FileSetIndexerDecorator
     include IiifPrint::FileSetIndexer
-    binding.pry
   end
 end
 
