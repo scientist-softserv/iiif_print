@@ -122,7 +122,7 @@ module IiifPrint
       @work_types.each do |work_type|
         file = "app/models/#{work_type.underscore}.rb"
         file_text = File.read(file)
-        insert = "  include SetChildFlag\n"
+        insert = "  include IiifPrint::SetChildFlag\n"
         next if file_text.include?(insert)
         insert_into_file file, before: /\nend/ do
           "\n#{insert}"

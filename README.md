@@ -87,7 +87,7 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features.
 * Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`.
 * Newspaper resource types added to `config/authorities/resource_types.yml`.
-* Includes SetChildFlag module to the works' models. 
+* Includes IiifPrint::SetChildFlag module to the works' models. 
 * Includes IiifPrint::ChildIndexer module to the works' indexers.
 * Includes IiifPrint::FileSetIndexer module to the file set's indexer.
 * Adds custom_is_child_term to lib/rdf/ directory.
