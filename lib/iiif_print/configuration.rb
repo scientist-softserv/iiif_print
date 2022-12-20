@@ -10,21 +10,13 @@ module IiifPrint
       @work_types_for_derivative_service = []
     end
 
-    attr_writer :excluded_model_name_solr_field_values
+    attr_writer :excluded_model_names
     # By default, this uses an array of human readable types
-    #   ex: ['Generic Work', 'Image']
+    #   ex: [GenericWork, Image]
     # @return [Array<String>]
-    def excluded_model_name_solr_field_values
-      return @excluded_model_name_solr_field_values unless @excluded_model_name_solr_field_values.nil?
-      @excluded_model_name_solr_field_values = []
-    end
-
-    attr_writer :excluded_model_name_solr_field_key
-    # A string of a solr field key
-    # @return [String]
-    def excluded_model_name_solr_field_key
-      return "human_readable_type_sim" unless defined?(@excluded_model_name_solr_field_key)
-      @excluded_model_name_solr_field_key
+    def excluded_model_names
+      return @excluded_model_names unless @excluded_model_names.nil?
+      @excluded_model_names = []
     end
   end
 end
