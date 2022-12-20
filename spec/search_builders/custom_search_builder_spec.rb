@@ -27,7 +27,7 @@ RSpec.describe CustomSearchBuilder do
 
     context 'with configured model name solr field values' do
       before do
-        IiifPrint.config.model_name_solr_field_values = ['Excluded Model', 'Another Excluded Model']
+        IiifPrint.config.excluded_model_name_solr_field_values = ['Excluded Model', 'Another Excluded Model']
         subject.exclude_models(solr_parameters)
       end
 
@@ -40,8 +40,8 @@ RSpec.describe CustomSearchBuilder do
 
       context 'with configured model name solr field key' do
         before do
-          IiifPrint.config.model_name_solr_field_key = 'has_model_ssim'
-          IiifPrint.config.model_name_solr_field_values = ['ExcludedModel', 'AnotherExcludedModel']
+          IiifPrint.config.excluded_model_name_solr_field_key = 'has_model_ssim'
+          IiifPrint.config.excluded_model_name_solr_field_values = ['ExcludedModel', 'AnotherExcludedModel']
           subject.exclude_models(solr_parameters)
         end
 
