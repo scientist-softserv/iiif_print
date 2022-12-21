@@ -10,7 +10,7 @@ IiifPrint.config do |config|
   # Add models to be excluded from search so the user
   # would not see them in the search results.
   # @example
-  #   # config.excluded_model_names = [Generic Work, Image]
+  #   # config.excluded_model_names = ["Generic Work", "Image"]
   #
   # config.excluded_model_names = []
 end

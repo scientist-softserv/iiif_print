@@ -29,14 +29,14 @@ RSpec.describe CustomSearchBuilder do
       before do
         class ExcludedModel; end
         class AnotherExcludedModel; end
-        IiifPrint.config.excluded_model_names = [ExcludedModel, AnotherExcludedModel]
+        IiifPrint.config.excluded_model_names = ["Excluded Model Name", "Another Excluded Model"]
         subject.exclude_models(solr_parameters)
       end
 
       it 'adds the facet fields to solr_parameters with configured key' do
         expect(solr_parameters[:fq]).to be_truthy
         expect(solr_parameters[:fq]).to(
-          include("-has_model_ssim:\"ExcludedModel\"", "-has_model_ssim:\"AnotherExcludedModel\"")
+          include("-has_model_ssim:\"Excluded Model Name\"", "-has_model_ssim:\"Another Excluded Model\"")
         )
       end
     end
