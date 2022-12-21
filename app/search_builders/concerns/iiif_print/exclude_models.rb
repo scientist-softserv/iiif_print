@@ -8,8 +8,9 @@ module IiifPrint
       return unless solr_parameters[:q] || solr_parameters[:all_fields]
 
       solr_parameters[:fq] ||= []
-      IiifPrint.config.excluded_model_names.each do |value|
-        solr_parameters[:fq] << "-has_model_ssim:\"#{value}\""
+      key = IiifPrint.config.excluded_model_name_solr_field_key
+      IiifPrint.config.excluded_model_name_solr_field_values.each do |value|
+        solr_parameters[:fq] << "-#{key}:\"#{value}\""
       end
     end
   end
