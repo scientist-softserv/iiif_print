@@ -21,7 +21,6 @@ namespace :iiif_print do
               work.representative = child_work.file_sets.first if work.representative_id.blank?
               work.thumbnail = child_work.file_sets.first if work.thumbnail_id.blank?
               pdf = child_work.file_sets.select { |f| f.label.match(/.pdf/) }.first
-              byebug
               work.update_attributes!(rendering_ids: [pdf.id]) if pdf.present?
               work.save
             end
