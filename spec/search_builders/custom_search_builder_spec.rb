@@ -44,7 +44,6 @@ RSpec.describe CustomSearchBuilder do
             c.excluded_model_name_solr_field_values = ['ExcludedModel', 'AnotherExcludedModel']
             c.excluded_model_name_solr_field_key = 'has_model_ssim'
           end
-          byebug
           subject.exclude_models(solr_parameters, config: config)
         end
 
