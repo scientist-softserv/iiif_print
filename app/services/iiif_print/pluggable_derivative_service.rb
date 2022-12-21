@@ -36,7 +36,7 @@ class IiifPrint::PluggableDerivativeService
   end
 
   def plugins
-    self.class.plugins
+    self.class.plugins - skipped_derivative_services
   end
 
   def initialize(file_set)
@@ -110,5 +110,15 @@ class IiifPrint::PluggableDerivativeService
 
   def derivative_path_factory
     Hyrax::DerivativePath
+  end
+
+  def skipped_derivative_services
+    byebug
+    hash = IiifPrint.config.skip_derivative_service_by_work_type
+    return [] if hash.empty? || hash[file_set.parent.class].nil?
+
+    Array(hash[file_set.parent.class.to_s.to_sym]).map do |service|
+      self.class.plugins.map(&:to_s).grep(/^#{service}/i).first.constantize
+    end
   end
 end

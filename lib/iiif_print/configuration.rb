@@ -15,5 +15,11 @@ module IiifPrint
       return @models_to_be_excluded_from_search unless @models_to_be_excluded_from_search.nil?
       @models_to_be_excluded_from_search = []
     end
+
+    attr_writer :skip_derivative_service_by_work_type
+    def skip_derivative_service_by_work_type
+      return @skip_derivative_service_by_work_type unless @skip_derivative_service_by_work_type.nil?
+      @skip_derivative_service_by_work_type = {}
+    end
   end
 end
