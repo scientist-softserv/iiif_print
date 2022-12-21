@@ -7,6 +7,10 @@ require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
 require "iiif_print/resource_fetcher"
+require "iiif_print/application_job"
+require "iiif_print/child_works_from_pdf_job"
+require "iiif_print/split_pdfs/pages_into_images_service"
+
 
 module IiifPrint
   extend ActiveSupport::Autoload
@@ -33,8 +37,9 @@ module IiifPrint
   end
 
   DEFAULT_MODEL_CONFIGURATION = {
-    # TODO: This should be a class and not a string; but I don't know what that should just now be.
-    pdf_splitter_job: "IiifPrint::DefaultPdfSplitterJob"
+    # Split a PDF into individual page images and create a new child work for each image.
+    pdf_splitter_job: IiifPrint::ChildWorksFromPdfJob,
+    pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService
   }.freeze
 
   # This is the record level configuration for PDF split handling.

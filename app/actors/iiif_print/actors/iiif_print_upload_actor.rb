@@ -7,7 +7,7 @@ module IiifPrint
         # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
         @pdf_paths = []
-        hold_upload_paths(env) if responds_to_split?(env.curation_concern)
+        hold_upload_paths(env) if env.curation_concern.class.try(:iiif_print_config?)
         next_actor.create(env) && after_other_actors(env)
       end
 
@@ -15,7 +15,7 @@ module IiifPrint
         # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
         @pdf_paths = []
-        hold_upload_paths(env) if responds_to_split?(env.curation_concern)
+        hold_upload_paths(env) if env.curation_concern.class.try(:iiif_print_config?)
         next_actor.update(env) && after_other_actors(env)
       end
 
@@ -31,13 +31,8 @@ module IiifPrint
         @pdf_paths = paths.select { |path| path.end_with?('.pdf') }
       end
 
-      def responds_to_split?(curation_concern)
-        return true if curation_concern.respond_to?(:split_pdf)
-        false
-      end
-
       def after_other_actors(env)
-        handle_issue_upload(env) if responds_to_split?(env.curation_concern)
+        handle_issue_upload(env) if env.curation_concern.class.try(:iiif_print_config?)
         # needs to return true to not break actor stack traversal
         true
       end
@@ -48,12 +43,12 @@ module IiifPrint
         # must persist work to serialize job using it
         work.save!(validate: false)
         user = env.current_ability.current_user.user_key
-        env.attributes[:admin_set_id] ||= default_admin_set
-        queue_job(work, @pdf_paths, user, env.attributes[:admin_set_id])
+        admin_set = env.attributes[:admin_set_id] ||= default_admin_set
+        queue_job(work, @pdf_paths, user, admin_set)
       end
 
       def queue_job(work, paths, user, admin_set_id)
-        IiifPrint::CreatePagesJob.perform_later(
+        work.iiif_print_config.split_pdfs_job_class.perform_later(
           work,
           paths,
           user,

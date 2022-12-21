@@ -1,7 +1,8 @@
 require 'spec_helper'
-# TODO: revisit commented out spec code which belongs in a feature or CreatePagesJob spec
-# require 'faraday'
-# require 'misc_shared'
+<<<<<<< Updated upstream
+require 'misc_shared'
+=======
+>>>>>>> Stashed changes
 
 RSpec.describe IiifPrint::Actors::IiifPrintUploadActor do # , :perform_enqueued do
   let(:work) { build(:newspaper_issue) }
