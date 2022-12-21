@@ -6,7 +6,6 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
   let(:persisted_file_set) do
     fs = FileSet.new
-    work = NewspaperPage.new
     work.title = ['This is a page!']
     work.members.push(fs)
     fs.instance_variable_set(:@mime_type, 'image/tiff')
@@ -21,10 +20,21 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
     )
   end
 
+  let(:work) { MyWork.new }
+
   # cache and restore originally described derivative service plugins
   before do
+    class MyWork < ActiveFedora::Base
+      attr_accessor :title, :members
+      def members
+        []
+      end
+    end
     @orig_plugins = described_class.plugins
+    allow(persisted_file_set).to receive(:in_works).and_return([work])
+    IiifPrint.config.work_types_for_derivative_service = [MyWork]
   end
+
   after do
     described_class.plugins = @orig_plugins
   end
