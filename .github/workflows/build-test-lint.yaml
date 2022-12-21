@@ -23,7 +23,7 @@ jobs:
       target: hyku-base
   test:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/test.yaml@v3plus5
+    uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v3plus5
   lint:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v3plus5
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@iiif-v3plus5
