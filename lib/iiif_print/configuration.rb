@@ -12,7 +12,7 @@ module IiifPrint
 
     attr_writer :excluded_model_names
     # By default, this uses an array of human readable types
-    #   ex: ["GenericWork", "Image"]
+    #   ex: [GenericWork, Image]
     # @return [Array<String>]
     def excluded_model_names
       return @excluded_model_names unless @excluded_model_names.nil?
