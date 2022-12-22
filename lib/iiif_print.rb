@@ -40,7 +40,13 @@ module IiifPrint
 
   DEFAULT_MODEL_CONFIGURATION = {
     # TODO: This should be a class and not a string; but I don't know what that should just now be.
-    pdf_splitter_job: "IiifPrint::DefaultPdfSplitterJob"
+    pdf_splitter_job: "IiifPrint::DefaultPdfSplitterJob",
+    derivative_service_plugins: [
+      IiifPrint::JP2DerivativeService,
+      IiifPrint::PDFDerivativeService,
+      IiifPrint::TextExtractionDerivativeService,
+      IiifPrint::TIFFDerivativeService
+    ]
   }.freeze
 
   # This is the record level configuration for PDF split handling.
@@ -50,7 +56,12 @@ module IiifPrint
   #
   # @example
   #   class Book < ActiveFedora::Base
-  #     include IiifPrint.model_configuration(pdf_split_child_model: Page)
+  #     include IiifPrint.model_configuration(
+  #       pdf_split_child_model: Page,
+  #       derivative_service_plugins: [
+  #         IiifPrint::TIFFDerivativeService
+  #       ]
+  #     )
   #   end
   #
   # @param kwargs [Hash<Symbol,Object>] the configuration values that overrides the
@@ -69,8 +80,8 @@ module IiifPrint
 
       # We don't know what you may want in your configuration, but from this gems implementation,
       # we're going to provide the defaults to ensure that it works.
-      DEFAULT_MODEL_CONFIGURATION.each_pair do |key, value|
-        kwargs[key] ||= value
+      DEFAULT_MODEL_CONFIGURATION.each_pair do |key, default_value|
+        kwargs[key] ||= default_value
       end
 
       define_method(:iiif_print_config) do

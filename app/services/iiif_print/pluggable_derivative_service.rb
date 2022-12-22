@@ -25,22 +25,28 @@ class IiifPrint::PluggableDerivativeService
   attr_reader :file_set
   delegate :uri, :mime_type, to: :file_set
 
-  # default plugin Hyrax OOTB, makes thumbnails and sometimes extracts text:
-  default_plugin = Hyrax::FileSetDerivativesService
-
   # make and expose an array of plugins
-  @plugins = [default_plugin]
   @allowed_methods = [:cleanup_derivatives, :create_derivatives]
   class << self
-    attr_accessor :plugins, :allowed_methods
+    attr_accessor :allowed_methods
   end
 
-  def plugins
-    self.class.plugins - skipped_derivative_services
-  end
-
-  def initialize(file_set)
+  # if there is no parent, we might want to use this default plugin,
+  # we don't know yet.
+  # default_plugin = Hyrax::FileSetDerivativesService
+  def initialize(file_set, plugins: default_plugin_for(file_set))
     @file_set = file_set
+    @plugins = plugins
+  end
+
+  attr_reader :plugins
+
+  def default_plugin_for(file_set)
+    if file_set.parent.respond_to?(:iiif_print_config)
+      file_set.parent.iiif_print_config.derivative_service_plugins
+    else
+      Hyrax::FileSetDerivativesService
+    end
   end
 
   def valid?
@@ -110,15 +116,5 @@ class IiifPrint::PluggableDerivativeService
 
   def derivative_path_factory
     Hyrax::DerivativePath
-  end
-
-  def skipped_derivative_services
-    hash = IiifPrint.config.skip_derivative_service_by_work_type
-    key = file_set.parent.class.to_s.to_sym
-    return [] if hash.empty? || hash[key].nil?
-
-    Array(hash[key]).map do |service|
-      self.class.plugins.map(&:to_s).grep(/#{service}/i).first.constantize
-    end
   end
 end

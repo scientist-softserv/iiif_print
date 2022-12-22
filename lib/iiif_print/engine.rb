@@ -23,17 +23,6 @@ module IiifPrint
         IiifPrint::PluggableDerivativeService
       )
 
-      # Register specific derivative services to be considered by
-      #   PluggableDerivativeService:
-      [
-        IiifPrint::JP2DerivativeService,
-        IiifPrint::PDFDerivativeService,
-        IiifPrint::TextExtractionDerivativeService,
-        IiifPrint::TIFFDerivativeService
-      ].each do |plugin|
-        IiifPrint::PluggableDerivativeService.plugins.push plugin
-      end
-
       # Register actor to handle any IiifPrint upload behaviors before
       #   CreateWithFilesActor gets to them:
       Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, IiifPrint::Actors::IiifPrintUploadActor
