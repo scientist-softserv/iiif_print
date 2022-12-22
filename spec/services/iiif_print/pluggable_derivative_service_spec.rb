@@ -180,6 +180,27 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       # Thumbnail, created by Hyrax:
       expect(extensions).to include 'jpeg'
     end
+
+    context "while using the configuration to skip derivatives" do
+      before do
+        IiifPrint.config.skip_derivative_service_by_work_type = {
+          MyWork: :pdf
+        }
+      end
+
+      it "still creates expected derivatives from TIFF source" do
+        svc = described_class.new(persisted_file_set)
+        svc.create_derivatives(source_image('4.1.07.tiff'))
+        made = derivatives_for(persisted_file_set)
+        made.each { |path| expect(File.exist?(path)) }
+        extensions = made.map { |path| path.split('.')[-1] }
+        expect(extensions).not_to include 'pdf'
+        expect(extensions).to include 'jp2'
+        expect(extensions).not_to include 'tiff'
+        # Thumbnail, created by Hyrax:
+        expect(extensions).to include 'jpeg'
+      end
+    end
   end
 
   describe "ingest integration" do

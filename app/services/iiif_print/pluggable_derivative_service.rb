@@ -113,12 +113,12 @@ class IiifPrint::PluggableDerivativeService
   end
 
   def skipped_derivative_services
-    byebug
     hash = IiifPrint.config.skip_derivative_service_by_work_type
-    return [] if hash.empty? || hash[file_set.parent.class].nil?
+    key = file_set.parent.class.to_s.to_sym
+    return [] if hash.empty? || hash[key].nil?
 
-    Array(hash[file_set.parent.class.to_s.to_sym]).map do |service|
-      self.class.plugins.map(&:to_s).grep(/^#{service}/i).first.constantize
+    Array(hash[key]).map do |service|
+      self.class.plugins.map(&:to_s).grep(/#{service}/i).first.constantize
     end
   end
 end
