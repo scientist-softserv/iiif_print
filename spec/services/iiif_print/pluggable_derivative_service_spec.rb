@@ -46,7 +46,6 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     describe "#plugins" do
       it "uses the default derivatives service" do
-        # we do not know if this is the correct route, but we are deciding to do this for now
         file_set = double(FileSet, parent: MyWork.new)
         service = described_class.new(file_set)
         expect(service.plugins).to eq [Hyrax::FileSetDerivativesService]
