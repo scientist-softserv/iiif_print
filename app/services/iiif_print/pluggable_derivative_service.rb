@@ -42,10 +42,10 @@ class IiifPrint::PluggableDerivativeService
   attr_reader :plugins
 
   def default_plugin_for(file_set)
-    if file_set.parent.respond_to?(:iiif_print_config)
-      file_set.parent.iiif_print_config.derivative_service_plugins
+    if file_set.parent.try(:iiif_print_config?)
+      file_set.parent.iiif_print_config.derivative_service_plugins << Hyrax::FileSetDerivativesService
     else
-      Hyrax::FileSetDerivativesService
+      [Hyrax::FileSetDerivativesService]
     end
   end
 

@@ -38,9 +38,9 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
     context "when the FileSet's parent is not IiifPrint configured" do
       it "uses the default derivatives service" do
         # we do not know if this is the correct route, but we are deciding to do this for now
-        file_set = double(FileSet, parent: MyWork.new )
+        file_set = double(FileSet, parent: MyWork.new)
         service = described_class.new(file_set)
-        expect(service.plugins).to eq Hyrax::FileSetDerivativesService
+        expect(service.plugins).to eq [Hyrax::FileSetDerivativesService]
       end
     end
   end
@@ -52,6 +52,8 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
   # end
 
   describe "calls all derivative plugins" do
+    let(:configured_work) { MyIiifConfiguredWork.new }
+
     class FakeDerivativeService
       @create_called = 0
       @cleanup_called = 0
@@ -82,6 +84,24 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       end
     end
 
+    before do
+      class MyIiifConfiguredWork < ActiveFedora::Base
+        include IiifPrint.model_configuration(
+          derivative_service_plugins: [
+            FakeDerivativeService,
+            FakeDerivativeService
+          ]
+        )
+        attr_accessor :title, :members
+        def members
+          []
+        end
+      end
+
+      allow(persisted_file_set).to receive(:in_works).and_return([configured_work])
+      allow_any_instance_of(Hyrax::FileSetDerivativesService).to receive(:send)
+    end
+
     def touch_fake_derivative_file(file_set, ext)
       path = Hyrax::DerivativePath.derivative_path_for_reference(file_set, ext)
       FileUtils.mkdir_p(File.join(path.split('/')[0..-2]))
@@ -90,15 +110,13 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     it "calls each plugin on create" do
       create_calls = FakeDerivativeService.create_called
-      described_class.plugins = [FakeDerivativeService, FakeDerivativeService]
-      service = described_class.new(FileSet.new)
+      service = described_class.new(persisted_file_set)
       service.create_derivatives('not_a_real_filename')
       expect(FakeDerivativeService.create_called).to eq create_calls + 2
     end
 
     it "does not re-create existing derivative" do
       create_calls = FakeDerivativeService.create_called
-      described_class.plugins = [FakeDerivativeService]
       service = described_class.new(persisted_file_set)
       expect(persisted_file_set.id).not_to be_nil
       # Fake is configured to have 'txt' destination_path, let's create a
@@ -113,17 +131,9 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     it "calls each plugin on cleanup" do
       expect(FakeDerivativeService.cleanup_called).to eq 0
-      described_class.plugins = [FakeDerivativeService, FakeDerivativeService]
-      service = described_class.new(FileSet.new)
+      service = described_class.new(persisted_file_set)
       service.cleanup_derivatives
       expect(FakeDerivativeService.cleanup_called).to eq 2
-    end
-
-    it "test meta: spec restores original plugins" do
-      # verify `after do` clean up of plugins array to original value
-      plugins = described_class.plugins
-      expect(plugins.length).to eq @orig_plugins.length
-      expect(plugins).to include Hyrax::FileSetDerivativesService
     end
   end
 
@@ -142,6 +152,21 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
   # integration tests for plugins
   describe "runs multiple plugins, makes multiple derivatives" do
+    let(:all_services_work) { MyIiifConfiguredWorkWithAllDerivativeServices.new }
+
+    before do
+      class MyIiifConfiguredWorkWithAllDerivativeServices < ActiveFedora::Base
+        include IiifPrint.model_configuration
+
+        attr_accessor :title, :members
+        def members
+          []
+        end
+      end
+
+      allow(persisted_file_set).to receive(:in_works).and_return([all_services_work])
+    end
+
     def source_image(name)
       File.join(fixture_path, name)
     end
@@ -162,7 +187,7 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     # The expected set of Plugins that will run for file set
     it "has expected valid plugins configured" do
-      plugins = described_class.plugins
+      plugins = described_class.new(persisted_file_set).plugins
       fs = persisted_file_set
       services = plugins.map { |plugin| plugin.new(fs) }.select(&:valid?)
       expect(services.length).to eq 5
@@ -187,6 +212,21 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
   end
 
   describe "ingest integration" do
+    let(:all_services_work) { MyIiifConfiguredWorkWithAllDerivativeServices.new }
+
+    before do
+      class MyIiifConfiguredWorkWithAllDerivativeServices < ActiveFedora::Base
+        include IiifPrint.model_configuration
+
+        attr_accessor :title, :members
+        def members
+          []
+        end
+      end
+
+      allow(persisted_file_set).to receive(:in_works).and_return([all_services_work])
+    end
+
     def log_attachment(file_set)
       # create a log entry for the fileset given destination name 'jp2'
       IiifPrint::DerivativeAttachment.create(
