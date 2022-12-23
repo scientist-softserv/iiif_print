@@ -34,7 +34,7 @@
     </li>
     <% IiifPrint::Data::WorkDerivatives.new(file_set.id).keys.each do |name| %>
       <li role="menuitem" tabindex="-1">
-        <a href="<%= "/downloads/#{file_set.id}?locale=en&file=#{name}" %>">
+        <a href="<%= "/downloads/#{file_set.id}?locale=en&file=#{name}" %>" download>
           Download <em>(as <%= name %>)</em>
         </a>
       </li>
