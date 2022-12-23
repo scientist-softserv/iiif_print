@@ -14,10 +14,16 @@ module IiifPrint
          "
 
     # Update the blacklight catalog controller
-    def adjust_catalog_controller_config
+    def adjust_catalog_controller_all_text_config
       gsub_file('app/controllers/catalog_controller.rb',
-                "full_text_field: 'text',",
-                "full_text_field: 'all_text_tsimv',")
+                "     full_text_field: 'text',",
+                "     full_text_field: 'all_text_tsimv',")
+    end
+
+    def adjust_catalog_controller_is_page_of_config
+      gsub_file('app/controllers/catalog_controller.rb',
+                "      object_relation_field: 'is_page_of_s',",
+                "      object_relation_field: 'is_page_of_ssim',")
     end
 
     # Update the IiifSearchBuilder

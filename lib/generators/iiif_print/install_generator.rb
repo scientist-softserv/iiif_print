@@ -2,6 +2,7 @@ require 'rails/generators'
 
 module IiifPrint
   # Install Generator Class
+  # rubocop:disable Metrics/ClassLength
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path('../templates', __FILE__)
 
@@ -31,7 +32,7 @@ module IiifPrint
     def add_solr_doc
       inject_into_file 'app/models/solr_document.rb',
                        after: "include Hyrax::SolrDocumentBehavior" do
-        "\n  include IiifPrint::Solr::Document\n"
+        "\n  include IiifPrint::Solr::Document\n  attribute :is_child, Solr::String, 'is_child_bsi'"
       end
     end
 
@@ -77,5 +78,67 @@ module IiifPrint
     def inject_assets
       generate 'iiif_print:assets'
     end
+
+    def add_manifest_builder_decorator
+      # supports display of children in index and search
+      copy_file 'manifest_builder_service_decorator.rb', 'app/services/hyrax/manifest_builder_service_decorator.rb'
+    end
+
+    def add_faceted_attribute_decorator
+      # supports display of children in index and search
+      copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
+    end
+
+    def gather_work_types
+      # check if this is a hyku application
+      switch!(Account.first) if defined? Account
+
+      @work_types = Hyrax.config.curation_concerns.map(&:to_s)
+    end
+
+    def add_child_indexer
+      # adds ChildIndexer to work indexers
+      @work_types.each do |work_type|
+        file = "app/indexers/#{work_type.underscore}_indexer.rb"
+        file_text = File.read(file)
+        insert = "  include IiifPrint::ChildIndexer\n"
+        next if file_text.include?(insert)
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}"
+        end
+      end
+    end
+
+    def add_file_set_indexer
+      # adds to file_set indexers
+      file = "app/indexers/hyrax/file_set_indexer.rb"
+      return copy_file "file_set_indexer_decorator.rb", "app/indexers/hyrax/file_set_indexer_decorator.rb" unless File.exist?(file)
+
+      file_text = File.read(file)
+      insert = "    include IiifPrint::FileSetIndexer\n"
+      if file_text.include?('    include Hyrax::IndexesBasicMetadata')
+        insert_into_file file, after: /    include Hyrax::IndexesBasicMetadata/ do
+          "\n#{insert}"
+        end
+      else
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}"
+        end
+      end
+    end
+
+    def add_set_child_module
+      # adds SetChildFlag to work type indexers
+      @work_types.each do |work_type|
+        file = "app/models/#{work_type.underscore}.rb"
+        file_text = File.read(file)
+        insert = "  include IiifPrint::SetChildFlag\n"
+        next if file_text.include?(insert)
+        insert_into_file file, after: /  include ::Hyrax::WorkBehavior/ do
+          "\n#{insert}"
+        end
+      end
+    end
+    # rubocop:enable Metrics/ClassLength
   end
 end

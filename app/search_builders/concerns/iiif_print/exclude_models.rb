@@ -4,12 +4,13 @@ module IiifPrint
   module ExcludeModels
     extend ActiveSupport::Concern
 
-    def exclude_models(solr_parameters)
+    def exclude_models(solr_parameters, config: IiifPrint.config)
       return unless solr_parameters[:q] || solr_parameters[:all_fields]
 
       solr_parameters[:fq] ||= []
-      IiifPrint.config.models_to_be_excluded_from_search.each do |model|
-        solr_parameters[:fq] << "-human_readable_type_sim:\"#{model}\""
+      key = config.excluded_model_name_solr_field_key
+      config.excluded_model_name_solr_field_values.each do |value|
+        solr_parameters[:fq] << "-#{key}:\"#{value}\""
       end
     end
   end
