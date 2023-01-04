@@ -22,6 +22,7 @@ jobs:
       platforms: "linux/amd64"
       target: hyku-base
       worker: false
+      db: false
   test:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v6
