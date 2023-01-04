@@ -16,11 +16,12 @@ on:
 
 jobs:
   build:
-    uses: scientist-softserv/actions/.github/workflows/build.yaml@v3plus5
+    uses: scientist-softserv/actions/.github/workflows/build.yaml@iiif-v3plus5
     secrets: inherit
     with:
       platforms: "linux/amd64"
       target: hyku-base
+      db: false
   test:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v3plus5
