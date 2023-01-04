@@ -7,6 +7,12 @@ require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
 require "iiif_print/resource_fetcher"
+require "iiif_print/page_derivative_service"
+require "iiif_print/jp2_derivative_service"
+require "iiif_print/pdf_derivative_service"
+require "iiif_print/text_extraction_derivative_service"
+require "iiif_print/text_formats_from_alto_service"
+require "iiif_print/tiff_derivative_service"
 
 module IiifPrint
   extend ActiveSupport::Autoload
