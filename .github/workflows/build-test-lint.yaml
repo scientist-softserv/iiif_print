@@ -21,8 +21,8 @@ jobs:
     with:
       platforms: "linux/amd64"
       target: hyku-base
-    inputs: 
-      db: false
+      inputs: 
+        db: false
   test:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v3plus5
