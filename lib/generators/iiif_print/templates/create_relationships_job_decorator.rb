@@ -16,7 +16,7 @@ module Bulkrax
           # reindex filesets to update solr's is_page_of_ssim
           work.file_sets.each(&:update_index)
         end
-        # OVERRIDE: Bulkrax v.3.0
+        # OVERRIDE: Bulkrax v.3.5
         # set the first child's thumbnail as the thumbnail for the parent
         IiifPrint::SetDefaultParentThumbnailJob.set(wait: 10.minutes)
                                       .perform_later(parent_work: parent_record, importer_run_id: importer_run_id)
