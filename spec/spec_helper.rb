@@ -184,6 +184,9 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = false
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
   end
+  config.after(:suite) do # or :each or :all
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp', 'derivatives', '*')])
+  end
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
