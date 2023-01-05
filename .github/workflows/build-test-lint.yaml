@@ -26,6 +26,10 @@ jobs:
   test:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v3plus5
+    with:
+      db: false
   lint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@iiif-v3plus5
+    with:
+      db: false
