@@ -183,7 +183,7 @@ module IiifPrint
       end
 
       def commit_assigned
-        return if @assigned.nil? || @assigned.empty?
+        return if @assigned.blank?
         ensure_depositor
         remote_files = @assigned.map do |path|
           { url: path_to_uri(path), file_name: File.basename(path) }
@@ -192,7 +192,7 @@ module IiifPrint
         # Create an environment for actor stack:
         env = Hyrax::Actors::Environment.new(@work, Ability.new(user), attrs)
         # Invoke default Hyrax actor stack middleware:
-        Hyrax::CurationConcern.actor.create(env)
+        @work.new_record? ? Hyrax::CurationConcern.actor.create(env) : Hyrax::CurationConcern.actor.update(env)
       end
     end
   end

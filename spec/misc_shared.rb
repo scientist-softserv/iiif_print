@@ -8,6 +8,12 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
     path
   end
 
+  before do
+    class MyWork < ActiveFedora::Base
+      include ::Hyrax::WorkBehavior
+    end
+  end
+
   # shared date to be invariant across all tests in a run:
   date_static = Hyrax::TimeService.time_in_utc
   let(:static_date) { date_static }
@@ -27,7 +33,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
   end
 
   let(:sample_work) do
-    work = NewspaperPage.new
+    work = MyWork.new
     work.title = ['Bombadil']
     work.members.push(valid_file_set)
     work.save!
@@ -40,7 +46,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
     #   a persisted file, so we use the shared work sample, and expand
     #   on it with actual file data/metadata.
     work = sample_work
-    fileset = work.members.find { |m| m.class == FileSet }
+    fileset = work.members.first
     file = Hydra::PCDM::File.create
     fileset.original_file = file
     # Set binary content on file via ActiveFedora content= mutator method

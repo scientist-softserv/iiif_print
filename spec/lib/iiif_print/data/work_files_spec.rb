@@ -4,6 +4,12 @@ require 'misc_shared'
 RSpec.describe IiifPrint::Data::WorkFiles do
   include_context "shared setup"
 
+  before do
+    class MyWork < ActiveFedora::Base
+
+    end
+  end
+
   let(:work) { work_with_file }
   let(:tiff_path) { File.join(fixture_path, 'ocr_gray.tiff') }
   let(:tiff_uri) { 'file://' + File.expand_path(tiff_path) }
@@ -119,7 +125,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
   describe "assignment state" do
     it "has empty state for work with no files" do
-      bare_work = NewspaperPage.new
+      bare_work = MyWork.new
       bare_work.title = ['No files to see here']
       bare_work.save!
       adapter = described_class.of(bare_work)
@@ -156,7 +162,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
     ]
 
     let(:bare_work) do
-      bare_work = NewspaperPage.new
+      bare_work = MyWork.new
       bare_work.title = ['No files to see here']
       bare_work.save!
       bare_work
@@ -175,8 +181,8 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       work = bare_work
       adapter = described_class.of(work)
       adapter.assign(tiff_path)
-      allow(Hyrax::CurationConcern.actor).to receive(:create).and_return(true)
-      expect(Hyrax::CurationConcern.actor).to receive(:create)
+      allow(Hyrax::CurationConcern.actor).to receive(:update).and_return(true)
+      expect(Hyrax::CurationConcern.actor).to receive(:update)
       expect(adapter.commit!).to be true
     end
 
