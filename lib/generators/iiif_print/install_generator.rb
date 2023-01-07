@@ -89,6 +89,11 @@ module IiifPrint
       copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
     end
 
+    def add_create_relationships_job_decorator
+      # supports setting default parent thumbnail to the first child's thumbnail, if one doesn't exist
+      copy_file 'create_relationships_job_decorator.rb', 'app/jobs/bulkrax/create_relationships_job_decorator.rb'
+    end
+
     def gather_work_types
       # check if this is a hyku application
       switch!(Account.first) if defined? Account
@@ -139,6 +144,97 @@ module IiifPrint
         end
       end
     end
-    # rubocop:enable Metrics/ClassLength
+
+    # rubocop:disable Metrics/MethodLength
+    def modify_iiif_manifest_presenter
+      gsub_regex = /^(?!\s*$)/ # find the beginning of each line unless the line is blank
+      indent = " " * 2
+      # using squiggly heredoc syntax to improve readability
+      search_service_snippet = <<~SEARCH_SERVICE.gsub(gsub_regex, indent * 3).chomp
+        url = Rails.application.routes.url_helpers.solr_document_iiif_search_url(id, host: hostname)
+        Site.account.ssl_configured ? url.sub(/\\Ahttp:/, 'https:') : url
+      SEARCH_SERVICE
+      manifest_url_snippet = <<~MANIFEST_URL.gsub(gsub_regex, indent * 3).chomp
+        return '' if id.blank?
+
+        url_helper = Rails.application.routes.url_helpers
+        if hyku?
+          protocol = Site.account.ssl_configured ? 'https' : 'http'
+          url_helper.polymorphic_url([:manifest, model], host: hostname, protocol: protocol)
+        else
+          url_helper.polymorphic_url([:manifest, model], host: hostname)
+        end
+      MANIFEST_URL
+      additional_methods_snippet = <<~ADDITIONAL_METHODS.gsub(gsub_regex, indent * 2).prepend("\n")
+        def hyku?
+          Object.const_defined?(:Site)
+        end
+
+        def sequence_rendering
+          Array(try(:rendering_ids)).map do |file_set_id|
+            rendering = file_set_presenters.find { |p| p.id == file_set_id }
+            next unless rendering
+
+            { '@id' => Hyrax::Engine.routes.url_helpers.download_url(rendering.id, host: hostname),
+              'format' => rendering.mime_type.presence || I18n.t(\"hyrax.manifest.unknown_mime_text\"),
+              'label' => I18n.t(\"hyrax.manifest.download_text\") + (rendering.label || '') }
+          end.flatten
+        end
+
+        module FactoryDecorator
+          def build
+            ids.map do |id|
+              solr_doc = load_docs.find { |doc| doc.id == id }
+              next unless solr_doc
+
+              if solr_doc.file_set?
+                presenter_class.for(solr_doc)
+              elsif Hyrax.config.curation_concerns.include?(solr_doc.hydra_model)
+                # look up file set ids and loop through those
+                file_set_docs = load_file_set_docs(solr_doc.file_set_ids)
+                file_set_docs.map { |doc| presenter_class.for(doc) } if file_set_docs.length
+              end
+            end.flatten.compact
+          end
+
+          private
+
+            # still create the manifest if the parent work has images attached but the child works do not
+            def load_file_set_docs(file_set_ids)
+              return [] if file_set_ids.nil?
+
+              query(\"{!terms f=id}\#{file_set_ids.join(',')}\", rows: 1000)
+                .map { |res| ::SolrDocument.new(res) }
+            end
+        end
+      ADDITIONAL_METHODS
+      decorator_snippet = <<~DECORATOR
+        Hyrax::IiifManifestPresenter::Factory.prepend(Hyrax::IiifManifestPresenterDecorator::FactoryDecorator)
+      DECORATOR
+      file = 'app/presenters/hyrax/iiif_manifest_presenter_decorator.rb'
+      regexes = [
+        /(?<=search_service\n)(.*?)(?=\n    end)/m, # find the lines inside #search_service
+        /(?<=manifest_url\n)(.*?)(?=\n    end)/m, # find the lines inside #manifest_url
+        /(?<=end\n    end\n)(.*?)(?=  end)/m, # find the line after the last method definition
+        /(?<=Hyrax::IiifManifestPresenterDecorator\)\n)(.*?)/ # find the line after decorator prepend
+      ]
+      code_snippets = [
+        search_service_snippet,
+        manifest_url_snippet,
+        additional_methods_snippet,
+        decorator_snippet
+      ]
+
+      # prepare a hash for gsub_file command to iterate
+      hashes = regexes.zip(code_snippets).map { |regex_and_code_snippet| Hash[file => regex_and_code_snippet] }
+      hashes.each do |hash|
+        hash.each do |k, v|
+          # k is the file and v is an array of the regex and code snippet
+          gsub_file k, v.first, v.last
+        end
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
   end
+  # rubocop:enable Metrics/ClassLength
 end
