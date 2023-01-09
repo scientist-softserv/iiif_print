@@ -8,7 +8,7 @@
 
 <%
   # OVERRIDE: Hyrax 2.9.6
-  unless current_user.try(:is_admin?) || current_user.try(:is_superadmin?)
+  unless current_user&.has_role?(:admin, Site.instance) || current_user&.has_role?(:superadmin, Site.instance)
     # hide the jpg derivatives
     members = members.reject { |m| m.solr_document['is_derived_ssi'] == 'true' }
     page_count = presenter.total_pages(members.count)
