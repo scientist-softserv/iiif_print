@@ -94,6 +94,11 @@ module IiifPrint
       copy_file 'create_relationships_job_decorator.rb', 'app/jobs/bulkrax/create_relationships_job_decorator.rb'
     end
 
+    def add_work_show_presenter_decorator
+      # supports displaying child works in the UV
+      copy_file 'work_show_presenter_decorator.rb', 'app/presenters/hyrax/work_show_presenter_decorator.rb'
+    end
+
     def gather_work_types
       # check if this is a hyku application
       switch!(Account.first) if defined? Account

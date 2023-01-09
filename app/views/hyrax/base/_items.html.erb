@@ -1,0 +1,46 @@
+<%# OVERRIDE: Hyrax 2.9.6 %>
+<h2><%= t('.header') %></h2>
+<%# OVERRIDE: Hyrax 2.9.6 to return all item ids %>
+<% array_of_ids = presenter.list_of_item_ids_to_display %>
+<% members = presenter.member_presenters_for(array_of_ids) %>
+<%# OVERRIDE: Hyrax 2.9.6 to hide jpg derivatives for non admin's/superadmin's %>
+<% page_count = presenter.total_pages %>
+
+<%
+  # OVERRIDE: Hyrax 2.9.6
+  unless current_user.try(:is_admin?) || current_user.try(:is_superadmin?)
+    # hide the jpg derivatives
+    members = members.reject { |m| m.solr_document['is_derived_ssi'] == 'true' }
+    page_count = presenter.total_pages(members.count)
+  end
+%>
+
+<% if members.present? %>
+  <% sorted_members = presenter.sort_members_by_identifier(members) %>
+  <table class="table table-striped related-files">
+    <thead>
+      <tr>
+        <th><%= t('.thumbnail') %></th>
+        <th><%= t('.title') %></th>
+        <th><%= t('.date_uploaded') %></th>
+        <th><%= t('.visibility') %></th>
+        <% if can?(:download, sorted_members) %> <th><%= t('.actions') %></th> <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: 'member', collection: sorted_members %>
+    </tbody>
+  </table>
+  <% if page_count > 1 %>
+    <div class="row">
+      <div class="row record-padding col-md-9">
+        <%# OVERRIDE: Hyrax 2.9.6 to use our paginated list %>
+        <%= paginate sorted_members, outer_window: 2, theme: 'blacklight', param_name: :page, route_set: main_app %>
+      </div><!-- /pager -->
+    </div>
+  <% end %>
+<% elsif can? :edit, presenter.id %>
+  <div class="alert alert-warning" role="alert"><%= t('.empty', type: presenter.human_readable_type) %></div>
+<% else %>
+  <div class="alert alert-warning" role="alert"><%= t('.unauthorized', type: presenter.human_readable_type) %></div>
+<% end %>
