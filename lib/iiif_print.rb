@@ -13,6 +13,7 @@ require "iiif_print/pdf_derivative_service"
 require "iiif_print/text_extraction_derivative_service"
 require "iiif_print/text_formats_from_alto_service"
 require "iiif_print/tiff_derivative_service"
+require "iiif_print/metadata"
 
 module IiifPrint
   extend ActiveSupport::Autoload
@@ -88,5 +89,22 @@ module IiifPrint
         @iiif_print_config ||= ModelConfig.new(**kwargs)
       end
     end
+  end
+
+  # @api public
+  #
+  # Map the given model's metadata to the given IIIF version spec's metadata structure.  This
+  # is intended to be a drop-in replacement for `Hyrax::IiifManifestPresenter#manifest_metadata`.
+  #
+  # @param model [Object]
+  # @param version [Integer]
+  # @param fields [Array<IiifPrint::Metadata::Field>, Array<#name, #label>]
+  # @return [Array<Hash>]
+  #
+  # @see specs for expected output
+  #
+  # @see Hyrax::IiifManifestPresenter#manifest_metadata
+  def self.manifest_metadata_for(model:, version:, fields: Metadata.default_fields_for_allinson_flex(model))
+    Metadata.manifest_for(model: model, version: version, fields: fields)
   end
 end
