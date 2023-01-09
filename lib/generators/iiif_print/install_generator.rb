@@ -89,11 +89,6 @@ module IiifPrint
       copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
     end
 
-    def add_create_relationships_job_decorator
-      # supports setting default parent thumbnail to the first child's thumbnail, if one doesn't exist
-      copy_file 'create_relationships_job_decorator.rb', 'app/jobs/bulkrax/create_relationships_job_decorator.rb'
-    end
-
     def gather_work_types
       # check if this is a hyku application
       switch!(Account.first) if defined? Account
