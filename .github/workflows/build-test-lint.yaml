@@ -25,6 +25,8 @@ jobs:
   test:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v6-01-09-2023
+    with:
+      setup_db_cmd: rake engine_cart:generate
   lint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@iiif-v6-01-09-2023
