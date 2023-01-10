@@ -4,8 +4,7 @@ module IiifPrint
     extend ActiveSupport::Concern
 
     def search_service
-      Rails.application.routes.url_helpers.solr_document_iiif_search_url(id,
-                                                                         host: request.base_url)
+      Rails.application.routes.url_helpers.solr_document_iiif_search_url(id, host: hostname)
     end
 
     # based on Hyrax::WorkShowPresenter#manifest_metadata
