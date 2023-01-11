@@ -1,4 +1,4 @@
-name: "Build Test Lint"
+name: "Build Lint Test"
 on:
   push:
     branches:
@@ -16,14 +16,18 @@ on:
 
 jobs:
   build:
-    uses: scientist-softserv/actions/.github/workflows/build.yaml@v3plus5
+    uses: scientist-softserv/actions/.github/workflows/build.yaml@v0.0.7
     secrets: inherit
     with:
       platforms: "linux/amd64"
       target: hyku-base
+      worker: false
   test:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/test.yaml@iiif-v3plus5
+    uses: scientist-softserv/actions/.github/workflows/test.yaml@v0.0.7
+    with:
+      setup_db_cmd: rake engine_cart:generate
   lint:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/lint.yaml@iiif-v3plus5
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.7
+    
