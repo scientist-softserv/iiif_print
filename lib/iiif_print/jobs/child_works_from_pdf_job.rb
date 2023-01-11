@@ -82,11 +82,10 @@ module IiifPrint
         uf.id
       end
 
-      # TODO: don't skip PDF number in title even if only one
       def set_title(title, pdf_sequence, idx)
-        pdf_index = "Pdf Nbr #{pdf_sequence+1}"
-        page_number = "Page #{idx+1}"
-        "#{title}: #{pdf_index }#{page_number}"
+        pdf_index = "Pdf Nbr #{pdf_sequence + 1}"
+        page_number = "Page #{idx + 1}"
+        "#{title}: #{pdf_index}, #{page_number}"
       end
 
       # TODO: what attributes do we need to fill in from the parent work? What about AllinsonFlex?
