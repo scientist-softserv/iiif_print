@@ -4,18 +4,20 @@ module IiifPrint
       # An actor which locates all uploaded PDF paths and
       # spins off IiifPrint::CreatePagesJob to split them.
       def create(env)
-        # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
         @pdf_paths = []
-        hold_upload_paths(env) if env.curation_concern.class.try(:iiif_print_config?)
+        @prior_pdfs_count = 0
+        hold_upload_paths(env) if iiif_print?(env)
         next_actor.create(env) && after_other_actors(env)
       end
 
       def update(env)
-        # TODO: test what happens when ensure_title is removed.
         ensure_title(env)
         @pdf_paths = []
-        hold_upload_paths(env) if env.curation_concern.class.try(:iiif_print_config?)
+        if iiif_print?(env)
+          hold_upload_paths(env)
+          count_existing_pdfs(env)
+        end
         next_actor.update(env) && after_other_actors(env)
       end
 
@@ -31,8 +33,17 @@ module IiifPrint
         @pdf_paths = paths.select { |path| path.end_with?('.pdf') }
       end
 
+      def iiif_print?(env)
+        @iiif_print_defined ||= env.curation_concern.try(:iiif_print_config?)
+      end
+
+      # TODO: find the number of pdfs on the parent work prior to this update, to support addition of more PDFs
+      def count_existing_pdfs(env)
+        @prior_pdfs_count = 0
+      end
+
       def after_other_actors(env)
-        handle_issue_upload(env) if env.curation_concern.class.try(:iiif_print_config?)
+        handle_issue_upload(env) if iiif_print?(env)
         # needs to return true to not break actor stack traversal
         true
       end
@@ -42,17 +53,24 @@ module IiifPrint
         work = env.curation_concern
         # must persist work to serialize job using it
         work.save!(validate: false)
-        user = env.current_ability.current_user.user_key
+        user = env.current_ability.current_user
         admin_set = env.attributes[:admin_set_id] ||= default_admin_set
-        queue_job(work, @pdf_paths, user, admin_set)
+        queue_job(work, @pdf_paths, user, admin_set, @prior_pdfs_count)
       end
 
-      def queue_job(work, paths, user, admin_set_id)
-        work.iiif_print_config.split_pdfs_job_class.perform_later(
+      # submit the job
+      # @param [GenericWork, etc] A valid type of hyrax work
+      # @param [Array<String] paths to PDF attachments
+      # @param [User] user
+      # @param [String] admin set ID
+      # @param [Integer] count of PDFs already existing on the parent work
+      def queue_job(work, paths, user, admin_set_id, prior_pdfs)
+        work.iiif_print_config.pdf_splitter_job.perform_later(
           work,
           paths,
           user,
-          admin_set_id
+          admin_set_id,
+          prior_pdfs
         )
       end
 

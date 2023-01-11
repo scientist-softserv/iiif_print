@@ -7,8 +7,8 @@ require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
 require "iiif_print/resource_fetcher"
-require "iiif_print/application_job"
-require "iiif_print/child_works_from_pdf_job"
+require "iiif_print/jobs/application_job"
+require "iiif_print/jobs/child_works_from_pdf_job"
 require "iiif_print/split_pdfs/pages_into_images_service"
 
 
@@ -38,7 +38,7 @@ module IiifPrint
 
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
-    pdf_splitter_job: IiifPrint::ChildWorksFromPdfJob,
+    pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
     pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService
   }.freeze
 
