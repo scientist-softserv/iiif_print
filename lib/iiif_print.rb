@@ -104,7 +104,29 @@ module IiifPrint
   # @see specs for expected output
   #
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
-  def self.manifest_metadata_for(model:, version:, fields: Metadata.default_fields_for_allinson_flex(model))
+  def self.manifest_metadata_for(model:,
+                                 version: config.default_iiif_manifest_version,
+                                 fields: default_fields_for(model))
     Metadata.manifest_for(model: model, version: version, fields: fields)
+  end
+
+  def self.metadata_fields
+    config.metadata_fields
+  end
+
+  # Hash is an arbitrary attribute key/value pairs
+  # Struct is a defined set of attribute "keys".  When we favor defined values,
+  # then we are naming the concept and defining the range of potential values.
+  Field = Struct.new(:name, :label, :options, keyword_init: true)
+
+  # TODO: figure out a way to use a custom label, right now it takes it get rendered from the title
+  def self.default_fields_for(_model, fields: metadata_fields)
+    fields.map do |field|
+      Field.new(
+        name: field.first,
+        label: Hyrax::Renderers::AttributeRenderer.new(field, nil).label,
+        options: field.last
+      )
+    end
   end
 end

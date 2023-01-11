@@ -1,12 +1,15 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::Configuration do
-  subject { described_class.new }
+  describe "#metadata_fields" do
+    subject { config.metadata_fields }
+    let(:config) { described_class.new }
 
-  it { is_expected.to respond_to(:work_types_for_derivative_service) }
-
-  describe '#work_types_for_derivative_service' do
-    subject { described_class.new.work_types_for_derivative_service }
-    it { is_expected.to be_an Array }
+    it { is_expected.to be_a Hash }
+    it "allows for an override" do
+      original = config.metadata_fields
+      config.metadata_fields = { title: {} }
+      expect(config.metadata_fields).not_to eq original
+    end
   end
 end

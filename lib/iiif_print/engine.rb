@@ -28,6 +28,7 @@ module IiifPrint
       Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, IiifPrint::Actors::IiifPrintUploadActor
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
+      Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
     end
   end
 end

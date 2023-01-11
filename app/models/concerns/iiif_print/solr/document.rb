@@ -9,7 +9,7 @@ module IiifPrint::Solr::Document
 
   def method_missing(m, *args, &block)
     super unless SOLR_NAMES.include? m.to_s
-    self[Solrizer.solr_name(m.to_s)]
+    self[::ActiveFedora.index_field_mapper.solr_name(m.to_s)]
   end
 
   def respond_to_missing?(method_name, include_private = false)
