@@ -14,8 +14,11 @@ RSpec.describe IiifPrint do
       it { is_expected.to be_iiif_print_config }
 
       it "has a #pdf_splitter_job" do
-        # TODO: This should be a class that is a Job but we don't yet have that.
-        expect(record.iiif_print_config.pdf_splitter_job).to be_present
+        expect(record.iiif_print_config.pdf_splitter_job).to be(IiifPrint::Jobs::ChildWorksFromPdfJob)
+      end
+
+      it "has a #pdf_splitter_service" do
+        expect(record.iiif_print_config.pdf_splitter_service).to be(IiifPrint::SplitPdfs::PagesIntoImagesService)
       end
     end
   end
