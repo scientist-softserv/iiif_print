@@ -34,7 +34,7 @@ module IiifPrint
             next if Array(model.try(field.name)).first.blank?
             {
               'label' => label,
-              'value' => cast_to_value(image: model, field_name: field.name, options: options)
+              'value' => cast_to_value(field_name: field.name, options: options)
             }
           end
         end.compact
@@ -64,18 +64,18 @@ module IiifPrint
       Loofah.fragment(value).scrub!(:whitewash).to_s
     end
 
-    def cast_to_value(image:, field_name:, options:)
+    def cast_to_value(field_name:, options:)
       if options&.[](:render_as) == :faceted
-        Array(image.send(field_name)).map do |value|
+        Array(model.send(field_name)).map do |value|
           search_field = field_name.to_s + "_sim"
           path = Rails.application.routes.url_helpers.search_catalog_path(
             "f[#{search_field}][]": value, locale: I18n.locale
           )
-          path += '&include_child_works=true' if image["is_child_bsi"] == true
+          path += '&include_child_works=true' if model["is_child_bsi"] == true
           "<a href='#{path}'>#{value}</a>"
         end
       else
-        make_link(image.send(field_name))
+        make_link(model.send(field_name))
       end
     end
 
