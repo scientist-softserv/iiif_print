@@ -22,7 +22,7 @@ module IiifPrint
       # fallback to Fedora-stored relationships if work's aggregation of
       #   file set is not indexed in Solr
       parent = file_set.member_of.find(&:work?) if parent.nil?
-      IiifPrint.config.work_types_for_derivative_service.include?(parent.class)
+      parent.try(:iiif_print_config?)
     end
 
     def derivative_path_factory

@@ -7,6 +7,12 @@ require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
 require "iiif_print/resource_fetcher"
+require "iiif_print/page_derivative_service"
+require "iiif_print/jp2_derivative_service"
+require "iiif_print/pdf_derivative_service"
+require "iiif_print/text_extraction_derivative_service"
+require "iiif_print/text_formats_from_alto_service"
+require "iiif_print/tiff_derivative_service"
 require "iiif_print/jobs/application_job"
 require "iiif_print/jobs/child_works_from_pdf_job"
 require "iiif_print/jobs/create_relationships_job"
@@ -40,7 +46,13 @@ module IiifPrint
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
-    pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService
+    pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService,
+    derivative_service_plugins: [
+      IiifPrint::JP2DerivativeService,
+      IiifPrint::PDFDerivativeService,
+      IiifPrint::TextExtractionDerivativeService,
+      IiifPrint::TIFFDerivativeService
+    ]
   }.freeze
 
   # This is the record level configuration for PDF split handling.
@@ -50,7 +62,12 @@ module IiifPrint
   #
   # @example
   #   class Book < ActiveFedora::Base
-  #     include IiifPrint.model_configuration(pdf_split_child_model: Page)
+  #     include IiifPrint.model_configuration(
+  #       pdf_split_child_model: Page,
+  #       derivative_service_plugins: [
+  #         IiifPrint::TIFFDerivativeService
+  #       ]
+  #     )
   #   end
   #
   # @param kwargs [Hash<Symbol,Object>] the configuration values that overrides the
@@ -69,8 +86,8 @@ module IiifPrint
 
       # We don't know what you may want in your configuration, but from this gems implementation,
       # we're going to provide the defaults to ensure that it works.
-      DEFAULT_MODEL_CONFIGURATION.each_pair do |key, value|
-        kwargs[key] ||= value
+      DEFAULT_MODEL_CONFIGURATION.each_pair do |key, default_value|
+        kwargs[key] ||= default_value
       end
 
       define_method(:iiif_print_config) do

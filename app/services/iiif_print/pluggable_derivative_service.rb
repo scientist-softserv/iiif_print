@@ -25,23 +25,18 @@ class IiifPrint::PluggableDerivativeService
   attr_reader :file_set
   delegate :uri, :mime_type, to: :file_set
 
-  # default plugin Hyrax OOTB, makes thumbnails and sometimes extracts text:
-  default_plugin = Hyrax::FileSetDerivativesService
-
   # make and expose an array of plugins
-  @plugins = [default_plugin]
   @allowed_methods = [:cleanup_derivatives, :create_derivatives]
   class << self
-    attr_accessor :plugins, :allowed_methods
+    attr_accessor :allowed_methods
   end
 
-  def plugins
-    self.class.plugins
-  end
-
-  def initialize(file_set)
+  def initialize(file_set, plugins: default_plugin_for(file_set))
     @file_set = file_set
+    @plugins = plugins
   end
+
+  attr_reader :plugins
 
   def valid?
     # this wrapper/proxy/composite is always valid, but it may compose
@@ -110,5 +105,18 @@ class IiifPrint::PluggableDerivativeService
 
   def derivative_path_factory
     Hyrax::DerivativePath
+  end
+
+  def default_plugin
+    # default plugin Hyrax OOTB, makes thumbnails and sometimes extracts text:
+    Hyrax::FileSetDerivativesService
+  end
+
+  def default_plugin_for(file_set)
+    if file_set.parent.try(:iiif_print_config?)
+      file_set.parent.iiif_print_config.derivative_service_plugins << default_plugin
+    else
+      [default_plugin]
+    end
   end
 end
