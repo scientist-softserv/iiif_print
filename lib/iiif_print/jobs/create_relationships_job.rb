@@ -2,7 +2,12 @@ module IiifPrint
   module Jobs
     # Break a pdf into individual pages
     class CreateRelationshipsJob < IiifPrint::Jobs::ApplicationJob
-      # @param parent_id [String] Work ID
+        # Link newly created child works to the parent
+        # @param user: [User] user
+        # @param parent_id: [<String>] parent work id
+        # @param parent_model: [<String>] parent model
+        # @param child_count: [<Integer>] count of children
+        # @param child_model: [<String>] child model
       def perform(user:, parent_id:, parent_model:, child_count:, child_model:)
         if completed_child_data_for(parent_id, child_count, child_model)
           # add the members
@@ -19,8 +24,8 @@ module IiifPrint
 
       # check of all child works have been created
       def completed_child_data_for(parent_id, child_count, child_model)
-        # find pending children and verify the quantity is correct (BatchCreateJobs completed)
-        @pending_chilren = IiifPrint::PendingRelationship.where(parent_id: parent_id).sort_by(:order)
+        # find and sequence all pending children and verify the quantity is correct (BatchCreateJobs completed)
+        @pending_chilren = IiifPrint::PendingRelationship.where(parent_id: parent_id) # .order('order asc')
         return false unless @pending_children.count == child_count
 
         # find child ids and verify the quantity is correct (CreateChildWork jobs completed)

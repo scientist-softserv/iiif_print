@@ -30,7 +30,7 @@ module IiifPrint
         return if upload_ids.empty?
         uploads = Hyrax::UploadedFile.find(upload_ids)
         paths = uploads.map(&method(:upload_path))
-        @pdf_paths = paths.select { |path| path.end_with?('.pdf') }
+        @pdf_paths = paths.select { |path| path.end_with?('.pdf', '.PDF') }
       end
 
       def iiif_print?(env)

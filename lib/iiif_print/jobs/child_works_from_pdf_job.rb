@@ -40,12 +40,17 @@ module IiifPrint
         end
 
         # Link newly created child works to the parent
-        CreateRelationshipsJob.set(wait: 10.minutes).perform_later(
+        # @param user: [User] user
+        # @param parent_id: [<String>] parent work id
+        # @param parent_model: [<String>] parent model
+        # @param child_count: [<Integer>] count of children
+        # @param child_model: [<String>] child model
+        IiifPrint::Jobs::CreateRelationshipsJob.set(wait: 10.minutes).perform_later(
           user: user,
           parent_id: @parent_work.id,
-          parent_model: @parent_work.class,
+          parent_model: @parent_work.class.to_s,
           child_count: @child_count,
-          child_model: child_model
+          child_model: child_model.to_s
         )
 
         # TODO: clean up image_files and pdf_paths
