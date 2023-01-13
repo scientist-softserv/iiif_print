@@ -24,6 +24,8 @@ module IiifPrint
 
     attr_writer :metadata_fields
     # rubocop:disable Metrics/MethodLength
+    # @api private
+    # @todo To move this to an `@api public` state, we need to consider what a proper configuration looks like.
     def metadata_fields
       @metadata_fields ||= {
         title: {},
