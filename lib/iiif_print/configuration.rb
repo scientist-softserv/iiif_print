@@ -55,5 +55,10 @@ module IiifPrint
       }
     end
     # rubocop:enable Metrics/MethodLength
+
+    attr_writer :sort_iiif_manifest_canvases_by
+    def sort_iiif_manifest_canvases_by
+      @sort_iiif_manifest_canvases_by || :identifier
+    end
   end
 end

@@ -1,5 +1,4 @@
 module IiifPrint
-  # rubocop:disable Metrics/ModuleLength
   module ManifestBuilderServiceBehavior
     def initialize(*args,
                    version: IiifPrint.config.default_iiif_manifest_version,
@@ -39,29 +38,25 @@ module IiifPrint
       # ManifestFactory interface?
       manifest = manifest_factory.new(presenter).to_h
       hash = JSON.parse(manifest.to_json)
-
-      send("sanitize_v#{@version}", manifest: hash, presenter: presenter)
+      hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter)
+      send("sorted_canvases_v#{@version}", hash: hash, sort_field: IiifPrint.config.sort_iiif_manifest_canvases_by)
     end
 
-    # rubocop:disable Metrics/MethodLength
-    def sanitize_v2(manifest:, presenter:)
-      manifest['label'] = CGI.unescapeHTML(sanitize_value(manifest['label'])) if manifest.key?('label')
-      manifest.delete('description') # removes default description since it's in the metadata fields
-      manifest['sequences']&.each do |sequence|
+    def sanitize_v2(hash:, presenter:)
+      hash['label'] = CGI.unescapeHTML(sanitize_value(hash['label'])) if hash.key?('label')
+      hash.delete('description') # removes default description since it's in the metadata fields
+      hash['sequences']&.each do |sequence|
         sequence['canvases']&.each do |canvas|
           canvas['label'] = CGI.unescapeHTML(sanitize_value(canvas['label']))
           apply_v2_metadata_to_canvas(canvas: canvas, presenter: presenter)
         end
       end
-
-      sort_hash_by_identifier!(manifest)
-      manifest
+      hash
     end
-    # rubocop:enable Metrics/MethodLength
 
-    def sanitize_v3(manifest:, presenter:)
+    def sanitize_v3(hash:, presenter:)
       # TODO: flesh out metadata for v3
-      manifest
+      hash
     end
 
     def apply_v2_metadata_to_canvas(canvas:, presenter:)
@@ -77,13 +72,20 @@ module IiifPrint
       canvas['metadata'] = canvas_metadata
     end
 
-    def sort_hash_by_identifier!(hash)
+    def sorted_canvases_v2(hash:, sort_field:)
+      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
       hash["sequences"]&.first&.[]("canvases")&.sort_by! do |canvas|
-        selection = canvas["metadata"].select { |h| h["label"] == "Identifier" }
-        fallback = [{ label: "Identifier", value: ['~'] }]
+        selection = canvas["metadata"].select { |h| h["label"] == sort_field }
+        fallback = [{ label: sort_field, value: ['~'] }]
         identifier_metadata = selection.presence || fallback
         identifier_metadata.first["value"] if identifier_metadata.present?
       end
+      hash
+    end
+
+    def sorted_canvases_v3(hash:, sort_field:)
+      # TODO: flesh out metadata for v3
+      hash
     end
 
     def get_solr_docs(presenter)
@@ -98,5 +100,4 @@ module IiifPrint
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength
 end
