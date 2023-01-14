@@ -22,20 +22,24 @@ module IiifPrint
 
       private
 
-      # check of all child works have been created
+      # load @child_ids, and return true or false 
       def completed_child_data_for(parent_id, child_count, child_model)
-        # find and sequence all pending children and verify the quantity is correct (BatchCreateJobs completed)
-        @pending_chilren = IiifPrint::PendingRelationship.where(parent_id: parent_id) # .order('order asc')
-        return false unless @pending_children.count == child_count
-
-        # find child ids and verify the quantity is correct (CreateChildWork jobs completed)
         @child_ids = []
-        @pending_children.each do |pending_child|
-          @child_ids << find_id_by_title_for(pending_child.child_title, child_model)
-        end
-        return false unless @child_ids.count == child_count
+        found_all_children = true
 
-        true
+        # find and sequence all pending children
+        @pending_children = IiifPrint::PendingRelationship.where(parent_id: parent_id).order('child_order asc')
+
+        # find child ids (skip out if any haven't yet been created)
+        @pending_children.each do |child|
+          # find by title... if any aren't found, the child works are not yet ready
+          found_child = find_id_by_title_for(child.child_title, child_model)
+          found_all_children = false if found_child.empty?
+          break unless found_all_children == true
+          @child_ids += found_child
+        end
+        # return boolean
+        found_all_children
       end
 
       def find_id_by_title_for(title, model)

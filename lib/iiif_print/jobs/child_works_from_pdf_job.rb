@@ -70,7 +70,7 @@ module IiifPrint
           PendingRelationship.create!(
             child_title: file_title,
             parent_id: @parent_work.id,
-            order: sort_order(pdf_sequence, idx))
+            child_order: sort_order(pdf_sequence, idx))
         end
         @child_count += @uploaded_files.count
       end
