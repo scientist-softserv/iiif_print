@@ -2,9 +2,6 @@ require 'spec_helper'
 
 RSpec.describe IiifPrint::Metadata do
   let(:solr_document) { SolrDocument.new(attributes) }
-
-  SampleField = Struct.new(:name, :label, :options, keyword_init: true)
-
   let(:fields) do
     metadata_fields.map do |field|
       SampleField.new(
@@ -14,7 +11,6 @@ RSpec.describe IiifPrint::Metadata do
       )
     end
   end
-
   let(:metadata_fields) do
     {
       title: {},
@@ -23,19 +19,24 @@ RSpec.describe IiifPrint::Metadata do
     }
   end
 
-  describe ".manifest_for" do
+  SampleField = Struct.new(:name, :label, :options, keyword_init: true)
+
+  describe ".build_metadata_for" do
     subject(:manifest_metadata) do
-      described_class.manifest_for(
+      described_class.build_metadata_for(
         model: solr_document,
         version: version,
-        fields: fields
+        fields: fields,
+        current_ability: double(Ability)
       )
     end
 
     context "for version 2 of the IIIF spec" do
       let(:version) { 2 }
+
       context "with a field that has some plain text" do
         let(:attributes) { { "title_tesim" => ["My Awesome Title"] } }
+
         it "maps the metadata accordingly" do
           expect(manifest_metadata).to eq [
             { "label" => "Title", "value" => ["My Awesome Title"] }
@@ -45,6 +46,7 @@ RSpec.describe IiifPrint::Metadata do
 
       context "with a field that contains a url string" do
         let(:attributes) { { "description_tesim" => ["A url like https://www.example.com/, cool!"] } }
+
         it "creates a link for the url string" do
           expect(manifest_metadata).to eq [
             { "label" => "Description",
@@ -58,6 +60,7 @@ RSpec.describe IiifPrint::Metadata do
 
       context "with a date" do
         let(:attributes) { { "date_modified_dtsi" => "2011-11-11T11:11:11Z" } }
+
         it "displays it just the date" do
           expect(manifest_metadata).to eq [{ "label" => "Date modified", "value" => ["2011-11-11"] }]
         end
@@ -66,6 +69,7 @@ RSpec.describe IiifPrint::Metadata do
       context "with a faceted option" do
         let(:metadata_fields) { { creator: { render_as: :faceted } } }
         let(:attributes) { { "creator_tesim" => ["McAuthor, Arthur"] } }
+
         it "adds a link to the faceted search" do
           expect(manifest_metadata). to eq [
             { "label" => "Creator",
@@ -74,10 +78,26 @@ RSpec.describe IiifPrint::Metadata do
           ]
         end
       end
+
+      context "when the work is apart of a collection" do
+        let(:metadata_fields) { { collection: {} } }
+        let(:collection_attributes) { { "id" => "321cba", "title_tesim" => ["My Cool Collection"] } }
+        let(:collection_solr_doc) { SolrDocument.new(collection_attributes) }
+        let(:attributes) { { "member_of_collection_ids_ssim" => "321cba" } }
+
+        it "renders a link to the collection" do
+          allow(Hyrax::CollectionMemberService).to receive(:run).and_return([collection_solr_doc])
+          expect(manifest_metadata).to eq [
+            { "label" => "Collection",
+              "value" => ["<a href='/collections/321cba'>My Cool Collection</a>"] }
+          ]
+        end
+      end
     end
 
     context "for version 3 of the IIIF spec", skip: "version 3 metadata not implemented yet" do
       let(:version) { 3 }
+
       it "maps the metadata accordingly" do
         # NOTE: this assumes the I18n.locale is set as :en
         expect(manifest_metadata).to eq [

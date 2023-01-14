@@ -10,6 +10,11 @@ module IiifPrint
       @presenter_solr_docs = {}
     end
 
+    def manifest_for(presenter:, current_ability:)
+      @current_ability = current_ability
+      build_manifest(presenter: presenter)
+    end
+
     private
 
     VERSION_TO_MANIFEST_FACTORY_MAP = {
@@ -25,7 +30,7 @@ module IiifPrint
     # Allows for the display of metadata for child works in UV
     #
     # @see https://github.com/samvera/hyrax/blob/main/app/services/hyrax/manifest_builder_service.rb
-    def sanitized_manifest(presenter:)
+    def build_manifest(presenter:)
       # ::IIIFManifest::ManifestBuilder#to_h returns a
       # IIIFManifest::ManifestBuilder::IIIFManifest, not a Hash.
       # to get a Hash, we have to call its #to_json, then parse.
@@ -68,7 +73,7 @@ module IiifPrint
         # TODO: filter out has_model_ssim FileSet in #get_solr_docs
         doc[:member_ids_ssim]&.include?(file_set_id) && doc[:has_model_ssim] != ["FileSet"]
       end
-      canvas_metadata = IiifPrint.manifest_metadata_for(model: image)
+      canvas_metadata = IiifPrint.manifest_metadata_for(model: image, current_ability: @current_ability)
       canvas['metadata'] = canvas_metadata
     end
 

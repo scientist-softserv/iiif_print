@@ -29,6 +29,7 @@ module IiifPrint
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
+      Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
     end
   end
 end

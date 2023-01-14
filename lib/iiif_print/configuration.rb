@@ -25,11 +25,13 @@ module IiifPrint
     attr_writer :metadata_fields
     # rubocop:disable Metrics/MethodLength
     # @api private
+    # @note These fields will appear in rendering order.
     # @todo To move this to an `@api public` state, we need to consider what a proper configuration looks like.
     def metadata_fields
       @metadata_fields ||= {
         title: {},
         description: {},
+        collection: {},
         abstract: {},
         date_modified: {},
         creator: { render_as: :faceted },

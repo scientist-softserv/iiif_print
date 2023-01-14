@@ -14,6 +14,7 @@ require "iiif_print/text_extraction_derivative_service"
 require "iiif_print/text_formats_from_alto_service"
 require "iiif_print/tiff_derivative_service"
 require "iiif_print/metadata"
+require "iiif_print/works_controller_behavior"
 
 module IiifPrint
   extend ActiveSupport::Autoload
@@ -106,8 +107,9 @@ module IiifPrint
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
   def self.manifest_metadata_for(model:,
                                  version: config.default_iiif_manifest_version,
-                                 fields: default_fields_for(model))
-    Metadata.manifest_for(model: model, version: version, fields: fields)
+                                 fields: default_fields_for(model),
+                                 current_ability:)
+    Metadata.build_metadata_for(model: model, version: version, fields: fields, current_ability: current_ability)
   end
 
   # Hash is an arbitrary attribute key/value pairs

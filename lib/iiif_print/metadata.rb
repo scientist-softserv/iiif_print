@@ -1,20 +1,20 @@
 module IiifPrint
   # rubocop:disable Metrics/ModuleLength, Metrics/ClassLength
   class Metadata
-    def self.manifest_for(model:, version:, fields:)
-      new(model: model, version: version, fields: fields).manifest
+    def self.build_metadata_for(model:, version:, fields:, current_ability:)
+      new(model: model, version: version, fields: fields, current_ability: current_ability).build_metadata
     end
 
-    def initialize(model:, version:, fields:)
+    def initialize(model:, version:, fields:, current_ability:)
       @model = model
       @version = version
       @fields = fields
+      @current_ability = current_ability
     end
 
     attr_reader :model, :version, :fields
 
-    # rubocop:disable MethodLength, CyclomaticComplexity, PerceivedComplexity, AbcSize
-    def manifest
+    def build_metadata
       case version
       when 2
         fields.map do |field|
