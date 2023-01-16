@@ -30,6 +30,19 @@ module IiifPrint
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
+
+      # Extending the presenter to the base url which includes the protocol.
+      # We need the base url to render the facet links and normalize the interface.
+      Hyrax::IiifManifestPresenter.send(:attr_accessor, :base_url)
+      Hyrax::IiifManifestPresenter::DisplayImagePresenter.send(:attr_accessor, :base_url)
+      # Extending this class because there is an #ability= but not #ability and this definition
+      # mirrors the Hyrax::IiifManifestPresenter#ability.
+      module Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator
+        def ability
+          @ability ||= NullAbility.new
+        end
+      end
+      Hyrax::IiifManifestPresenter::DisplayImagePresenter.prepend(Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator)
     end
   end
 end
