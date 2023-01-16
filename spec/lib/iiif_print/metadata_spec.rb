@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::Metadata do
+  let(:base_url) { "https://my.dev.test" }
   let(:solr_document) { SolrDocument.new(attributes) }
   let(:fields) do
     metadata_fields.map do |field|
@@ -27,7 +28,8 @@ RSpec.describe IiifPrint::Metadata do
         model: solr_document,
         version: version,
         fields: fields,
-        current_ability: double(Ability)
+        current_ability: double(Ability),
+        base_url: base_url
       )
     end
 
@@ -74,7 +76,7 @@ RSpec.describe IiifPrint::Metadata do
           expect(manifest_metadata). to eq [
             { "label" => "Creator",
               "value" =>
-                ["<a href='/catalog?f%5Bcreator_sim%5D%5B%5D=McAuthor%2C+Arthur&locale=en'>McAuthor, Arthur</a>"] }
+                ["<a href='#{base_url}/catalog?f%5Bcreator_sim%5D%5B%5D=McAuthor%2C+Arthur&locale=en'>McAuthor, Arthur</a>"] }
           ]
         end
       end
@@ -89,7 +91,7 @@ RSpec.describe IiifPrint::Metadata do
           allow(Hyrax::CollectionMemberService).to receive(:run).and_return([collection_solr_doc])
           expect(manifest_metadata).to eq [
             { "label" => "Collection",
-              "value" => ["<a href='/collections/321cba'>My Cool Collection</a>"] }
+              "value" => ["<a href='#{base_url}/collections/321cba'>My Cool Collection</a>"] }
           ]
         end
       end

@@ -1,14 +1,19 @@
 module IiifPrint
   class Metadata
-    def self.build_metadata_for(model:, version:, fields:, current_ability:)
-      new(model: model, version: version, fields: fields, current_ability: current_ability).build_metadata
+    def self.build_metadata_for(model:, version:, fields:, current_ability:, base_url:)
+      new(model: model,
+          version: version,
+          fields: fields,
+          current_ability: current_ability,
+          base_url: base_url).build_metadata
     end
 
-    def initialize(model:, version:, fields:, current_ability:)
+    def initialize(model:, version:, fields:, current_ability:, base_url:)
       @model = model
       @version = version
       @fields = fields
       @current_ability = current_ability
+      @base_url = base_url
     end
 
     attr_reader :model, :version, :fields
@@ -71,7 +76,7 @@ module IiifPrint
             "f[#{search_field}][]": value, locale: I18n.locale
           )
           path += '&include_child_works=true' if model["is_child_bsi"] == true
-          "<a href='#{path}'>#{value}</a>"
+          "<a href='#{@base_url}#{path}'>#{value}</a>"
         end
       else
         make_link(model.send(field_name))
@@ -80,7 +85,7 @@ module IiifPrint
 
     def make_collection_link(collection_documents)
       collection_documents.map do |collection|
-        "<a href='/collections/#{collection.id}'>#{collection.title.first}</a>"
+        "<a href='#{@base_url}/collections/#{collection.id}'>#{collection.title.first}</a>"
       end
     end
 

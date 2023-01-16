@@ -108,8 +108,13 @@ module IiifPrint
   def self.manifest_metadata_for(model:,
                                  version: config.default_iiif_manifest_version,
                                  fields: default_fields_for(model),
-                                 current_ability:)
-    Metadata.build_metadata_for(model: model, version: version, fields: fields, current_ability: current_ability)
+                                 current_ability:,
+                                 base_url:)
+    Metadata.build_metadata_for(model: model,
+                                version: version,
+                                fields: fields,
+                                current_ability: current_ability,
+                                base_url: base_url)
   end
 
   # Hash is an arbitrary attribute key/value pairs

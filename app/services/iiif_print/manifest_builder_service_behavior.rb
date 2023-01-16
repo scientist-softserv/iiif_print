@@ -9,8 +9,9 @@ module IiifPrint
       @presenter_solr_docs = {}
     end
 
-    def manifest_for(presenter:, current_ability:)
+    def manifest_for(presenter:, current_ability:, base_url:)
       @current_ability = current_ability
+      @base_url = base_url
       build_manifest(presenter: presenter)
     end
 
@@ -68,7 +69,9 @@ module IiifPrint
         # TODO: filter out has_model_ssim FileSet in #get_solr_docs
         doc[:member_ids_ssim]&.include?(file_set_id) && doc[:has_model_ssim] != ["FileSet"]
       end
-      canvas_metadata = IiifPrint.manifest_metadata_for(model: image, current_ability: @current_ability)
+      canvas_metadata = IiifPrint.manifest_metadata_for(model: image,
+                                                        current_ability: @current_ability,
+                                                        base_url: @base_url)
       canvas['metadata'] = canvas_metadata
     end
 
