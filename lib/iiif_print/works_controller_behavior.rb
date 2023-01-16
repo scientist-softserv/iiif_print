@@ -2,7 +2,7 @@ module IiifPrint
   module WorksControllerBehaviorDecorator
     def manifest
       headers['Access-Control-Allow-Origin'] = '*'
-      base_url = request.protocol + request.hostname
+      base_url = request.base_url
 
       json = iiif_manifest_builder.manifest_for(presenter: iiif_manifest_presenter,
                                                 current_ability: current_ability,
