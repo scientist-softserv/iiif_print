@@ -177,13 +177,26 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(work.members.select { |m| m.class == FileSet }.size).to eq 0
     end
 
-    it "commit for assignment invokes actor stack" do
-      work = bare_work
-      adapter = described_class.of(work)
-      adapter.assign(tiff_path)
-      allow(Hyrax::CurationConcern.actor).to receive(:update).and_return(true)
-      expect(Hyrax::CurationConcern.actor).to receive(:update)
-      expect(adapter.commit!).to be true
+    context "when it is a new work" do
+      it "commit for assignment invokes actor stack" do
+        work = MyWork.new(title: ['Just a new work'])
+        adapter = described_class.of(work)
+        adapter.assign(tiff_path)
+        allow(Hyrax::CurationConcern.actor).to receive(:create).and_return(true)
+        expect(Hyrax::CurationConcern.actor).to receive(:create)
+        expect(adapter.commit!).to be true
+      end
+    end
+
+    context "when the work already exists" do
+      it "commit for assignment invokes actor stack" do
+        work = bare_work
+        adapter = described_class.of(work)
+        adapter.assign(tiff_path)
+        allow(Hyrax::CurationConcern.actor).to receive(:update).and_return(true)
+        expect(Hyrax::CurationConcern.actor).to receive(:update)
+        expect(adapter.commit!).to be true
+      end
     end
 
     it "commits successful file attachment", perform_enqueued: do_now_jobs do
