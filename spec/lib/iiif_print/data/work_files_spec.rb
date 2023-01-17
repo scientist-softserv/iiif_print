@@ -4,10 +4,10 @@ require 'misc_shared'
 RSpec.describe IiifPrint::Data::WorkFiles do
   include_context "shared setup"
 
-  before do
-    class MyWork < ActiveFedora::Base
-
-    end
+  around do |spec|
+    class MyWork < ActiveFedora::Base; end
+    spec.run
+    Object.send(:remove_const, :MyWork)
   end
 
   let(:work) { work_with_file }
