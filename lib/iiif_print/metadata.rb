@@ -1,4 +1,5 @@
 module IiifPrint
+  # rubocop:disable Metrics/ClassLength
   class Metadata
     def self.build_metadata_for(work:, version:, fields:, current_ability:, base_url:)
       new(work: work,
@@ -70,28 +71,32 @@ module IiifPrint
 
     def cast_to_value(field_name:, options:)
       if options&.[](:render_as) == :faceted
-        Array(work.send(field_name)).map do |value|
+        values_for(field_name: field_name).map do |value|
           search_field = field_name.to_s + "_sim"
           path = Rails.application.routes.url_helpers.search_catalog_path(
             "f[#{search_field}][]": value, locale: I18n.locale
           )
           path += '&include_child_works=true' if work["is_child_bsi"] == true
-          "<a href='#{@base_url}#{path}'>#{value}</a>"
+          "<a href='#{File.join(@base_url, path)}'>#{value}</a>"
         end
       else
-        make_link(work.send(field_name))
+        make_link(values_for(field_name: field_name))
       end
+    end
+
+    def values_for(field_name:)
+      Array(work.send(field_name))
     end
 
     def make_collection_link(collection_documents)
       collection_documents.map do |collection|
-        "<a href='#{@base_url}/collections/#{collection.id}'>#{collection.title.first}</a>"
+        "<a href='#{File.join(@base_url, 'collections', collection.id)}'>#{collection.title.first}</a>"
       end
     end
 
     # @note This method turns link looking strings into links
-    def make_link(text)
-      Array(text).map do |t|
+    def make_link(texts)
+      texts.map do |t|
         t.to_s.gsub(MAKE_LINK_REGEX) do |url|
           "<a href='#{url}' target='_blank'>#{url}</a>"
         end
@@ -116,4 +121,5 @@ module IiifPrint
       )
     }ix.freeze
   end
+  # rubocop:enable Metrics/ClassLength
 end
