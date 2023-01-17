@@ -10,7 +10,7 @@ module IiifPrint
 
     def initialize(work:, version:, fields:, current_ability:, base_url:)
       @work = work
-      @version = version
+      @version = version.to_i
       @fields = fields
       @current_ability = current_ability
       @base_url = base_url
