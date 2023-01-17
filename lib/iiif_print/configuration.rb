@@ -58,7 +58,7 @@ module IiifPrint
 
     attr_writer :sort_iiif_manifest_canvases_by
     def sort_iiif_manifest_canvases_by
-      @sort_iiif_manifest_canvases_by || :identifier
+      @sort_iiif_manifest_canvases_by || :title
     end
   end
 end

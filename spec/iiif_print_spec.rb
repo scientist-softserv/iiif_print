@@ -10,7 +10,7 @@ RSpec.describe IiifPrint do
     let(:base_url) { "https://my.dev.test" }
 
     subject(:manifest_metadata) do
-      described_class.manifest_metadata_for(model: solr_document, current_ability: double(Ability), base_url: base_url)
+      described_class.manifest_metadata_for(work: solr_document, current_ability: double(Ability), base_url: base_url)
     end
     it { is_expected.not_to be_falsey }
     it "does not contain any nil values" do

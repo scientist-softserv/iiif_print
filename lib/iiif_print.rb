@@ -94,10 +94,10 @@ module IiifPrint
 
   # @api public
   #
-  # Map the given model's metadata to the given IIIF version spec's metadata structure.  This
+  # Map the given work's metadata to the given IIIF version spec's metadata structure.  This
   # is intended to be a drop-in replacement for `Hyrax::IiifManifestPresenter#manifest_metadata`.
   #
-  # @param model [Object]
+  # @param work [Object]
   # @param version [Integer]
   # @param fields [Array<IiifPrint::Metadata::Field>, Array<#name, #label>]
   # @return [Array<Hash>]
@@ -105,12 +105,12 @@ module IiifPrint
   # @see specs for expected output
   #
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
-  def self.manifest_metadata_for(model:,
+  def self.manifest_metadata_for(work:,
                                  version: config.default_iiif_manifest_version,
-                                 fields: default_fields_for(model),
+                                 fields: default_fields_for(work),
                                  current_ability:,
                                  base_url:)
-    Metadata.build_metadata_for(model: model,
+    Metadata.build_metadata_for(work: work,
                                 version: version,
                                 fields: fields,
                                 current_ability: current_ability,
@@ -124,7 +124,7 @@ module IiifPrint
 
   # @api private
   # @todo Figure out a way to use a custom label, right now it takes it get rendered from the title.
-  def self.default_fields_for(_model, fields: config.metadata_fields)
+  def self.default_fields_for(_work, fields: config.metadata_fields)
     fields.map do |field|
       Field.new(
         name: field.first,

@@ -25,7 +25,7 @@ RSpec.describe IiifPrint::Metadata do
   describe ".build_metadata_for" do
     subject(:manifest_metadata) do
       described_class.build_metadata_for(
-        model: solr_document,
+        work: solr_document,
         version: version,
         fields: fields,
         current_ability: double(Ability),

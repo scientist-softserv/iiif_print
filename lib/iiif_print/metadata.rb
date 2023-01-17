@@ -1,22 +1,22 @@
 module IiifPrint
   class Metadata
-    def self.build_metadata_for(model:, version:, fields:, current_ability:, base_url:)
-      new(model: model,
+    def self.build_metadata_for(work:, version:, fields:, current_ability:, base_url:)
+      new(work: work,
           version: version,
           fields: fields,
           current_ability: current_ability,
           base_url: base_url).build_metadata
     end
 
-    def initialize(model:, version:, fields:, current_ability:, base_url:)
-      @model = model
+    def initialize(work:, version:, fields:, current_ability:, base_url:)
+      @work = work
       @version = version
       @fields = fields
       @current_ability = current_ability
       @base_url = base_url
     end
 
-    attr_reader :model, :version, :fields
+    attr_reader :work, :version, :fields
 
     def build_metadata
       send("build_metadata_for_v#{version}")
@@ -28,7 +28,7 @@ module IiifPrint
       fields.map do |field|
         label = Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label
         if field.name == :collection && member_of_collection?
-          viewable_collections = Hyrax::CollectionMemberService.run(model, @current_ability)
+          viewable_collections = Hyrax::CollectionMemberService.run(work, @current_ability)
           next if viewable_collections.empty?
           { 'label' => label,
             'value' => make_collection_link(viewable_collections) }
@@ -42,7 +42,7 @@ module IiifPrint
 
     def build_metadata_for_v3
       fields.map do |field|
-        values = Array(model.try(field.name)).map { |value| scrub(value.to_s) }
+        values = Array(work.try(field.name)).map { |value| scrub(value.to_s) }
         next if values.empty?
         {
           'label' => {
@@ -57,11 +57,11 @@ module IiifPrint
     end
 
     def field_is_empty?(field)
-      Array(model.try(field.name)).empty?
+      Array(work.try(field.name)).empty?
     end
 
     def member_of_collection?
-      model[:member_of_collection_ids_ssim]&.present?
+      work[:member_of_collection_ids_ssim]&.present?
     end
 
     def scrub(value)
@@ -70,16 +70,16 @@ module IiifPrint
 
     def cast_to_value(field_name:, options:)
       if options&.[](:render_as) == :faceted
-        Array(model.send(field_name)).map do |value|
+        Array(work.send(field_name)).map do |value|
           search_field = field_name.to_s + "_sim"
           path = Rails.application.routes.url_helpers.search_catalog_path(
             "f[#{search_field}][]": value, locale: I18n.locale
           )
-          path += '&include_child_works=true' if model["is_child_bsi"] == true
+          path += '&include_child_works=true' if work["is_child_bsi"] == true
           "<a href='#{@base_url}#{path}'>#{value}</a>"
         end
       else
-        make_link(model.send(field_name))
+        make_link(work.send(field_name))
       end
     end
 
