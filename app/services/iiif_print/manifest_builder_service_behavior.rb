@@ -53,7 +53,7 @@ module IiifPrint
       hash
     end
 
-    def sanitize_v3(hash:, _presenter:)
+    def sanitize_v3(hash:, **)
       # TODO: flesh out metadata for v3
       hash
     end
@@ -84,7 +84,7 @@ module IiifPrint
       hash
     end
 
-    def sorted_canvases_v3(hash:, _sort_field:)
+    def sorted_canvases_v3(hash:, **)
       # TODO: flesh out metadata for v3
       hash
     end
