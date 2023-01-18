@@ -4,6 +4,12 @@ require 'misc_shared'
 RSpec.describe IiifPrint::Data::WorkFiles do
   include_context "shared setup"
 
+  around do |spec|
+    class MyWork < ActiveFedora::Base; end
+    spec.run
+    Object.send(:remove_const, :MyWork)
+  end
+
   let(:work) { work_with_file }
   let(:tiff_path) { File.join(fixture_path, 'ocr_gray.tiff') }
   let(:tiff_uri) { 'file://' + File.expand_path(tiff_path) }
@@ -119,7 +125,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
   describe "assignment state" do
     it "has empty state for work with no files" do
-      bare_work = NewspaperPage.new
+      bare_work = MyWork.new
       bare_work.title = ['No files to see here']
       bare_work.save!
       adapter = described_class.of(bare_work)
@@ -156,7 +162,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
     ]
 
     let(:bare_work) do
-      bare_work = NewspaperPage.new
+      bare_work = MyWork.new
       bare_work.title = ['No files to see here']
       bare_work.save!
       bare_work
@@ -171,13 +177,26 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(work.members.select { |m| m.class == FileSet }.size).to eq 0
     end
 
-    it "commit for assignment invokes actor stack" do
-      work = bare_work
-      adapter = described_class.of(work)
-      adapter.assign(tiff_path)
-      allow(Hyrax::CurationConcern.actor).to receive(:create).and_return(true)
-      expect(Hyrax::CurationConcern.actor).to receive(:create)
-      expect(adapter.commit!).to be true
+    context "when it is a new work" do
+      it "commit for assignment invokes actor stack" do
+        work = MyWork.new(title: ['Just a new work'])
+        adapter = described_class.of(work)
+        adapter.assign(tiff_path)
+        allow(Hyrax::CurationConcern.actor).to receive(:create).and_return(true)
+        expect(Hyrax::CurationConcern.actor).to receive(:create)
+        expect(adapter.commit!).to be true
+      end
+    end
+
+    context "when the work already exists" do
+      it "commit for assignment invokes actor stack" do
+        work = bare_work
+        adapter = described_class.of(work)
+        adapter.assign(tiff_path)
+        allow(Hyrax::CurationConcern.actor).to receive(:update).and_return(true)
+        expect(Hyrax::CurationConcern.actor).to receive(:update)
+        expect(adapter.commit!).to be true
+      end
     end
 
     it "commits successful file attachment", perform_enqueued: do_now_jobs do
