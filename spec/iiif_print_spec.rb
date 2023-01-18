@@ -1,6 +1,23 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint do
+  describe ".manifest_metadata_for" do
+    let(:attributes) do
+      { "id" => "abc123",
+        "title_tesim" => ['My Awesome Title'] }
+    end
+    let(:solr_document) { SolrDocument.new(attributes) }
+    let(:base_url) { "https://my.dev.test" }
+
+    subject(:manifest_metadata) do
+      described_class.manifest_metadata_for(work: solr_document, current_ability: double(Ability), base_url: base_url)
+    end
+    it { is_expected.not_to be_falsey }
+    it "does not contain any nil values" do
+      expect(subject).not_to include(nil)
+    end
+  end
+
   describe ".model_configuration" do
     context "default configuration" do
       let(:model) do

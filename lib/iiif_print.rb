@@ -13,6 +13,8 @@ require "iiif_print/pdf_derivative_service"
 require "iiif_print/text_extraction_derivative_service"
 require "iiif_print/text_formats_from_alto_service"
 require "iiif_print/tiff_derivative_service"
+require "iiif_print/metadata"
+require "iiif_print/works_controller_behavior"
 
 module IiifPrint
   extend ActiveSupport::Autoload
@@ -87,6 +89,48 @@ module IiifPrint
       define_method(:iiif_print_config) do
         @iiif_print_config ||= ModelConfig.new(**kwargs)
       end
+    end
+  end
+
+  # @api public
+  #
+  # Map the given work's metadata to the given IIIF version spec's metadata structure.  This
+  # is intended to be a drop-in replacement for `Hyrax::IiifManifestPresenter#manifest_metadata`.
+  #
+  # @param work [Object]
+  # @param version [Integer]
+  # @param fields [Array<IiifPrint::Metadata::Field>, Array<#name, #label>]
+  # @return [Array<Hash>]
+  #
+  # @see specs for expected output
+  #
+  # @see Hyrax::IiifManifestPresenter#manifest_metadata
+  def self.manifest_metadata_for(work:,
+                                 version: config.default_iiif_manifest_version,
+                                 fields: default_fields_for(work),
+                                 current_ability:,
+                                 base_url:)
+    Metadata.build_metadata_for(work: work,
+                                version: version,
+                                fields: fields,
+                                current_ability: current_ability,
+                                base_url: base_url)
+  end
+
+  # Hash is an arbitrary attribute key/value pairs
+  # Struct is a defined set of attribute "keys".  When we favor defined values,
+  # then we are naming the concept and defining the range of potential values.
+  Field = Struct.new(:name, :label, :options, keyword_init: true)
+
+  # @api private
+  # @todo Figure out a way to use a custom label, right now it takes it get rendered from the title.
+  def self.default_fields_for(_work, fields: config.metadata_fields)
+    fields.map do |field|
+      Field.new(
+        name: field.first,
+        label: Hyrax::Renderers::AttributeRenderer.new(field, nil).label,
+        options: field.last
+      )
     end
   end
 end
