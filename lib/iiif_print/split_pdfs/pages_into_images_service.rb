@@ -25,6 +25,12 @@ module IiifPrint
         @info
       end
 
+      # TODO: put this test somewhere to prevent invalid pdfs from crashing the image service.
+      def invalid_pdf?
+        return true if pdfinfo.color.include?(nil) || pdfinfo.width.nil? || pdfinfo.height.nil? || pdfinfo.entries.length == 0
+        false
+      end
+
       def tmpdir
         @tmpdir = Dir.mktmpdir if @tmpdir.nil?
         @tmpdir
@@ -50,14 +56,15 @@ module IiifPrint
         device
       end
 
-      def gstext
-        cmd = "gs -q -dNOPAUSE -dBATCH -sDEVICE=txtwrite " \
-              "-sOutputFile=- -f #{@pdfpath}"
-        Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
-          @pdftext = stdout.read
-        end
-        @pdftext
-      end
+      # TODO: this method came from newspaper gem but appears to be unused. Is it needed anywhere?
+      # def gstext
+      #   cmd = "gs -q -dNOPAUSE -dBATCH -sDEVICE=txtwrite " \
+      #         "-sOutputFile=- -f #{@pdfpath}"
+      #   Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
+      #     @pdftext = stdout.read
+      #   end
+      #   @pdftext
+      # end
 
       def pagecount
         cmd = "pdfinfo #{@pdfpath}"
