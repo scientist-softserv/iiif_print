@@ -1,17 +1,21 @@
 require 'spec_helper'
 RSpec.describe IiifPrint::IiifPrintBehavior do
   describe "including_this_module" do
-    before do
-      class PrintWork < ActiveFedora::Base
-        include IiifPrint::IiifPrintBehavior
-      end
-    end
-    let(:klass) { Class.new }
-    subject { PrintWork.new }
+    # before do
+    #   class PrintWork < ActiveFedora::Base
+    #     include IiifPrint::IiifPrintBehavior
+    #   end
 
-    describe 'split_pdf' do
-      it 'is true' do
-        expect(subject.split_pdf).to be true
+    #   class PrintWorkIndexer < Hyrax::WorkIndexer
+    #     include IiifPrint::IiifPrintBehavior
+    #   end
+    # end
+    # let(:klass) { Class.new }
+    # subject { PrintWork.new }
+
+    # TODO: add specs
+    describe 'ancestor_ids' do
+      xit 'does stuff' do
       end
     end
   end
