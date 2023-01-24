@@ -28,7 +28,7 @@ module IiifPrint
         members_include_viewable_image?
     end
 
-    def child_work_has_files
+    def child_work_has_files?
       file_set_ids.present?
     end
   end
