@@ -21,7 +21,7 @@ module IiifPrint
 
     private
 
-    def parent_work_has_files
+    def parent_work_has_files?
       Hyrax.config.iiif_image_server? &&
         representative_id.present? &&
         representative_presenter.present? &&
