@@ -16,7 +16,7 @@ module IiifPrint
     # a fallback to check for images on the child works
     # @return [Boolean] render a IIIF viewer
     def iiif_viewer?
-      parent_work_has_files || child_work_has_files
+      parent_work_has_files? || child_work_has_files?
     end
 
     private
