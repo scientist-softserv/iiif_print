@@ -73,6 +73,8 @@ module IiifPrint
       # return the first file set id
       # @return [String]
       def file_set_id
+        return document['id'] if document.file_set?
+
         file_set_ids = document['file_set_ids_ssim']
         raise "#{self.class}: NO FILE SET ID" if file_set_ids.blank?
         file_set_ids.first

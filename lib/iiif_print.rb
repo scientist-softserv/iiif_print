@@ -15,6 +15,7 @@ require "iiif_print/text_formats_from_alto_service"
 require "iiif_print/tiff_derivative_service"
 require "iiif_print/metadata"
 require "iiif_print/works_controller_behavior"
+require "iiif_print/catalog_controller_decorator"
 
 module IiifPrint
   extend ActiveSupport::Autoload

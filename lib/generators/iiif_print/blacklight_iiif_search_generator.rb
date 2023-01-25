@@ -26,14 +26,6 @@ module IiifPrint
                 "      object_relation_field: 'is_page_of_ssim',")
     end
 
-    # Update the IiifSearchBuilder
-    def adjust_iiif_search_builder
-      marker = 'solr_parameters[:hl] = true'
-      inject_into_file 'app/models/iiif_search_builder.rb', after: marker do
-        "\n    solr_parameters[:qf] = blacklight_config.iiif_search[:full_text_field]"
-      end
-    end
-
     def inject_search_behavior
       copy_file 'search_behavior.rb',
                 'app/models/concerns/blacklight_iiif_search/search_behavior.rb'
