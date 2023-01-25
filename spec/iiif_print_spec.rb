@@ -39,12 +39,12 @@ RSpec.describe IiifPrint do
       end
 
       it "has #derivative_service_plugins" do
-        expect(record.iiif_print_config.derivative_service_plugins).to eq([
-          IiifPrint::JP2DerivativeService,
-          IiifPrint::PDFDerivativeService,
-          IiifPrint::TextExtractionDerivativeService,
-          IiifPrint::TIFFDerivativeService
-        ])
+        expect(record.iiif_print_config.derivative_service_plugins).to eq(
+          [IiifPrint::JP2DerivativeService,
+           IiifPrint::PDFDerivativeService,
+           IiifPrint::TextExtractionDerivativeService,
+           IiifPrint::TIFFDerivativeService]
+        )
       end
     end
   end

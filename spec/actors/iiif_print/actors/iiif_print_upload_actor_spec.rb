@@ -10,7 +10,7 @@ RSpec.describe IiifPrint::Actors::IiifPrintUploadActor do
   let(:uploaded_txt_file) { create(:uploaded_txt_file) }
   let(:uploaded_file_ids) { [uploaded_pdf_file.id, uploaded_txt_file.id] }
   # duplicates logic from actor to find the path the job will expect
-  let(:pdf_paths) do 
+  let(:pdf_paths) do
     uploads = Hyrax::UploadedFile.find(uploaded_file_ids)
     upload_paths = uploads.map { |upload| upload.file.file.file }
     upload_paths.select { |path| path.end_with?('.pdf', '.PDF') }

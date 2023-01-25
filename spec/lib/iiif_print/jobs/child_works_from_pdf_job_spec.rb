@@ -7,7 +7,7 @@ RSpec.describe IiifPrint::Actors::IiifPrintUploadActor do
   let(:my_user) { build(:user) }
   let(:uploaded_pdf_file) { create(:uploaded_pdf_file) }
   let(:uploaded_file_ids) { [uploaded_pdf_file.id] }
-  let(:pdf_paths) do 
+  let(:pdf_paths) do
     uploads = Hyrax::UploadedFile.find(uploaded_file_ids)
     upload_paths = uploads.map { |upload| upload.file.file.file }
     upload_paths.select { |path| path.end_with?('.pdf', '.PDF') }
