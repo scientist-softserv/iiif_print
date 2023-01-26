@@ -5,6 +5,10 @@ module IiifPrint
       ##
       # params to limit the search to items that are children of item
       # modified to make search field conditional on parent object class
+      #
+      # @todo Review this method.  It's likely needing some reconsidering and review of the
+      #       iiif_config for the given model.
+      #
       # @return [Hash]
       def object_relation_solr_params
         parent_model = parent_document['has_model_ssim'].find do |v|
@@ -15,8 +19,6 @@ module IiifPrint
                                   'id'
                                 when 'NewspaperIssue'
                                   'issue_id_ssi'
-                                when 'NewspaperArticle'
-                                  'article_ids_ssim'
                                 else
                                   iiif_config[:object_relation_field]
                                 end
