@@ -32,7 +32,7 @@ module IiifPrint
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexer)
-      CatalogController.prepend(IiifPrint::CatalogControllerDecorator)
+      BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
 
       # Extending the presenter to the base url which includes the protocol.
       # We need the base url to render the facet links and normalize the interface.
