@@ -86,6 +86,11 @@ services:
       - VIRTUAL_PORT=3000
       - VIRTUAL_HOST=.hyku.test
     command: tail -f /dev/null
+    ##
+    ## Similar to the above, except we will bundle and then tell the container
+    ## to wait.  You'll then need to bash into the web container to do much of
+    ## anything.
+    # command: sh -l -c "bundle && echo \"Finished bundling now waiting...\" && tail -f /dev/null"
     depends_on:
       db:
         condition: service_started
