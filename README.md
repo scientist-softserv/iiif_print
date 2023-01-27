@@ -82,7 +82,7 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * Run `bundle install`
 * Run `rails generate iiif_print:install`
 * Set config options as indicated below...
-* In the CatalogController, find add_search_fields config block for 'all_fields'. Add advanced_parse: false as seen in the following example: 
+* In the CatalogController, find the add_search_fields config block for 'all_fields'. Add advanced_parse: false, as seen in the following example: 
 ```
     config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false, advanced_parse: false) do |field|
       all_names = config.show_fields.values.map(&:field).join(" ")
