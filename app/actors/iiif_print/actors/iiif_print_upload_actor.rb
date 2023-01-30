@@ -30,6 +30,8 @@ module IiifPrint
         return if upload_ids.empty?
         uploads = Hyrax::UploadedFile.find(upload_ids)
         paths = uploads.map(&method(:upload_path))
+        # TODO: remote routes in bulkrax may not always end in pdf. Consider other
+        #       methods to identify a PDF file.
         @pdf_paths = paths.select { |path| path.end_with?('.pdf', '.PDF') }
       end
 
@@ -37,7 +39,7 @@ module IiifPrint
         @iiif_print_defined ||= env.curation_concern.try(:iiif_print_config?)
       end
 
-      # TODO: find the number of pdfs on the parent work prior to this update, to support addition of more PDFs
+      # TODO: find the number of pdfs on the parent work prior to this update, to support addition of more PDFs. Parm env will then be required to pull out env.curation_concern.
       def count_existing_pdfs(_env)
         @prior_pdfs_count = 0
       end
@@ -60,7 +62,7 @@ module IiifPrint
 
       # submit the job
       # @param [GenericWork, etc] A valid type of hyrax work
-      # @param [Array<String] paths to PDF attachments
+      # @param [Array<String>] paths to PDF attachments
       # @param [User] user
       # @param [String] admin set ID
       # @param [Integer] count of PDFs already existing on the parent work
