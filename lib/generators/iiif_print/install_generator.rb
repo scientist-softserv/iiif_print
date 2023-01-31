@@ -10,6 +10,10 @@ module IiifPrint
       rake "iiif_print:install:migrations"
     end
 
+    # TODO: Let's consider adding this code to the config/initializers/iiif_print.rb that we
+    #       generate.  The Hyrax.config can be called multiple times so instead of "polluting" that
+    #       initializers, let's write into the one that we provide.  This helps with folks working
+    #       to add and remove the gem.
     def register_worktypes
       inject_into_file 'config/initializers/hyrax.rb',
                        after: "Hyrax.config do |config|\n" do
@@ -19,13 +23,6 @@ module IiifPrint
           "    IiifPrint::Data.handle_after_create_fileset(file_set, user)\n" \
           "  end\n" \
           "  #== END GENERATED iiif_print CONFIG ==\n\n"
-      end
-    end
-
-    def inject_routes
-      inject_into_file 'config/routes.rb',
-                       after: "Rails.application.routes.draw do\n" do
-        "\n  mount IiifPrint::Engine => '/'\n"
       end
     end
 
@@ -79,6 +76,7 @@ module IiifPrint
       generate 'iiif_print:assets'
     end
 
+    # TODO: Consider not copying the decorator.
     def add_faceted_attribute_decorator
       # supports display of children in index and search
       copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
@@ -91,6 +89,7 @@ module IiifPrint
       @work_types = Hyrax.config.curation_concerns.map(&:to_s)
     end
 
+    # TODO: Gracefully handle indexer failures; what if that file doesn't exist?
     def add_child_indexer
       # adds ChildIndexer to work indexers
       @work_types.each do |work_type|

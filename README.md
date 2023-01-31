@@ -52,7 +52,7 @@ A set of helpful documents to help you learn more and deploy IiifPrint can be fo
 
 ## Requirements
 
-  * [Ruby](https://rubyonrails.org/) >=2.4  
+  * [Ruby](https://rubyonrails.org/) >=2.4
   * [Rails](https://rubyonrails.org/) ~>5.0
   * [Bundler](http://bundler.io/)
   * [Hyrax](https://github.com/samvera/hyrax) v2.5-v2.9.4
@@ -87,7 +87,7 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features.
 * Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`.
 * Newspaper resource types added to `config/authorities/resource_types.yml`.
-* Includes IiifPrint::SetChildFlag module to the works' models. 
+* Includes IiifPrint::SetChildFlag module to the works' models.
 * Includes IiifPrint::ChildIndexer module to the works' indexers.
 * Includes IiifPrint::FileSetIndexer module to the file set's indexer.
 * Adds custom_is_child_term to lib/rdf/ directory.
@@ -129,11 +129,23 @@ For more information on derivatives, see the [wiki](https://github.com/samvera-l
 
 # Developing, Testing, and Contributing
 
-Detailed information regarding development and testing environments setup and configuration can be found [here](https://github.com/samvera-labs/iiif_print/wiki/Installing,-Developing,-and-Testing)
+We develop the IIIF Print gem using Docker and Docker Compose.  You'll want to clone this repository and run the following commands:
 
-A Vagrant VM is available for users and developers to quickly and easily deploy the latest IiifPrint codebase using Vagrant and VirtualBox. See [samvera-newspapers-vagrant](https://github.com/samvera-labs/samvera-newspapers-vagrant) for more.
+```shell
+$ docker compose build
+$ docker compose up
+$ docker compose exec web bash
+```
 
-Additionally, the [IiifPrint Demo Site](https://newspaperworks.digitalnewspapers.org/) is available for those interested in testing out IiifPrint as deployed in a vanilla Hyrax application. (**NOTE:** The demo site may not be running the latest release of IiifPrint.)
+You'll now be inside the web container:
+
+```shell
+$ bundle exec rake
+```
+
+The above will build the test application (if it doesn't already exist).  During the rebuild you might get a notice on a conflict for files.  It will ask you to override.  We recommend that you select the "accept all" option (e.g. Typing <kbd>a</kbd>).
+
+To rebuild the test application, delete the `.internal_test_app` directory.
 
 ## Contributing
 

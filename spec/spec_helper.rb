@@ -59,12 +59,6 @@ Webdrivers::Chromedriver.required_version = '72.0.3626.69'
 
 ActiveJob::Base.queue_adapter = :test
 
-module EngineRoutes
-  def self.included(base)
-    base.routes { IiifPrint::Engine.routes }
-  end
-end
-
 class CSVLoggingFormatter < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self
 
@@ -110,8 +104,6 @@ RSpec.configure do |config|
     visit "/assets/application.css"
     visit "/assets/application.js"
   end
-
-  config.include EngineRoutes, type: :controller
 
   # ensure Hyrax has active sipity workflow for default admin set:
   config.before(:suite) do
