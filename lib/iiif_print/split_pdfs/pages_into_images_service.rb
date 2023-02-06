@@ -17,6 +17,7 @@ module IiifPrint
         @size = nil
         @pagecount = nil
         @pdftext = nil
+        @compression = 'lzw'
       end
 
       # return
@@ -48,7 +49,10 @@ module IiifPrint
         color, channels, bpc = pdfinfo.color
         device = nil
         # CCITT Group 4 Black and White, if applicable:
-        device = 'tiffg4' if color == 'gray' && bpc == 1
+        if color == 'gray' && bpc == 1
+          device = 'tiffg4'
+          @compression = 'g4'
+        end
         # 8 Bit Grayscale, if applicable:
         device = 'tiffgray' if color == 'gray' && bpc > 1
         # otherwise color:
@@ -98,7 +102,7 @@ module IiifPrint
       def gsconvert
         output_base = File.join(tmpdir, "#{@baseid}-page%d.tiff")
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} " \
-              "-dTextAlphaBits=4 " \
+              "-dTextAlphaBits=4 -sCompression=#{@compression} " \
               "-sOutputFile=#{output_base} -r#{ppi} -f #{@pdfpath}"
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           output = stdout.read.split("\n")
