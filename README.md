@@ -82,6 +82,8 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * Run `bundle install`
 * Run `rails generate iiif_print:install`
 * Set config options as indicated below...
+
+TO ENABLE OCR Search (from the UV and catalog search)
 * In the CatalogController, find the add_search_fields config block for 'all_fields'. Add advanced_parse: false, as seen in the following example: 
 ```
     config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false, advanced_parse: false) do |field|
@@ -94,6 +96,10 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
     end
 ```
 * Additionally, find and replace all instances of all_text_timv with all_text_tsimv, in the CatalogController.
+* Remove the following line from iiif_search_builder.rb
+```
+solr_parameters[:qf] = blacklight_config.iiif_search[:full_text_field]
+```
 
 
 ## Application/Site Specific Configuration
