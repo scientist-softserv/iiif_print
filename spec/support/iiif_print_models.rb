@@ -49,24 +49,23 @@ class MyWork < ActiveFedora::Base
 end
 
 class MyWorkNeedsDerivative < ActiveFedora::Base
-  attr_accessor :title, :members
+  attr_accessor :title
   def members
     []
   end
 end
 
 class MyWorkDoesNotNeedDerivative < ActiveFedora::Base
-  attr_accessor :title, :members
+  attr_accessor :title
   def members
     []
   end
 end
 
-
 class MyIiifConfiguredWorkWithAllDerivativeServices < ActiveFedora::Base
   include IiifPrint.model_configuration
 
-  attr_accessor :title, :members
+  attr_accessor :title
   def members
     []
   end
@@ -79,7 +78,7 @@ class MyIiifConfiguredWork < ActiveFedora::Base
       FakeDerivativeService
     ]
   )
-  attr_accessor :title, :members
+  attr_accessor :title
   def members
     []
   end
