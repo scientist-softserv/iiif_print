@@ -5,4 +5,4 @@ RSpec.describe IiifPrint::IndexesFullText do
   describe "#index_full_text" do
     xit "needs specs"
   end
- end
+end
