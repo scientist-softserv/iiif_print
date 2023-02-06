@@ -8,12 +8,6 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
     path
   end
 
-  before do
-    class MyWork < ActiveFedora::Base
-      include ::Hyrax::WorkBehavior
-    end
-  end
-
   # shared date to be invariant across all tests in a run:
   date_static = Hyrax::TimeService.time_in_utc
   let(:static_date) { date_static }

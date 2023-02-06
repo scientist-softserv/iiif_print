@@ -31,12 +31,6 @@ RSpec.describe IiifPrint::IiifManifestPresenterBehavior do
     )
   end
 
-  around do |spec|
-    class MyWork; end
-    spec.run
-    Object.send(:remove_const, :MyWork)
-  end
-
   describe "#build" do
     it "returns an Array of DisplayImagePresenters" do
       allow_any_instance_of(Hyrax::IiifManifestPresenter::Factory)

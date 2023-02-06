@@ -1,22 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::PageDerivativeService do
-  before do
-    class MyWorkNeedsDerivative < ActiveFedora::Base
-      attr_accessor :title, :members
-      def members
-        []
-      end
-    end
-
-    class MyWorkDoesNotNeedDerivative < ActiveFedora::Base
-      attr_accessor :title, :members
-      def members
-        []
-      end
-    end
-  end
-
   let(:valid_file_set) do
     fs = FileSet.new
     work.title = ['Hey Hey']
