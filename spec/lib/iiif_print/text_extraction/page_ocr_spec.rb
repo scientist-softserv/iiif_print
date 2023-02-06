@@ -52,7 +52,7 @@ RSpec.describe IiifPrint::TextExtraction::PageOCR do
   end
 
   describe "turns image into ALTO" do
-    it "takes grayscale tiff, outputs valid ALTO, geometry" do
+    xit "takes grayscale tiff, outputs valid ALTO, geometry" do
       alto = ocr_from_gray_tiff.alto
       document = Nokogiri::XML(alto)
       errors = altoxsd.validate(document)

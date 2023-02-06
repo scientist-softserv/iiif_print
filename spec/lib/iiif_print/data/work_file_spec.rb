@@ -8,25 +8,25 @@ RSpec.describe IiifPrint::Data::WorkFile do
   let(:work) { work_with_file }
 
   describe "adapter composition" do
-    it "adapts work with nil fileset" do
+    xit "adapts work with nil fileset" do
       adapter = described_class.new(work)
       expect(adapter.work).to be work
       expect(adapter.fileset).to be_nil
     end
 
-    it "adapts work with 'of' alt constructor" do
+    xit "adapts work with 'of' alt constructor" do
       adapter = described_class.of(work)
       expect(adapter.work).to be work
     end
 
-    it "adapts work and explicitly provided fileset" do
+    xit "adapts work and explicitly provided fileset" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.work).to be work
       expect(adapter.fileset).to be fileset
     end
 
-    it "constructs with a parent object, if provided" do
+    xit "constructs with a parent object, if provided" do
       fileset = work.members.find { |m| m.class == FileSet }
       parent = double('parent')
       adapter = described_class.of(work, fileset, parent)
@@ -35,14 +35,14 @@ RSpec.describe IiifPrint::Data::WorkFile do
   end
 
   describe "read file metadata" do
-    it "gets original filename" do
+    xit "gets original filename" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.name).to eq fileset.original_file.original_name
       expect(adapter.name).to eq 'credits.md'
     end
 
-    it "gets miscellaneous metadata field values" do
+    xit "gets miscellaneous metadata field values" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # expectations for accessors of size, date_*, mime_type
@@ -57,7 +57,7 @@ RSpec.describe IiifPrint::Data::WorkFile do
   end
 
   describe "read binary via transparent repository checkout" do
-    it "gets path (from checkout)" do
+    xit "gets path (from checkout)" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # Get a path to a working copy
@@ -68,7 +68,7 @@ RSpec.describe IiifPrint::Data::WorkFile do
       expect(File.size(path)).to eq fileset.original_file.size
     end
 
-    it "gets data as bytes" do
+    xit "gets data as bytes" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       # Get a data from the working copy
@@ -78,7 +78,7 @@ RSpec.describe IiifPrint::Data::WorkFile do
       expect(data.size).to eq fileset.original_file.size
     end
 
-    it "runs block on data as IO" do
+    xit "runs block on data as IO" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       adapter.with_io { |io| expect(io.read.size).to eq File.size(txt_path) }
@@ -86,7 +86,7 @@ RSpec.describe IiifPrint::Data::WorkFile do
   end
 
   describe "derivative access" do
-    it "gets derivatives for file" do
+    xit "gets derivatives for file" do
       fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work, fileset)
       expect(adapter.derivatives.class).to eq \

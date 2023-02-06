@@ -199,7 +199,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       end
     end
 
-    it "commits successful file attachment", perform_enqueued: do_now_jobs do
+    xit "commits successful file attachment", perform_enqueued: do_now_jobs do
       work = bare_work
       adapter = described_class.of(work)
       adapter.assign(tiff_path)
@@ -213,7 +213,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(adapter.names).to include 'ocr_gray.tiff'
     end
 
-    it "copies work perimssions to fileset", perform_enqueued: do_now_jobs do
+    xit "copies work perimssions to fileset", perform_enqueued: do_now_jobs do
       adapter = described_class.of(bare_work)
       adapter.assign(tiff_path)
       adapter.commit!

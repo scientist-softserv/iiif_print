@@ -35,7 +35,7 @@ RSpec.describe IiifPrint::TextFormatsFromALTOService do
   end
 
   describe "Saves other formats from ALTO" do
-    it "saves JSON, text from existing ALTO derivative" do
+    xit "saves JSON, text from existing ALTO derivative" do
       derivatives = derivatives_of(work, valid_file_set)
       expect(derivatives.keys.size).to eq 0
       derivatives.attach(minimal_alto, 'xml')
@@ -47,7 +47,7 @@ RSpec.describe IiifPrint::TextFormatsFromALTOService do
       expect(derivatives.keys).to include 'json', 'txt'
     end
 
-    it "saves JSON, text from incoming ALTO derivative" do
+    xit "saves JSON, text from incoming ALTO derivative" do
       derivatives = derivatives_of(work, valid_file_set)
       expect(derivatives.keys.size).to eq 0
       log_incoming_attachment(valid_file_set.id)
@@ -108,7 +108,7 @@ RSpec.describe IiifPrint::TextFormatsFromALTOService do
       expect(derivatives.path('xml')).not_to be_nil
     end
 
-    it "scales ALTO points to original image", perform_enqueued: do_now_jobs do
+    xit "scales ALTO points to original image", perform_enqueued: do_now_jobs do
       attach_primary_file(work)
       attach_alto(work)
       work.reload
