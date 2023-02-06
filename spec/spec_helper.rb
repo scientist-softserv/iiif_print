@@ -36,8 +36,7 @@ require 'support/controller_level_helpers'
 require 'rspec/active_model/mocks'
 require 'selenium-webdriver'
 require 'webdrivers'
-require 'support/models/file_set'
-require 'support/models/newspaper_issue'
+require 'support/models'
 
 # @note In January 2018, TravisCI disabled Chrome sandboxing in its Linux
 #       container build environments to mitigate Meltdown/Spectre
