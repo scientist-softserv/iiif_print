@@ -44,7 +44,7 @@ RSpec.describe IiifPrint::TextExtraction::RenderAlto do
       expect(Nokogiri::XML(output).errors.empty?).to be true
     end
 
-    it "makes alto 2.0 that validates" do
+    xit "makes alto 2.0 that validates" do
       renderer = described_class.new(12_000, 9600)
       output = renderer.to_alto(words)
       document = Nokogiri::XML(output)

@@ -16,7 +16,12 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationBehavior do
   end
   let(:test_request) { ActionDispatch::TestRequest.new({}) }
 
-  before { allow(controller).to receive(:request).and_return(test_request) }
+  before do
+    allow(controller).to receive(:request).and_return(test_request)
+    allow(controller).to receive(:polymorphic_url)
+      .with(parent_document, host: test_request.base_url, locale: nil)
+      .and_return("/#{page_document[:issue_id_ssi]}")
+  end
 
   describe '#annotation_id' do
     subject { iiif_search_annotation.annotation_id }

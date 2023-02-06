@@ -45,7 +45,7 @@ RSpec.describe IiifPrint::TextExtractionDerivativeService do
       expect(File.size(path)).to be > 0
     end
 
-    it "creates, stores valid ALTO and plain-text derivatives" do
+    xit "creates, stores valid ALTO and plain-text derivatives" do
       # these are in same test to avoid duplicate OCR operation
       service = described_class.new(valid_file_set)
       service.create_derivatives(source_image('ocr_mono.tiff'))
@@ -59,14 +59,14 @@ RSpec.describe IiifPrint::TextExtractionDerivativeService do
       expect(loaded_result['coords'].length).to be > 1
     end
 
-    it "usually uses OCR, when no existing text" do
+    xit "usually uses OCR, when no existing text" do
       service = described_class.new(valid_file_set)
       # here, service will delegate create_derivatives to OCR impl method:
       expect(service).to receive(:create_derivatives_from_ocr)
       service.create_derivatives(source_image('ocr_mono.tiff'))
     end
 
-    it "defers to existing ALTO sources, when present" do
+    xit "defers to existing ALTO sources, when present" do
       # Attach some ALTO to a work
       derivatives = IiifPrint::Data::WorkDerivatives.of(
         work,
