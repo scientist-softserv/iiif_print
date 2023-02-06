@@ -46,3 +46,4 @@ fcrepo-webapp-*
 *.gem
 pkg/
 *~undo-tree~
+.DS_Store

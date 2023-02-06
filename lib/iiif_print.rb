@@ -14,6 +14,10 @@ require "iiif_print/text_formats_from_alto_service"
 require "iiif_print/tiff_derivative_service"
 require "iiif_print/metadata"
 require "iiif_print/works_controller_behavior"
+require "iiif_print/jobs/application_job"
+require "iiif_print/jobs/child_works_from_pdf_job"
+require "iiif_print/jobs/create_relationships_job"
+require "iiif_print/split_pdfs/pages_into_images_service"
 
 module IiifPrint
   extend ActiveSupport::Autoload
@@ -40,8 +44,9 @@ module IiifPrint
   end
 
   DEFAULT_MODEL_CONFIGURATION = {
-    # TODO: This should be a class and not a string; but I don't know what that should just now be.
-    pdf_splitter_job: "IiifPrint::DefaultPdfSplitterJob",
+    # Split a PDF into individual page images and create a new child work for each image.
+    pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
+    pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService,
     derivative_service_plugins: [
       IiifPrint::JP2DerivativeService,
       IiifPrint::PDFDerivativeService,
