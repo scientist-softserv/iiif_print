@@ -41,7 +41,7 @@ class IiifPrint::PluggableDerivativeService
     true
   end
 
-  def respond_to_missing?(method_name)
+  def respond_to_missing?(method_name, include_private = false)
     allowed_methods.include?(method_name) || super
   end
 
@@ -56,14 +56,14 @@ class IiifPrint::PluggableDerivativeService
     end
   end
 
-  def method_missing(name, *args, **opts, &block)
-    if respond_to_missing?(name)
+  def method_missing(method_name, *args, **opts, &block)
+    if allowed_methods.include?(method_name)
       # we have an allowed method, construct services and include all valid
       #   services for the file_set
       # services = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
       # run all valid services, in order:
-      services(name).each do |plugin|
-        plugin.send(name, *args)
+      services(method_name).each do |plugin|
+        plugin.send(method_name, *args)
       end
     else
       super
@@ -73,8 +73,11 @@ class IiifPrint::PluggableDerivativeService
   private
 
   def skip_destination?(method_name, destination_name)
-    return false if file_set.id.nil? || destination_name.nil?
     return false unless method_name == :create_derivatives
+    return false unless destination_name
+    # NOTE: What are we after with this nil test?  Are we looking for persisted objects?
+    return false if file_set.id.nil?
+
     # skip :create_derivatives if existing --> do not re-create
     existing_derivative?(destination_name) ||
       impending_derivative?(destination_name)
