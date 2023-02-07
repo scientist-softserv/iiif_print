@@ -23,8 +23,8 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
   let(:adapter) { described_class.new(work) }
 
   let(:txt1) do
-    whitelist = Hyrax.config.whitelisted_ingest_dirs
-    whitelist.push('/tmp') unless whitelist.include?('/tmp')
+    registered_dirs = IiifPrint.config.registered_ingest_dirs
+    registered_dirs.push('/tmp') unless registered_dirs.include?('/tmp')
     file = Tempfile.new(['txt1', '.txt'])
     file.write('hello')
     file.flush
@@ -117,7 +117,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.assigned).to include example_gray_jp2
     end
 
-    xit "will fail to assign file in non-whitelisted dir" do
+    xit "will fail to assign file in non-registered dirs" do
       adapter = described_class.new(bare_work)
       # need a non-whitlisted file that exists:
       bad_path = File.expand_path("../../spec_helper.rb", fixture_path)

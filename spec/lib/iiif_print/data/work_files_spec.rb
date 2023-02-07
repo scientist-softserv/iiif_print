@@ -29,9 +29,9 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(adapter.assigned).to include tiff_path
     end
 
-    it "will fail to assign file in non-whitelisted dir" do
+    it "will fail to assign file in non registered dir" do
       adapter = described_class.new(work)
-      # need a non-whitlisted file that exists:
+      # need a non-registered file that exists:
       bad_path = File.expand_path("../../spec_helper.rb", fixture_path)
       expect { adapter.assign(bad_path) }.to raise_error(SecurityError)
     end
@@ -141,7 +141,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
   end
 
   describe "commits changes" do
-    # These jobs we need whitelisted to run now, at minimum:
+    # We need to register these jobs to run now, at minimum:
     do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
     # These we skip: [CharacterizeJob, CreateDerivativesJob]
     #   -- skipping these saves 10-15 seconds on attachment example
@@ -198,7 +198,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter = described_class.of(work)
       adapter.assign(tiff_path)
       adapter.commit!
-      # whitelisted jobs (do_now_jobs) performed as effect of commit!
+      # registered jobs (do_now_jobs) performed as effect of commit!
       #   are configured to effectively run inline. Reloading work
       #   should refresh the work.members, and by consequence adapter.keys
       work.reload

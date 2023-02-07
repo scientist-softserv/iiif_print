@@ -88,7 +88,9 @@ module IiifPrint
       end
 
       def default_admin_set
-        AdminSet.find_or_create_default_admin_set_id
+        return AdminSet.find_or_create_default_admin_set_id unless defined?(Hyrax::AdminSetCreateService)
+
+        Hyrax::AdminSetCreateService.find_or_create_default_admin_set.id.to_s
       end
 
       # Given Hyrax::Upload object, return path to file on local filesystem
