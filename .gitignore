@@ -47,3 +47,6 @@ fcrepo-webapp-*
 pkg/
 *~undo-tree~
 .DS_Store
+
+# ignore local config settings
+.vscode/settings.json
