@@ -38,7 +38,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.include Devise::Test::ControllerHelpers, type: :controller
 
-
   # ensure Hyrax has active sipity workflow for default admin set:
   config.before(:suite) do
     require 'active_fedora/cleaner'
