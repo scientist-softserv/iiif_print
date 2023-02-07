@@ -36,14 +36,14 @@ module IiifPrint
         file_path: '/path/to/this',
         derivative_path: '/path/to/that'
       )
-      expect { model.save! }.not_to raise_exception(ActiveRecord::RecordInvalid)
+      expect { model.save! }.not_to raise_exception
     end
 
     it "will save when all fields completely set" do
       model = described_class.create
       model.file_path = '/path/to/sourcefile.tiff'
       model.derivative_path = '/path/to/derived.jp2'
-      expect { model.save! }.not_to raise_exception(ActiveRecord::RecordInvalid)
+      expect { model.save! }.not_to raise_exception
     end
 
     it "can query derivative paths for primary file" do

@@ -15,7 +15,7 @@ module IiifPrint
         destination_name: 'txt'
       )
       # attempt save without required data; expect failure
-      expect { model.save! }.not_to raise_exception(ActiveRecord::RecordInvalid)
+      expect { model.save! }.not_to raise_exception
     end
 
     it "saves when all fields completely set" do
@@ -23,7 +23,7 @@ module IiifPrint
       model.fileset_id = 'someid123'
       model.path = '/path/to/somefile'
       model.destination_name = 'txt'
-      expect { model.save! }.not_to raise_exception(ActiveRecord::RecordInvalid)
+      expect { model.save! }.not_to raise_exception
     end
 
     it "saves when only path, destination_name set" do
@@ -31,7 +31,7 @@ module IiifPrint
       model.fileset_id = nil
       model.path = '/path/to/somefile'
       model.destination_name = 'txt'
-      expect { model.save! }.not_to raise_exception(ActiveRecord::RecordInvalid)
+      expect { model.save! }.not_to raise_exception
     end
   end
 end
