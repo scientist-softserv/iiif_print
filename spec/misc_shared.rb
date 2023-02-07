@@ -3,8 +3,10 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
     path = File.join(
       IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
-    whitelist = Hyrax.config.whitelisted_ingest_dirs
-    whitelist.push(path) unless whitelist.include?(path)
+    # TODO: NOTE: this has potential timing issues in the specs, because we're adjusting the
+    # configured value during the spec run.
+    registered = Hyrax.config.registered_ingest_dirs
+    registered.push(path) unless registered.include?(path)
     path
   end
 
