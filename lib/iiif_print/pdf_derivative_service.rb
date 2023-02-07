@@ -2,7 +2,7 @@ require 'open3'
 
 module IiifPrint
   class PDFDerivativeService < BaseDerivativeService
-    TARGET_EXT = 'pdf'.freeze
+    self.target_extension = 'pdf'.freeze
 
     # PDF (JPEG, 8 bit grayscale), 150ppi
     GRAY_PDF_CMD = 'convert %<source_file>s ' \

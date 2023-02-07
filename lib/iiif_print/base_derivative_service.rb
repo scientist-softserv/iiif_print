@@ -4,11 +4,7 @@ module IiifPrint
     attr_reader :file_set, :master_format
     delegate :uri, to: :file_set
 
-    TARGET_EXT = nil
-
-    def self.target_ext
-      self::TARGET_EXT
-    end
+    class_attribute :target_extension, default: nil
 
     def initialize(file_set)
       @file_set = file_set
@@ -43,7 +39,7 @@ module IiifPrint
     # calculate and ensure directory components for singular @dest_path
     #   should only be used by subclasses producing a single derivative
     def load_destpath
-      @dest_path = prepare_path(self.class.target_ext)
+      @dest_path = prepare_path(target_extension)
     end
 
     def identify
@@ -69,14 +65,13 @@ module IiifPrint
       @source_path = filename
 
       # Get destination path from Hyrax for file extension defined in
-      #   TARGET_EXT constant on respective derivative service subclass.
+      #   self.target_extension constant on respective derivative service subclass.
       load_destpath
     end
 
-    def cleanup_derivatives(*args)
-      target_ext = args && args[0] ? args[0] : self.class.target_ext
+    def cleanup_derivatives(extension = target_extension, *_args)
       derivative_path_factory.derivatives_for_reference(file_set).each do |path|
-        FileUtils.rm_f(path) if path.ends_with?(target_ext)
+        FileUtils.rm_f(path) if path.ends_with?(extension)
       end
     end
 

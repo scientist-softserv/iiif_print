@@ -2,7 +2,7 @@ require 'open3'
 
 module IiifPrint
   class TIFFDerivativeService < BaseDerivativeService
-    TARGET_EXT = 'tiff'.freeze
+    self.target_extension = 'tiff'.freeze
 
     # For imagemagick commands, the output type is determined by the
     #   output file's extension.
