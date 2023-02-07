@@ -73,10 +73,7 @@ end
 
 class MyIiifConfiguredWork < ActiveFedora::Base
   include IiifPrint.model_configuration(
-    derivative_service_plugins: [
-      FakeDerivativeService,
-      FakeDerivativeService
-    ]
+    derivative_service_plugins: [FakeDerivativeService]
   )
   attr_accessor :title
   def members

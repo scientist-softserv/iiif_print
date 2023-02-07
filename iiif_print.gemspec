@@ -8,16 +8,16 @@ Gem::Specification.new do |spec|
   spec.name        = 'iiif_print'
   spec.version     = IiifPrint::VERSION
   spec.authors     = ['Sean Upton', 'Jacob Reed', 'Brian McBride',
-                      'Eben English']
+                      'Eben English', 'Kirk Wang', 'LaRita Robinson', 'Jeremy Friesen']
   spec.email       = ['sean.upton@utah.edu', 'jacob.reed@utah.edu',
-                      'brian.mcbride@utah.edu', 'eenglish@bpl.org']
+                      'brian.mcbride@utah.edu', 'eenglish@bpl.org', 'kirk.wang@scientist.com',
+                      'larita@scientist.com', 'jeremy.n.friesen@gmail.com']
   spec.homepage    = 'https://github.com/samvera-labs/iiif_print'
-  spec.description = 'Gem/Engine for Newspaper Works in Hyrax-based Samvera
-                      Application.'
+  spec.description = 'Gem/Engine for IIIF Print works in Hyrax-based Samvera Application.'
   spec.summary     = <<-SUMMARY
   iiif_print is a Rails Engine gem providing model and administrative
   functions to Hyrax-based Samvera applications, for management of
-  (primarily scanned) archival newspaper content.
+  (primarily scanned) content.
 SUMMARY
   spec.license = 'Apache-2.0'
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
