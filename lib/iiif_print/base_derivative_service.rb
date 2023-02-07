@@ -1,6 +1,6 @@
 module IiifPrint
-  # Base type for derivative services specific to NewspaperPage only
-  class PageDerivativeService
+  # Base type for IiifPrint derivative services
+  class BaseDerivativeService
     attr_reader :file_set, :master_format
     delegate :uri, to: :file_set
 
