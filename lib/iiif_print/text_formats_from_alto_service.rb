@@ -4,7 +4,7 @@ module IiifPrint
   #   NOTE: to keep this from conflicting with TextExtractionDerivativeService,
   #         this class should be invoked by it, not PluggableDerivativeService.
   class TextFormatsFromALTOService < BaseDerivativeService
-    TARGET_EXTENSION = 'tiff'.freeze
+    self.target_extension = 'tiff'.freeze
 
     def save_derivative(destination, data)
       # Load/prepare base of "pairtree" dir structure for extension, fileset
