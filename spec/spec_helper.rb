@@ -18,62 +18,12 @@ require 'bundler/setup'
 require 'engine_cart'
 EngineCart.load_application!
 
-# webmock
-require 'webmock'
-# include WebMock API makes stub_request available in initial config, not
-#   just inside tests:
-include WebMock::API
-# Allow connections to pass through by default, so that any before(:suite)
-#   hook that runs before WebMock config isn't affected:
-WebMock.allow_net_connect!
-
-# test account for Geonames-related specs
-Qa::Authorities::Geonames.username = 'iiif_print'
-
-require 'rails-controller-testing'
 require 'rspec/rails'
-require 'support/controller_level_helpers'
 require 'support/iiif_print_models'
+require 'support/controller_level_helpers'
 require 'rspec/active_model/mocks'
-require 'selenium-webdriver'
-require 'webdrivers'
-
-# @note In January 2018, TravisCI disabled Chrome sandboxing in its Linux
-#       container build environments to mitigate Meltdown/Spectre
-#       vulnerabilities, at which point Hyrax could no longer use the
-#       Capybara-provided :selenium_chrome_headless driver (which does not
-#       include the `--no-sandbox` argument).
-Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new
-  browser_options.args << '--headless'
-  browser_options.args << '--disable-gpu'
-  browser_options.args << '--no-sandbox'
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-end
-
-Capybara.default_driver = :rack_test # This is a faster driver
-Capybara.javascript_driver = :selenium_chrome_headless_sandboxless # This is slower
-
-# FIXME: Pin to older version of chromedriver to avoid issue with clicking non-visible elements
-Webdrivers::Chromedriver.required_version = '72.0.3626.69'
 
 ActiveJob::Base.queue_adapter = :test
-
-class CSVLoggingFormatter < RSpec::Core::Formatters::JsonFormatter
-  RSpec::Core::Formatters.register self
-
-  def close(_notification)
-    with_headers = {
-      write_headers: true,
-      headers: ['Example', 'Status', 'Run Time', 'Exception']
-    }
-    CSV.open(output.path, 'w', with_headers) do |csv|
-      @output_hash[:examples].map do |ex|
-        csv << [ex[:full_description], ex[:status], ex[:run_time], ex[:exception]]
-      end
-    end
-  end
-end
 
 RSpec.configure do |config|
   # enable FactoryBot:
@@ -88,22 +38,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.include Devise::Test::ControllerHelpers, type: :controller
 
-  config.include(ControllerLevelHelpers, type: :helper)
-  config.before(:each, type: :helper) { initialize_controller_helpers(helper) }
-
-  config.include(ControllerLevelHelpers, type: :view)
-  config.before(:each, type: :view) { initialize_controller_helpers(view) }
-
-  config.before(:all, type: :feature) do
-    # Assets take a long time to compile. This causes two problems:
-    # 1) the profile will show the first feature test taking much longer than it
-    #    normally would.
-    # 2) The first feature test will trigger rack-timeout
-    #
-    # Precompile the assets to prevent these issues.
-    visit "/assets/application.css"
-    visit "/assets/application.js"
-  end
 
   # ensure Hyrax has active sipity workflow for default admin set:
   config.before(:suite) do
@@ -142,27 +76,6 @@ RSpec.configure do |config|
       STDERR.puts "Attempting to run test suite without Fedora and/or Solr..."
     end
   end
-
-  # enable WebMock, but make sure it is opt-in for stubs, allowing non-stubbed
-  # HTTP requests to proceed normally
-  config.before(:suite) do
-    WebMock.enable!
-    WebMock.allow_net_connect!
-    # Load stubs from manifest
-    fixtures = File.join(IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files')
-    manifest_path = File.join(fixtures, 'resource_mocks', 'urls.json')
-    manifest = JSON.parse(File.read(manifest_path))
-    manifest['urls'].each do |r|
-      path = File.join(fixtures, 'resource_mocks', r['local'])
-      status = r['status'] || 200
-      stub_request(:any, r['url']).to_return(
-        body: File.open(path),
-        status: status
-      )
-    end
-  end
-  # ensure HTTP connections allowed by webmock between/before tests:
-  config.before { WebMock.allow_net_connect! }
 
   # :perform_enqueued config setting below copied from Hyrax spec_helper.rb
   config.before(:example, :perform_enqueued) do |example|
@@ -243,9 +156,6 @@ RSpec.configure do |config|
   #  config.default_formatter = "doc"
   # end
 
-  # opt-in CSV logging formatter, set SPEC_CSV environment variable to use:
-  config.add_formatter(CSVLoggingFormatter, 'spec_log.csv') unless ENV['SPEC_CSV'].nil?
-
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
@@ -262,20 +172,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   # Kernel.srand config.seed
-  # end
-end
-
-# ===
-#   Means to suppress pending by running something like:
-#   $ SUPPRESS_PENDING=1 rspec -fd
-# ===
-module SuccinctFormatterOverrides
-  def example_pending(_) end
-
-  def dump_pending(_) end
-end
-
-unless ENV['SUPPRESS_PENDING'].nil?
-  RSpec::Core::Formatters::DocumentationFormatter.prepend SuccinctFormatterOverrides
-  RSpec::Core::Formatters::ProgressFormatter.prepend SuccinctFormatterOverrides
 end

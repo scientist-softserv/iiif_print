@@ -4,12 +4,6 @@ require 'misc_shared'
 RSpec.describe IiifPrint::Data::WorkFiles do
   include_context "shared setup"
 
-  around do |spec|
-    class MyWork < ActiveFedora::Base; end
-    spec.run
-    Object.send(:remove_const, :MyWork)
-  end
-
   let(:work) { work_with_file }
   let(:tiff_path) { File.join(fixture_path, 'ocr_gray.tiff') }
   let(:tiff_uri) { 'file://' + File.expand_path(tiff_path) }

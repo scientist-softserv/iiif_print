@@ -29,23 +29,16 @@ SUMMARY
   spec.add_dependency 'nokogiri', '>=1.13.2'
   spec.add_dependency 'rails', '~> 5.0'
   spec.add_dependency 'rdf-vocab', '~> 3.0'
-  spec.add_dependency 'sass-rails', '~> 5.0'
 
   spec.add_development_dependency 'bixby'
-  spec.add_development_dependency 'capybara', '~> 2.4', '< 2.18.0'
-  spec.add_development_dependency 'chromedriver-helper', '~> 2.1'
   spec.add_development_dependency 'database_cleaner', '~> 1.3'
   spec.add_development_dependency 'engine_cart', '~> 2.2'
   spec.add_development_dependency "factory_bot", '~> 4.4'
-  spec.add_development_dependency "faraday"
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'
   spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
   spec.add_development_dependency 'rspec-rails', '~> 3.1'
   spec.add_development_dependency 'rspec-activemodel-mocks'
-  spec.add_development_dependency 'selenium-webdriver'
   spec.add_development_dependency 'shoulda-matchers', '~> 3.1'
   spec.add_development_dependency 'solr_wrapper', '>= 1.1', '< 3.0'
-  spec.add_development_dependency 'webdrivers', '~> 3.0'
-  spec.add_development_dependency 'webmock', '~> 3.6'
 end

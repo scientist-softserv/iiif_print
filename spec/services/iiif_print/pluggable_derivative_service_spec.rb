@@ -33,12 +33,6 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
   context "when the FileSet's parent is not IiifPrint configured" do
     before do
-      class MyWork < ActiveFedora::Base
-        attr_accessor :title, :members
-        def members
-          []
-        end
-      end
       allow(persisted_file_set).to receive(:in_works).and_return([work])
     end
 
@@ -56,54 +50,11 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
   context "when the FileSet's parent is IiifPrint configured" do
     describe "calls the configured derivative plugins" do
       before do
-        class MyIiifConfiguredWork < ActiveFedora::Base
-          include IiifPrint.model_configuration(
-            derivative_service_plugins: [
-              FakeDerivativeService,
-              FakeDerivativeService
-            ]
-          )
-          attr_accessor :title, :members
-          def members
-            []
-          end
-        end
-
         allow(persisted_file_set).to receive(:in_works).and_return([work])
         allow_any_instance_of(Hyrax::FileSetDerivativesService).to receive(:send)
       end
 
       let(:work) { MyIiifConfiguredWork.new }
-
-      class FakeDerivativeService
-        @create_called = 0
-        @cleanup_called = 0
-        class << self
-          attr_accessor :create_called, :cleanup_called
-
-          def target_ext
-            'txt'
-          end
-        end
-
-        def initialize(fileset)
-          @fileset = fileset
-          @created = false
-        end
-
-        def valid?
-          true
-        end
-
-        def create_derivatives(filename)
-          self.class.create_called += 1
-          filename
-        end
-
-        def cleanup_derivatives
-          self.class.cleanup_called += 1
-        end
-      end
 
       it "calls each plugin on create" do
         create_calls = FakeDerivativeService.create_called
@@ -142,15 +93,6 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     context "integration tests for plugins" do
       before do
-        class MyIiifConfiguredWorkWithAllDerivativeServices < ActiveFedora::Base
-          include IiifPrint.model_configuration
-
-          attr_accessor :title, :members
-          def members
-            []
-          end
-        end
-
         allow(persisted_file_set).to receive(:in_works).and_return([work])
       end
 
