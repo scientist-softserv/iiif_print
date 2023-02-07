@@ -22,31 +22,27 @@
 #   to add, remove, or reorder plugin (derivative service) classes.
 #
 class IiifPrint::PluggableDerivativeService
-  attr_reader :file_set
+  class_attribute :allowed_methods, default: [:cleanup_derivatives, :create_derivatives]
+  class_attribute :default_plugins, default: [Hyrax::FileSetDerivativesService]
+  class_attribute :derivative_path_factory, default: Hyrax::DerivativePath
+
+  def initialize(file_set, plugins: plugins_for(file_set))
+    @file_set = file_set
+    @plugins = Array.wrap(plugins)
+  end
+
+  attr_reader :file_set, :plugins
   delegate :uri, :mime_type, to: :file_set
 
-  # make and expose an array of plugins
-  @allowed_methods = [:cleanup_derivatives, :create_derivatives]
-  class << self
-    attr_accessor :allowed_methods
-  end
-
-  def initialize(file_set, plugins: default_plugin_for(file_set))
-    @file_set = file_set
-    @plugins = plugins
-  end
-
-  attr_reader :plugins
-
+  # this wrapper/proxy/composite is always valid, but it may compose
+  #   multiple plugins, some of which may or may not be valid, so
+  #   validity checks happen within as well.
   def valid?
-    # this wrapper/proxy/composite is always valid, but it may compose
-    #   multiple plugins, some of which may or may not be valid, so
-    #   validity checks happen within as well.
     true
   end
 
   def respond_to_missing?(method_name)
-    self.class.allowed_methods.include?(method_name) || super
+    allowed_methods.include?(method_name) || super
   end
 
   # get derivative services relevant to method name and file_set context
@@ -96,27 +92,15 @@ class IiifPrint::PluggableDerivativeService
   #   -- avoids stomping over pre-made derivative
   #      for which an attachment is still in-progress.
   def impending_derivative?(name)
-    result = IiifPrint::DerivativeAttachment.find_by(
+    IiifPrint::DerivativeAttachment.exists?(
       fileset_id: file_set.id,
       destination_name: name
     )
-    !result.nil?
   end
 
-  def derivative_path_factory
-    Hyrax::DerivativePath
-  end
+  def plugins_for(file_set)
+    return Array(default_plugins) unless file_set.parent.try(:iiif_print_config?)
 
-  def default_plugin
-    # default plugin Hyrax OOTB, makes thumbnails and sometimes extracts text:
-    Hyrax::FileSetDerivativesService
-  end
-
-  def default_plugin_for(file_set)
-    if file_set.parent.try(:iiif_print_config?)
-      file_set.parent.iiif_print_config.derivative_service_plugins << default_plugin
-    else
-      [default_plugin]
-    end
+    (file_set.parent.iiif_print_config.derivative_service_plugins + Array(default_plugins)).flatten.compact.uniq
   end
 end

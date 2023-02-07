@@ -27,7 +27,7 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     it "is the first valid service found" do
       found = Hyrax::DerivativeService.for(FileSet.new)
-      expect(found.class).to be described_class
+      expect(found).to be_a described_class
     end
   end
 
@@ -57,10 +57,11 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       let(:work) { MyIiifConfiguredWork.new }
 
       it "calls each plugin on create" do
+        plugins = [FakeDerivativeService]
         create_calls = FakeDerivativeService.create_called
-        service = described_class.new(persisted_file_set)
+        service = described_class.new(persisted_file_set, plugins: plugins)
         service.create_derivatives('not_a_real_filename')
-        expect(FakeDerivativeService.create_called).to eq create_calls + 2
+        expect(FakeDerivativeService.create_called).to eq create_calls + plugins.size
       end
 
       def touch_fake_derivative_file(file_set, ext)
@@ -85,9 +86,10 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
       it "calls each plugin on cleanup" do
         expect(FakeDerivativeService.cleanup_called).to eq 0
-        service = described_class.new(persisted_file_set)
+        plugins = [FakeDerivativeService]
+        service = described_class.new(persisted_file_set, plugins: plugins)
         service.cleanup_derivatives
-        expect(FakeDerivativeService.cleanup_called).to eq 2
+        expect(FakeDerivativeService.cleanup_called).to eq plugins.size
       end
     end
 

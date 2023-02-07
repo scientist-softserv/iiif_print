@@ -50,6 +50,8 @@ A complete list of features can be found [here](https://github.com/samvera-labs/
 ## Documentation
 A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/samvera-labs/iiif_print/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
 
+IiifPrint was developed against Hyku 4.0; If your application uses Bulkrax, please ensure that its version is 5.0.1 or greater. 
+
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) >=2.4
@@ -80,6 +82,25 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * Run `bundle install`
 * Run `rails generate iiif_print:install`
 * Set config options as indicated below...
+
+TO ENABLE OCR Search (from the UV and catalog search)
+* In the CatalogController, find the add_search_fields config block for 'all_fields'. Add advanced_parse: false, as seen in the following example: 
+```
+    config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false, advanced_parse: false) do |field|
+      all_names = config.show_fields.values.map(&:field).join(" ")
+      title_name = 'title_tesim'
+      field.solr_parameters = {
+        qf: "#{all_names} file_format_tesim all_text_tsimv",
+        pf: title_name.to_s
+      }
+    end
+```
+* Additionally, find and replace all instances of all_text_timv with all_text_tsimv, in the CatalogController.
+* Remove the following line from iiif_search_builder.rb
+```
+solr_parameters[:qf] = blacklight_config.iiif_search[:full_text_field]
+```
+
 
 ## Application/Site Specific Configuration
 
