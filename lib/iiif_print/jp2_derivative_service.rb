@@ -1,7 +1,7 @@
 require 'open3'
 
 module IiifPrint
-  class JP2DerivativeService < PageDerivativeService
+  class JP2DerivativeService < BaseDerivativeService
     # OpenJPEG 2000 Command to make NDNP-compliant grayscale JP2:
     CMD_GRAY = 'opj_compress -i %<source_file>s -o %<out_file>s ' \
               '-d 0,0 -b 64,64 -n 6 -p RLCP -t 1024,1024 -I -M 1 ' \
