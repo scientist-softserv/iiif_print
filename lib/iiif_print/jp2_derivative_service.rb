@@ -20,7 +20,7 @@ module IiifPrint
     CMD_1X = 'image_to_j2k'.freeze
 
     # Target file extension of this service plugin:
-    TARGET_EXT = 'jp2'.freeze
+    TARGET_EXTENSION = 'jp2'.freeze
 
     attr_reader :file_set
     delegate :uri, :mime_type, to: :file_set

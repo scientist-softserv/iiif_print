@@ -13,7 +13,7 @@ class FakeDerivativeService
   class << self
     attr_accessor :create_called, :cleanup_called
 
-    def target_ext
+    def target_extension
       'txt'
     end
   end
