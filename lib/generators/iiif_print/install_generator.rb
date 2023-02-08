@@ -26,13 +26,6 @@ module IiifPrint
       end
     end
 
-    def add_solr_doc
-      inject_into_file 'app/models/solr_document.rb',
-                       after: "include Hyrax::SolrDocumentBehavior" do
-        "\n  include IiifPrint::Solr::Document\n  attribute :is_child, Solr::String, 'is_child_bsi'"
-      end
-    end
-
     def verify_biiif_installed
       return if IO.read('app/controllers/catalog_controller.rb').include?('include BlacklightIiifSearch::Controller')
       say_status('info',

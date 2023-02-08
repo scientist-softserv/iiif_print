@@ -35,6 +35,7 @@ module IiifPrint
 
       IiifPrint::ChildIndexer.decorate_work_types!
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+      IiifPrint::Solr::Document.decorate(SolrDocument)
 
       BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
 
