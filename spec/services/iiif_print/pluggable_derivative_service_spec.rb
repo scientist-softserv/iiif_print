@@ -148,7 +148,7 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
         end
 
         def jp2_plugin?(plugins)
-          r = plugins.select { |p| p.class == IiifPrint::JP2DerivativeService }
+          r = plugins.select { |p| p.is_a? IiifPrint::JP2DerivativeService }
           !r.empty?
         end
 
