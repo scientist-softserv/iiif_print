@@ -2,28 +2,34 @@
 
 module IiifPrint
   module ChildIndexer
-    extend ActiveSupport::Concern
-    include IiifPrintBehavior
+    ##
+    # @api private
+    #
+    # The goal of this method is to encapsulate the logic for what all we need for child
+    # relationships.
+    def self.decorate_work_types!
+      # TODO: This method is in the wrong location; says indexing but there's also the SetChildFlag
+      # consideration.  Consider refactoring this stuff into a single nested module.
+      #
+      # Because we might be in Hyku
+      switch!(Account.first) if defined? Account
+
+      Hyrax.config.curation_concerns.each do |work_type|
+        work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
+        indexer = work_type.indexer
+        unless indexing.respond_to?(:iiif_print_lineage_service)
+          indexer.prepend(self)
+          indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
+        end
+      end
+    end
 
     def generate_solr_document
       super.tap do |solr_doc|
         solr_doc['is_child_bsi'] = object.is_child
-        solr_doc['is_page_of_ssim'] = ancestor_ids(object)
-        solr_doc['file_set_ids_ssim'] = all_decendent_file_sets(object)
+        solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object)
+        solr_doc['file_set_ids_ssim'] = iiif_print_lineage_service. descendent_file_set_ids_for(object)
       end
-    end
-
-    private
-
-    def all_decendent_file_sets(o)
-      # enables us to return parents when searching for child OCR
-      all_my_children = o.file_sets.map(&:id)
-      o.ordered_works&.each do |child|
-        all_my_children += all_decendent_file_sets(child)
-      end
-      # enables us to return parents when searching for child metadata
-      all_my_children << o.member_ids
-      all_my_children.flatten!.uniq.compact
     end
   end
 end
