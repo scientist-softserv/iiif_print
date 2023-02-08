@@ -168,7 +168,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter.unassign(adapter.keys[0])
       adapter.commit!
       expect(adapter.keys.size).to eq 0
-      expect(work.members.count { |m| m.is_a? FileSet }).to eq 0
+      expect(work.members.to_a.count { |m| m.is_a? FileSet }).to eq 0
     end
 
     context "when it is a new work" do
@@ -203,7 +203,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       #   should refresh the work.members, and by consequence adapter.keys
       work.reload
       expect(adapter.keys.size).to eq 1
-      expect(work.members.count { |m| m.is_a? FileSet }).to eq 1
+      expect(work.members.to_a.count { |m| m.is_a? FileSet }).to eq 1
       expect(adapter.names).to include 'ocr_gray.tiff'
     end
 

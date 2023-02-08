@@ -153,7 +153,7 @@ module IiifPrint
 
       def filesets
         # file sets with non-nil original file contained:
-        work.members.select { |m| m.is_a? FileSet && m.original_file }
+        work.members.select { |m| m.is_a?(FileSet) && m.original_file }
       end
 
       def user
