@@ -63,7 +63,7 @@ RSpec.shared_context "shared setup", shared_context: :metadata do
   end
 
   def work_file_set(work)
-    work.members.find { |m| m.class == FileSet }
+    work.members.detect { |m| m.is_a? FileSet }
   end
 
   def text_path(work)

@@ -62,14 +62,14 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
     end
 
     xit "enumerates expected derivative extension for file set" do
-      file_set = work.members.find { |m| m.class == FileSet }
+      file_set = work.members.detect { |m| m.is_a? FileSet }
       adapter = described_class.new(file_set)
       ext_found = adapter.keys
       expect(ext_found).to include 'txt'
     end
 
     xit "enumerates expected derivative extension for file set id" do
-      file_set = work.members.find { |m| m.class == FileSet }
+      file_set = work.members.detect { |m| m.is_a? FileSet }
       adapter = described_class.new(file_set.id)
       ext_found = adapter.keys
       expect(ext_found).to include 'txt'
