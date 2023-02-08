@@ -31,7 +31,10 @@ module IiifPrint
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
-      Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexer)
+
+      IiifPrint::ChildIndexer.decorate_work_types!
+      IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+
       BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
 
       # Extending the presenter to the base url which includes the protocol.
