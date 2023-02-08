@@ -51,7 +51,7 @@ class IiifPrint::PluggableDerivativeService
     result = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
     result.select do |plugin|
       dest = nil
-      dest = plugin.class.target_extension if plugin.class.respond_to?(:target_extension)
+      dest = plugin.target_extension if plugin.respond_to?(:target_extension)
       !skip_destination?(method_name, dest)
     end
   end
