@@ -78,6 +78,11 @@ Naming/PredicateName:
   Exclude:
     - ''
 
+# The guidance is to use find, but that may not be what we're after.  This is a
+# quick adjustment to appease rubocop.
+Performance/Detect:
+  Enabled: false
+
 Performance/StringReplacement:
   Exclude:
     - 'app/indexers/concerns/iiif_print/indexes_full_text.rb'

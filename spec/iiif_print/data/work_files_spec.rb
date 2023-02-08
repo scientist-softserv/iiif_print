@@ -67,7 +67,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(values.size).to eq 1
       expect(values[0]).to be_an IiifPrint::Data::WorkFile
       expect(values[0].parent).to be adapter
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.find { |m| m.class == FileSet }
       expect(values[0].fileset).to eq first_fileset
       expect(values[0].unwrapped).to be_a Hydra::PCDM::File
     end
@@ -77,7 +77,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       keys = adapter.keys
       expect(keys).to be_an Array
       expect(keys[0]).to be_a String
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.find { |m| m.class == FileSet }
       expect(keys[0]).to eq first_fileset.id
     end
 
@@ -93,7 +93,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
     it "gets work file by fileset id" do
       adapter = described_class.of(work)
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.find { |m| m.class == FileSet }
       fsid = adapter.keys[0]
       expect(fsid).to eq first_fileset.id
       work_file = adapter.get(fsid)
@@ -104,7 +104,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
     it "gets work file by work-local filename" do
       adapter = described_class.of(work)
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.find { |m| m.class == FileSet }
       name = first_fileset.original_file.original_name
       work_file = adapter.get(name)
       expect(work_file).to eq adapter.get(first_fileset.id)
@@ -168,7 +168,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter.unassign(adapter.keys[0])
       adapter.commit!
       expect(adapter.keys.size).to eq 0
-      expect(work.members.select { |m| m.class == FileSet }.size).to eq 0
+      expect(work.members.count { |m| m.class == FileSet }).to eq 0
     end
 
     context "when it is a new work" do
@@ -203,7 +203,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       #   should refresh the work.members, and by consequence adapter.keys
       work.reload
       expect(adapter.keys.size).to eq 1
-      expect(work.members.select { |m| m.class == FileSet }.size).to eq 1
+      expect(work.members.count { |m| m.class == FileSet }).to eq 1
       expect(adapter.names).to include 'ocr_gray.tiff'
     end
 
@@ -212,7 +212,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter.assign(tiff_path)
       adapter.commit!
       bare_work.reload
-      fileset = bare_work.members.select { |w| w.class == FileSet }[0]
+      fileset = bare_work.members.find { |w| w.class == FileSet }
       permission_methods.each do |m|
         expect(fileset.send(m)).to match_array bare_work.send(m)
       end
@@ -222,7 +222,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
   describe "derivative access" do
     it "gets derivatives for first fileset" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.find { |m| m.class == FileSet }
       adapter = described_class.of(work)
       # adapts same context(s):
       expect(adapter.derivatives.fileset.id).to eq fileset.id
