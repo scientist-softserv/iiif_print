@@ -68,10 +68,6 @@ module IiifPrint
       copy_file 'config/initializers/iiif_print.rb'
     end
 
-    def add_helper
-      copy_file "iiif_print_helper.rb", "app/helpers/iiif_print_helper.rb"
-    end
-
     def inject_assets
       generate 'iiif_print:assets'
     end
