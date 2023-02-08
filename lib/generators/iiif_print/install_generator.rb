@@ -71,11 +71,5 @@ module IiifPrint
     def inject_assets
       generate 'iiif_print:assets'
     end
-
-    # TODO: Consider not copying the decorator.
-    def add_faceted_attribute_decorator
-      # supports display of children in index and search
-      copy_file 'faceted_attribute_renderer_decorator.rb', 'app/renderers/hyrax/renderers/faceted_attribute_renderer_decorator.rb'
-    end
   end
 end
