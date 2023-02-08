@@ -6,21 +6,34 @@
 # modeling purposes only.
 #
 ####################################################################################################
-
 class FakeDerivativeService
-  @create_called = 0
-  @cleanup_called = 0
-  class << self
-    attr_accessor :create_called, :cleanup_called
-
-    def target_extension
-      'txt'
-    end
+  class_attribute :target_extension, default: 'txt'
+  def initialize(target_extension: nil)
+    self.target_extension = target_extension if target_extension
+    @create_called = 0
+    @cleanup_called = 0
   end
+  attr_reader :create_called, :cleanup_called
 
-  def initialize(fileset)
+  # Why the #new method?
+  #
+  # Because the plugin interface assumes we're passing a
+  # plugin that responds to `new`.  In prod code, that plugin is a class.
+  # However, in test, to facilitate observing what methods are called we pass
+  # the plugin as an instance of this class (e.g. `plugin =
+  # FakeDerivativeService.new`).  Later, in the process, the code calls
+  # `plugin.new(file_set)`; it is then expected to return something that
+  # responds to `create_derivatives` and `cleanup_derivatives`.
+  #
+  # @see IiifPrint::PluggableDerivativeService#initialize
+  # @see IiifPrint::PluggableDerivativeService#services
+  #
+  # @note FakeDerivativeService.new returns an instance of
+  #       FakeDerivativeService.  Likewise, FakeDerivativeService#new will now
+  #       return an instance of FakeDerivativeService
+  def new(fileset)
     @fileset = fileset
-    @created = false
+    self
   end
 
   def valid?
@@ -28,12 +41,12 @@ class FakeDerivativeService
   end
 
   def create_derivatives(filename)
-    self.class.create_called += 1
+    @create_called += 1
     filename
   end
 
   def cleanup_derivatives
-    self.class.cleanup_called += 1
+    @cleanup_called += 1
   end
 end
 
