@@ -15,6 +15,9 @@ module IiifPrint
           @pending_children.each(&:destroy)
         else
           # reschedule the job and end this one normally
+          #
+          # TODO: Depending on how things shake out, we could be infinitely rescheduling this job.
+          # Consider a time to live parameter.
           reschedule(user: user, parent_id: parent_id, parent_model: parent_model, child_model: child_model)
         end
       end
