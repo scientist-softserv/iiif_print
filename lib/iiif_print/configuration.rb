@@ -12,7 +12,6 @@ module IiifPrint
       end
     end
 
-
     attr_writer :excluded_model_name_solr_field_values
     # By default, this uses an array of human readable types
     #   ex: ['Generic Work', 'Image']

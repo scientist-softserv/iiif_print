@@ -11,6 +11,7 @@ module IiifPrint
   class Engine < ::Rails::Engine
     isolate_namespace IiifPrint
 
+    # rubocop:disable Metrics/BlockLength
     config.to_prepare do
       # Inject PluggableDerivativeService ahead of Hyrax default.
       #   This wraps Hyrax default, but allows multiple valid services
@@ -58,5 +59,6 @@ module IiifPrint
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

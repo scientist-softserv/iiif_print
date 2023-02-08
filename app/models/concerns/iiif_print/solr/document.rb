@@ -22,12 +22,12 @@ module IiifPrint::Solr::Document
 
     # @note These properties came from the newspaper_works gem.  They are configurable.
     base.class_attribute :iiif_print_solr_field_names, default: %w[alternative_title genre
-                  issn lccn oclcnum held_by text_direction
-                  page_number section author photographer
-                  volume issue_number geographic_coverage
-                  extent publication_date height width
-                  edition_number edition_name frequency preceded_by
-                  succeeded_by]
+                                                                   issn lccn oclcnum held_by text_direction
+                                                                   page_number section author photographer
+                                                                   volume issue_number geographic_coverage
+                                                                   extent publication_date height width
+                                                                   edition_number edition_name frequency preceded_by
+                                                                   succeeded_by]
     base
   end
 
@@ -40,8 +40,7 @@ module IiifPrint::Solr::Document
     iiif_print_solr_field_names.include?(method_name.to_s) || super
   end
 
-  # TODO:
-  #       adding file_set_ids to iiif_print_solr_field_names does not work
+  # TODO: consider configuring this field name; we use the magic field in lots of places.
   def file_set_ids
     self['file_set_ids_ssim']
   end

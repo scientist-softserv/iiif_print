@@ -39,7 +39,7 @@ RSpec.describe IiifPrint::Configuration do
     end
 
     context "with configuration" do
-      let(:config_func) { lambda { |file_set, user| :yup } }
+      let(:config_func) { ->(_file_set, _user) { :yup } }
 
       it "calls the given configured lambda" do
         config.after_create_fileset_handler = config_func
