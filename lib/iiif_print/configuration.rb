@@ -1,5 +1,18 @@
 module IiifPrint
   class Configuration
+    attr_writer :after_create_fileset_handler
+
+    # @param file_set [FileSet]
+    # @param user [User]
+    def handle_after_create_fileset(file_set, user)
+      if defined? @after_create_fileset_handler
+        @after_create_fileset_handler.call(file_set, user)
+      else
+        IiifPrint::Data.handle_after_create_fileset(file_set, user)
+      end
+    end
+
+
     attr_writer :excluded_model_name_solr_field_values
     # By default, this uses an array of human readable types
     #   ex: ['Generic Work', 'Image']
