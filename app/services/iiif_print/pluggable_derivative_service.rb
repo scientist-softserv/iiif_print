@@ -41,10 +41,6 @@ class IiifPrint::PluggableDerivativeService
     true
   end
 
-  def respond_to_missing?(method_name, include_private = false)
-    allowed_methods.include?(method_name) || super
-  end
-
   # get derivative services relevant to method name and file_set context
   #   -- omits plugins if particular destination exists or will soon.
   def services(method_name)
@@ -56,6 +52,12 @@ class IiifPrint::PluggableDerivativeService
     end
   end
 
+  private
+
+  def respond_to_missing?(method_name, include_private = false)
+    allowed_methods.include?(method_name) || super
+  end
+
   def method_missing(method_name, *args, **opts, &block)
     if allowed_methods.include?(method_name)
       # we have an allowed method, construct services and include all valid
@@ -63,14 +65,12 @@ class IiifPrint::PluggableDerivativeService
       # services = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
       # run all valid services, in order:
       services(method_name).each do |plugin|
-        plugin.send(method_name, *args)
+        plugin.send(method_name, *args, **opts, &block)
       end
     else
       super
     end
   end
-
-  private
 
   def skip_destination?(method_name, destination_name)
     return false unless method_name == :create_derivatives
