@@ -1,5 +1,6 @@
 require 'spec_helper'
-RSpec.describe CustomSearchBuilder do
+
+RSpec.describe IiifPrint::CatalogSearchBuilder do
   # specs for IiifPrint::HighlightSearchParams
   describe 'highlight_search_params' do
     let(:solr_parameters) { { q: 'abolition' } }
