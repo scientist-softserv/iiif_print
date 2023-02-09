@@ -1,7 +1,6 @@
 require 'active_fedora'
 require 'hyrax'
 require 'blacklight_iiif_search'
-require 'blacklight_advanced_search'
 
 module IiifPrint
   # module constants:
