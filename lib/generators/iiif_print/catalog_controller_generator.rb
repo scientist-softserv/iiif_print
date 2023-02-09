@@ -6,10 +6,9 @@ module IiifPrint
     source_root File.expand_path('../templates', __FILE__)
 
     desc "
-  This generator makes the following changes to your app:
-   1. Adds index fields in CatalogController
-   2. Adds facet fields in CatalogController
-         "
+      This generator makes the following changes to your app:
+      1. Adds index fields in CatalogController
+      "
 
     def add_index_fields_to_catalog_controller
       marker = 'configure_blacklight do |config|'
