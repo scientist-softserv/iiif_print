@@ -6,24 +6,18 @@ module IiifPrint
     source_root File.expand_path('../templates', __FILE__)
 
     desc "
-  This generator makes the following changes to your app:
-   1. Creates a new SearchBuilder class that inherits from Hyrax::CatalogSearchBuilder
-   2. Adjusts config.search_builder_class settings in CatalogController
-   3. Adds configuration to config.advanced_search settings in CatalogController
-   4. Adds an initializer to patch some BlacklightAdvancedSearch classes to allow for date range searches
-         "
-
-    def inject_search_builder
-      copy_file 'custom_search_builder.rb',
-                'app/models/custom_search_builder.rb'
-    end
+      This generator makes the following changes to your app:
+      1. Adjusts config.search_builder_class settings in CatalogController
+      2. Adds an initializer to patch some BlacklightAdvancedSearch classes to allow for date range searches
+      "
 
     def update_search_builder
       gsub_file('app/controllers/catalog_controller.rb',
                 "config.search_builder_class = Hyrax::CatalogSearchBuilder",
-                "config.search_builder_class = CustomSearchBuilder")
+                "config.search_builder_class = IiifPrint::CatalogSearchBuilder")
     end
 
+    # TODO: I suspect this is something else to further adjust.
     def inject_initializer
       copy_file 'config/initializers/patch_blacklight_advanced_search.rb'
     end

@@ -22,6 +22,7 @@ require "iiif_print/split_pdfs/pages_into_images_service"
 module IiifPrint
   extend ActiveSupport::Autoload
   autoload :Configuration
+  autoload :CatalogSearchBuilder
 
   ##
   # @api public
