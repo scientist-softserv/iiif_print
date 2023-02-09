@@ -43,6 +43,13 @@ RSpec.configure do |config|
     require 'active_fedora/cleaner'
     require 'database_cleaner'
 
+    # By default, Hyrax uses a database minter class.  That's the preferred pathway (because you are
+    # tracking minting state in the database).  However, for testing purposes we don't need to / nor
+    # want to install the minter migrations.  Hence we're favoring this approach.
+    minter_class = ::Noid::Rails::Minter::File
+    ::Noid::Rails.config.minter_class = minter_class
+    Hyrax.config.noid_minter_class = minter_class
+
     ActiveFedora::Cleaner.clean!
     DatabaseCleaner.clean_with(:truncation)
 
