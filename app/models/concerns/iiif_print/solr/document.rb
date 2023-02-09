@@ -1,23 +1,46 @@
 module IiifPrint::Solr::Document
-  SOLR_NAMES = %w[alternative_title genre
-                  issn lccn oclcnum held_by text_direction
-                  page_number section author photographer
-                  volume issue_number geographic_coverage
-                  extent publication_date height width
-                  edition_number edition_name frequency preceded_by
-                  succeeded_by].freeze
+  # @note Why decorate?  We want to avoid including this module via generator.  And the generator
+  #       previously did two things: 1) include `IiifPrint::Solr::Document` in `SolrDocument`; 2)
+  #       add the `attribute :is_child` field to the SolrDocument.  We can't rely on `included do`
+  #       block to handle that.
+  #
+  # This method is responsible for configuring the SolrDocument for a Hyrax/Hyku application.  It
+  # does three things:
+  #
+  # 1. Adds instance methods to the SolrDocument (see implementation below)
+  # 2. Adds the `is_child` attribute to the SolrDocument
+  # 3. Adds a class attribute (e.g. `iiif_print_solr_field_names`) to allow further customization.
+  #
+  # @note These `iiif_print_solr_field_names` came from the newspaper_works implementation and are
+  #       carried forward without much consideration, except to say "Make it configurable!"
+  #
+  # @param base [Class<SolrDocument>]
+  # @return [Class<SolrDocument>]
+  def self.decorate(base)
+    base.prepend(self)
+    base.send(:attribute, :is_child, Hyrax::SolrDocument::Metadata::Solr::String, 'is_child_bsi')
 
-  def method_missing(m, *args, &block)
-    super unless SOLR_NAMES.include? m.to_s
-    self[::ActiveFedora.index_field_mapper.solr_name(m.to_s)]
+    # @note These properties came from the newspaper_works gem.  They are configurable.
+    base.class_attribute :iiif_print_solr_field_names, default: %w[alternative_title genre
+                                                                   issn lccn oclcnum held_by text_direction
+                                                                   page_number section author photographer
+                                                                   volume issue_number geographic_coverage
+                                                                   extent publication_date height width
+                                                                   edition_number edition_name frequency preceded_by
+                                                                   succeeded_by]
+    base
+  end
+
+  def method_missing(method_name, *args, &block)
+    super unless iiif_print_solr_field_names.include? method_name.to_s
+    self[::ActiveFedora.index_field_mapper.solr_name(method_name.to_s)]
   end
 
   def respond_to_missing?(method_name, include_private = false)
-    SOLR_NAMES.include?(method_name.to_s) || super
+    iiif_print_solr_field_names.include?(method_name.to_s) || super
   end
 
-  # TODO: figure out if there is a cleaner way to get this
-  #       adding file_set_ids to SOLR_NAMES does not work
+  # TODO: consider configuring this field name; we use the magic field in lots of places.
   def file_set_ids
     self['file_set_ids_ssim']
   end

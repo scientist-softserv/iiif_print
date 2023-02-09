@@ -11,6 +11,7 @@ module IiifPrint
   class Engine < ::Rails::Engine
     isolate_namespace IiifPrint
 
+    # rubocop:disable Metrics/BlockLength
     config.to_prepare do
       # Inject PluggableDerivativeService ahead of Hyrax default.
       #   This wraps Hyrax default, but allows multiple valid services
@@ -35,6 +36,7 @@ module IiifPrint
 
       IiifPrint::ChildIndexer.decorate_work_types!
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+      IiifPrint::Solr::Document.decorate(SolrDocument)
 
       BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
 
@@ -50,6 +52,13 @@ module IiifPrint
         end
       end
       Hyrax::IiifManifestPresenter::DisplayImagePresenter.prepend(Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator)
+
+      Hyrax.config do |config|
+        config.callback.set(:after_create_fileset) do |file_set, user|
+          IiifPrint.config.handle_after_create_fileset(file_set, user)
+        end
+      end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end
