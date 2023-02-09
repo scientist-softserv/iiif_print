@@ -2,7 +2,6 @@ require "iiif_print/engine"
 require "iiif_print/errors"
 require "iiif_print/jp2_image_metadata"
 require "iiif_print/image_tool"
-require "iiif_print/catalog_search_builder"
 require "iiif_print/text_extraction"
 require "iiif_print/data"
 require "iiif_print/configuration"
@@ -23,6 +22,7 @@ require "iiif_print/split_pdfs/pages_into_images_service"
 module IiifPrint
   extend ActiveSupport::Autoload
   autoload :Configuration
+  autoload :CatalogSearchBuilder
 
   ##
   # @api public

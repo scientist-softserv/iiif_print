@@ -1,3 +1,5 @@
+require 'hyrax/catalog_search_builder'
+
 module IiifPrint
   # This class extends the base Hyrax::CatalogSearchBuilder by:
   #
