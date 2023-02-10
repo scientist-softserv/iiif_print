@@ -1,66 +1,48 @@
 # frozen_string_literal: true
 
+# override to add PDF splitting for file sets
 module IiifPrint
   module Actors
     module FileSetActorDecorator
       def create_content(file, relation = :original_file, from_url: false)
-        # If the file set doesn't have a title or label assigned, set a default.
-        file_set.label ||= label_for(file)
-        file_set.title = [file_set.label] if file_set.title.blank?
-        @file_set = perform_save(file_set)
-        return false unless file_set
+        # Spawns asynchronous IngestJob unless ingesting from URL
+        super
+
         if from_url
-          # If ingesting from URL, don't spawn an IngestJob; instead
-          # reach into the FileActor and run the ingest with the file instance in
-          # hand. Do this because we don't have the underlying UploadedFile instance
-          file_actor = build_file_actor(relation)
-          file_actor.ingest_file(wrapper!(file: file, relation: relation))
-          parent = parent_for(file_set: file_set)
-          VisibilityCopyJob.perform_later(parent)
-          InheritPermissionsJob.perform_later(parent)
+          # we have everything we need... queue the job
+          parent = parent_for(file_set: @file_set)
 
-          return unless iiif_print?(parent)
-          paths = [file_set.import_url]
-          is_pdf = paths.select { |path| path.end_with?('.pdf', '.PDF') }
-          return if is_pdf.blank?
-          queue_job(parent, [file.path], @user, parent.admin_set_id, 0)
-
+          if service.iiif_print_split?(work: parent) && service.has_pdfs?(paths: [file_set.import_url])
+            service.queue_job(
+              work: parent, 
+              file_locations: [file.path], 
+              user: @user,
+              admin_set_id: parent.admin_set_id
+            )
+          end
         else
-
-          paths = [file.file.file.file]
-          @pdf_paths = paths.select { |path| path.end_with?('.pdf', '.PDF') }
-
-          IngestJob.perform_later(wrapper!(file: file, relation: relation))
+          # we don't have the parent yet... save the paths for later use
+          @pdf_paths = service.pdf_paths(files: [file.id.to_s])
         end
       end
 
-      # Locks to ensure that only one process is operating on the list at a time.
+      # Override to add PDF splitting
       def attach_to_work(work, file_set_params = {})
+        # Locks to ensure that only one process is operating on the list at a time.
         super
+
         return if @pdf_paths.blank?
-        queue_job(work, @pdf_paths, @user, work.admin_set_id, 0) if iiif_print?(work)
-      end
-
-      private
-
-      def iiif_print?(parent_work)
-        @iiif_print_defined ||= parent_work.try(:iiif_print_config?)
-      end
-
-      # submit the job to create child works for PDF
-      # @param [GenericWork, etc] A valid type of hyrax work
-      # @param [Array<String>] paths to PDF attachments
-      # @param [User] user
-      # @param [String] admin set ID
-      # @param [Integer] count of PDFs already existing on the parent work
-      def queue_job(work, paths, user, admin_set_id, prior_pdfs)
-        work.iiif_print_config.pdf_splitter_job.perform_later(
-          work,
-          paths,
-          user,
-          admin_set_id,
-          prior_pdfs
+        return unless service.iiif_print_split?(work: work)
+        service.queue_job(
+          work: work, 
+          file_locations: @pdf_paths, 
+          user: @user,
+          admin_set_id: work.admin_set_id
         )
+      end
+
+      def service
+        IiifPrint::SplitPdfs::ChildWorkCreationFromPdfService
       end
     end
   end
