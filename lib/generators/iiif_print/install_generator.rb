@@ -22,16 +22,6 @@ module IiifPrint
       generate 'iiif_print:blacklight_iiif_search'
     end
 
-    def verify_blacklight_adv_search_installed
-      return if IO.read('app/controllers/catalog_controller.rb').include?('include BlacklightAdvancedSearch::Controller')
-      say_status('info', 'INSTALLING BLACKLIGHT ADVANCED SEARCH', :blue)
-      generate 'blacklight_advanced_search:install', '--force'
-    end
-
-    def advanced_search_configuration
-      generate 'iiif_print:blacklight_advanced_search'
-    end
-
     def catalog_controller_configuration
       generate 'iiif_print:catalog_controller'
     end

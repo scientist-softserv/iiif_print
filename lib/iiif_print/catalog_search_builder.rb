@@ -6,24 +6,17 @@ module IiifPrint
   # - supporting highlighting of snippets in results
   # - excluding models from search result; with complex works you might want to skip some of those
   #   works.
-  # - BlacklightAdvancedSearch::AdvancedSearchBuilder, to support /newspapers_search
   class CatalogSearchBuilder < Hyrax::CatalogSearchBuilder
     # TODO: Do we need the following as a module?  It hides the behavior
     include IiifPrint::HighlightSearchParams
     # TODO: Do we need the following as a module?  It hides the behavior
     include IiifPrint::ExcludeModels
 
-    # :exclude_models and :highlight_search_params must be added after advanced_search
-    #   so keyword query input can be properly eval'd
-    self.default_processor_chain += [:add_advanced_parse_q_to_solr, :add_advanced_search_to_solr,
-                                     :exclude_models, :highlight_search_params, :show_parents_only]
-
-    # add logic to BlacklightAdvancedSearch::AdvancedSearchBuilder
-    # so that date range params are recognized as advanced search
-    # rubocop:disable Naming/PredicateName
-    def is_advanced_search?
-      blacklight_params[:date_start].present? || blacklight_params[:date_end].present? || super
-    end
+    # NOTE: If you are using advanced_search, the :exclude_models and :highlight_search_params must
+    # be added after the advanced_search methods (which are not part of this gem).  In other tests,
+    # we found that having the advanced search processing after the two aforementioned processors
+    # resulted in improper evaluation of keyword querying.
+    self.default_processor_chain += [:exclude_models, :highlight_search_params, :show_parents_only]
 
     # rubocop:enable Naming/PredicateName
     def show_parents_only(solr_parameters)
