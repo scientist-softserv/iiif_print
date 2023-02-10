@@ -27,9 +27,9 @@ module IiifPrint
       # Are there any PDF files?
       # @param [Array > String] paths to PDFs
       # @return [Boolean]
-      def self.has_pdfs?(paths:)
+      def self.pdfs?(paths:)
         pdf_paths = pdfs_only_for(paths)
-        return false unless pdf_paths.count > 0
+        return false unless pdf_paths.positive?
         true
       end
 
@@ -48,8 +48,6 @@ module IiifPrint
         )
       end
 
-      private
-
       def self.filter_file_ids(input)
         Array.wrap(input).select(&:present?)
       end
@@ -62,11 +60,11 @@ module IiifPrint
 
       # TODO: implement a method to count existing PDFs on a work to support
       #       adding more PDFs to an existing work.
-      def self.count_existing_pdfs(work)
+      def self.count_existing_pdfs(_work)
         0
       end
 
-      # TODO: Consider other methods to identify a PDF file. 
+      # TODO: Consider other methods to identify a PDF file.
       #       This sub-selection may need to be moved to use mimetype if there
       #       is a need to support paths not ending in .pdf (i.e. remote_urls)
       def self.pdfs_only_for(paths)

@@ -43,8 +43,8 @@ module IiifPrint
         work.save!(validate: false)
         admin_set_id = env.attributes[:admin_set_id] ||= default_admin_set
         service.queue_job(
-          work: work, 
-          file_locations: @pdf_paths, 
+          work: work,
+          file_locations: @pdf_paths,
           user: env.current_ability.current_user,
           admin_set_id: admin_set_id
         )

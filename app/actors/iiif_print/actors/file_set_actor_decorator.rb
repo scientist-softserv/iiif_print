@@ -12,10 +12,10 @@ module IiifPrint
           # we have everything we need... queue the job
           parent = parent_for(file_set: @file_set)
 
-          if service.iiif_print_split?(work: parent) && service.has_pdfs?(paths: [file_set.import_url])
+          if service.iiif_print_split?(work: parent) && service.pdfs?(paths: [file_set.import_url])
             service.queue_job(
-              work: parent, 
-              file_locations: [file.path], 
+              work: parent,
+              file_locations: [file.path],
               user: @user,
               admin_set_id: parent.admin_set_id
             )
@@ -34,8 +34,8 @@ module IiifPrint
         return if @pdf_paths.blank?
         return unless service.iiif_print_split?(work: work)
         service.queue_job(
-          work: work, 
-          file_locations: @pdf_paths, 
+          work: work,
+          file_locations: @pdf_paths,
           user: @user,
           admin_set_id: work.admin_set_id
         )

@@ -17,7 +17,7 @@ module IiifPrint
           split_pdf(path, pdf_idx, user, prior_pdfs, child_model)
         end
 
-        # Link newly created child works to the parentq
+        # Link newly created child works to the parent
         # @param user: [User] user
         # @param parent_id: [<String>] parent work id
         # @param parent_model: [<String>] parent model
