@@ -1,7 +1,7 @@
 # customize behavior for IiifSearch
 module IiifPrint
   module BlacklightIiifSearch
-    module AnnotationBehavior
+    module AnnotationDecorator
       ##
       # Create a URL for the annotation
       # use a Hyrax-y URL syntax:

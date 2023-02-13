@@ -37,7 +37,8 @@ module IiifPrint
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
       IiifPrint::Solr::Document.decorate(SolrDocument)
 
-      BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
+      ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
+      ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
 
       # Extending the presenter to the base url which includes the protocol.
       # We need the base url to render the facet links and normalize the interface.
