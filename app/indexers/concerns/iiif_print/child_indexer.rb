@@ -17,7 +17,7 @@ module IiifPrint
       Hyrax.config.curation_concerns.each do |work_type|
         work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
         indexer = work_type.indexer
-        unless indexing.respond_to?(:iiif_print_lineage_service)
+        unless indexer.respond_to?(:iiif_print_lineage_service)
           indexer.prepend(self)
           indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
         end
