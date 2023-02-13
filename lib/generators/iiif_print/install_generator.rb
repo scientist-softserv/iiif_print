@@ -18,10 +18,6 @@ module IiifPrint
       generate 'blacklight_iiif_search:install'
     end
 
-    def iiif_configuration
-      generate 'iiif_print:blacklight_iiif_search'
-    end
-
     def catalog_controller_configuration
       generate 'iiif_print:catalog_controller'
     end
