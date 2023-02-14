@@ -29,7 +29,7 @@ module IiifPrint
       # @return [Boolean]
       def self.pdfs?(paths:)
         pdf_paths = pdfs_only_for(paths)
-        return false unless pdf_paths.positive?
+        return false unless pdf_paths.count.positive?
         true
       end
 
