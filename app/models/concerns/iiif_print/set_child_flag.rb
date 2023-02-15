@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require Rails.root.join('lib', 'rdf', 'custom_is_child_term.rb')
-
 module RDF
   class CustomIsChildTerm < Vocabulary('http://id.loc.gov/vocabulary/identifiers/')
     property 'is_child'

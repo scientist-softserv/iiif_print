@@ -29,9 +29,9 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(adapter.assigned).to include tiff_path
     end
 
-    it "will fail to assign file in non-whitelisted dir" do
+    it "will fail to assign file in non registered dir" do
       adapter = described_class.new(work)
-      # need a non-whitlisted file that exists:
+      # need a non-registered file that exists:
       bad_path = File.expand_path("../../spec_helper.rb", fixture_path)
       expect { adapter.assign(bad_path) }.to raise_error(SecurityError)
     end
@@ -67,7 +67,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       expect(values.size).to eq 1
       expect(values[0]).to be_an IiifPrint::Data::WorkFile
       expect(values[0].parent).to be adapter
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.detect { |m| m.is_a?(FileSet) }
       expect(values[0].fileset).to eq first_fileset
       expect(values[0].unwrapped).to be_a Hydra::PCDM::File
     end
@@ -77,7 +77,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       keys = adapter.keys
       expect(keys).to be_an Array
       expect(keys[0]).to be_a String
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.detect { |m| m.is_a?(FileSet) }
       expect(keys[0]).to eq first_fileset.id
     end
 
@@ -93,7 +93,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
     it "gets work file by fileset id" do
       adapter = described_class.of(work)
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.detect { |m| m.is_a?(FileSet) }
       fsid = adapter.keys[0]
       expect(fsid).to eq first_fileset.id
       work_file = adapter.get(fsid)
@@ -104,7 +104,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
     it "gets work file by work-local filename" do
       adapter = described_class.of(work)
-      first_fileset = work.members.select { |m| m.class == FileSet }[0]
+      first_fileset = work.members.detect { |m| m.is_a?(FileSet) }
       name = first_fileset.original_file.original_name
       work_file = adapter.get(name)
       expect(work_file).to eq adapter.get(first_fileset.id)
@@ -141,7 +141,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
   end
 
   describe "commits changes" do
-    # These jobs we need whitelisted to run now, at minimum:
+    # We need to register these jobs to run now, at minimum:
     do_now_jobs = [IngestLocalFileJob, IngestJob, InheritPermissionsJob]
     # These we skip: [CharacterizeJob, CreateDerivativesJob]
     #   -- skipping these saves 10-15 seconds on attachment example
@@ -168,7 +168,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter.unassign(adapter.keys[0])
       adapter.commit!
       expect(adapter.keys.size).to eq 0
-      expect(work.members.select { |m| m.class == FileSet }.size).to eq 0
+      expect(work.members.to_a.count { |m| m.is_a? FileSet }).to eq 0
     end
 
     context "when it is a new work" do
@@ -198,12 +198,12 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter = described_class.of(work)
       adapter.assign(tiff_path)
       adapter.commit!
-      # whitelisted jobs (do_now_jobs) performed as effect of commit!
+      # registered jobs (do_now_jobs) performed as effect of commit!
       #   are configured to effectively run inline. Reloading work
       #   should refresh the work.members, and by consequence adapter.keys
       work.reload
       expect(adapter.keys.size).to eq 1
-      expect(work.members.select { |m| m.class == FileSet }.size).to eq 1
+      expect(work.members.to_a.count { |m| m.is_a? FileSet }).to eq 1
       expect(adapter.names).to include 'ocr_gray.tiff'
     end
 
@@ -212,7 +212,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
       adapter.assign(tiff_path)
       adapter.commit!
       bare_work.reload
-      fileset = bare_work.members.select { |w| w.class == FileSet }[0]
+      fileset = bare_work.members.detect { |m| m.is_a?(FileSet) }
       permission_methods.each do |m|
         expect(fileset.send(m)).to match_array bare_work.send(m)
       end
@@ -222,7 +222,7 @@ RSpec.describe IiifPrint::Data::WorkFiles do
 
   describe "derivative access" do
     it "gets derivatives for first fileset" do
-      fileset = work.members.select { |m| m.class == FileSet }[0]
+      fileset = work.members.detect { |m| m.is_a?(FileSet) }
       adapter = described_class.of(work)
       # adapts same context(s):
       expect(adapter.derivatives.fileset.id).to eq fileset.id

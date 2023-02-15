@@ -142,7 +142,7 @@ module IiifPrint
         mkdir_pairtree
         path = path_factory.derivative_path_for_reference(fileset, name)
         # if file argument is path, copy file
-        if file.class == String
+        if file.is_a? String
           FileUtils.copy(file, path)
         else
           # otherwise, presume file is an IO, read, write it

@@ -1,5 +1,17 @@
 module IiifPrint
   class Configuration
+    attr_writer :after_create_fileset_handler
+
+    # @param file_set [FileSet]
+    # @param user [User]
+    def handle_after_create_fileset(file_set, user)
+      if defined? @after_create_fileset_handler
+        @after_create_fileset_handler.call(file_set, user)
+      else
+        IiifPrint::Data.handle_after_create_fileset(file_set, user)
+      end
+    end
+
     attr_writer :excluded_model_name_solr_field_values
     # By default, this uses an array of human readable types
     #   ex: ['Generic Work', 'Image']
@@ -7,6 +19,19 @@ module IiifPrint
     def excluded_model_name_solr_field_values
       return @excluded_model_name_solr_field_values unless @excluded_model_name_solr_field_values.nil?
       @excluded_model_name_solr_field_values = []
+    end
+
+    # This method wraps Hyrax's configuration so we can sniff out the correct method to use.  The
+    # {Hyrax::Configuration#whitelisted_ingest_dirs} is deprecated in favor of
+    # {Hyrax::Configuration#registered_ingest_dirs}.
+    #
+    # @return [Array<String>]
+    def registered_ingest_dirs
+      if Hyrax.config.respond_to?(:registered_ingest_dirs)
+        Hyrax.config.registered_ingest_dirs
+      else
+        Hyrax.config.whitelisted_ingest_dirs
+      end
     end
 
     attr_writer :excluded_model_name_solr_field_key

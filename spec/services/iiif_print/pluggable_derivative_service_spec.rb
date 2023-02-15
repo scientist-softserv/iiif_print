@@ -55,13 +55,13 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       end
 
       let(:work) { MyIiifConfiguredWork.new }
+      let(:plugin) { FakeDerivativeService.new }
 
       it "calls each plugin on create" do
-        plugins = [FakeDerivativeService]
-        create_calls = FakeDerivativeService.create_called
-        service = described_class.new(persisted_file_set, plugins: plugins)
-        service.create_derivatives('not_a_real_filename')
-        expect(FakeDerivativeService.create_called).to eq create_calls + plugins.size
+        service = described_class.new(persisted_file_set, plugins: [plugin])
+        expect do
+          service.create_derivatives('not_a_real_filename')
+        end.to change(plugin, :create_called).by(1)
       end
 
       def touch_fake_derivative_file(file_set, ext)
@@ -71,25 +71,17 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       end
 
       it "does not re-create existing derivative" do
-        create_calls = FakeDerivativeService.create_called
-        service = described_class.new(persisted_file_set)
+        service = described_class.new(persisted_file_set, plugins: [plugin])
         expect(persisted_file_set.id).not_to be_nil
-        # Fake is configured to have 'txt' destination_path, let's create a
-        #   destination file in Hyrax's opinionated plate for dest. name.
-        touch_fake_derivative_file(persisted_file_set, 'txt')
-        service.create_derivatives('/nonsense/source/path/ignored')
-        # create calls logged by fake should not increment,
-        #   as PluggableDerivativeService should have skipped calling
-        #   plugin's create_derivatives method w/ presence of existing derivative
-        expect(FakeDerivativeService.create_called).to eq create_calls
+        expect do
+          touch_fake_derivative_file(persisted_file_set, plugin.target_extension)
+          service.create_derivatives('/nonsense/source/path/ignored ')
+        end.not_to change(plugin, :create_called)
       end
 
       it "calls each plugin on cleanup" do
-        expect(FakeDerivativeService.cleanup_called).to eq 0
-        plugins = [FakeDerivativeService]
-        service = described_class.new(persisted_file_set, plugins: plugins)
-        service.cleanup_derivatives
-        expect(FakeDerivativeService.cleanup_called).to eq plugins.size
+        service = described_class.new(persisted_file_set, plugins: [plugin])
+        expect { service.cleanup_derivatives }.to change(plugin, :cleanup_called).by(1)
       end
     end
 
@@ -156,7 +148,7 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
         end
 
         def jp2_plugin?(plugins)
-          r = plugins.select { |p| p.class == IiifPrint::JP2DerivativeService }
+          r = plugins.select { |p| p.is_a? IiifPrint::JP2DerivativeService }
           !r.empty?
         end
 

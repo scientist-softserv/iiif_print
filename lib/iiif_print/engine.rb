@@ -1,7 +1,6 @@
 require 'active_fedora'
 require 'hyrax'
 require 'blacklight_iiif_search'
-require 'blacklight_advanced_search'
 
 module IiifPrint
   # module constants:
@@ -11,6 +10,7 @@ module IiifPrint
   class Engine < ::Rails::Engine
     isolate_namespace IiifPrint
 
+    # rubocop:disable Metrics/BlockLength
     config.to_prepare do
       # Inject PluggableDerivativeService ahead of Hyrax default.
       #   This wraps Hyrax default, but allows multiple valid services
@@ -29,10 +29,16 @@ module IiifPrint
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
+      Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
-      Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexer)
-      BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
+
+      IiifPrint::ChildIndexer.decorate_work_types!
+      IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+      IiifPrint::Solr::Document.decorate(SolrDocument)
+
+      ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
+      ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
       Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
 
       # Extending the presenter to the base url which includes the protocol.
@@ -47,6 +53,13 @@ module IiifPrint
         end
       end
       Hyrax::IiifManifestPresenter::DisplayImagePresenter.prepend(Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator)
+
+      Hyrax.config do |config|
+        config.callback.set(:after_create_fileset) do |file_set, user|
+          IiifPrint.config.handle_after_create_fileset(file_set, user)
+        end
+      end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end
