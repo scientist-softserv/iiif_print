@@ -19,6 +19,7 @@ require "iiif_print/blacklight_iiif_search/annotation_decorator"
 require "iiif_print/jobs/child_works_from_pdf_job"
 require "iiif_print/jobs/create_relationships_job"
 require "iiif_print/split_pdfs/pages_into_images_service"
+require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 
 module IiifPrint
   extend ActiveSupport::Autoload
