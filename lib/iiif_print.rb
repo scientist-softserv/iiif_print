@@ -30,13 +30,6 @@ module IiifPrint
   # @api public
   # Exposes the IiifPrint configuration.
   #
-  # In the below examples, you would add the code to a `config/initializers/iiif_print_config.rb` file
-  # inside your application
-  #
-  # @example
-  #   IiifPrint.config do |config|
-  #     config.work_types_for_derivative_service = [GenericWork, Image]
-  #   end
   # @yield [IiifPrint::Configuration] if a block is passed
   # @return [IiifPrint::Configuration]
   # @see IiifPrint::Configuration for configuration options
@@ -79,8 +72,8 @@ module IiifPrint
   # @return [Module]
   #
   # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
-  # @todo Because not every job will split PDFs and write to a child model, we may need a gem level
-  #       fallback.
+  # @todo Because not every job will split PDFs and write to a child model. May want to introduce
+  #       an alternative splitting method to create new filesets on the existing work instead of new child works.
   def self.model_configuration(**kwargs)
     Module.new do
       def iiif_print_config?
