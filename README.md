@@ -1,13 +1,10 @@
 IiifPrint
 ===================================================
-Code:
-[![Build Status](https://travis-ci.org/samvera-labs/iiif_print.svg?branch=master)](https://travis-ci.org/samvera-labs/iiif_print) [![Coverage Status](https://coveralls.io/repos/github/samvera-labs/iiif_print/badge.svg?branch=master)](https://coveralls.io/github/samvera-labs/iiif_print?branch=master)
-
 Docs:
 [![Apache 2.0 License](http://img.shields.io/badge/APACHE2-license-blue.svg)](./LICENSE)
-[![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./.github/CONTRIBUTING.md)
+[![Contribution Guidelines](http://img.shields.io/badge/CONTRIBUTING-Guidelines-blue.svg)](./CONTRIBUTING.md)
 
-Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samvera.org/)
+Jump in the Samvera Slack: <a href="http://slack.samvera.org/"><img src="https://status.slack.com/fonts/icons/icon_slack_hash_colored.svg" width="15" /></a>
 
 <!-- TOC -->
 
@@ -17,48 +14,44 @@ Jump in: [![Slack Status](http://slack.samvera.org/badge.svg)](http://slack.samv
   - [Dependencies](#dependencies)
 - [Installation](#installation)
   - [Application/Site Specific Configuration](#applicationsite-specific-configuration)
-    - [Config changes made by the installer:](#config-changes-made-by-the-installer)
+    - [Config changes made by the installer:](#changes-made-by-the-installer)
     - [Configuration changes you should make after running the installer](#configuration-changes-you-should-make-after-running-the-installer)
 - [Ingesting Content](#ingesting-content)
 - [Developing, Testing, and Contributing](#developing-testing-and-contributing)
   - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
-  - [Sponsoring Organizations](#sponsoring-organizations)
-  - [More Information](#more-information)
-  - [Contact](#contact)
 
 <!-- /TOC -->
 
 # Overview
-IiifPrint is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/) -based digital repository applications to support ingest, management, and display of digitized newspaper content.
+IiifPrint is a gem (Rails "engine") for [Hyrax](https://hyrax.samvera.org/)-based digital repository applications to support displaying parent/child works in the same viewer (Universal Viewer) and the ability to search OCR from the parent work to the child work(s).
 
-IiifPrint is not a stand-alone application. It is designed to be integrated into a new or existing Hyrax (v2.5-v2.9.4) application, providing content models, ingest workflows, and feature-rich UX for newspaper repository use-cases.
+IiifPrint is not a stand-alone application. It is designed to be integrated into a new or existing Hyku (v4.0-v5.0) application.  Future development will include integrating it into a Hyrax-based application without Hyku and support for [IIIF Presentation Manifest version 3](https://iiif.io/api/presentation/3.0/) along with [AllinsonFlex](https://github.com/samvera-labs/allinson_flex) metadata profiles.
 
 IiifPrint supports:
-* models for Title, Issue, Page, and Article
-* batch ingest via command line
 * OCR and ALTO creation
-* newspaper-specific metadata fields
 * full-text search
-* calendar-based issue browsing
-* advanced search
 * OCR keyword match highlighting
 * viewer with page navigation and deep zooming
+* splitting of PDFs to LZW compressed TIFFs for viewing
+* configuring how the manifest canvases are sorted in the viewer
+* adding metadata fields to the manifest with faceted search links and external links
+* excluding specified work types to be found in the catalog search
 
-A complete list of features can be found [here](https://github.com/samvera-labs/iiif_print/wiki/Features-List).
+A complete list of features can be found [here](https://github.com/scientist-softserv/iiif_print/wiki/Features-List).
 
 ## Documentation
-A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/samvera-labs/iiif_print/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
+A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/scientist-softserv/iiif_print/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
 
-IiifPrint was developed against Hyku 4.0; If your application uses Bulkrax, please ensure that its version is 5.0.1 or greater. 
+IiifPrint was developed against [Hyku](https://github.com/samvera/hyku) v4.0-v5.0. If your application uses [Bulkrax](https://github.com/samvera-labs/bulkrax), please ensure that its version is 5.0.1 or greater.
 
 ## Requirements
 
   * [Ruby](https://rubyonrails.org/) >=2.4
   * [Rails](https://rubyonrails.org/) ~>5.0
   * [Bundler](http://bundler.io/)
-  * [Hyrax](https://github.com/samvera/hyrax) v2.5-v2.9.4
-    - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#getting-started) that entails_.
+  * [Hyrax](https://github.com/samvera/hyrax) v2.5-v3.5.0
+    - ..._and various [Samvera dependencies](https://github.com/samvera/hyrax#https://github.com/samvera/hyrax#how-to-run-the-code) that entails_.
   * A Hyrax-based Rails application
 
 ## Dependencies
@@ -73,7 +66,7 @@ IiifPrint was developed against Hyku 4.0; If your application uses Bulkrax, plea
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
   * [libgbm1](https://packages.debian.org/sid/libgbm1)
 
-See the [wiki](https://github.com/samvera-labs/iiif_print/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
+See the [wiki](https://github.com/scientist-softserv/iiif_print/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
 
 # Installation
 IiifPrint easily integrates with your Hyrax 2.x applications.
@@ -84,8 +77,8 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * Set config options as indicated below...
 
 TO ENABLE OCR Search (from the UV and catalog search)
-* In the CatalogController, find the add_search_fields config block for 'all_fields'. Add advanced_parse: false, as seen in the following example: 
-```
+* In the CatalogController, find the add_search_field config block for 'all_fields'. Add advanced_parse: false, as seen in the following example:
+```rb
     config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false, advanced_parse: false) do |field|
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = 'title_tesim'
@@ -96,24 +89,22 @@ TO ENABLE OCR Search (from the UV and catalog search)
     end
 ```
 * Additionally, find and replace all instances of all_text_timv with all_text_tsimv, in the CatalogController.
-* Remove the following line from iiif_search_builder.rb
-```
-solr_parameters[:qf] = blacklight_config.iiif_search[:full_text_field]
-```
-
 
 ## Application/Site Specific Configuration
 
-### Config changes made by the installer:
-* In `app/controllers/catalog_controller.rb`, the `config.search_builder_class` is set to a new `CustomSearchBuiler` to support newspapers search features.
-* Additional facet fields for newspaper metadata are added to `app/controllers/catalog_controller.rb`.
-* Newspaper resource types added to `config/authorities/resource_types.yml`.
-* Includes IiifPrint::SetChildFlag module to the works' models.
-* Includes IiifPrint::ChildIndexer module to the works' indexers.
-* Includes IiifPrint::FileSetIndexer module to the file set's indexer.
-* Adds custom_is_child_term to lib/rdf/ directory.
-* Adds the following to solr_document.rb
-  `attribute :is_child, Solr::String, "is_child_bsi"`
+### Changes made by the installer:
+* In `app/assets/javascripts/application.js`, it adds `//= require iiif_print`
+* Adds `app/assets/stylesheets/iiif_print.scss`
+* In `app/controllers/catalog_controller.rb`, it adds `include BlacklightIiifSearch::Controller`
+* In `app/controllers/catalog_controller.rb`, it adds `add_index_field` and `iiif_search` config in the `configure_blacklight` block
+* Adds `app/models/iiif_search_build.rb`
+* In `config/routes.rb`, it adds `concern :iiif_search, BlacklightIiifSearch::Routes.new`
+* In `config/routes.rb`, it adds `concerns :iiif_search` in the `resources :solr_documents` block
+* Adds `config/initializers/iiif_print.rb`
+* Adds three migrations, `CreateIiifPrintDerivativeAttachments`, `CreateIiifPrintIngestFileRelations`, and `CreateIiifPrintPendingRelationships`
+* In `solr/conf/schema.xml`, it adds Blacklight IIIF Search autocomplete config
+* In `solr/conf/solrconfig.xml`, it adds Blacklight IIIF Search autocomplete config
+* Adds `solr/lib/solr-tokenizing_suggester-7.x.jar`
 
 (It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
 
@@ -135,9 +126,7 @@ solr_parameters[:qf] = blacklight_config.iiif_search[:full_text_field]
 
 IiifPrint supports a range of different ingest workflows:
 * single-item ingest via the UI
-* batch ingest of [NDNP materials](https://github.com/samvera-labs/iiif_print/wiki/NDNP-Batch-Ingest-Guide) (page-level digitization) via command line
-* batch ingest of [PDF issues](https://github.com/samvera-labs/iiif_print/wiki/PDF-Batch-Ingest-Guide) via command line
-* batch ingest of [TIFF or JP2 master files](https://github.com/samvera-labs/iiif_print/wiki/TIFF-or-JP2-Batch-Ingest-Guide) via command line
+* batch ingest of works from local files or remote files via Bulkrax
 
 The ingest process creates a full complement of derivatives for each Page object, including:
 * TIFF
@@ -145,8 +134,6 @@ The ingest process creates a full complement of derivatives for each Page object
 * PDF
 * OCR text
 * word-coordinate JSON
-
-For more information on derivatives, see the [wiki](https://github.com/samvera-labs/iiif_print/wiki/Image-Format-and-Derivative-Notes).
 
 # Developing, Testing, and Contributing
 
@@ -178,27 +165,8 @@ We encourage anyone who is interested in newspapers and Samvera to contribute to
 
 # Acknowledgements
 
-## Sponsoring Organizations
+IIIF Print is a gem that was forked off [Newspaper Works](https://github.com/samvera-labs/newspaper_works), a powerful and versatile library for working with digitized newspapers. We would like to thank the team and maintainers of Newspaper Works for creating such a useful and well-designed gem. Our work on IIIF Print would not have been possible without their hard work and dedication.
 
-This gem is part of a project developed in a collaboration between [The University of Utah](https://www.utah.edu/), [J. Willard Marriott Library](https://www.lib.utah.edu/) and [Boston Public Library](https://www.bpl.org/), as part of a "Newspapers in Samvera" project grant funded by the [Institute for Museum and Library Services](https:///imls.gov).
+In particular, we would like to express our gratitude to [brianmcbride](https://github.com/brianmcbride), [seanupton](https://github.com/seanupton), [ebenenglish](https://github.com/ebenenglish), and [JacobR](https://github.com/JacobR) for their pioneering efforts on Newspaper Works. Their foundation and expertise were invaluable in the development of this gem.
 
-The development team is grateful for input, collaboration, and support we receive from the Samvera Community, related working groups, and our project's advisory board.
-
-## More Information
- * [Samvera Newspapers Group](https://wiki.duraspace.org/display/samvera/Samvera+Newspapers+Interest+Group) - The Samvera Newspapers Interest groups meets on the first Thursday of every month to discuss the Samvera newspapers project and general newspaper topics.
- * [Newspapers in Samvera IMLS Grant (formerly Hydra)](https://www.imls.gov/grants/awarded/lg-70-17-0043-17) - The official grant award for the project.
- * [National Digital Newspapers Program NDNP](https://www.loc.gov/ndnp/)
-
-## Contact
- Contact any contributors above by email, or ping us on [Samvera Community Slack channel(s)](http://slack.samvera.org/)
-
-![Institute of Museum and Library Services Logo](https://imls.gov/sites/default/files/logo.png)
-
-![University of Utah Logo](http://www.utah.edu/_images/imagine_u.png)
-
-![Boston Public Library Logo](https://cor-liv-cdn-static.bibliocommons.com/images/MA-BOSTON-BRANCH/logo.png?1528788420451)
-
-This software has been developed by and is brought to you by the Samvera community.  Learn more at the
-[Samvera website](http://samvera.org/).
-
-![Samvera Logo](https://wiki.duraspace.org/download/thumbnails/87459292/samvera-fall-font2-200w.png?version=1&modificationDate=1498550535816&api=v2)
+Thank you to the entire Newspaper Works team for creating and maintaining such a valuable resource for the Samvera community.
