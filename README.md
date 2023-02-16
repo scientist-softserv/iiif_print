@@ -13,9 +13,10 @@ Jump in the Samvera Slack: <a href="http://slack.samvera.org/"><img src="https:/
   - [Requirements](#requirements)
   - [Dependencies](#dependencies)
 - [Installation](#installation)
-  - [Application/Site Specific Configuration](#applicationsite-specific-configuration)
-    - [Changes made by the installer:](#changes-made-by-the-installer)
-    - [Configuration changes you should make after running the installer](#configuration-changes-you-should-make-after-running-the-installer)
+  - [Changes made by the installer:](#changes-made-by-the-installer)
+  - [Configuration to enable IiifPrint features](#configuration-to-enable-iiifprint-features)
+    - [Model level configurations](#model-level-configurations)
+    - [Application level configurations](#application-level-configurations)
 - [Ingesting Content](#ingesting-content)
 - [Developing, Testing, and Contributing](#developing-testing-and-contributing)
   - [Contributing](#contributing)
@@ -88,9 +89,7 @@ TO ENABLE OCR Search (from the UV and catalog search)
 ```
 * Additionally, find and replace all instances of all_text_timv with all_text_tsimv, in the CatalogController.
 
-## Application/Site Specific Configuration
-
-### Changes made by the installer:
+## Changes made by the installer:
 * In `app/assets/javascripts/application.js`, it adds `//= require iiif_print`
 * Adds `app/assets/stylesheets/iiif_print.scss`
 * In `app/controllers/catalog_controller.rb`, it adds `include BlacklightIiifSearch::Controller`
@@ -106,19 +105,46 @@ TO ENABLE OCR Search (from the UV and catalog search)
 
 (It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
 
-### Configuration changes you should make after running the installer:
+## Configuration to enable IiifPrint features
+**NOTE: WorkTypes and models are used synonymously here.**
 
-#### in config/intitializers/hyrax.rb:
-* set `config.geonames_username`
-  * Enables geolocation tagging of content
-  * [how to create a Geonames username](http://www.geonames.org/login)
-* set `config.work_requires_files = false`
-* set `config.iiif_image_server = true`
-* set `config.fits_path = /location/of/fits.sh`
+### Model level configurations
 
-#### in config/environments/production.rb:
+In `app/models/{work_type}.rb` add `include IiifPrint.model_configuration` to any work types which require IiifPrint processing features (such as PDF splitting or OCR derivatives). See [lib/iiif_print.rb](./lib/iiif_print.rb) for details on configuration options.
 
-* set `config.public_file_server.enabled = true`
+```rb
+# Example model Book which splits PDFs into child works of
+# model Page, and runs only one derivative service (TIFFs)
+
+class Book < ActiveFedora::Base
+  include IiifPrint.model_configuration(
+    pdf_split_child_model: Page,
+    derivative_service_plugins: [
+      IiifPrint::TIFFDerivativeService
+    ]
+  )
+end
+```
+
+### Application level configurations
+
+In `config/initializers/iiif_print.rb` specify application level configuration options.
+
+```rb
+IiifPrint.config do |config|
+  # Add models to be excluded from search so the user would not see them in the search results.
+  # By default, use the human readable versions like:
+  config.excluded_model_name_solr_field_values = ['Generic Work', 'Image']
+
+  # Add configurable solr field key for searching, default key is: 'human_readable_type_sim' if
+  # another key is used, make sure to adjust the config.excluded_model_name_solr_field_values to match
+  config.excluded_model_name_solr_field_key = 'some_solr_field_key'
+
+  # Configure how the manifest sorts the canvases, by default it sorts by `:title`, but a different
+  # model property may be desired such as :date_published
+  config.sort_iiif_manifest_canvases_by = :date_published
+end
+```
 
 # Ingesting Content
 
