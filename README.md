@@ -14,7 +14,7 @@ Jump in the Samvera Slack: <a href="http://slack.samvera.org/"><img src="https:/
   - [Dependencies](#dependencies)
 - [Installation](#installation)
   - [Application/Site Specific Configuration](#applicationsite-specific-configuration)
-    - [Config changes made by the installer:](#changes-made-by-the-installer)
+    - [Changes made by the installer:](#changes-made-by-the-installer)
     - [Configuration changes you should make after running the installer](#configuration-changes-you-should-make-after-running-the-installer)
 - [Ingesting Content](#ingesting-content)
 - [Developing, Testing, and Contributing](#developing-testing-and-contributing)
@@ -41,7 +41,7 @@ IiifPrint supports:
 A complete list of features can be found [here](https://github.com/scientist-softserv/iiif_print/wiki/Features-List).
 
 ## Documentation
-A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/scientist-softserv/iiif_print/wiki), including a PCDM model diagram, metadata schema, batch ingest instructions, and more details on installing, developing, and testing the code.
+A set of helpful documents to help you learn more and deploy IiifPrint can be found on the [Project Wiki](https://github.com/scientist-softserv/iiif_print/wiki).
 
 IiifPrint was developed against [Hyku](https://github.com/samvera/hyku) v4.0-v5.0. If your application uses [Bulkrax](https://github.com/samvera-labs/bulkrax), please ensure that its version is 5.0.1 or greater.
 
@@ -65,8 +65,6 @@ IiifPrint was developed against [Hyku](https://github.com/samvera/hyku) v4.0-v5.
     - _ImageMagick policy XML may need to be more permissive in both resources and source media types allowed.  See template [policy.xml](config/vendor/imagemagick-6-policy.xml)._
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
   * [libgbm1](https://packages.debian.org/sid/libgbm1)
-
-See the [wiki](https://github.com/scientist-softserv/iiif_print/wiki/Installing,-Developing,-and-Testing) for more details on how to install and configure dependencies.
 
 # Installation
 IiifPrint easily integrates with your Hyrax 2.x applications.
