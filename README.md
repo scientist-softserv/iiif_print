@@ -154,7 +154,7 @@ IiifPrint supports a range of different ingest workflows:
 
 The ingest process is configurable at the model level, granting the option to:
 * split a PDF into TIFFs and create child works
-* create a ful complement of derivatives, including TIFF, JP2, PDF, OCR text, and word-coordinate JSON
+* create a full complement of derivatives, including TIFF, JP2, PDF, OCR text, and word-coordinate JSON
 
 # Developing, Testing, and Contributing
 
