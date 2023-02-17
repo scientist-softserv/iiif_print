@@ -152,12 +152,9 @@ IiifPrint supports a range of different ingest workflows:
 * single-item ingest via the UI
 * batch ingest of works from local files or remote files via Bulkrax
 
-The ingest process creates a full complement of derivatives for each Page object, including:
-* TIFF
-* JP2
-* PDF
-* OCR text
-* word-coordinate JSON
+The ingest process is configurable at the model level to:
+* split a PDF into TIFFs and create child works
+* create a ful complement of derivatives, including TIFF, JP2, PDF, OCR text, and word-coordinate JSON
 
 # Developing, Testing, and Contributing
 
