@@ -28,7 +28,7 @@ module IiifPrint
       super.tap do |solr_doc|
         solr_doc['is_child_bsi'] = object.is_child
         solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object)
-        solr_doc['file_set_ids_ssim'] = iiif_print_lineage_service. descendent_file_set_ids_for(object)
+        solr_doc['file_set_ids_ssim'] = iiif_print_lineage_service.descendent_file_set_ids_for(object)
       end
     end
   end

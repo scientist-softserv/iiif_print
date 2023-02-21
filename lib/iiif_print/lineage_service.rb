@@ -27,15 +27,15 @@ module IiifPrint
     ##
     # @param object [#ordered_works, #file_sets, #member_ids]
     # @return [Array<String>] the ids of associated file sets
-    def descendent_file_set_ids_for(object)
+    def self.descendent_file_set_ids_for(object)
       # enables us to return parents when searching for child OCR
       file_set_ids = object.file_sets.map(&:id)
       object.ordered_works&.each do |child|
-        file_set_ids += all_decendent_file_sets(child)
+        file_set_ids += descendent_file_set_ids_for(child)
       end
       # enables us to return parents when searching for child metadata
-      all_my_children += object.member_ids
-      all_my_children.flatten.uniq.compact
+      file_set_ids += object.member_ids
+      file_set_ids.flatten.uniq.compact
     end
   end
 end

@@ -26,6 +26,13 @@ module IiifPrint
         end
       end
 
+      # Prior to Hyrax v3.1.0, this method did not exist
+      # @param file_set [FileSet]
+      # @return [ActiveFedora::Base]
+      def parent_for(file_set:)
+        file_set.parent
+      end
+
       # Override to add PDF splitting
       def attach_to_work(work, file_set_params = {})
         # Locks to ensure that only one process is operating on the list at a time.
