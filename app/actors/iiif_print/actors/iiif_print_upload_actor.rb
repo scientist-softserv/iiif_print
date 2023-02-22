@@ -6,15 +6,15 @@ module IiifPrint
       # An actor which locates all uploaded PDF paths and
       # spins off IiifPrint::ChildWorksFromPdfJob to split them.
       def create(env)
-        ensure_title(env)
-        @pdf_paths = hold_upload_paths(env)
-        next_actor.create(env) && after_other_actors(env)
+    #    ensure_title(env)
+       # @pdf_paths = hold_upload_paths(env)
+        next_actor.create(env) # && after_other_actors(env)
       end
 
       def update(env)
-        ensure_title(env)
-        @pdf_paths = hold_upload_paths(env)
-        next_actor.update(env) && after_other_actors(env)
+    #    ensure_title(env)
+    #    @pdf_paths = hold_upload_paths(env)
+        next_actor.update(env) # && after_other_actors(env)
       end
 
       private
