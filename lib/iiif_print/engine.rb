@@ -16,7 +16,6 @@ module IiifPrint
       # We don't have a hard requirement of Bullkrax but in our experience, lingering on earlier
       # versions can introduce bugs of both Bulkrax and some of the assumptions that we've resolved.
       if defined?(Bulkrax) && !ENV.fetch("SKIP_IIIF_PRINT_BULKRAX_VERSION_REQUIREMENT", false)
-        byebug
         if Bulkrax::VERSION.to_i < 5
           raise "IiifPrint does not have a hard dependency on Bulkrax, " \
                 "but if you have Bulkrax installed we recommend at least version 5.0.0.  " \
