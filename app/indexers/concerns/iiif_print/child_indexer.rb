@@ -21,6 +21,7 @@ module IiifPrint
           indexer.prepend(self)
           indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
         end
+        work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag)
       end
     end
 

@@ -38,7 +38,6 @@ module IiifPrint
       # Register actor to handle any IiifPrint upload behaviors before
       #   CreateWithFilesActor gets to them:
       Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, IiifPrint::Actors::IiifPrintUploadActor
-      Hyrax::CurationConcern.prepend(IiifPrint::SetChildFlag)
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
