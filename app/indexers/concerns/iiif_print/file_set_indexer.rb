@@ -10,14 +10,14 @@ module IiifPrint
     # @return [Class] the given base, now decorated in all of it's glory
     def self.decorate(base)
       base.prepend(self)
-      # base.class_attribute :iiif_print_lineage_service, default: IiifPrint::LineageService
+      base.class_attribute :iiif_print_lineage_service, default: IiifPrint::LineageService
       base
     end
 
     def generate_solr_document
       super.tap do |solr_doc|
         # only UV viewable images should have is_page_of, it is only used for iiif search
-        # solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
+        solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
         # index for full text search
         text = IiifPrint::Data::WorkDerivatives.data(from: object, of_type: 'txt')
         text = text.tr("\n", ' ').squeeze(' ')

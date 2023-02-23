@@ -16,10 +16,10 @@ module IiifPrint
     # @param object [#in_works] An object that responds to #in_works
     # @return [Array<String>]
     def self.ancestor_ids_for(object)
-      ancestor_ids = []
+      ancestor_ids ||= []
       object.in_works.each do |work|
         ancestor_ids << work.id
-        ancestor_ids += ancestor_ids_for(object) if work.is_child
+        ancestor_ids += ancestor_ids_for(work) if work.is_child
       end
       ancestor_ids.flatten.compact.uniq
     end
