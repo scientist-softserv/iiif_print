@@ -35,7 +35,7 @@ module IiifPrint
         # find child ids (skip out if any haven't yet been created)
         @pending_children.each do |child|
           # find by title... if any aren't found, the child works are not yet ready
-          found_child = find_id_by_title_for(child.child_title, child_model)
+          found_child = find_children_by_title_for(child.child_title, child_model).map(&:id)
           found_all_children = false if found_child.empty?
           break unless found_all_children == true
           @child_ids += found_child
@@ -44,8 +44,8 @@ module IiifPrint
         found_all_children
       end
 
-      def find_id_by_title_for(title, model)
-        model.constantize.where(title: title).map(&:id)
+      def find_children_by_title_for(title, model)
+        @child_works = model.constantize.where(title: title)
       end
 
       def reschedule(user:, parent_id:, parent_model:, child_model:)
@@ -67,6 +67,10 @@ module IiifPrint
         env = Hyrax::Actors::Environment.new(parent, Ability.new(user), attrs)
 
         Hyrax::CurationConcern.actor.update(env)
+        # need to reindex all file_sets to make sure 
+        @child_works.each do |child_record|
+          child_record.file_sets.each(&:update_index) if child_record.respond_to?(:file_sets)
+        end
       end
     end
   end
