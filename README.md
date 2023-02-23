@@ -146,7 +146,7 @@ TO ENABLE OCR Search (from the UV and catalog search)
       }
     end
 ```
-* Additionally, find and replace all instances of all_text_timv with all_text_tsimv, in the CatalogController.
+* Additionally, find and replace all instances of all_text_timv with all_text_tsimv.
 * Set config.search_builder_class = IiifPrint::CatalogSearchBuilder
 
 # Ingesting Content
