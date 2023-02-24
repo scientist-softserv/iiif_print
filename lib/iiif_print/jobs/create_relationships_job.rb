@@ -24,7 +24,7 @@ module IiifPrint
 
       private
 
-      # load @child_ids, and return true or false
+      # load @child_works, and return true or false
       def completed_child_data_for(parent_id, child_model)
         @child_works = []
         found_all_children = true
@@ -32,19 +32,20 @@ module IiifPrint
         # find and sequence all pending children
         @pending_children = IiifPrint::PendingRelationship.where(parent_id: parent_id).order('child_order asc')
 
-        # find child ids (skip out if any haven't yet been created)
+        # find child works (skip out if any haven't yet been created)
         @pending_children.each do |child|
           # find by title... if any aren't found, the child works are not yet ready
-          found_child = find_children_by_title_for(child.child_title, child_model)
-          found_all_children = false if found_child.empty?
+          found_children = find_children_by_title_for(child.child_title, child_model)
+          found_all_children = false if found_children.empty?
           break unless found_all_children == true
-          @child_works += found_child
+          @child_works += found_children
         end
         # return boolean
         found_all_children
       end
 
       def find_children_by_title_for(title, model)
+        # We should only find one, but there is no guarantee of that and `:where` returns an array.
         model.constantize.where(title: title)
       end
 
@@ -67,8 +68,8 @@ module IiifPrint
         env = Hyrax::Actors::Environment.new(parent, Ability.new(user), attrs)
 
         Hyrax::CurationConcern.actor.update(env)
-        # need to reindex all file_sets to make sure
-        @child_works.each do |child_work|
+        # need to reindex all file_sets to make all ancestors are indexed
+        ordered_children.each do |child_work|
           child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
         end
       end
