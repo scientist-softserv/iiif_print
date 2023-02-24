@@ -14,8 +14,9 @@ module IiifPrint
     config.to_prepare do
       # We don't have a hard requirement of Bullkrax but in our experience, lingering on earlier
       # versions can introduce bugs of both Bulkrax and some of the assumptions that we've resolved.
+      # Very early versions of Bulkrax do not have VERSION defined
       if defined?(Bulkrax) && !ENV.fetch("SKIP_IIIF_PRINT_BULKRAX_VERSION_REQUIREMENT", false)
-        if Bulkrax::VERSION.to_i < 5
+        if !defined?(Bulkrax::VERSION) || (Bulkrax::VERSION.to_i < 5)
           raise "IiifPrint does not have a hard dependency on Bulkrax, " \
                 "but if you have Bulkrax installed we recommend at least version 5.0.0.  " \
                 "To ignore this recommendation please add SKIP_IIIF_PRINT_BULKRAX_VERSION_REQUIREMENT " \
@@ -34,9 +35,6 @@ module IiifPrint
         IiifPrint::PluggableDerivativeService
       )
 
-      # Register actor to handle any IiifPrint upload behaviors before
-      #   CreateWithFilesActor gets to them:
-      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::CreateWithFilesActor, IiifPrint::Actors::IiifPrintUploadActor
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)

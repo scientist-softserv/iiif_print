@@ -10,7 +10,9 @@ module IiifPrint
   module SetChildFlag
     extend ActiveSupport::Concern
     included do
-      after_save :set_children
+      # Why the try? A work type's GeneratedResourceSchema goes through this path as well
+      # and does not have an #after_save resulting in a NoMethodError.
+      try(:after_save, :set_children)
       property :is_child,
               predicate: ::RDF::CustomIsChildTerm.is_child,
               multiple: false do |index|

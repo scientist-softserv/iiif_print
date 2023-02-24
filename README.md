@@ -135,19 +135,26 @@ end
 
 TO ENABLE OCR Search (from the UV and catalog search)
 ### catalog_controller.rb
-* In the CatalogController, find the add_search_field config block for 'all_fields'. Add advanced_parse: false, as seen in the following example:
+* In the CatalogController, find the add_search_field config block for 'all_fields'. Add `advanced_parse: false` as seen in the following example:
 ```rb
     config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false, advanced_parse: false) do |field|
       all_names = config.show_fields.values.map(&:field).join(" ")
       title_name = 'title_tesim'
       field.solr_parameters = {
-        qf: "#{all_names} file_format_tesim all_text_tsimv",
+        qf: "#{all_names} file_format_tesim all_text_timv",
         pf: title_name.to_s
       }
     end
 ```
-* Additionally, find and replace all instances of all_text_timv with all_text_tsimv.
-* Set config.search_builder_class = IiifPrint::CatalogSearchBuilder
+* Set `config.search_builder_class = IiifPrint::CatalogSearchBuilder` to remove works from the catalog search results if `is_child_bsi: true` 
+* Ensure that all text search is configured in default_solr_params config block:
+```rb
+    config.default_solr_params = {
+      qt: "search",
+      rows: 10,
+      qf: "title_tesim description_tesim creator_tesim keyword_tesim all_text_timv"
+    }
+```
 
 # Ingesting Content
 

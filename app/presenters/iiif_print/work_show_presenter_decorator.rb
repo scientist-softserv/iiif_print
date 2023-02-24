@@ -11,6 +11,8 @@ module IiifPrint
       parent_work_has_files? || child_work_has_files?
     end
 
+    alias universal_viewer? iiif_viewer?
+
     private
 
     def parent_work_has_files?
