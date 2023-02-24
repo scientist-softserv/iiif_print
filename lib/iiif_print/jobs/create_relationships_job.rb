@@ -11,7 +11,7 @@ module IiifPrint
         if completed_child_data_for(parent_id, child_model)
           # add the members
           parent_work = parent_model.constantize.find(parent_id)
-          create_relationships(user: user, parent: parent_work, ordered_child_ids: @child_ids)
+          create_relationships(user: user, parent: parent_work, ordered_children: @child_works)
           @pending_children.each(&:destroy)
         else
           # reschedule the job and end this one normally
@@ -26,7 +26,7 @@ module IiifPrint
 
       # load @child_ids, and return true or false
       def completed_child_data_for(parent_id, child_model)
-        @child_ids = []
+        @child_works = []
         found_all_children = true
 
         # find and sequence all pending children
@@ -35,17 +35,17 @@ module IiifPrint
         # find child ids (skip out if any haven't yet been created)
         @pending_children.each do |child|
           # find by title... if any aren't found, the child works are not yet ready
-          found_child = find_children_by_title_for(child.child_title, child_model).map(&:id)
+          found_child = find_children_by_title_for(child.child_title, child_model)
           found_all_children = false if found_child.empty?
           break unless found_all_children == true
-          @child_ids += found_child
+          @child_works += found_child
         end
         # return boolean
         found_all_children
       end
 
       def find_children_by_title_for(title, model)
-        @child_works = model.constantize.where(title: title)
+        model.constantize.where(title: title)
       end
 
       def reschedule(user:, parent_id:, parent_model:, child_model:)
@@ -57,9 +57,9 @@ module IiifPrint
         )
       end
 
-      def create_relationships(user:, parent:, ordered_child_ids:)
+      def create_relationships(user:, parent:, ordered_children:)
         records_hash = {}
-        ordered_child_ids.each_with_index do |child_id, i|
+        ordered_children.map(&:id).each_with_index do |child_id, i|
           records_hash[i] = { id: child_id }
         end
         attrs = { work_members_attributes: records_hash }
@@ -67,9 +67,9 @@ module IiifPrint
         env = Hyrax::Actors::Environment.new(parent, Ability.new(user), attrs)
 
         Hyrax::CurationConcern.actor.update(env)
-        # need to reindex all file_sets to make sure 
-        @child_works.each do |child_record|
-          child_record.file_sets.each(&:update_index) if child_record.respond_to?(:file_sets)
+        # need to reindex all file_sets to make sure
+        @child_works.each do |child_work|
+          child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
         end
       end
     end
