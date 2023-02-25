@@ -29,5 +29,24 @@ module IiifPrint
     def inject_assets
       generate 'iiif_print:assets'
     end
+
+    # Blacklight IIIF Search generator has some linting that does not agree with CircleCI on Hyku
+    # ref https://github.com/boston-library/blacklight_iiif_search/blob/v1.0.0/lib/generators/blacklight_iiif_search/controller_generator.rb
+    # the follow two methods does a clean up to appease Rubocop
+    def lint_catalog_controller
+      file = "app/controllers/catalog_controller.rb"
+      contents = File.read(file)
+      contents.gsub!(/\n\s*\n\s*# IiifPrint index fields/, "\n    # IiifPrint index fields")
+      contents.gsub!(/\n\s*\n\s*# configuration for Blacklight IIIF Content Search/, "\n\n    # configuration for Blacklight IIIF Content Search")
+      File.write(file, contents)
+    end
+
+    # ref https://github.com/boston-library/blacklight_iiif_search/blob/v1.0.0/lib/generators/blacklight_iiif_search/templates/iiif_search_builder.rb
+    def lint_iiif_search_builder
+      file = "app/models/iiif_search_builder.rb"
+      contents = File.read(file)
+      contents.insert(0, "# frozen_string_literal: true\n\n")
+      File.write(file, contents)
+    end
   end
 end
