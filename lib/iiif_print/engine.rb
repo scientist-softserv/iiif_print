@@ -24,7 +24,6 @@ module IiifPrint
         end
       end
 
-
       # Inject PluggableDerivativeService ahead of Hyrax default.
       #   This wraps Hyrax default, but allows multiple valid services
       #   to be configured, instead of just the _first_ valid service.
