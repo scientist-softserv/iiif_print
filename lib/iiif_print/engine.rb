@@ -24,6 +24,7 @@ module IiifPrint
         end
       end
 
+
       # Inject PluggableDerivativeService ahead of Hyrax default.
       #   This wraps Hyrax default, but allows multiple valid services
       #   to be configured, instead of just the _first_ valid service.
@@ -44,7 +45,6 @@ module IiifPrint
 
       IiifPrint::ChildIndexer.decorate_work_types!
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
-      IiifPrint::Solr::Document.decorate(SolrDocument)
 
       ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
@@ -68,6 +68,10 @@ module IiifPrint
           IiifPrint.config.handle_after_create_fileset(file_set, user)
         end
       end
+    end
+
+    config.after_initialize do
+      IiifPrint::Solr::Document.decorate(SolrDocument)
     end
     # rubocop:enable Metrics/BlockLength
   end
