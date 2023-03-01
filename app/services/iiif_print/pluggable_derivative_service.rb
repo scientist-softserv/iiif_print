@@ -29,23 +29,23 @@ class IiifPrint::PluggableDerivativeService
   def initialize(file_set, plugins: plugins_for(file_set))
     @file_set = file_set
     @plugins = Array.wrap(plugins)
+    @valid_plugins = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
   end
 
-  attr_reader :file_set, :plugins
+  attr_reader :file_set, :plugins, :valid_plugins
   delegate :uri, :mime_type, to: :file_set
 
   # this wrapper/proxy/composite is always valid, but it may compose
   #   multiple plugins, some of which may or may not be valid, so
   #   validity checks happen within as well.
   def valid?
-    true
+    !valid_plugins.size.zero?
   end
 
   # get derivative services relevant to method name and file_set context
   #   -- omits plugins if particular destination exists or will soon.
   def services(method_name)
-    result = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
-    result.select do |plugin|
+    valid_plugins.select do |plugin|
       dest = nil
       dest = plugin.target_extension if plugin.respond_to?(:target_extension)
       !skip_destination?(method_name, dest)
