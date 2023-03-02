@@ -11,15 +11,18 @@ module IiifPrint
       # TODO: This method is in the wrong location; says indexing but there's also the SetChildFlag
       # consideration.  Consider refactoring this stuff into a single nested module.
       #
-
-      Hyrax.config.curation_concerns.each do |work_type|
-        work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
-        indexer = work_type.indexer
-        unless indexer.respond_to?(:iiif_print_lineage_service)
-          indexer.prepend(self)
-          indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
+      Account.find_each do |account|
+        # Because we might be in Hyku
+        switch!(account.cname) if defined? Account
+        Hyrax.config.curation_concerns.each do |work_type|
+          work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
+          indexer = work_type.indexer
+          unless indexer.respond_to?(:iiif_print_lineage_service)
+            indexer.prepend(self)
+            indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
+          end
+          work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag)
         end
-        work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag)
       end
     end
 
