@@ -11,8 +11,6 @@ module IiifPrint
       # TODO: This method is in the wrong location; says indexing but there's also the SetChildFlag
       # consideration.  Consider refactoring this stuff into a single nested module.
       #
-      # Because we might be in Hyku
-      switch!(Account.first) if defined? Account
 
       Hyrax.config.curation_concerns.each do |work_type|
         work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
