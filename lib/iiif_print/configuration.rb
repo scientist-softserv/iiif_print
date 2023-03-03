@@ -85,5 +85,15 @@ module IiifPrint
     def sort_iiif_manifest_canvases_by
       @sort_iiif_manifest_canvases_by || :title
     end
+
+    attr_writer :additional_tessearct_options
+    ##
+    # The additional options to pass to the Tesseract configuration
+    #
+    # @see https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html
+    # @return [String]
+    def additional_tessearct_options
+      @additional_tessearct_options || ""
+    end
   end
 end
