@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'misc_shared'
 
-RSpec.describe IiifPrint::Actors::IiifPrintUploadActor do
+RSpec.describe IiifPrint::Jobs::ChildWorksFromPdfJob do
   # TODO: add specs
   let(:work) { WorkWithIiifPrintConfig.new(title: ['required title']) }
   let(:my_user) { build(:user) }
