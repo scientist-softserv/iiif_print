@@ -26,7 +26,11 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
     end
 
     it "is the first valid service found" do
-      found = Hyrax::DerivativeService.for(FileSet.new)
+      file_set = double(FileSet,
+                        class: FileSet,
+                        mime_type: 'application/pdf',
+                        parent: MyIiifConfiguredWorkWithAllDerivativeServices.new)
+      found = Hyrax::DerivativeService.for(file_set)
       expect(found).to be_a described_class
     end
   end
@@ -40,7 +44,10 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
 
     describe "#plugins" do
       it "uses the default derivatives service" do
-        file_set = double(FileSet, parent: MyWork.new)
+        file_set = double(FileSet,
+                          class: FileSet,
+                          mime_type: 'application/pdf',
+                          parent: MyWork.new)
         service = described_class.new(file_set)
         expect(service.plugins).to eq [Hyrax::FileSetDerivativesService]
       end
