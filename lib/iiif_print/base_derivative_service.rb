@@ -13,12 +13,19 @@ module IiifPrint
       @source_meta = nil
     end
 
+    ##
+    # We assume that for the file set's parent that this is an acceptable plugin.  Now, we ask for
+    # this specific file_set is it valid.  For example, we would not attempt to extract text from a
+    # movie even though the parent work says to attempt to extract text on any attached file sets.
+    # Put another way, we can upload a PDF or a Movie to the parent.
+    #
+    # In subclass, you'll want to consider the attributes of the file_set and whether that subclass
+    # should process the given file_set.
+    #
+    # @see IiifPrint::PluggableDerivativeService#plugins_for
+    # @return [Boolean]
     def valid?
-      parent = file_set.in_works[0]
-      # fallback to Fedora-stored relationships if work's aggregation of
-      #   file set is not indexed in Solr
-      parent = file_set.member_of.find(&:work?) if parent.nil?
-      parent.try(:iiif_print_config?)
+      true
     end
 
     def derivative_path_factory
