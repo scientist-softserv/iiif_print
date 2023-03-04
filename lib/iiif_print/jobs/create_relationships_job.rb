@@ -61,7 +61,7 @@ module IiifPrint
       def create_relationships(user:, parent:, ordered_children:)
         records_hash = {}
         ordered_children.map(&:id).each_with_index do |child_id, i|
-          records_hash[i] = { id: child_id }
+          records_hash[i.to_s] = { id: child_id }
         end
         attrs = { work_members_attributes: records_hash }
         parent.try(:reindex_extent=, Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX)
