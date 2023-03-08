@@ -10,12 +10,13 @@ module IiifPrint
     # @see #each
     class PagesIntoImagesService
       DEFAULT_COMPRESSION = 'lzw'.freeze
-      def initialize(path, compression: DEFAULT_COMPRESSION, tmpdir: Dir.mktmpdir)
+      def initialize(path, compression: DEFAULT_COMPRESSION, tmpdir: Dir.mktmpdir, default_dpi: 400)
         @baseid = SecureRandom.uuid
         @pdfpath = path
         @pdfinfo = IiifPrint::SplitPdfs::PdfImageExtractionService.new(@pdfpath)
         @tmpdir = tmpdir
         @compression = compression
+        @default_dpi = default_dpi
       end
 
       # In creating {#each} we get many of the methods of array operation (e.g. #to_a).
@@ -38,8 +39,8 @@ module IiifPrint
         false
       end
 
-      attr_reader :pdfinfo, :tmpdir, :baseid, :compression
-      private :pdfinfo, :tmpdir, :baseid, :compression
+      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
+      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
 
       private
 
@@ -58,27 +59,35 @@ module IiifPrint
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} " \
               "-dTextAlphaBits=4 -sCompression=#{compression} " \
               "-sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
+        filenames = []
+
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
-          output = stdout.read.split("\n")
-          # rubocop:disable Performance/Count
-          # TODO: Can we favor detect?  It will be faster
-          size = output.select { |e| e.start_with?('Page ') }.length
-          # rubocop:enable Performance/Count
+          page_number = 0
+          stdout.read.split("\n").each do |line|
+            next unless line.start_with?('Page ')
+
+            page_number += 1
+            filenames << File.join(tmpdir, "#{baseid}-page#{page_number}.tiff")
+          end
         end
-        # Return an array of expected filenames
-        (1..size).map { |n| File.join(tmpdir, "#{baseid}-page#{n}.tiff") }
+
+        filenames
       end
 
       def gsdevice
         color, channels, bpc = pdfinfo.color
         device = nil
-        # CCITT Group 4 Black and White, if applicable:
-        if color == 'gray' && bpc == 1
-          device = 'tiffg4'
-          @compression = 'g4'
+        if color == 'gray'
+          # CCITT Group 4 Black and White, if applicable:
+          if bpc == 1
+            device = 'tiffg4'
+            @compression = 'g4'
+          elsif bpc > 1
+            # 8 Bit Grayscale, if applicable:
+            device = 'tiffgray'
+          end
         end
-        # 8 Bit Grayscale, if applicable:
-        device = 'tiffgray' if color == 'gray' && bpc > 1
+
         # otherwise color:
         device = colordevice(channels, bpc) if device.nil?
         device
@@ -92,31 +101,30 @@ module IiifPrint
         "tiff#{bits}nc"
       end
 
+      PAGE_COUNT_REGEXP = %r{^Pages: +(\d+)$}
+
       def pagecount
         return @pagecount if defined? @pagecount
 
         cmd = "pdfinfo #{pdfpath}"
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
-          output = stdout.read.split("\n")
-          # rubocop:disable Performance/Detect
-          # TODO: Can we favor detect?  It will be faster
-          pages_e = output.select { |e| e.start_with?('Pages:') }[0]
-          # rubocop:enable Performance/Detect
-          @pagecount = pages_e.split[-1].to_i
+          match = PAGE_COUNT_REGEXP.match(stdout.read)
+          @pagecount = match[1].to_i
         end
         @pagecount
       end
 
       def ppi
-        unless looks_scanned
+        if looks_scanned?
+          # For scanned media, defer to detected image PPI:
+          pdfinfo.ppi
+        else
           # 400 dpi for something that does not look like scanned media:
-          return 400
+          default_dpi
         end
-        # For scanned media, defer to detected image PPI:
-        pdfinfo.ppi
       end
 
-      def looks_scanned
+      def looks_scanned?
         max_image_px = pdfinfo.width * pdfinfo.height
         # single 10mp+ image per page?
         single_image_per_page? && max_image_px > 1024 * 1024 * 10
