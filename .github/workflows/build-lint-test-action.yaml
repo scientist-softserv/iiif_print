@@ -24,7 +24,7 @@ jobs:
       worker: false
   test:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/test.yaml@d743ee3950c0b39207ad04aebdc9550bdc2a22fe
+    uses: scientist-softserv/actions/.github/workflows/test.yaml@241edc100430b62bb4528b067ac0126c3b5570f4
     with:
       setup_db_cmd: rake engine_cart:generate
   lint:

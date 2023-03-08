@@ -46,29 +46,29 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
   end
 
   describe "enumerates available derivatives like hash" do
-    xit "includes expected derivative path for work" do
+    it "includes expected derivative path for work" do
       expect(adapter.keys).to include 'txt'
     end
 
-    xit "can be introspected for quantity of derivatives" do
+    it "can be introspected for quantity of derivatives" do
       # `size` method without argument is count of derivatives,
       #   functions equivalently to adapter.keys.size
       expect(adapter.size).to eq adapter.keys.size
     end
 
-    xit "enumerates expected derivative extension for work" do
+    it "enumerates expected derivative extension for work" do
       ext_found = adapter.keys
       expect(ext_found).to include 'txt'
     end
 
-    xit "enumerates expected derivative extension for file set" do
+    it "enumerates expected derivative extension for file set" do
       file_set = work.members.detect { |m| m.is_a? FileSet }
       adapter = described_class.new(file_set)
       ext_found = adapter.keys
       expect(ext_found).to include 'txt'
     end
 
-    xit "enumerates expected derivative extension for file set id" do
+    it "enumerates expected derivative extension for file set id" do
       file_set = work.members.detect { |m| m.is_a? FileSet }
       adapter = described_class.new(file_set.id)
       ext_found = adapter.keys
@@ -77,16 +77,16 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
   end
 
   describe "loads derivatives for a work" do
-    xit "Loads text derivative path" do
+    it "Loads text derivative path" do
       expect(File.exist?(adapter.path('txt'))).to be true
       expect(adapter.exist?('txt')).to be true
     end
 
-    xit "Loads text derivative data" do
+    it "Loads text derivative data" do
       expect(adapter.data('txt')).to include 'mythical'
     end
 
-    xit "Handles character encoding on read" do
+    it "Handles character encoding on read" do
       # replace fixture text derivative for work with encoded text
       adapter.attach(encoded_text.path, 'txt')
       data = adapter.data('txt')
@@ -95,7 +95,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(data.encoding.to_s).to eq 'UTF-8'
     end
 
-    xit "Loads thumbnail derivative data" do
+    it "Loads thumbnail derivative data" do
       mk_thumbnail_derivative(work)
       # get size by loading data
       expect(adapter.data('thumbnail').bytes.size).to eq 16_743
@@ -103,7 +103,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.size('thumbnail')).to eq 16_743
     end
 
-    xit "Can access jp2 derivative" do
+    it "Can access jp2 derivative" do
       mk_jp2_derivative(work)
       expect(File.exist?(adapter.path('jp2'))).to be true
       expect(adapter.exist?('jp2')).to be true
@@ -111,20 +111,20 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
   end
 
   describe "create, update, delete derivatives" do
-    xit "will queue derivative file assignment" do
+    it "will queue derivative file assignment" do
       adapter = described_class.new(bare_work)
       adapter.assign(example_gray_jp2)
       expect(adapter.assigned).to include example_gray_jp2
     end
 
-    xit "will fail to assign file in non-registered dirs" do
+    it "will fail to assign file in non-registered dirs" do
       adapter = described_class.new(bare_work)
       # need a non-whitlisted file that exists:
       bad_path = File.expand_path("../../spec_helper.rb", fixture_path)
       expect { adapter.assign(bad_path) }.to raise_error(SecurityError)
     end
 
-    xit "will remove file assignment from queue" do
+    it "will remove file assignment from queue" do
       adapter = described_class.new(bare_work)
       expect(adapter.state).to eq 'empty'
       adapter.assign(example_gray_jp2)
@@ -135,7 +135,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.state).to eq 'empty'
     end
 
-    xit "will queue a deletion" do
+    it "will queue a deletion" do
       # Given a work with a derivative (txt) already assigned
       expect(adapter.state).to eq 'saved'
       # unassigning path...
@@ -146,7 +146,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.state).to eq 'dirty'
     end
 
-    xit "will flush a removal and addition on commit!" do
+    it "will flush a removal and addition on commit!" do
       # Given a work with a derivative (txt) already assigned
       expect(adapter.keys).to include 'txt'
       expect(adapter.keys).not_to include 'jp2'
@@ -161,7 +161,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.size('jp2')).to eq 27_703
     end
 
-    xit "can attach derivative from file" do
+    it "can attach derivative from file" do
       expect(adapter.keys).not_to include 'jp2'
       adapter.attach(example_gray_jp2, 'jp2')
       expect(adapter.exist?('jp2')).to be true
@@ -172,14 +172,14 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.values).to include d_path
     end
 
-    xit "can replace aderivative with new attachment" do
+    it "can replace aderivative with new attachment" do
       adapter.attach(txt1.path, 'txt')
       expect(adapter.data('txt')).to eq 'hello'
       adapter.attach(txt2.path, 'txt')
       expect(adapter.data('txt')).to eq 'bye'
     end
 
-    xit "can delete an attached derivative" do
+    it "can delete an attached derivative" do
       adapter.attach(txt1.path, 'txt')
       expect(adapter.keys).to include 'txt'
       expect(adapter.data('txt')).to eq 'hello'
@@ -188,7 +188,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(adapter.keys).not_to include 'txt'
     end
 
-    xit "persists log of attachment to RDBMS" do
+    it "persists log of attachment to RDBMS" do
       adapter.assign(txt1.path)
       result = IiifPrint::DerivativeAttachment.find_by(
         fileset_id: adapter.fileset.id,
@@ -198,7 +198,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(result).not_to be_nil
     end
 
-    xit "persists a log of path relation to primary file" do
+    it "persists a log of path relation to primary file" do
       # this is an integration test by practical necessity, with
       #   WorkFiles adapting a bare work with no fileset.
       work_files = IiifPrint::Data::WorkFiles.of(bare_work)
@@ -212,7 +212,7 @@ RSpec.describe IiifPrint::Data::WorkDerivatives do
       expect(result).not_to be_nil
     end
 
-    xit "commits queued derivatives" do
+    it "commits queued derivatives" do
       IiifPrint::IngestFileRelation.where(file_path: example_gray_jp2).delete_all
       work_files = IiifPrint::Data::WorkFiles.of(bare_work)
       work_files.assign(example_gray_jp2)
