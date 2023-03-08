@@ -5,6 +5,8 @@ module IiifPrint
     # @see #each
     class PagesToTiffsSplitter < BaseSplitter
       self.image_extension = 'tiff'
+      DEFAULT_COMPRESSION = 'lzw'.freeze
+      self.compression = DEFAULT_COMPRESSION
 
       private
 
@@ -15,7 +17,7 @@ module IiifPrint
           # CCITT Group 4 Black and White, if applicable:
           if bpc == 1
             device = 'tiffg4'
-            @compression = 'g4'
+            self.compression = 'g4'
           elsif bpc > 1
             # 8 Bit Grayscale, if applicable:
             device = 'tiffgray'

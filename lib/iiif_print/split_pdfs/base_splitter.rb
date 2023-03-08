@@ -12,14 +12,13 @@ module IiifPrint
     # @see #each
     class BaseSplitter
       class_attribute :image_extension
+      class_attribute :compression, default: nil
 
-      DEFAULT_COMPRESSION = 'lzw'.freeze
-      def initialize(path, compression: DEFAULT_COMPRESSION, tmpdir: Dir.mktmpdir, default_dpi: 400)
+      def initialize(path, tmpdir: Dir.mktmpdir, default_dpi: 400)
         @baseid = SecureRandom.uuid
         @pdfpath = path
         @pdfinfo = IiifPrint::SplitPdfs::PdfImageExtractionService.new(@pdfpath)
         @tmpdir = tmpdir
-        @compression = compression
         @default_dpi = default_dpi
       end
 
@@ -60,9 +59,9 @@ module IiifPrint
         output_base = File.join(tmpdir, "#{baseid}-page%d.#{image_extension}")
         # NOTE: you must call gsdevice before compression, as compression is
         # updated during the gsdevice call.
-        cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} " \
-              "-dTextAlphaBits=4 -sCompression=#{compression} " \
-              "-sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
+        cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} -dTextAlphaBits=4"
+        cmd += " -sCompression=#{compression}" if compression?
+        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
         filenames = []
 
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
