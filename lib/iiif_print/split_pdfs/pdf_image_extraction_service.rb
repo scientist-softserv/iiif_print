@@ -24,16 +24,6 @@ module IiifPrint
         @entries = nil
       end
 
-      def process
-        # call just once
-        if @output.nil?
-          Open3.popen3(@cmd) do |_stdin, stdout, _stderr, _wait_thr|
-            @output = stdout.read.split("\n")
-          end
-        end
-        @output.slice(2, @output.size - 1)
-      end
-
       def entries
         if @entries.nil?
           @entries = []
@@ -79,6 +69,26 @@ module IiifPrint
         end
         # with poppler 0.25+, pdfimages just gives us this:
         selectcolumn(COL_XPPI, &:to_i).max
+      end
+
+      private
+
+      def process
+        # call just once
+        if @output.nil?
+          Open3.popen3(@cmd) do |_stdin, stdout, _stderr, _wait_thr|
+            @output = stdout.read.split("\n")
+          end
+        end
+        # The first two lines are tabular header information:
+        #
+        # Example:
+        #
+        #   bash-5.1$ pdfimages -list fmc_color.pdf  | head -5
+        #   page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+        #   --------------------------------------------------------------------------------------------
+        #   1     0 image    2475   413  rgb     3   8  jpeg   no        10  0   300   300 21.8K 0.7%
+        @output[2..-1]
       end
     end
   end
