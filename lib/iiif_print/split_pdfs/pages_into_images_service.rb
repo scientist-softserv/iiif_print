@@ -39,8 +39,8 @@ module IiifPrint
         false
       end
 
-      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
-      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
+      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :pdfpath
+      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :pdfpath
 
       private
 
