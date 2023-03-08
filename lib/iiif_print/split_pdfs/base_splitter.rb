@@ -5,17 +5,20 @@ require 'iiif_print/split_pdfs/pdf_image_extraction_service'
 
 module IiifPrint
   module SplitPdfs
-    # The purpose of this class is to split the PDF into constituent TIFF files.
+    # @abstract
+    #
+    # The purpose of this class is to split the PDF into constituent image files.
     #
     # @see #each
-    class PagesIntoImagesService
-      DEFAULT_COMPRESSION = 'lzw'.freeze
-      def initialize(path, compression: DEFAULT_COMPRESSION, tmpdir: Dir.mktmpdir, default_dpi: 400)
+    class BaseSplitter
+      class_attribute :image_extension
+      class_attribute :compression, default: nil
+
+      def initialize(path, tmpdir: Dir.mktmpdir, default_dpi: 400)
         @baseid = SecureRandom.uuid
         @pdfpath = path
         @pdfinfo = IiifPrint::SplitPdfs::PdfImageExtractionService.new(@pdfpath)
         @tmpdir = tmpdir
-        @compression = compression
         @default_dpi = default_dpi
       end
 
@@ -39,8 +42,8 @@ module IiifPrint
         false
       end
 
-      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :pdfpath
-      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :pdfpath
+      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
+      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
 
       private
 
@@ -53,12 +56,12 @@ module IiifPrint
 
       # ghostscript convert all pages to TIFF
       def gsconvert
-        output_base = File.join(tmpdir, "#{baseid}-page%d.tiff")
+        output_base = File.join(tmpdir, "#{baseid}-page%d.#{image_extension}")
         # NOTE: you must call gsdevice before compression, as compression is
         # updated during the gsdevice call.
-        cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} " \
-              "-dTextAlphaBits=4 -sCompression=#{compression} " \
-              "-sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
+        cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} -dTextAlphaBits=4"
+        cmd += " -sCompression=#{compression}" if compression?
+        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
         filenames = []
 
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
@@ -67,7 +70,7 @@ module IiifPrint
             next unless line.start_with?('Page ')
 
             page_number += 1
-            filenames << File.join(tmpdir, "#{baseid}-page#{page_number}.tiff")
+            filenames << File.join(tmpdir, "#{baseid}-page#{page_number}.#{image_extension}")
           end
         end
 
@@ -75,30 +78,7 @@ module IiifPrint
       end
 
       def gsdevice
-        color, channels, bpc = pdfinfo.color
-        device = nil
-        if color == 'gray'
-          # CCITT Group 4 Black and White, if applicable:
-          if bpc == 1
-            device = 'tiffg4'
-            @compression = 'g4'
-          elsif bpc > 1
-            # 8 Bit Grayscale, if applicable:
-            device = 'tiffgray'
-          end
-        end
-
-        # otherwise color:
-        device = colordevice(channels, bpc) if device.nil?
-        device
-      end
-
-      def colordevice(channels, bpc)
-        bits = bpc * channels
-        # will be either 8bpc/16bpd color TIFF,
-        #   with any CMYK source transformed to 8bpc RBG
-        bits = 24 unless [24, 48].include? bits
-        "tiff#{bits}nc"
+        raise NotImplementedError
       end
 
       PAGE_COUNT_REGEXP = %r{^Pages: +(\d+)$}.freeze
@@ -136,3 +116,6 @@ module IiifPrint
     end
   end
 end
+
+require "iiif_print/split_pdfs/pages_to_pngs_splitter"
+require "iiif_print/split_pdfs/pages_to_tiffs_splitter"
