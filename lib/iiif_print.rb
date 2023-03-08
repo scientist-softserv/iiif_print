@@ -18,7 +18,7 @@ require "iiif_print/jobs/application_job"
 require "iiif_print/blacklight_iiif_search/annotation_decorator"
 require "iiif_print/jobs/child_works_from_pdf_job"
 require "iiif_print/jobs/create_relationships_job"
-require "iiif_print/split_pdfs/pages_into_images_service"
+require "iiif_print/split_pdfs/base_splitter"
 require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 
 module IiifPrint
@@ -42,7 +42,7 @@ module IiifPrint
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
-    pdf_splitter_service: IiifPrint::SplitPdfs::PagesIntoImagesService,
+    pdf_splitter_service: IiifPrint::SplitPdfs::PagesToTiffsSplitter,
     derivative_service_plugins: [
       IiifPrint::JP2DerivativeService,
       IiifPrint::PDFDerivativeService,
