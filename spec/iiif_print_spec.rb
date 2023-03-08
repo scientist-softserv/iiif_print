@@ -35,7 +35,7 @@ RSpec.describe IiifPrint do
       end
 
       it "has a #pdf_splitter_service" do
-        expect(record.iiif_print_config.pdf_splitter_service).to be(IiifPrint::SplitPdfs::PagesToTiffsService)
+        expect(record.iiif_print_config.pdf_splitter_service).to be(IiifPrint::SplitPdfs::PagesToTiffsSplitter)
       end
 
       it "has #derivative_service_plugins" do
