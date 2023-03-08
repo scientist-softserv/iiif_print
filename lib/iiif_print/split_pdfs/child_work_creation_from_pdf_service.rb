@@ -8,8 +8,11 @@ module IiifPrint
       # @param [Array > Hyrax::Upload file ids]
       # @return [Array > String] file paths to temp directory
       def self.pdf_paths(files:)
+        return [] if files.nil?
+
         upload_ids = filter_file_ids(files)
         return [] if upload_ids.empty?
+
         uploads = Hyrax::UploadedFile.find(upload_ids)
         paths = uploads.map(&method(:upload_path))
         pdfs_only_for(paths)

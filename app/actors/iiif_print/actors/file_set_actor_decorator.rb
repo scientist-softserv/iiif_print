@@ -22,7 +22,7 @@ module IiifPrint
           end
         else
           # we don't have the parent yet... save the paths for later use
-          @pdf_paths = service.pdf_paths(files: [file.id.to_s])
+          @pdf_paths = service.pdf_paths(files: [file.try(:id)&.to_s])
         end
       end
 
