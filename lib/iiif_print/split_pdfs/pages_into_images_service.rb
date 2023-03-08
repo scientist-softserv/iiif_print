@@ -101,7 +101,7 @@ module IiifPrint
         "tiff#{bits}nc"
       end
 
-      PAGE_COUNT_REGEXP = %r{^Pages: +(\d+)$}
+      PAGE_COUNT_REGEXP = %r{^Pages: +(\d+)$}.freeze
 
       def pagecount
         return @pagecount if defined? @pagecount
