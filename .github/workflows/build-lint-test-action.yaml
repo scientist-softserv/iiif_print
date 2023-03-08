@@ -24,7 +24,7 @@ jobs:
       worker: false
   test:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/test.yaml@v0.0.12
+    uses: scientist-softserv/actions/.github/workflows/test.yaml@fail-pipeline-when-specs-fail
     with:
       setup_db_cmd: rake engine_cart:generate
   lint:
