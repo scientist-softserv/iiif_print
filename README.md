@@ -86,9 +86,6 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 * In `config/routes.rb`, it adds `concerns :iiif_search` in the `resources :solr_documents` block
 * Adds `config/initializers/iiif_print.rb`
 * Adds three migrations, `CreateIiifPrintDerivativeAttachments`, `CreateIiifPrintIngestFileRelations`, and `CreateIiifPrintPendingRelationships`
-* In `solr/conf/schema.xml`, it adds Blacklight IIIF Search autocomplete config
-* In `solr/conf/solrconfig.xml`, it adds Blacklight IIIF Search autocomplete config
-* Adds `solr/lib/solr-tokenizing_suggester-7.x.jar`
 
 (It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
 
@@ -146,7 +143,7 @@ TO ENABLE OCR Search (from the UV and catalog search)
       }
     end
 ```
-* Set `config.search_builder_class = IiifPrint::CatalogSearchBuilder` to remove works from the catalog search results if `is_child_bsi: true` 
+* Set `config.search_builder_class = IiifPrint::CatalogSearchBuilder` to remove works from the catalog search results if `is_child_bsi: true`
 * Ensure that all text search is configured in default_solr_params config block:
 ```rb
     config.default_solr_params = {

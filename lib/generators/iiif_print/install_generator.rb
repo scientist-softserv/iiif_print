@@ -15,7 +15,7 @@ module IiifPrint
       say_status('info',
                  'BLACKLIGHT IIIF SEARCH NOT INSTALLED; INSTALLING BLACKLIGHT IIIF SEARCH',
                  :blue)
-      generate 'blacklight_iiif_search:install'
+      generate 'blacklight_iiif_search:install --skip-solr'
     end
 
     def catalog_controller_configuration
