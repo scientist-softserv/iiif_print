@@ -146,16 +146,23 @@ module IiifPrint
     end
   end
 
+  # sql query method was refactored to active record
+  # original query:
+  # AllinsonFlex::ProfileProperty
+  #   .find_by_sql(
+  #     "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
+  #     "allinson_flex_profile_properties.name AS name " \
+  #     "FROM allinson_flex_profile_properties " \
+  #     "JOIN allinson_flex_profile_texts " \
+  #     "ON allinson_flex_profile_properties.id = " \
+  #       "allinson_flex_profile_texts.profile_property_id " \
+  #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
+  #   )
   def self.allinson_flex_fields
-    AllinsonFlex::ProfileProperty
-      .find_by_sql(
-        "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
-        "allinson_flex_profile_properties.name AS name " \
-        "FROM allinson_flex_profile_properties " \
-        "JOIN allinson_flex_profile_texts " \
-        "ON allinson_flex_profile_properties.id = " \
-          "allinson_flex_profile_texts.profile_property_id " \
-        "WHERE allinson_flex_profile_texts.name = 'display_label'"
-      )
+    @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
+                              .joins(:texts)
+                              .where(allinson_flex_profile_texts: { name: 'display_label' })
+                              .distinct
+                              .select(:name, 'allinson_flex_profile_texts.value as label')
   end
 end
