@@ -14,7 +14,7 @@ module IiifPrint
 
         # handle each input pdf
         pdf_paths.each_with_index do |path, pdf_idx|
-          split_pdf(path, pdf_idx, user, prior_pdfs, child_model)
+          split_pdf(path, pdf_idx, user, prior_pdfs, child_model, number_of_pdfs: pdf_paths.size)
         end
 
         # Link newly created child works to the parent
@@ -34,12 +34,13 @@ module IiifPrint
 
       private
 
-      def split_pdf(path, pdf_idx, user, prior_pdfs_count, child_model)
+      # rubocop:disable Metrics/ParameterLists
+      def split_pdf(path, pdf_idx, user, prior_pdfs_count, child_model, number_of_pdfs:)
         image_files = @parent_work.iiif_print_config.pdf_splitter_service.new(path).to_a
         return if image_files.blank?
 
         pdf_sequence = pdf_idx + prior_pdfs_count
-        prepare_import_data(pdf_sequence, image_files, user)
+        prepare_import_data(pdf_sequence, image_files, user, number_of_pdfs: number_of_pdfs)
 
         # submit the job to create all the child works for one PDF
         # @param [User] user
@@ -59,13 +60,19 @@ module IiifPrint
                                      attributes.merge!(model: child_model.to_s).with_indifferent_access,
                                      operation)
       end
+      # rubocop:enable Metrics/ParameterLists
 
-      def prepare_import_data(pdf_sequence, image_files, user)
+      # rubocop:disable Metrics/MethodLength
+      def prepare_import_data(pdf_sequence, image_files, user, number_of_pdfs:)
         @uploaded_files = []
         @child_work_titles = {}
         image_files.each_with_index do |image_path, idx|
           file_id = create_uploaded_file(user, image_path).to_s
-          file_title = set_title(@parent_work.title.first, pdf_sequence, idx)
+          file_title = set_title(@parent_work.title.first,
+                                 pdf_sequence,
+                                 idx,
+                                 pdf_pad_zero: number_of_pdfs.size.to_s.length,
+                                 page_pad_zero: image_files.size.to_s.length)
           @uploaded_files << file_id
           @child_work_titles[file_id] = file_title
           # save child work info to create the member relationships
@@ -74,6 +81,7 @@ module IiifPrint
                                       child_order: sort_order(pdf_sequence, idx))
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       def sort_order(pdf_sequence, idx)
         "#{pdf_sequence} #{idx}"
@@ -87,9 +95,12 @@ module IiifPrint
         uf.id
       end
 
-      def set_title(title, pdf_sequence, idx)
-        pdf_index = "Pdf Nbr #{pdf_sequence + 1}"
-        page_number = "Page #{idx + 1}"
+      def set_title(title, pdf_sequence, idx, pdf_pad_zero:, page_pad_zero:)
+        # TODO: prior_pdfs may cause issues in the future
+        pdf_nbr = (pdf_sequence + 1).to_s.rjust(pdf_pad_zero, "0")
+        page_nbr = (idx + 1).to_s.rjust(page_pad_zero, "0")
+        pdf_index = "Pdf #{pdf_nbr}"
+        page_number = "Page #{page_nbr}"
         "#{title}: #{pdf_index}, #{page_number}"
       end
 

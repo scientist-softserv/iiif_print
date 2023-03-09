@@ -3,7 +3,7 @@ require 'misc_shared'
 
 RSpec.describe IiifPrint::Jobs::ChildWorksFromPdfJob do
   # TODO: add specs
-  let(:work) { WorkWithIiifPrintConfig.new(title: ['required title']) }
+  let(:work) { WorkWithIiifPrintConfig.new(title: ['required title'], id: '123') }
   let(:my_user) { build(:user) }
   let(:uploaded_pdf_file) { create(:uploaded_pdf_file) }
   let(:uploaded_file_ids) { [uploaded_pdf_file.id] }
@@ -15,7 +15,7 @@ RSpec.describe IiifPrint::Jobs::ChildWorksFromPdfJob do
   let(:admin_set_id) { "admin_set/default" }
   let(:prior_pdfs) { 0 }
 
-  let(:subject) { described_class.perform(work, paths, user, admin_set_id, prior_pdfs) }
+  let(:subject) { described_class.perform_now(work, pdf_paths, my_user, admin_set_id, prior_pdfs) }
 
   describe '#perform' do
     xit 'calls pdf splitter service with path' do
@@ -25,6 +25,11 @@ RSpec.describe IiifPrint::Jobs::ChildWorksFromPdfJob do
     end
 
     xit 'submits IiifPrint::Jobs::CreateRelationshipsJob' do
+    end
+
+    context 'with more than 9 pages' do
+      xit 'pads the page number with a zero' do
+      end
     end
   end
 end
