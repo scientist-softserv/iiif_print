@@ -43,7 +43,7 @@ module IiifPrint
       end
 
       attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
-      private :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
+      private :pdfinfo, :tmpdir, :baseid, :default_dpi
 
       private
 
@@ -61,7 +61,7 @@ module IiifPrint
         # updated during the gsdevice call.
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} -dTextAlphaBits=4"
         cmd += " -sCompression=#{compression}" if compression?
-        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
+        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{@pdfpath}"
         filenames = []
 
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
@@ -86,7 +86,7 @@ module IiifPrint
       def pagecount
         return @pagecount if defined? @pagecount
 
-        cmd = "pdfinfo #{pdfpath}"
+        cmd = "pdfinfo #{@pdfpath}"
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           match = PAGE_COUNT_REGEXP.match(stdout.read)
           @pagecount = match[1].to_i
