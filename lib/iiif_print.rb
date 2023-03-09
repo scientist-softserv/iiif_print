@@ -107,7 +107,7 @@ module IiifPrint
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
   def self.manifest_metadata_for(work:,
                                  version: config.default_iiif_manifest_version,
-                                 fields: default_fields_for(work),
+                                 fields: defined?(AllinsonFlex) ? allinson_flex_fields_for(work) : default_fields_for(work),
                                  current_ability:,
                                  base_url:)
     Metadata.build_metadata_for(work: work,
@@ -132,5 +132,30 @@ module IiifPrint
         options: field.last
       )
     end
+  end
+
+  def self.allinson_flex_fields_for(_work, fields: allinson_flex_fields)
+    fields.map do |field|
+      Field.new(
+        name: field.name,
+        label: field.label,
+        # TODO: transform Allinson Flex `indexing` properties to determine
+        # render as value (ex. facetable => render_as: faceted)
+        options: nil
+      )
+    end
+  end
+
+  def self.allinson_flex_fields
+    AllinsonFlex::ProfileProperty
+      .find_by_sql(
+        "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
+        "allinson_flex_profile_properties.name AS name " \
+        "FROM allinson_flex_profile_properties " \
+        "JOIN allinson_flex_profile_texts " \
+        "ON allinson_flex_profile_properties.id = " \
+          "allinson_flex_profile_texts.profile_property_id " \
+        "WHERE allinson_flex_profile_texts.name = 'display_label'"
+      )
   end
 end

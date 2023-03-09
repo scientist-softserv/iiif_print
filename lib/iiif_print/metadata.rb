@@ -27,7 +27,7 @@ module IiifPrint
 
     def build_metadata_for_v2
       fields.map do |field|
-        label = Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label
+        label = Hyrax::Renderers::AttributeRenderer.new(field.label, nil).label
         if field.name == :collection && member_of_collection?
           viewable_collections = Hyrax::CollectionMemberService.run(work, @current_ability)
           next if viewable_collections.empty?
