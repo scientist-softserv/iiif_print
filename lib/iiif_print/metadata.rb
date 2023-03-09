@@ -58,7 +58,7 @@ module IiifPrint
     end
 
     def field_is_empty?(field)
-      Array(work.try(field.name)).empty?
+      Array(work.try(field.name) || work["#{field.name}_tesim"]).empty?
     end
 
     def member_of_collection?
@@ -85,7 +85,7 @@ module IiifPrint
     end
 
     def values_for(field_name:)
-      Array(work.send(field_name))
+      Array(work.try(field_name) || work["#{field_name}_tesim"])
     end
 
     def make_collection_link(collection_documents)
