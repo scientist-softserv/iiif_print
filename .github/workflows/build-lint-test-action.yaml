@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    uses: scientist-softserv/actions/.github/workflows/build.yaml@v0.0.7
+    uses: scientist-softserv/actions/.github/workflows/build.yaml@v0.0.13
     secrets: inherit
     with:
       platforms: "linux/amd64"
@@ -24,10 +24,10 @@ jobs:
       worker: false
   test:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/test.yaml@v0.0.7
+    uses: scientist-softserv/actions/.github/workflows/test.yaml@v0.0.13
     with:
       setup_db_cmd: rake engine_cart:generate
   lint:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.7
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
     

@@ -64,8 +64,8 @@ module IiifPrint
       # finds the image that the FileSet is attached to and creates metadata on that canvas
       image = solr_docs.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
       canvas_metadata = IiifPrint.manifest_metadata_for(work: image,
-                                                        current_ability: presenter.ability,
-                                                        base_url: presenter.base_url)
+                                                        current_ability: presenter.try(:ability) || presenter.try(:current_ability),
+                                                        base_url: presenter.try(:base_url) || presenter.try(:request)&.base_url)
       canvas['metadata'] = canvas_metadata
     end
 
@@ -86,9 +86,9 @@ module IiifPrint
     end
 
     def get_solr_docs(presenter)
-      parent_id = [presenter._source['id']]
-      child_ids = presenter._source['member_ids_ssim']
-      parent_id_and_child_ids = parent_id + child_ids
+      parent_id = presenter.id
+      child_ids = presenter.try(:member_ids) || presenter.try(:ordered_ids)
+      parent_id_and_child_ids = child_ids << parent_id
       query = ActiveFedora::SolrQueryBuilder.construct_query_for_ids(parent_id_and_child_ids)
       solr_hits = ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: 100_000)
       solr_hits.map { |solr_hit| ::SolrDocument.new(solr_hit) }
