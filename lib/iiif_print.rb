@@ -136,12 +136,14 @@ module IiifPrint
 
   def self.allinson_flex_fields_for(_work, fields: allinson_flex_fields)
     fields.map do |field|
+      # currently only supports the faceted option
+      # Why the `render_as:`? This was originally derived from Hyku default attributes
+      # @see https://github.com/samvera/hyku/blob/c702844de4c003eaa88eb5a7514c7a1eae1b289e/app/views/hyrax/base/_attribute_rows.html.erb#L3
+      options = field.indexing.include?('facetable') ? { render_as: :faceted } : nil
       Field.new(
         name: field.name,
-        label: field.label,
-        # TODO: transform Allinson Flex `indexing` properties to determine
-        # render as value (ex. facetable => render_as: faceted)
-        options: nil
+        label: field.value,
+        options: options
       )
     end
   end
@@ -158,11 +160,12 @@ module IiifPrint
   #       "allinson_flex_profile_texts.profile_property_id " \
   #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
   #   )
+  # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
   def self.allinson_flex_fields
     @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
-                              .joins(:texts)
-                              .where(allinson_flex_profile_texts: { name: 'display_label' })
-                              .distinct
-                              .select(:name, 'allinson_flex_profile_texts.value as label')
+                                .joins(:texts)
+                                .where(allinson_flex_profile_texts: { name: 'display_label' })
+                                .distinct
+                                .select(:name, :value, :indexing)
   end
 end
