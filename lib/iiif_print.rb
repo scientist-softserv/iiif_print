@@ -163,9 +163,9 @@ module IiifPrint
   # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
   def self.allinson_flex_fields
     @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
-                                .joins(:texts)
-                                .where(allinson_flex_profile_texts: { name: 'display_label' })
-                                .distinct
-                                .select(:name, :value, :indexing)
+                              .joins(:texts)
+                              .where(allinson_flex_profile_texts: { name: 'display_label' })
+                              .distinct
+                              .select(:name, :value, :indexing)
   end
 end
