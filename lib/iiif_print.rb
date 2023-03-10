@@ -107,7 +107,7 @@ module IiifPrint
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
   def self.manifest_metadata_for(work:,
                                  version: config.default_iiif_manifest_version,
-                                 fields: default_fields_for(work),
+                                 fields: defined?(AllinsonFlex) ? allinson_flex_fields_for(work) : default_fields_for(work),
                                  current_ability:,
                                  base_url:)
     Metadata.build_metadata_for(work: work,
@@ -128,9 +128,44 @@ module IiifPrint
     fields.map do |field|
       Field.new(
         name: field.first,
-        label: Hyrax::Renderers::AttributeRenderer.new(field, nil).label,
+        label: Hyrax::Renderers::AttributeRenderer.new(field.first, nil).label,
         options: field.last
       )
     end
+  end
+
+  def self.allinson_flex_fields_for(_work, fields: allinson_flex_fields)
+    fields.map do |field|
+      # currently only supports the faceted option
+      # Why the `render_as:`? This was originally derived from Hyku default attributes
+      # @see https://github.com/samvera/hyku/blob/c702844de4c003eaa88eb5a7514c7a1eae1b289e/app/views/hyrax/base/_attribute_rows.html.erb#L3
+      options = field.indexing.include?('facetable') ? { render_as: :faceted } : nil
+      Field.new(
+        name: field.name,
+        label: field.value,
+        options: options
+      )
+    end
+  end
+
+  # sql query method was refactored to active record
+  # original query:
+  # AllinsonFlex::ProfileProperty
+  #   .find_by_sql(
+  #     "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
+  #     "allinson_flex_profile_properties.name AS name " \
+  #     "FROM allinson_flex_profile_properties " \
+  #     "JOIN allinson_flex_profile_texts " \
+  #     "ON allinson_flex_profile_properties.id = " \
+  #       "allinson_flex_profile_texts.profile_property_id " \
+  #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
+  #   )
+  # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
+  def self.allinson_flex_fields
+    @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
+                              .joins(:texts)
+                              .where(allinson_flex_profile_texts: { name: 'display_label' })
+                              .distinct
+                              .select(:name, :value, :indexing)
   end
 end

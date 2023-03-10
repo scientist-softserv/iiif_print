@@ -27,15 +27,14 @@ module IiifPrint
 
     def build_metadata_for_v2
       fields.map do |field|
-        label = Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label
         if field.name == :collection && member_of_collection?
           viewable_collections = Hyrax::CollectionMemberService.run(work, @current_ability)
           next if viewable_collections.empty?
-          { 'label' => label,
+          { 'label' => field.label,
             'value' => make_collection_link(viewable_collections) }
         else
           next if field_is_empty?(field)
-          { 'label' => label,
+          { 'label' => field.label,
             'value' => cast_to_value(field_name: field.name, options: field.options) }
         end
       end.compact
@@ -58,7 +57,8 @@ module IiifPrint
     end
 
     def field_is_empty?(field)
-      Array(work.try(field.name)).empty?
+      # TODO: we are assuming tesim, might want to account for other suffixes in the future
+      Array(work.try(field.name) || work["#{field.name}_tesim"]).empty?
     end
 
     def member_of_collection?
@@ -85,7 +85,8 @@ module IiifPrint
     end
 
     def values_for(field_name:)
-      Array(work.send(field_name))
+      # TODO: we are assuming tesim, might want to account for other suffixes in the future
+      Array(work.try(field_name) || work["#{field_name}_tesim"])
     end
 
     def make_collection_link(collection_documents)

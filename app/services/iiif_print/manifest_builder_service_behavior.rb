@@ -91,7 +91,7 @@ module IiifPrint
       parent_id_and_child_ids = child_ids << parent_id
       query = ActiveFedora::SolrQueryBuilder.construct_query_for_ids(parent_id_and_child_ids)
       solr_hits = ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: 100_000)
-      solr_hits.map { |solr_hit| ::SolrDocument.new(solr_hit) }
+      solr_hits.flat_map { |solr_hit| ActiveFedora::SolrService.query("id:#{solr_hit.id}", rows: 100_000) }
     end
   end
 end
