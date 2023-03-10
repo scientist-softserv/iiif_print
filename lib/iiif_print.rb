@@ -128,7 +128,7 @@ module IiifPrint
     fields.map do |field|
       Field.new(
         name: field.first,
-        label: Hyrax::Renderers::AttributeRenderer.new(field, nil).label,
+        label: Hyrax::Renderers::AttributeRenderer.new(field.first, nil).label,
         options: field.last
       )
     end

@@ -3,15 +3,7 @@ require 'spec_helper'
 RSpec.describe IiifPrint::Metadata do
   let(:base_url) { "https://my.dev.test" }
   let(:solr_document) { SolrDocument.new(attributes) }
-  let(:fields) do
-    metadata_fields.map do |field|
-      SampleField.new(
-        name: field.first,
-        label: Hyrax::Renderers::AttributeRenderer.new(field, nil).label,
-        options: field.last
-      )
-    end
-  end
+  let(:fields) { IiifPrint.default_fields_for(fields: metadata_fields) }
   let(:metadata_fields) do
     {
       title: {},
@@ -19,8 +11,6 @@ RSpec.describe IiifPrint::Metadata do
       date_modified: {}
     }
   end
-
-  SampleField = Struct.new(:name, :label, :options, keyword_init: true)
 
   describe ".build_metadata_for" do
     subject(:manifest_metadata) do
