@@ -57,6 +57,7 @@ module IiifPrint
     end
 
     def field_is_empty?(field)
+      # TODO: we are assuming tesim, might want to account for other suffixes in the future
       Array(work.try(field.name) || work["#{field.name}_tesim"]).empty?
     end
 
@@ -84,6 +85,7 @@ module IiifPrint
     end
 
     def values_for(field_name:)
+      # TODO: we are assuming tesim, might want to account for other suffixes in the future
       Array(work.try(field_name) || work["#{field_name}_tesim"])
     end
 
