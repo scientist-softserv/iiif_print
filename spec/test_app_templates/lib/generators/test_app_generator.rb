@@ -5,7 +5,7 @@ class TestAppGenerator < Rails::Generators::Base
   source_root File.expand_path('../../../spec/test_app_templates', __dir__)
 
   def install_redis
-    gem 'redis', '4.8.0'
+    gem 'redis', '4.8.1'
     Bundler.with_unbundled_env do
       run "bundle install"
     end
