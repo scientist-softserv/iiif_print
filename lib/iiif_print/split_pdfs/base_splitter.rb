@@ -13,6 +13,7 @@ module IiifPrint
     class BaseSplitter
       class_attribute :image_extension
       class_attribute :compression, default: nil
+      class_attribute :quality, default: nil
 
       def initialize(path, tmpdir: Dir.mktmpdir, default_dpi: 400)
         @baseid = SecureRandom.uuid
@@ -42,7 +43,7 @@ module IiifPrint
         false
       end
 
-      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi
+      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :quality
       private :pdfinfo, :tmpdir, :baseid, :default_dpi
 
       private
@@ -54,13 +55,15 @@ module IiifPrint
         @entries = Array.wrap(gsconvert)
       end
 
+      # rubocop:disable Metrics/MethodLength
       # ghostscript convert all pages to TIFF
       def gsconvert
         output_base = File.join(tmpdir, "#{baseid}-page%d.#{image_extension}")
         # NOTE: you must call gsdevice before compression, as compression is
         # updated during the gsdevice call.
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} -dTextAlphaBits=4"
-        cmd += " -sCompression=#{compression}" if compression?
+        cmd += " -sCompression=#{self.class.compression}" if self.class.compression?
+        cmd += " -dJPEGQ=#{self.class.quality}" if self.class.quality?
         cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{@pdfpath}"
         filenames = []
 
@@ -76,6 +79,7 @@ module IiifPrint
 
         filenames
       end
+      # rubocop:enable Metrics/MethodLength
 
       def gsdevice
         raise NotImplementedError
@@ -117,5 +121,6 @@ module IiifPrint
   end
 end
 
+require "iiif_print/split_pdfs/pages_to_jpgs_splitter"
 require "iiif_print/split_pdfs/pages_to_pngs_splitter"
 require "iiif_print/split_pdfs/pages_to_tiffs_splitter"
