@@ -7,8 +7,7 @@ module IiifPrint
     # @see #each
     class PagesToJpgsSplitter < BaseSplitter
       self.image_extension = 'jpg'
-      DEFAULT_QUALITY = '50'.freeze
-      self.quality = DEFAULT_QUALITY
+      self.quality = '50'
 
       private
 

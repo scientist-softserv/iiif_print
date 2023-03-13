@@ -18,7 +18,7 @@ module IiifPrint
       def initialize(path, tmpdir: Dir.mktmpdir, default_dpi: 400)
         @baseid = SecureRandom.uuid
         @pdfpath = path
-        @pdfinfo = IiifPrint::SplitPdfs::PdfImageExtractionService.new(@pdfpath)
+        @pdfinfo = IiifPrint::SplitPdfs::PdfImageExtractionService.new(pdfpath)
         @tmpdir = tmpdir
         @default_dpi = default_dpi
       end
@@ -43,8 +43,8 @@ module IiifPrint
         false
       end
 
-      attr_reader :pdfinfo, :tmpdir, :baseid, :compression, :default_dpi, :quality
-      private :pdfinfo, :tmpdir, :baseid, :default_dpi
+      attr_reader :pdfinfo, :tmpdir, :baseid, :default_dpi, :pdfpath
+      private :pdfinfo, :tmpdir, :baseid, :default_dpi, :pdfpath
 
       private
 
@@ -62,9 +62,9 @@ module IiifPrint
         # NOTE: you must call gsdevice before compression, as compression is
         # updated during the gsdevice call.
         cmd = "gs -dNOPAUSE -dBATCH -sDEVICE=#{gsdevice} -dTextAlphaBits=4"
-        cmd += " -sCompression=#{self.class.compression}" if self.class.compression?
-        cmd += " -dJPEGQ=#{self.class.quality}" if self.class.quality?
-        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{@pdfpath}"
+        cmd += " -sCompression=#{compression}" if compression?
+        cmd += " -dJPEGQ=#{quality}" if quality?
+        cmd += " -sOutputFile=#{output_base} -r#{ppi} -f #{pdfpath}"
         filenames = []
 
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
@@ -90,7 +90,7 @@ module IiifPrint
       def pagecount
         return @pagecount if defined? @pagecount
 
-        cmd = "pdfinfo #{@pdfpath}"
+        cmd = "pdfinfo #{pdfpath}"
         Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
           match = PAGE_COUNT_REGEXP.match(stdout.read)
           @pagecount = match[1].to_i
