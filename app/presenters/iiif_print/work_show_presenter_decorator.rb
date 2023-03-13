@@ -23,7 +23,7 @@ module IiifPrint
     end
 
     def child_work_has_files?
-      file_set_ids.present?
+      solr_document.try(:file_set_ids).present? || solr_document.try(:[], 'file_set_ids_ssim').present?
     end
   end
 end
