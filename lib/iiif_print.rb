@@ -44,10 +44,7 @@ module IiifPrint
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
     pdf_splitter_service: IiifPrint::SplitPdfs::PagesToTiffsSplitter,
     derivative_service_plugins: [
-      IiifPrint::JP2DerivativeService,
-      IiifPrint::PDFDerivativeService,
-      IiifPrint::TextExtractionDerivativeService,
-      IiifPrint::TIFFDerivativeService
+      IiifPrint::TextExtractionDerivativeService
     ]
   }.freeze
 
