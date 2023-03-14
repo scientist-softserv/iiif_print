@@ -28,7 +28,7 @@ module IiifPrint
     def build_metadata_for_v2
       fields.map do |field|
         if field.name == :collection && member_of_collection?
-          viewable_collections = Hyrax::CollectionMemberService.run(work, @current_ability)
+          viewable_collections = Hyrax::CollectionMemberService.run(SolrDocument.find(work.id), @current_ability)
           next if viewable_collections.empty?
           { 'label' => field.label,
             'value' => make_collection_link(viewable_collections) }
@@ -40,25 +40,28 @@ module IiifPrint
       end.compact
     end
 
+    # rubocop:disable Metrics/AbcSize
     def build_metadata_for_v3
       fields.map do |field|
-        values = Array(work.try(field.name)).map { |value| scrub(value.to_s) }
-        next if values.empty?
-        {
-          'label' => {
-            # Since we're using I18n to translate the field, we're setting the locale used in the translation.
-            I18n.locale.to_s => [Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label]
-          },
-          'value' => {
-            'none' => values
-          }
-        }
+        values = Array(work["#{field.name}_tesim"]).map { |value| scrub(value.to_s) }
+        if field.name == :collection && member_of_collection?
+          viewable_collections = Hyrax::CollectionMemberService.run(SolrDocument.find(work.id), @current_ability)
+          next if viewable_collections.empty?
+          { 'label' => { I18n.locale.to_s => [Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label] },
+            'value' => { 'none' => make_collection_link(viewable_collections) } }
+        else
+          next if values.empty?
+          # Since we're using I18n to translate the field, we're setting the locale used in the translation.
+          { 'label' => { I18n.locale.to_s => [Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label] },
+            'value' => { 'none' => cast_to_value(field_name: field.name, options: field.options) } }
+        end
       end.compact
     end
+    # rubocop:enable Metrics/AbcSize
 
     def field_is_empty?(field)
       # TODO: we are assuming tesim, might want to account for other suffixes in the future
-      Array(work.try(field.name) || work["#{field.name}_tesim"]).empty?
+      Array(work["#{field.name}_tesim"]).empty?
     end
 
     def member_of_collection?
@@ -86,7 +89,7 @@ module IiifPrint
 
     def values_for(field_name:)
       # TODO: we are assuming tesim, might want to account for other suffixes in the future
-      Array(work.try(field_name) || work["#{field_name}_tesim"])
+      Array(work["#{field_name}_tesim"])
     end
 
     def make_collection_link(collection_documents)
