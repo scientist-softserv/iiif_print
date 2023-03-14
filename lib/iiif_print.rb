@@ -28,9 +28,10 @@ module IiifPrint
 
   ##
   # @api public
+  #
   # Exposes the IiifPrint configuration.
   #
-  # @yield [IiifPrint::Configuration] if a block is passed
+  # @yieldparam [IiifPrint::Configuration] config if a block is passed
   # @return [IiifPrint::Configuration]
   # @see IiifPrint::Configuration for configuration options
   def self.config(&block)
@@ -42,7 +43,7 @@ module IiifPrint
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
-    pdf_splitter_service: IiifPrint::SplitPdfs::PagesToTiffsSplitter,
+    pdf_splitter_service: IiifPrint::SplitPdfs::PagesToJpgsSplitter,
     derivative_service_plugins: [
       IiifPrint::TextExtractionDerivativeService
     ]
@@ -50,14 +51,20 @@ module IiifPrint
 
   # This is the record level configuration for PDF split handling.
   ModelConfig = Struct.new(:pdf_split_child_model, *DEFAULT_MODEL_CONFIGURATION.keys, keyword_init: true)
+  private_constant :ModelConfig
 
-  # This method is responsible for assisting in the configuration of a "model".
+  ##
+  # @api public
+  # This method is responsible for configuring a model for additional derivative generation.
   #
   # @example
   #   class Book < ActiveFedora::Base
   #     include IiifPrint.model_configuration(
   #       pdf_split_child_model: Page,
   #       derivative_service_plugins: [
+  #         IiifPrint::JP2DerivativeService,
+  #         IiifPrint::PDFDerivativeService,
+  #         IiifPrint::TextExtractionDerivativeService,
   #         IiifPrint::TIFFDerivativeService
   #       ]
   #     )
@@ -65,6 +72,17 @@ module IiifPrint
   #
   # @param kwargs [Hash<Symbol,Object>] the configuration values that overrides the
   #        DEFAULT_MODEL_CONFIGURATION.
+  # @option kwargs [Array<Class>] derivative_service_plugins the various derivatives to run on the
+  #        "original" files associated with this work.  Options include:
+  #        {IiifPrint::JP2DerivativeService}, {IiifPrint::PDFDerivativeService},
+  #        {IiifPrint::TextExtractionDerivativeService}, {IiifPrint::TIFFDerivativeService}
+  # @option kwargs [Class] pdf_splitter_job responsible for handling the splitting of the original file
+  # @option kwargs [Class] pdf_split_child_model when we split the file into pages, what's the child model
+  #         we want for those pages?  Often times this is likely the same model as the parent.
+  # @option kwargs [Class] pdf_splitter_service the specific service that splits the PDF.  Options are:
+  #         {IiifPrint::SplitPdfs::PagesToJpgsSplitter},
+  #         {IiifPrint::SplitPdfs::PagesToTiffsSplitter},
+  #         {IiifPrint::SplitPdfs::PagesToPngsSplitter}
   #
   # @return [Module]
   #
@@ -145,20 +163,20 @@ module IiifPrint
     end
   end
 
-  # sql query method was refactored to active record
-  # original query:
-  # AllinsonFlex::ProfileProperty
-  #   .find_by_sql(
-  #     "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
-  #     "allinson_flex_profile_properties.name AS name " \
-  #     "FROM allinson_flex_profile_properties " \
-  #     "JOIN allinson_flex_profile_texts " \
-  #     "ON allinson_flex_profile_properties.id = " \
-  #       "allinson_flex_profile_texts.profile_property_id " \
-  #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
-  #   )
-  # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
   def self.allinson_flex_fields
+    # sql query method was refactored to active record
+    # original query:
+    # AllinsonFlex::ProfileProperty
+    #   .find_by_sql(
+    #     "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
+    #     "allinson_flex_profile_properties.name AS name " \
+    #     "FROM allinson_flex_profile_properties " \
+    #     "JOIN allinson_flex_profile_texts " \
+    #     "ON allinson_flex_profile_properties.id = " \
+    #       "allinson_flex_profile_texts.profile_property_id " \
+    #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
+    #   )
+    # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
     @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
                               .joins(:texts)
                               .where(allinson_flex_profile_texts: { name: 'display_label' })
