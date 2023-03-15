@@ -8,9 +8,9 @@ module IiifPrint
     # @return [Boolean] render a IIIF viewer
     def iiif_viewer?
       Hyrax.config.iiif_image_server? &&
-      representative_id.present? &&
-      representative_presenter.present? &&
-      members_include_viewable_image?
+        representative_id.present? &&
+        representative_presenter.present? &&
+        members_include_viewable_image?
     end
 
     alias universal_viewer? iiif_viewer?
@@ -31,8 +31,8 @@ module IiifPrint
     # This method allows for overriding to add additional file types to mix in with IiifAv
     # TODO: add configuration setting for file types to loop through so an override is unneeded.
     def file_type_and_permissions_valid?(presenter)
-      current_ability.can?(:read, presenter.id) && 
-      (presenter.try(:image?) || presenter.try(:solr_document).try(:image?))
+      current_ability.can?(:read, presenter.id) &&
+        (presenter.try(:image?) || presenter.try(:solr_document).try(:image?))
     end
   end
 end
