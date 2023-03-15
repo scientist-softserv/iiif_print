@@ -1,5 +1,4 @@
 module IiifPrint
-  # rubocop:disable Metrics/ClassLength
   class Metadata
     def self.build_metadata_for(work:, version:, fields:, current_ability:, base_url:)
       new(work: work,
@@ -17,48 +16,36 @@ module IiifPrint
       @base_url = base_url
     end
 
-    attr_reader :work, :version, :fields
+    attr_reader :work, :version, :fields, :current_ability
 
     def build_metadata
-      send("build_metadata_for_v#{version}")
-    end
-
-    private
-
-    def build_metadata_for_v2
       fields.map do |field|
-        if field.name == :collection && member_of_collection?
-          viewable_collections = Hyrax::CollectionMemberService.run(work, @current_ability)
-          next if viewable_collections.empty?
-          { 'label' => field.label,
-            'value' => make_collection_link(viewable_collections) }
-        else
-          next if field_is_empty?(field)
-          { 'label' => field.label,
-            'value' => cast_to_value(field_name: field.name, options: field.options) }
+        if field.name == :collection && member_of_collection? && viewable_collections.present?
+          { 'label' => metadata_map(field, :label),
+            'value' => metadata_map(field, :collection) }
+        elsif values_for(field_name: field).present?
+          { 'label' => metadata_map(field, :label),
+            'value' => metadata_map(field, :value) }
         end
       end.compact
     end
 
-    def build_metadata_for_v3
-      fields.map do |field|
-        values = Array(work.try(field.name)).map { |value| scrub(value.to_s) }
-        next if values.empty?
-        {
-          'label' => {
-            # Since we're using I18n to translate the field, we're setting the locale used in the translation.
-            I18n.locale.to_s => [Hyrax::Renderers::AttributeRenderer.new(field.name, nil).label]
-          },
-          'value' => {
-            'none' => values
-          }
-        }
-      end.compact
-    end
+    private
 
-    def field_is_empty?(field)
-      # TODO: we are assuming tesim, might want to account for other suffixes in the future
-      Array(work.try(field.name) || work["#{field.name}_tesim"]).empty?
+    def metadata_map(field, property)
+      if version == 2
+        case property
+        when :label      then field.label
+        when :value      then cast_to_value(field_name: field.name, options: field.options)
+        when :collection then make_collection_link(viewable_collections)
+        end
+      elsif version == 3
+        case property
+        when :label      then { I18n.locale.to_s => [field.label] }
+        when :value      then { 'none' => cast_to_value(field_name: field.name, options: field.options) }
+        when :collection then { 'none' => make_collection_link(viewable_collections) }
+        end
+      end
     end
 
     def member_of_collection?
@@ -85,14 +72,19 @@ module IiifPrint
     end
 
     def values_for(field_name:)
-      # TODO: we are assuming tesim, might want to account for other suffixes in the future
-      Array(work.try(field_name) || work["#{field_name}_tesim"])
+      field_name = field_name.try(:name) || field_name
+      # TODO: we are assuming tesim or dtsi (for dates), might want to account for other suffixes in the future
+      Array(work["#{field_name}_tesim"] || work["#{field_name}_dtsi"]&.to_date.try(:to_formatted_s, :standard))
     end
 
     def make_collection_link(collection_documents)
       collection_documents.map do |collection|
         "<a href='#{File.join(@base_url, 'collections', collection.id)}'>#{collection.title.first}</a>"
       end
+    end
+
+    def viewable_collections
+      Hyrax::CollectionMemberService.run(SolrDocument.find(work.id), current_ability)
     end
 
     # @note This method turns link looking strings into links
@@ -122,5 +114,4 @@ module IiifPrint
       )
     }ix.freeze
   end
-  # rubocop:enable Metrics/ClassLength
 end

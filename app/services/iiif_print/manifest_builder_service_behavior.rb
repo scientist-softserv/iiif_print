@@ -46,52 +46,65 @@ module IiifPrint
       hash['sequences']&.each do |sequence|
         sequence['canvases']&.each do |canvas|
           canvas['label'] = CGI.unescapeHTML(sanitize_value(canvas['label']))
-          apply_v2_metadata_to_canvas(canvas: canvas, presenter: presenter)
+          apply_metadata_to_canvas(canvas: canvas, presenter: presenter)
         end
       end
       hash
     end
 
-    def sanitize_v3(hash:, **)
-      # TODO: flesh out metadata for v3
-      hash
-    end
-
-    def apply_v2_metadata_to_canvas(canvas:, presenter:)
-      solr_docs = get_solr_docs(presenter)
-      # uses the '@id' property which is a URL that contains the FileSet id
-      file_set_id = canvas['@id'].split('/').last
-      # finds the image that the FileSet is attached to and creates metadata on that canvas
-      image = solr_docs.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
-      canvas_metadata = IiifPrint.manifest_metadata_for(work: image,
-                                                        current_ability: presenter.try(:ability) || presenter.try(:current_ability),
-                                                        base_url: presenter.try(:base_url) || presenter.try(:request)&.base_url)
-      canvas['metadata'] = canvas_metadata
-    end
-
-    def sorted_canvases_v2(hash:, sort_field:)
-      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
-      hash["sequences"]&.first&.[]("canvases")&.sort_by! do |canvas|
-        selection = canvas["metadata"].select { |h| h["label"] == sort_field }
-        fallback = [{ label: sort_field, value: ['~'] }]
-        identifier_metadata = selection.presence || fallback
-        identifier_metadata.first["value"] if identifier_metadata.present?
+    def sanitize_v3(hash:, presenter:)
+      hash['label']['none'].map! { |text| CGI.unescapeHTML(sanitize_value(text)) } if hash.key('label')
+      hash['items'].each do |canvas|
+        canvas['label']['none'].map! { |text| CGI.unescapeHTML(sanitize_value(text)) }
+        apply_metadata_to_canvas(canvas: canvas, presenter: presenter)
       end
       hash
     end
 
-    def sorted_canvases_v3(hash:, **)
-      # TODO: flesh out metadata for v3
+    def apply_metadata_to_canvas(canvas:, presenter:)
+      solr_hits = get_solr_hits(presenter)
+      # uses the 'id' property for v3 manifest and `@id' for v2, which is a URL that contains the FileSet id
+      file_set_id = (canvas['id'] || canvas['@id']).split('/').last
+      # finds the image that the FileSet is attached to and creates metadata on that canvas
+      image = solr_hits.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
+
+      current_ability = presenter.try(:ability) || presenter.try(:current_ability)
+      base_url = presenter.try(:base_url) || presenter.try(:request)&.base_url
+      canvas_metadata = IiifPrint.manifest_metadata_for(work: image,
+                                                        current_ability: current_ability,
+                                                        base_url: base_url)
+      canvas['metadata'] = canvas_metadata
+    end
+
+    LARGEST_SORT_ORDER_CHAR = '~'.freeze
+
+    def sorted_canvases_v2(hash:, sort_field:)
+      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
+      hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
+        selection = canvas['metadata'].select { |h| h['label'] == sort_field }
+        fallback = [{ label: sort_field,
+                      value: [LARGEST_SORT_ORDER_CHAR] }]
+        sort_field_metadata = selection.presence || fallback
+        sort_field_metadata.first['value'] if sort_field_metadata.present?
+      end
       hash
     end
 
-    def get_solr_docs(presenter)
-      parent_id = presenter.id
-      child_ids = presenter.try(:member_ids) || presenter.try(:ordered_ids)
-      parent_id_and_child_ids = child_ids << parent_id
-      query = ActiveFedora::SolrQueryBuilder.construct_query_for_ids(parent_id_and_child_ids)
-      solr_hits = ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: 100_000)
-      solr_hits.flat_map { |solr_hit| ActiveFedora::SolrService.query("id:#{solr_hit.id}", rows: 100_000) }
+    def sorted_canvases_v3(hash:, sort_field:)
+      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
+      hash['items']&.sort_by! do |item|
+        selection = item['metadata'].select { |h| h['label'][I18n.locale.to_s] == [sort_field] }
+        fallback = [{ label: { "#{I18n.locale}": [sort_field] },
+                      value: { none: [LARGEST_SORT_ORDER_CHAR] } }]
+        sort_field_metadata = selection.presence || fallback
+        sort_field_metadata.first['value']['none'] if sort_field_metadata.present?
+      end
+      hash
+    end
+
+    def get_solr_hits(presenter)
+      ids = [presenter.id] + Array.wrap(presenter.try(:ordered_ids) || presenter.try(:member_ids))
+      ids.flat_map { |id| ActiveFedora::SolrService.query("id:#{id}", fq: "-has_model_ssim:FileSet", rows: ids.size) }
     end
   end
 end
