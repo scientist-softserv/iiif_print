@@ -18,7 +18,7 @@ module IiifPrint
     private
 
     # overriding Hyrax to include file sets for both work and child works (file set ids include both)
-    # process each id, short-circuiting the loop once one true value is found. This spees up the test
+    # process each id, short-circuiting the loop once one true value is found. This speeds up the test
     # by not loading more member_presenters than needed.
     def members_include_viewable_image?
       all_member_ids = (solr_document.try(:file_set_ids) || solr_document.try(:[], 'file_set_ids_ssim'))
