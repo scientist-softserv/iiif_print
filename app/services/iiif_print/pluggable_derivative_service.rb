@@ -106,6 +106,7 @@ class IiifPrint::PluggableDerivativeService
   # "valid?" which would now look at the specific file_set for validity.
   def plugins_for(file_set)
     parent = parent_for(file_set)
+    return Array(default_plugins) unless file_set.mime_type.match?(/image/)
     return Array(default_plugins) if parent.nil?
     return Array(default_plugins) unless parent.respond_to?(:iiif_print_config)
 
