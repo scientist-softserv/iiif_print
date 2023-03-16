@@ -25,7 +25,8 @@ module IiifPrint
     # @see IiifPrint::PluggableDerivativeService#plugins_for
     # @return [Boolean]
     def valid?
-      true
+      # @note We are taking a shortcut because currently we are only concerned about images.
+      file_set.class.image_mime_types.include?(file_set.mime_type)
     end
 
     def derivative_path_factory
