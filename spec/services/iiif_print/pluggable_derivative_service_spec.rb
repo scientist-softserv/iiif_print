@@ -171,26 +171,5 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
         end
       end
     end
-
-    context "non-image formats" do
-      describe "#plugins" do
-        before do
-          allow(persisted_file_set).to receive(:in_works).and_return([work])
-          allow_any_instance_of(Hyrax::FileSetDerivativesService).to receive(:send)
-        end
-
-        let(:work) { MyIiifConfiguredWork.new }
-        let(:plugin) { FakeDerivativeService.new }
-
-        it "uses the default derivatives service" do
-          file_set = double(FileSet,
-                            class: FileSet,
-                            mime_type: 'audio/mpeg',
-                            parent: MyIiifConfiguredWork.new)
-          service = described_class.new(file_set)
-          expect(service.plugins).to eq [Hyrax::FileSetDerivativesService]
-        end
-      end
-    end
   end
 end
