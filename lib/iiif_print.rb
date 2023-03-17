@@ -132,6 +132,11 @@ module IiifPrint
                                 base_url: base_url)
   end
 
+  def self.manifest_metadata_from(work:, presenter:)
+    current_ability = presenter.try(:ability) || presenter.try(:current_ability)
+    base_url = presenter.try(:base_url) || presenter.try(:request)&.base_url
+    IiifPrint.manifest_metadata_for(work: work, current_ability: current_ability, base_url: base_url)
+  end
   # Hash is an arbitrary attribute key/value pairs
   # Struct is a defined set of attribute "keys".  When we favor defined values,
   # then we are naming the concept and defining the range of potential values.
@@ -163,7 +168,11 @@ module IiifPrint
     end
   end
 
+  CollectionFieldShim = Struct.new(:name, :value, :indexing, keyword_init: true)
+
   def self.allinson_flex_fields
+    return @allinson_flex_fields if defined?(@allinson_flex_fields)
+
     # sql query method was refactored to active record
     # original query:
     # AllinsonFlex::ProfileProperty
@@ -177,10 +186,16 @@ module IiifPrint
     #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
     #   )
     # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
-    @allinson_flex_fields ||= AllinsonFlex::ProfileProperty
-                              .joins(:texts)
-                              .where(allinson_flex_profile_texts: { name: 'display_label' })
-                              .distinct
-                              .select(:name, :value, :indexing)
+    allinson_flex_relation = AllinsonFlex::ProfileProperty
+                             .joins(:texts)
+                             .where(allinson_flex_profile_texts: { name: 'display_label' })
+                             .distinct
+                             .select(:name, :value, :indexing)
+    flex_fields = allinson_flex_relation.to_a
+    unless allinson_flex_relation.exists?(name: 'collection')
+      collection_field = CollectionFieldShim.new(name: :collection, value: 'Collection', indexing: [])
+      flex_fields << collection_field
+    end
+    @allinson_flex_fields = flex_fields
   end
 end

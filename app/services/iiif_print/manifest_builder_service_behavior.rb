@@ -6,9 +6,13 @@ module IiifPrint
                    &block)
       super(*args, iiif_manifest_factory: iiif_manifest_factory, &block)
       @version = version.to_i
+      @child_works = nil
     end
 
+    attr_reader :child_works
+
     def manifest_for(presenter:)
+      @child_works = get_solr_hits(member_ids_for(presenter))
       build_manifest(presenter: presenter)
     end
 
@@ -37,7 +41,9 @@ module IiifPrint
       manifest = manifest_factory.new(presenter).to_h
       hash = JSON.parse(manifest.to_json)
       hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter)
-      send("sorted_canvases_v#{@version}", hash: hash, sort_field: IiifPrint.config.sort_iiif_manifest_canvases_by)
+      return send("sort_canvases_v#{@version}", hash: hash, sort_field: IiifPrint.config.sort_iiif_manifest_canvases_by) if @child_works.present?
+
+      hash
     end
 
     def sanitize_v2(hash:, presenter:)
@@ -62,23 +68,21 @@ module IiifPrint
     end
 
     def apply_metadata_to_canvas(canvas:, presenter:)
-      solr_hits = get_solr_hits(presenter)
+      return if @child_works.empty?
+
+      parent_and_child_solr_hits = parent_and_child_solr_hits(presenter)
       # uses the 'id' property for v3 manifest and `@id' for v2, which is a URL that contains the FileSet id
       file_set_id = (canvas['id'] || canvas['@id']).split('/').last
       # finds the image that the FileSet is attached to and creates metadata on that canvas
-      image = solr_hits.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
+      image = parent_and_child_solr_hits.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
 
-      current_ability = presenter.try(:ability) || presenter.try(:current_ability)
-      base_url = presenter.try(:base_url) || presenter.try(:request)&.base_url
-      canvas_metadata = IiifPrint.manifest_metadata_for(work: image,
-                                                        current_ability: current_ability,
-                                                        base_url: base_url)
+      canvas_metadata = IiifPrint.manifest_metadata_from(work: image, presenter: presenter)
       canvas['metadata'] = canvas_metadata
     end
 
     LARGEST_SORT_ORDER_CHAR = '~'.freeze
 
-    def sorted_canvases_v2(hash:, sort_field:)
+    def sort_canvases_v2(hash:, sort_field:)
       sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
       hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
         selection = canvas['metadata'].select { |h| h['label'] == sort_field }
@@ -90,7 +94,7 @@ module IiifPrint
       hash
     end
 
-    def sorted_canvases_v3(hash:, sort_field:)
+    def sort_canvases_v3(hash:, sort_field:)
       sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
       hash['items']&.sort_by! do |item|
         selection = item['metadata'].select { |h| h['label'][I18n.locale.to_s] == [sort_field] }
@@ -102,9 +106,23 @@ module IiifPrint
       hash
     end
 
-    def get_solr_hits(presenter)
-      ids = [presenter.id] + Array.wrap(presenter.try(:ordered_ids) || presenter.try(:member_ids))
-      ids.flat_map { |id| ActiveFedora::SolrService.query("id:#{id}", fq: "-has_model_ssim:FileSet", rows: ids.size) }
+    def member_ids_for(presenter)
+      member_ids = presenter.try(:ordered_ids) || presenter.try(:member_ids)
+      member_ids.nil? ? [] : member_ids
+    end
+
+    def parent_and_child_solr_hits(presenter)
+      ids = [presenter.id] + member_ids_for(presenter)
+      get_solr_hits(ids)
+    end
+
+    ##
+    # return an array of work SolrHits
+    # @param ids [Array]
+    # @return [Array<ActiveFedora::SolrHit>]
+    def get_solr_hits(ids)
+      query = "id:(#{ids.join(' OR ')})"
+      ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: ids.size)
     end
   end
 end
