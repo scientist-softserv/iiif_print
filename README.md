@@ -153,6 +153,15 @@ TO ENABLE OCR Search (from the UV and catalog search)
     }
 ```
 
+To remove child works from recent works on homepage 
+### homepage_controller.rb
+* In the HomepageController, change the search_builder_class to remove works from recent_documents if `is_child_bsi: true`
+```rb
+    def search_builder_class
+      IiifPrint::HomepageSearchBuilder
+    end
+```
+
 # Ingesting Content
 
 IiifPrint supports a range of different ingest workflows:
