@@ -135,9 +135,7 @@ module IiifPrint
   def self.manifest_metadata_from(work:, presenter:)
     current_ability = presenter.try(:ability) || presenter.try(:current_ability)
     base_url = presenter.try(:base_url) || presenter.try(:request)&.base_url
-    canvas_metadata = IiifPrint.manifest_metadata_for(work: work,
-                                                      current_ability: current_ability,
-                                                      base_url: base_url)
+    IiifPrint.manifest_metadata_for(work: work, current_ability: current_ability, base_url: base_url)
   end
   # Hash is an arbitrary attribute key/value pairs
   # Struct is a defined set of attribute "keys".  When we favor defined values,
@@ -189,10 +187,10 @@ module IiifPrint
     #   )
     # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
     allinson_flex_relation = AllinsonFlex::ProfileProperty
-                            .joins(:texts)
-                            .where(allinson_flex_profile_texts: { name: 'display_label' })
-                            .distinct
-                            .select(:name, :value, :indexing)
+                             .joins(:texts)
+                             .where(allinson_flex_profile_texts: { name: 'display_label' })
+                             .distinct
+                             .select(:name, :value, :indexing)
     flex_fields = allinson_flex_relation.to_a
     unless allinson_flex_relation.exists?(name: 'collection')
       collection_field = CollectionFieldShim.new(name: :collection, value: 'Collection', indexing: [])
