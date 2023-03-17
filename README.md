@@ -157,6 +157,8 @@ To remove child works from recent works on homepage
 ### homepage_controller.rb
 * In the HomepageController, change the search_builder_class to remove works from recent_documents if `is_child_bsi: true`
 ```rb
+    require "iiif_print/homepage_search_builder"
+
     def search_builder_class
       IiifPrint::HomepageSearchBuilder
     end

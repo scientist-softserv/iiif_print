@@ -12,7 +12,6 @@ module IiifPrint
 
     # rubocop:disable Metrics/BlockLength
     config.to_prepare do
-      require "iiif_print/homepage_search_builder"
       # We don't have a hard requirement of Bullkrax but in our experience, lingering on earlier
       # versions can introduce bugs of both Bulkrax and some of the assumptions that we've resolved.
       # Very early versions of Bulkrax do not have VERSION defined
