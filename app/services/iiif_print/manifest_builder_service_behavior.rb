@@ -76,11 +76,7 @@ module IiifPrint
       # finds the image that the FileSet is attached to and creates metadata on that canvas
       image = parent_and_child_solr_hits.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
 
-      current_ability = presenter.try(:ability) || presenter.try(:current_ability)
-      base_url = presenter.try(:base_url) || presenter.try(:request)&.base_url
-      canvas_metadata = IiifPrint.manifest_metadata_for(work: image,
-                                                        current_ability: current_ability,
-                                                        base_url: base_url)
+      canvas_metadata = IiifPrint.manifest_metadata_from(work: image, presenter: presenter)
       canvas['metadata'] = canvas_metadata
     end
 

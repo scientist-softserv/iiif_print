@@ -4,9 +4,7 @@ module IiifPrint
     extend ActiveSupport::Concern
 
     def manifest_metadata
-      current_ability = try(:ability) || try(:current_ability)
-      base_url = try(:base_url) || try(:request)&.base_url
-      @metadata ||= IiifPrint.manifest_metadata_for(work: model, current_ability: current_ability, base_url: base_url)
+      @manifest_metadata ||= IiifPrint.manifest_metadata_from(work: model, presenter: self)
     end
 
     def search_service
