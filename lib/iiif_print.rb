@@ -161,11 +161,8 @@ module IiifPrint
         options: options
       )
     end
-    # Adding collection metadata for display in the UV metadata pane
-    if fields.where(name: 'collection').empty?
-      collection_field = Field.new(name: :collection, label: 'Collection', options: nil)
-      flex_fields << collection_field
-    end
+    return flex_fields << @collection_field if @collection_field.present?
+
     flex_fields
   end
 
@@ -188,5 +185,8 @@ module IiifPrint
                               .where(allinson_flex_profile_texts: { name: 'display_label' })
                               .distinct
                               .select(:name, :value, :indexing)
+    # Adding collection metadata for display in the UV metadata pane
+    @collection_field ||= Field.new(name: :collection, label: 'Collection', options: nil) unless @allinson_flex_fields.exists?(name: 'collection')
+    @allinson_flex_fields
   end
 end

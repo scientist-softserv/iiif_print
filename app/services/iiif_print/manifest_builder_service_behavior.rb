@@ -111,7 +111,8 @@ module IiifPrint
     end
 
     def member_ids_for(presenter)
-      presenter.try(:ordered_ids) || presenter.try(:member_ids)
+      member_ids = presenter.try(:ordered_ids) || presenter.try(:member_ids)
+      member_ids.nil? ? [] : member_ids
     end
 
     def parent_and_child_solr_hits(presenter)
@@ -124,7 +125,8 @@ module IiifPrint
     # @param ids [Array]
     # @return [Array<ActiveFedora::SolrHit>]
     def get_solr_hits(ids)
-      ids.flat_map { |id| ActiveFedora::SolrService.query("id:#{id}", fq: "-has_model_ssim:FileSet", rows: ids.size) }
+      query = "id:(#{ids.join(' OR ')})"
+      ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: ids.size)
     end
   end
 end
