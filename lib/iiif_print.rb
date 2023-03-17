@@ -150,7 +150,7 @@ module IiifPrint
   end
 
   def self.allinson_flex_fields_for(_work, fields: allinson_flex_fields)
-    fields.map do |field|
+    flex_fields = fields.map do |field|
       # currently only supports the faceted option
       # Why the `render_as:`? This was originally derived from Hyku default attributes
       # @see https://github.com/samvera/hyku/blob/c702844de4c003eaa88eb5a7514c7a1eae1b289e/app/views/hyrax/base/_attribute_rows.html.erb#L3
@@ -161,6 +161,12 @@ module IiifPrint
         options: options
       )
     end
+    # Adding collection metadata for display in the UV metadata pane
+    if fields.where(name: 'collection').empty?
+      collection_field = Field.new(name: :collection, label: 'Collection', options: nil)
+      flex_fields << collection_field
+    end
+    flex_fields
   end
 
   def self.allinson_flex_fields
