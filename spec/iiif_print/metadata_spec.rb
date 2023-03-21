@@ -172,8 +172,10 @@ RSpec.describe IiifPrint::Metadata do
         let(:attributes) { { "title_tesim" => ["This is a title."], "description_tesim" => [""] } }
 
         it "does not map the field with an empty string" do
-          expect(manifest_metadata.flat_map(&:values)).not_to include({"none"=>[""]})
-          expect(manifest_metadata).to eq [{ "label" => { "en" => ["Title"] }, "value" => { "none" => ["This is a title."] } }]
+          expect(manifest_metadata.flat_map(&:values)).not_to include({ "none" => [""] })
+          expect(manifest_metadata).to eq [
+            { "label" => { "en" => ["Title"] }, "value" => { "none" => ["This is a title."] } }
+          ]
         end
       end
 
