@@ -122,7 +122,7 @@ module IiifPrint
   # @see Hyrax::IiifManifestPresenter#manifest_metadata
   def self.manifest_metadata_for(work:,
                                  version: config.default_iiif_manifest_version,
-                                 fields: defined?(AllinsonFlex) ? allinson_flex_fields_for(work) : default_fields_for(work),
+                                 fields: defined?(AllinsonFlex) ? fields_for_allinson_flex : default_fields,
                                  current_ability:,
                                  base_url:)
     Metadata.build_metadata_for(work: work,
@@ -144,7 +144,7 @@ module IiifPrint
 
   # @api private
   # @todo Figure out a way to use a custom label, right now it takes it get rendered from the title.
-  def self.default_fields_for(_work, fields: config.metadata_fields)
+  def self.default_fields(fields: config.metadata_fields)
     fields.map do |field|
       Field.new(
         name: field.first,
@@ -154,7 +154,7 @@ module IiifPrint
     end
   end
 
-  def self.allinson_flex_fields_for(_work, fields: allinson_flex_fields)
+  def self.fields_for_allinson_flex(fields: allinson_flex_fields)
     fields.map do |field|
       # currently only supports the faceted option
       # Why the `render_as:`? This was originally derived from Hyku default attributes
