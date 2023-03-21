@@ -7,6 +7,7 @@ module IiifPrint
       # @param user: [User]
       # @param admin_set_id: [<String>]
       # @param prior_pdfs: [<Integer>] count of pdfs already on parent work
+      # TODO: implement prior_pdfs - currently it is always set to 0
       def perform(parent_work, pdf_paths, user, admin_set_id, prior_pdfs)
         @parent_work = parent_work
         @child_admin_set_id = admin_set_id
@@ -66,25 +67,37 @@ module IiifPrint
       def prepare_import_data(pdf_sequence, image_files, user, number_of_pdfs:)
         @uploaded_files = []
         @child_work_titles = {}
+        pdf_number_of_pages = image_files.size
         image_files.each_with_index do |image_path, idx|
           file_id = create_uploaded_file(user, image_path).to_s
           file_title = set_title(@parent_work.title.first,
                                  pdf_sequence,
                                  idx,
-                                 pdf_pad_zero: number_of_pdfs.size.to_s.length,
-                                 page_pad_zero: image_files.size.to_s.length)
+                                 pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
+                                 page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
           @uploaded_files << file_id
           @child_work_titles[file_id] = file_title
           # save child work info to create the member relationships
           PendingRelationship.create!(child_title: file_title,
                                       parent_id: @parent_work.id,
-                                      child_order: sort_order(pdf_sequence, idx))
+                                      child_order: sort_order(
+                                        pdf_sequence,
+                                        idx,
+                                        pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
+                                        page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
+                                      )
         end
       end
       # rubocop:enable Metrics/MethodLength
 
-      def sort_order(pdf_sequence, idx)
-        "#{pdf_sequence} #{idx}"
+      def sort_order(pdf_sequence, idx, pdf_pad_zero:, page_pad_zero:)
+        padded_pdf = (pdf_sequence + 1).to_s.rjust(pdf_pad_zero, "0")
+        padded_page = (idx + 1).to_s.rjust(page_pad_zero, "0")
+        "#{padded_pdf}-#{padded_page}"
+      end
+
+      def number_of_digits(nbr:)
+        nbr.to_s.size
       end
 
       def create_uploaded_file(user, path)
