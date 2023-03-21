@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe IiifPrint::Metadata do
   let(:base_url) { "https://my.dev.test" }
   let(:solr_hit) { SolrHit.new(attributes) }
-  let(:fields) { IiifPrint.default_fields_for(fields: metadata_fields) }
+  let(:fields) { IiifPrint.default_fields(fields: metadata_fields) }
   let(:metadata_fields) do
     {
       title: {},
@@ -86,6 +86,23 @@ RSpec.describe IiifPrint::Metadata do
           ]
         end
       end
+
+      context "when the value has an empty string" do
+        let(:attributes) { { "title_tesim" => ["This is a title."], "description_tesim" => [""] } }
+
+        it "does not map the field with an empty string" do
+          expect(manifest_metadata.flat_map(&:values)).not_to include([""])
+          expect(manifest_metadata).to eq [{ "label" => "Title", "value" => ["This is a title."] }]
+        end
+      end
+
+      context "when the value is an empty string" do
+        let(:attributes) { { "description_tesim" => [""] } }
+
+        it "returns and empty array" do
+          expect(manifest_metadata).to eq []
+        end
+      end
     end
 
     context "for version 3 of the IIIF spec" do
@@ -148,6 +165,23 @@ RSpec.describe IiifPrint::Metadata do
             { "label" => { "en" => ["Collection"] },
               "value" => { "none" => ["<a href='#{base_url}/collections/321cba'>My Cool Collection</a>"] } }
           ]
+        end
+      end
+
+      context "when the value has an empty string" do
+        let(:attributes) { { "title_tesim" => ["This is a title."], "description_tesim" => [""] } }
+
+        it "does not map the field with an empty string" do
+          expect(manifest_metadata.flat_map(&:values)).not_to include({"none"=>[""]})
+          expect(manifest_metadata).to eq [{ "label" => { "en" => ["Title"] }, "value" => { "none" => ["This is a title."] } }]
+        end
+      end
+
+      context "when the value is an empty string" do
+        let(:attributes) { { "description_tesim" => [""] } }
+
+        it "returns and empty array" do
+          expect(manifest_metadata).to eq []
         end
       end
     end

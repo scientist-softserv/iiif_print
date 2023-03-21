@@ -1,4 +1,5 @@
 module IiifPrint
+  # rubocop:disable Metrics/ClassLength
   class Metadata
     def self.build_metadata_for(work:, version:, fields:, current_ability:, base_url:)
       new(work: work,
@@ -20,10 +21,11 @@ module IiifPrint
 
     def build_metadata
       fields.map do |field|
+        values = values_for(field_name: field)
         if field.name == :collection && member_of_collection? && viewable_collections.present?
           { 'label' => metadata_map(field, :label),
             'value' => metadata_map(field, :collection) }
-        elsif values_for(field_name: field).present?
+        elsif values.present? && !empty_string?(values)
           { 'label' => metadata_map(field, :label),
             'value' => metadata_map(field, :value) }
         end
@@ -46,6 +48,12 @@ module IiifPrint
         when :collection then { 'none' => make_collection_link(viewable_collections) }
         end
       end
+    end
+
+    # Bulkrax imports values as [""] if there isn't a value but still a header,
+    # these fields should not show in the metadata pane
+    def empty_string?(values)
+      values.uniq.size == 1 ? values.first == "" : false
     end
 
     def member_of_collection?
@@ -114,4 +122,5 @@ module IiifPrint
       )
     }ix.freeze
   end
+  # rubocop:enable Metrics/ClassLength
 end
