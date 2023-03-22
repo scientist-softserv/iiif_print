@@ -80,12 +80,10 @@ module IiifPrint
           # save child work info to create the member relationships
           PendingRelationship.create!(child_title: file_title,
                                       parent_id: @parent_work.id,
-                                      child_order: sort_order(
-                                        pdf_sequence,
-                                        idx,
-                                        pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
-                                        page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
-                                      )
+                                      child_order: sort_order(pdf_sequence,
+                                                              idx,
+                                                              pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
+                                                              page_pad_zero: number_of_digits(nbr: pdf_number_of_pages)))
         end
       end
       # rubocop:enable Metrics/MethodLength
