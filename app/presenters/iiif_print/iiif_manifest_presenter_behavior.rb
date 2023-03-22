@@ -28,7 +28,6 @@ module IiifPrint
 
     module DisplayImagePresenterBehavior
       def display_image
-        # return nil unless model.image?
         return nil unless latest_file_id
 
         IIIFManifest::DisplayImage
@@ -41,11 +40,8 @@ module IiifPrint
 
       def display_image_url(base_url)
         if ENV['SERVERLESS_IIIF_URL'].present?
-          Hyrax.config.iiif_image_url_builder.call(
-            latest_file_id,
-            ENV['SERVERLESS_IIIF_URL'],
-            Hyrax.config.iiif_image_size_default
-          ).gsub(%r{images/}, '')
+          # At the moment we are only concerned about Hyrax's default image url builder
+          iiif_image_url_builder(url_builder: Hyrax.config.iiif_image_url_builder)
         else
           super
         end
@@ -72,7 +68,7 @@ module IiifPrint
         false
       end
 
-        private
+      private
 
       def latest_file_id
         if ENV['SERVERLESS_IIIF_URL'].present?
@@ -84,6 +80,18 @@ module IiifPrint
 
       def serverless_latest_file_id
         @latest_file_id ||= digest_sha1
+      end
+
+      def iiif_image_url_builder(url_builder:)
+        args = [
+          latest_file_id,
+          ENV['SERVERLESS_IIIF_URL'],
+          Hyrax.config.iiif_image_size_default
+        ]
+        # In Hyrax 3, Hyrax.config.iiif_image_url_builder takes an additional argument
+        args << image_format(alpha_channels) if url_builder.arity == 4
+
+        url_builder.call(*args).gsub(%r{images/}, '')
       end
     end
   end
