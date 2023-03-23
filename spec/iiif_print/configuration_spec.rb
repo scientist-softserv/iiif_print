@@ -64,4 +64,24 @@ RSpec.describe IiifPrint::Configuration do
         .to("-l esperanto")
     end
   end
+
+  describe '#default_iiif_manifest_version' do
+    subject { config.default_iiif_manifest_version }
+
+    context 'default' do
+      it { is_expected.to eq 2 }
+    end
+
+    context 'when set to empty' do
+      before { config.default_iiif_manifest_version = '' }
+      it { is_expected.to eq 2 }
+    end
+
+    it 'can be set' do
+      expect { config.default_iiif_manifest_version = 3 }
+        .to change(config, :default_iiif_manifest_version)
+        .from(2)
+        .to(3)
+    end
+  end
 end
