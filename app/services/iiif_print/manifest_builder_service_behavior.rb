@@ -42,8 +42,6 @@ module IiifPrint
       manifest = manifest_factory.new(presenter).to_h
       hash = JSON.parse(manifest.to_json)
       hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter)
-      return send("sort_canvases_v#{@version}", hash: hash, sort_field: IiifPrint.config.sort_iiif_manifest_canvases_by) if @child_works.present?
-
       hash
     end
 
@@ -79,32 +77,6 @@ module IiifPrint
 
       canvas_metadata = IiifPrint.manifest_metadata_from(work: image, presenter: presenter)
       canvas['metadata'] = canvas_metadata
-    end
-
-    LARGEST_SORT_ORDER_CHAR = '~'.freeze
-
-    def sort_canvases_v2(hash:, sort_field:)
-      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
-      hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
-        selection = canvas['metadata'].select { |h| h['label'] == sort_field }
-        fallback = [{ label: sort_field,
-                      value: [LARGEST_SORT_ORDER_CHAR] }]
-        sort_field_metadata = selection.presence || fallback
-        sort_field_metadata.first['value'] if sort_field_metadata.present?
-      end
-      hash
-    end
-
-    def sort_canvases_v3(hash:, sort_field:)
-      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
-      hash['items']&.sort_by! do |item|
-        selection = item['metadata'].select { |h| h['label'][I18n.locale.to_s] == [sort_field] }
-        fallback = [{ label: { "#{I18n.locale}": [sort_field] },
-                      value: { none: [LARGEST_SORT_ORDER_CHAR] } }]
-        sort_field_metadata = selection.presence || fallback
-        sort_field_metadata.first['value']['none'] if sort_field_metadata.present?
-      end
-      hash
     end
 
     def member_ids_for(presenter)

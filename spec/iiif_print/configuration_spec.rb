@@ -14,17 +14,6 @@ RSpec.describe IiifPrint::Configuration do
     end
   end
 
-  describe "#sort_iiif_manifest_canvases_by" do
-    subject { config.sort_iiif_manifest_canvases_by }
-
-    it { is_expected.to be_a Symbol }
-    it "allows for an override" do
-      original = config.sort_iiif_manifest_canvases_by
-      config.sort_iiif_manifest_canvases_by = :title
-      expect(config.metadata_fields).not_to eq original
-    end
-  end
-
   describe "#handle_after_create_fileset" do
     let(:file_set) { double(FileSet) }
     let(:user) { double(User) }
