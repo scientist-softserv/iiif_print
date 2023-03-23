@@ -81,11 +81,6 @@ module IiifPrint
     end
     # rubocop:enable Metrics/MethodLength
 
-    attr_writer :sort_iiif_manifest_canvases_by
-    def sort_iiif_manifest_canvases_by
-      @sort_iiif_manifest_canvases_by || :title
-    end
-
     attr_writer :additional_tessearct_options
     ##
     # The additional options to pass to the Tesseract configuration

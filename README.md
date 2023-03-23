@@ -35,7 +35,6 @@ IiifPrint supports:
 * OCR keyword match highlighting
 * viewer with page navigation and deep zooming
 * splitting of PDFs to LZW compressed TIFFs for viewing
-* configuring how the manifest canvases are sorted in the viewer
 * adding metadata fields to the manifest with faceted search links and external links
 * excluding specified work types to be found in the catalog search
 
@@ -123,10 +122,6 @@ IiifPrint.config do |config|
   # Add configurable solr field key for searching, default key is: 'human_readable_type_sim' if
   # another key is used, make sure to adjust the config.excluded_model_name_solr_field_values to match
   config.excluded_model_name_solr_field_key = 'some_solr_field_key'
-
-  # Configure how the manifest sorts the canvases, by default it sorts by `:title`, but a different
-  # model property may be desired such as :date_published
-  config.sort_iiif_manifest_canvases_by = :date_published
 end
 ```
 
@@ -153,7 +148,7 @@ TO ENABLE OCR Search (from the UV and catalog search)
     }
 ```
 
-To remove child works from recent works on homepage 
+To remove child works from recent works on homepage
 ### homepage_controller.rb
 * In the HomepageController, change the search_builder_class to remove works from recent_documents if `is_child_bsi: true`
 ```rb
