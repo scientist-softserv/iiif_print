@@ -4,12 +4,13 @@ module IiifPrint
                    version: IiifPrint.config.default_iiif_manifest_version,
                    iiif_manifest_factory: iiif_manifest_factory_for(version),
                    &block)
-      super(*args, iiif_manifest_factory: iiif_manifest_factory, &block)
+      # Ensure we're setting the version before we go any further.
       @version = version.to_i
       @child_works = nil
+      super(*args, iiif_manifest_factory: iiif_manifest_factory, &block)
     end
 
-    attr_reader :child_works
+    attr_reader :child_works, :version
 
     def manifest_for(presenter:)
       @child_works = get_solr_hits(member_ids_for(presenter))

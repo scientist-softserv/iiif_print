@@ -44,7 +44,7 @@ module IiifPrint
 
     attr_writer :default_iiif_manifest_version
     def default_iiif_manifest_version
-      @default_iiif_manifest_version || 2
+      @default_iiif_manifest_version.presence || 2
     end
 
     attr_writer :metadata_fields
