@@ -38,6 +38,7 @@ IiifPrint supports:
 * configuring how the manifest canvases are sorted in the viewer
 * adding metadata fields to the manifest with faceted search links and external links
 * excluding specified work types to be found in the catalog search
+* external IIIF image urls that work with services such as AWS
 
 A complete list of features can be found [here](https://github.com/scientist-softserv/iiif_print/wiki/Features-List).
 
@@ -153,7 +154,7 @@ TO ENABLE OCR Search (from the UV and catalog search)
     }
 ```
 
-To remove child works from recent works on homepage 
+To remove child works from recent works on homepage
 ### homepage_controller.rb
 * In the HomepageController, change the search_builder_class to remove works from recent_documents if `is_child_bsi: true`
 ```rb

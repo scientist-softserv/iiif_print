@@ -17,31 +17,53 @@ RSpec.describe IiifPrint::IiifManifestPresenterBehavior do
     end
   end
 
-  # this method is inside of the DisplayImagePresenterBehavior module
-  describe '#display_image' do
+  context 'with IIIF external support' do
     let(:presenter) { Hyrax::IiifManifestPresenter::DisplayImagePresenter.new(solr_document) }
     let(:id) { 'abc123' }
+    let(:url) { 'external_iiif_url' }
+    let(:iiif_info_url_builder) { ->(file_id, base_url) { "#{base_url}/#{file_id}" } }
 
-    context 'when serverless_iiif is enabled' do
-      let(:url) { 'serverless_iiif_url' }
+    before { allow(solr_document).to receive(:image?).and_return(true) }
 
-      it 'renders a serverless url' do
+    context 'when external iiif is enabled' do
+      before do
         allow(ENV).to receive(:[])
-        allow(ENV).to receive(:[]).with('SERVERLESS_IIIF_URL').and_return(url)
+        allow(ENV).to receive(:[]).with('EXTERNAL_IIIF_URL').and_return(url)
         allow(presenter).to receive(:latest_file_id).and_return(id)
-        expect(presenter.display_image.iiif_endpoint.url).to eq "#{url}/#{id}"
-        expect(presenter.display_image.iiif_endpoint.profile).to eq "http://iiif.io/api/image/2/level2.json"
+      end
+
+      describe '#display_image' do
+        it 'renders a external url' do
+          expect(presenter.display_image.iiif_endpoint.url).to eq "#{url}/#{id}"
+          expect(presenter.display_image.iiif_endpoint.profile).to eq "http://iiif.io/api/image/2/level2.json"
+        end
+      end
+
+      describe '#display_content' do
+        it 'renders a external url' do
+          expect(presenter.display_content.iiif_endpoint.url).to eq "#{url}/#{id}"
+          expect(presenter.display_content.iiif_endpoint.profile).to eq "http://iiif.io/api/image/2/level2.json"
+        end
       end
     end
 
-    context 'when serverless_iiif is not enabled' do
-      let(:iiif_info_url_builder) { ->(file_id, base_url) { "#{base_url}/#{file_id}" } }
-
-      it 'does not render a serverless url' do
+    context 'when external iiif is not enabled' do
+      before do
         allow(presenter).to receive(:latest_file_id).and_return(id)
         allow(Hyrax.config).to receive(:iiif_image_server?).and_return(true)
         allow(Hyrax.config).to receive(:iiif_info_url_builder).and_return(iiif_info_url_builder)
-        expect(presenter.display_image.iiif_endpoint.url).to eq "localhost/#{id}"
+      end
+
+      describe '#display_image' do
+        it 'does not render a external url' do
+          expect(presenter.display_image.iiif_endpoint.url).to eq "localhost/#{id}"
+        end
+      end
+
+      describe '#display_content' do
+        it 'does not render a external url' do
+          expect(presenter.display_content.iiif_endpoint.url).to eq "localhost/#{id}"
+        end
       end
     end
   end

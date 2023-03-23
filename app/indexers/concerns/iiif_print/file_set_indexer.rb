@@ -27,7 +27,7 @@ module IiifPrint
       end
     end
 
-        private
+    private
 
     def digest_from_content
       return unless object.original_file
