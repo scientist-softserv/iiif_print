@@ -38,7 +38,7 @@ IiifPrint supports:
 * configuring how the manifest canvases are sorted in the viewer
 * adding metadata fields to the manifest with faceted search links and external links
 * excluding specified work types to be found in the catalog search
-* external IIIF image urls that work with services such as AWS
+* external IIIF image urls that work with services such as serverless-iiif or cantaloup
 
 A complete list of features can be found [here](https://github.com/scientist-softserv/iiif_print/wiki/Features-List).
 
@@ -92,6 +92,10 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 
 ## Configuration to enable IiifPrint features
 **NOTE: WorkTypes and models are used synonymously here.**
+
+### IIIF URL configuration
+
+If you set EXTERNAL_IIIF_URL in your environment, then IiifPrint will use that URL as the root for your IIIF URLs. It will also switch from using the file set ID to using the SHA1 of the file as the identifier. This enables using serverless_iiif or Cantaloupe (refered to as the service) by pointing the service to the same S3 bucket that FCREPO writes the uploaded files to. By setting it up that way you do not need the service to connect to FCREPO or Hyrax at all, both natively support connecting to an S3 bucket to get their data.
 
 ### Model level configurations
 
