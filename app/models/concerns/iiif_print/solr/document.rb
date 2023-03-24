@@ -19,6 +19,7 @@ module IiifPrint::Solr::Document
   def self.decorate(base)
     base.prepend(self)
     base.send(:attribute, :is_child, Hyrax::SolrDocument::Metadata::Solr::String, 'is_child_bsi')
+    base.send(:attribute, :digest, Hyrax::SolrDocument::Metadata::Solr::String, 'digest_ssim')
 
     # @note These properties came from the newspaper_works gem.  They are configurable.
     base.class_attribute :iiif_print_solr_field_names, default: %w[alternative_title genre
@@ -29,6 +30,10 @@ module IiifPrint::Solr::Document
                                                                    edition_number edition_name frequency preceded_by
                                                                    succeeded_by]
     base
+  end
+
+  def digest_sha1
+    digest[/urn:sha1:([\w]+)/, 1]
   end
 
   def method_missing(method_name, *args, &block)

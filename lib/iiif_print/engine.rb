@@ -49,19 +49,6 @@ module IiifPrint
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
       Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
 
-      # Extending the presenter to the base url which includes the protocol.
-      # We need the base url to render the facet links and normalize the interface.
-      Hyrax::IiifManifestPresenter.send(:attr_accessor, :base_url)
-      Hyrax::IiifManifestPresenter::DisplayImagePresenter.send(:attr_accessor, :base_url)
-      # Extending this class because there is an #ability= but not #ability and this definition
-      # mirrors the Hyrax::IiifManifestPresenter#ability.
-      module Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator
-        def ability
-          @ability ||= NullAbility.new
-        end
-      end
-      Hyrax::IiifManifestPresenter::DisplayImagePresenter.prepend(Hyrax::IiifManifestPresenter::DisplayImagePresenterDecorator)
-
       Hyrax.config do |config|
         config.callback.set(:after_create_fileset) do |file_set, user|
           IiifPrint.config.handle_after_create_fileset(file_set, user)
@@ -71,6 +58,8 @@ module IiifPrint
 
     config.after_initialize do
       IiifPrint::Solr::Document.decorate(SolrDocument)
+      Hyrax::IiifManifestPresenter::DisplayImagePresenter
+        .prepend(IiifPrint::IiifManifestPresenterBehavior::DisplayImagePresenterBehavior)
     end
     # rubocop:enable Metrics/BlockLength
   end

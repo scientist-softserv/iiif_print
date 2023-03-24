@@ -23,7 +23,15 @@ module IiifPrint
         text = text.tr("\n", ' ').squeeze(' ')
         solr_doc['all_text_timv'] = text
         solr_doc['all_text_tsimv'] = text
+        solr_doc['digest_ssim'] = digest_from_content
       end
+    end
+
+    private
+
+    def digest_from_content
+      return unless object.original_file
+      object.original_file.digest.first.to_s
     end
   end
 end
