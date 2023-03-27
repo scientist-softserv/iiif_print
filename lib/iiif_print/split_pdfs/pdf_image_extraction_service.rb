@@ -35,6 +35,10 @@ module IiifPrint
         @entries
       end
 
+      def page_count
+        @entries.length
+      end
+
       def selectcolumn(i, &block)
         result = entries.map { |e| e[i] }
         return result.map!(&block) if block_given?
