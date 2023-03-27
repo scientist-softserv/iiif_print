@@ -8,92 +8,79 @@ module IiifPrint
     # For dpi extraction, falls back to calculating using MiniMagick,
     #   if neccessary.
     class PdfImageExtractionService
+      def initialize(path)
+        @path = path
+        process(command: format('pdfimages -list %<path>s', path: path))
+      end
+
+      attr_reader :path, :page_count, :width, :height, :pixels_per_inch
+      alias ppi pixels_per_inch
+
+      # @return [Array<String, Integer, Integer>]
+      def color
+        [@color_description, @channels, @bits]
+      end
+
+      private
+
       # class constant column numbers
       COL_WIDTH = 3
       COL_HEIGHT = 4
-      COL_COLOR = 5
+      COL_COLOR_DESC = 5
       COL_CHANNELS = 6
       COL_BITS = 7
       # only poppler 0.25+ has this column in output:
       COL_XPPI = 12
 
-      def initialize(path)
-        @path = path
-        @cmd = format('pdfimages -list %<path>s', path: path)
-        @output = nil
-        @entries = nil
-      end
+      # rubocop:disable Metrics/AbcSize - Because this helps us process the results in one loop.
+      # rubocop:disable Metrics/MethodLength - Again, to help speed up the processing loop.
+      #
+      # The first two lines are tabular header information:
+      #
+      # Example:
+      #
+      #   bash-5.1$ pdfimages -list fmc_color.pdf  | head -5
+      #   page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+      #   --------------------------------------------------------------------------------------------
+      #   1     0 image    2475   413  rgb     3   8  jpeg   no        10  0   300   300 21.8K 0.7%
+      def process(command:)
+        @page_count = 0
+        @color_description = 'gray'
+        @width = 0
+        @height = 0
+        @channels = 0
+        @bits = 0
+        @pixels_per_inch = 0
+        Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
+          stdout.read.split("\n").each_with_index do |line, index|
+            # Skip the two header lines
+            next if index <= 1
+            @page_count += 1
+            cells = line.gsub(/\s+/m, ' ').strip.split(" ")
 
-      def entries
-        if @entries.nil?
-          @entries = []
-          output = process
-          (0..output.size - 1).each do |i|
-            @entries.push(output[i].gsub(/\s+/m, ' ').strip.split(" "))
+            @color_description = 'rgb' if cells[COL_COLOR_DESC] != 'gray'
+            @width = cells[COL_WIDTH].to_i if cells[COL_WIDTH].to_i > @width
+            @height = cells[COL_HEIGHT].to_i if cells[COL_HEIGHT].to_i > @height
+            @channels = cells[COL_CHANNELS].to_i if cells[COL_CHANNELS].to_i > @channels
+            @bits = cells[COL_BITS].to_i if cells[COL_BITS].to_i > @bits
+
+            # In the case of poppler version < 0.25, we will have no more than 12 columns.  As such,
+            # we need to do some alternative magic to calculate this.
+            if @page_count == 1 && cells.size <= 12
+              pdf = MiniMagick::Image.open(@path)
+              width_points = pdf.width
+              width_px = width
+              @pixels_per_inch = (72 * width_px / width_points).to_i
+            else
+              # By the magic of nil#to_i if we don't have more than 12 columns, we've already set
+              # the @pixels_per_inch and this line won't due much of anything.
+              @pixels_per_inch = cells[COL_XPPI].to_i if cells[COL_XPPI].to_i > @pixels_per_inch
+            end
           end
         end
-        @entries
       end
-
-      def page_count
-        @entries.length
-      end
-
-      def selectcolumn(i, &block)
-        result = entries.map { |e| e[i] }
-        return result.map!(&block) if block_given?
-        result
-      end
-
-      def width
-        selectcolumn(COL_WIDTH, &:to_i).max
-      end
-
-      def height
-        selectcolumn(COL_HEIGHT, &:to_i).max
-      end
-
-      def color
-        # desc is either 'gray', 'cmyk', 'rgb', but 1-bit gray is black/white
-        #   so caller may want all of this information, and in case of
-        #   mixed color spaces across images, this returns maximum
-        desc = entries.any? { |e| e[COL_COLOR] != 'gray' } ? 'rgb' : 'gray'
-        channels = entries.map { |e| e[COL_CHANNELS].to_i }.max
-        bits = entries.map { |e| e[COL_BITS].to_i }.max
-        [desc, channels, bits]
-      end
-
-      def ppi
-        if entries[0].size <= 12
-          # poppler < 0.25
-          pdf = MiniMagick::Image.open(@path)
-          width_points = pdf.width
-          width_px = width
-          return (72 * width_px / width_points).to_i
-        end
-        # with poppler 0.25+, pdfimages just gives us this:
-        selectcolumn(COL_XPPI, &:to_i).max
-      end
-
-      private
-
-      def process
-        # call just once
-        if @output.nil?
-          Open3.popen3(@cmd) do |_stdin, stdout, _stderr, _wait_thr|
-            @output = stdout.read.split("\n")
-          end
-        end
-        # The first two lines are tabular header information:
-        #
-        # Example:
-        #
-        #   bash-5.1$ pdfimages -list fmc_color.pdf  | head -5
-        #   page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
-        #   --------------------------------------------------------------------------------------------
-        #   1     0 image    2475   413  rgb     3   8  jpeg   no        10  0   300   300 21.8K 0.7%
-        @output[2..-1]
-      end
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
