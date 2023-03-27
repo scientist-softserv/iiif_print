@@ -34,6 +34,8 @@ module IiifPrint
 
       # rubocop:disable Metrics/AbcSize - Because this helps us process the results in one loop.
       # rubocop:disable Metrics/MethodLength - Again, to help speed up the processing loop.
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       #
       # The first two lines are tabular header information:
       #
@@ -71,16 +73,18 @@ module IiifPrint
               width_points = pdf.width
               width_px = width
               @pixels_per_inch = (72 * width_px / width_points).to_i
-            else
+            elsif cells[COL_XPPI].to_i > @pixels_per_inch
               # By the magic of nil#to_i if we don't have more than 12 columns, we've already set
               # the @pixels_per_inch and this line won't due much of anything.
-              @pixels_per_inch = cells[COL_XPPI].to_i if cells[COL_XPPI].to_i > @pixels_per_inch
+              @pixels_per_inch = cells[COL_XPPI].to_i
             end
           end
         end
       end
       # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
     end
   end
 end
