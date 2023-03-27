@@ -39,7 +39,7 @@ module IiifPrint
       #
       # TODO: put this test somewhere to prevent invalid pdfs from crashing the image service.
       def invalid_pdf?
-        return true if pdfinfo.color.include?(nil) || pdfinfo.width.nil? || pdfinfo.height.nil? || pdfinfo.entries.length.zero?
+        return true if pdfinfo.color.include?(nil) || pdfinfo.width.nil? || pdfinfo.height.nil? || pdfinfo.page_count.zero?
         false
       end
 
@@ -115,7 +115,7 @@ module IiifPrint
       end
 
       def single_image_per_page?
-        pdfinfo.entries.length == pagecount
+        pdfinfo.page_count == pagecount
       end
     end
   end
