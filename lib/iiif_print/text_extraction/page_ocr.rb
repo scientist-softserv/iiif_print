@@ -22,7 +22,7 @@ module IiifPrint
 
       def run_ocr
         outfile = File.join(Dir.mktmpdir, 'output_html')
-        cmd = "tesseract #{path} #{outfile}"
+        cmd = "OMP_THREAD_LIMIT=1 tesseract #{path} #{outfile}"
         cmd += " #{@additional_tessearct_options}" if @additional_tessearct_options.present?
         cmd += " hocr"
         `#{cmd}`
