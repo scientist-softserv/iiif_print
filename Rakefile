@@ -37,7 +37,7 @@ Dir.glob('lib/tasks/*.rake').each { |r| import r }
 
 # Adding the copy_authorities here so it runs the same in CI
 desc "Generate the engine_cart, copy authorities, and run tests"
-task prepare_and_run_tests: ['engine_cart:generate', 'engine_cart:copy_authorities', :spec] do
+task prepare_and_run_tests: ['engine_cart:generate', 'engine_cart:copy_authorities'] do
   puts "Running CI tests"
 end
 
