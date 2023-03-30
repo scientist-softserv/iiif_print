@@ -66,16 +66,30 @@ module IiifPrint
 
     def cast_to_value(field_name:, options:)
       if options&.[](:render_as) == :faceted
-        values_for(field_name: field_name).map do |value|
-          search_field = field_name.to_s + "_sim"
-          path = Rails.application.routes.url_helpers.search_catalog_path(
-            "f[#{search_field}][]": value, locale: I18n.locale
-          )
-          path += '&include_child_works=true' if work["is_child_bsi"] == true
-          "<a href='#{File.join(@base_url, path)}'>#{value}</a>"
-        end
+        faceted_values_for(field_name: field_name)
+      elsif options&.[](:render_as) == :rights_statement || options&.[](:render_as) == :license
+        authority_values_for(field_name: field_name)
       else
         make_link(values_for(field_name: field_name))
+      end
+    end
+
+    def faceted_values_for(field_name:)
+      values_for(field_name: field_name).map do |value|
+        search_field = field_name.to_s + "_sim"
+        path = Rails.application.routes.url_helpers.search_catalog_path(
+          "f[#{search_field}][]": value, locale: I18n.locale
+        )
+        path += '&include_child_works=true' if work["is_child_bsi"] == true
+        "<a href='#{File.join(@base_url, path)}'>#{value}</a>"
+      end
+    end
+
+    def authority_values_for(field_name:)
+      authority = Qa::Authorities::Local.subauthority_for(field_name.to_s.pluralize)
+      values_for(field_name: field_name).map do |value|
+        id, term = authority.find(value).values_at('id', 'term')
+        "<a href='#{id}'>#{term}</a>"
       end
     end
 
