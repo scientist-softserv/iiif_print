@@ -109,11 +109,12 @@ module IiifPrint
       Hyrax::CollectionMemberService.run(SolrDocument.find(work.id), current_ability)
     end
 
-    # @note This method turns link looking strings into links
+    # @note This method turns link looking strings into links and assumes https if not protocol was given
     def make_link(texts)
       texts.map do |t|
         t.to_s.gsub(MAKE_LINK_REGEX) do |url|
-          "<a href='#{url}' target='_blank'>#{url}</a>"
+          protocol = url.start_with?('www.') ? 'https://' : ''
+          "<a href='#{protocol}#{url}' target='_blank'>#{url}</a>"
         end
       end
     end
@@ -121,10 +122,9 @@ module IiifPrint
     MAKE_LINK_REGEX = %r{
       \b
       (
-        (?: [a-z][\w-]+:
-          (?: /{1,3} | [a-z0-9%] ) |
-            www\d{0,3}[.] |
-            [a-z0-9.\-]+[.][a-z]{2,4}/
+        (?:
+          (?:https?://) |
+          (?:www\.)
         )
         (?:
           [^\s()<>]+ | \(([^\s()<>]+|(\([^\s()<>]+\)))*\)
