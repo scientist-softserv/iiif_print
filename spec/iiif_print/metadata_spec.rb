@@ -63,11 +63,39 @@ RSpec.describe IiifPrint::Metadata do
         let(:attributes) { { "creator_tesim" => ["McAuthor, Arthur"] } }
 
         it "adds a link to the faceted search" do
-          expect(manifest_metadata). to eq [
+          expect(manifest_metadata).to eq [
             { "label" => "Creator",
               "value" =>
                 ["<a href='#{base_url}/catalog?f%5Bcreator_sim%5D%5B%5D=McAuthor%2C+Arthur&locale=en'>McAuthor, Arthur</a>"] }
           ]
+        end
+      end
+
+      context "with an authority option" do
+        context "rights statement" do
+          let(:metadata_fields) { { rights_statement: { render_as: :rights_statement } } }
+          let(:attributes) { { "rights_statement_tesim" => ["http://rightsstatements.org/vocab/InC-OW-EU/1.0/"] } }
+
+          it "renders a link and displays a term" do
+            expect(manifest_metadata).to eq [
+              { "label" => "Rights statement",
+                "value" => ["<a href='http://rightsstatements.org/vocab/InC-OW-EU/1.0/'>In Copyright - EU Orphan Work</a>"] }
+            ]
+          end
+        end
+
+        context "license" do
+          let(:metadata_fields) { { license: { render_as: :license } } }
+          let(:attributes) { { "license_tesim" => ["https://creativecommons.org/licenses/by-sa/4.0/"] } }
+
+          it "renders a link and displays a term" do
+            expect(manifest_metadata).to eq [
+              { "label" => "License",
+                "value" => [
+                  "<a href='https://creativecommons.org/licenses/by-sa/4.0/'>Creative Commons BY-SA Attribution-ShareAlike 4.0 International</a>"
+                ] }
+            ]
+          end
         end
       end
 
@@ -149,6 +177,36 @@ RSpec.describe IiifPrint::Metadata do
               "value" => { "none" =>
                 ["<a href='#{base_url}/catalog?f%5Bcreator_sim%5D%5B%5D=McAuthor%2C+Arthur&locale=en'>McAuthor, Arthur</a>"] } }
           ]
+        end
+      end
+
+      context "with an authority option" do
+        context "rights statement" do
+          let(:metadata_fields) { { rights_statement: { render_as: :rights_statement } } }
+          let(:attributes) { { "rights_statement_tesim" => ["http://rightsstatements.org/vocab/InC-OW-EU/1.0/"] } }
+
+          it "renders a link and displays a term" do
+            expect(manifest_metadata).to eq [
+              { "label" => { "en" => ["Rights statement"] },
+                "value" => { "none" => [
+                  "<a href='http://rightsstatements.org/vocab/InC-OW-EU/1.0/'>In Copyright - EU Orphan Work</a>"
+                ] } }
+            ]
+          end
+        end
+
+        context "license" do
+          let(:metadata_fields) { { license: { render_as: :license } } }
+          let(:attributes) { { "license_tesim" => ["https://creativecommons.org/licenses/by-sa/4.0/"] } }
+
+          it "renders a link and displays a term" do
+            expect(manifest_metadata).to eq [
+              { "label" => { "en" => ["License"] },
+                "value" => { "none" => [
+                  "<a href='https://creativecommons.org/licenses/by-sa/4.0/'>Creative Commons BY-SA Attribution-ShareAlike 4.0 International</a>"
+                ] } }
+            ]
+          end
         end
       end
 
