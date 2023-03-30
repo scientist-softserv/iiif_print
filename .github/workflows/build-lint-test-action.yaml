@@ -26,8 +26,7 @@ jobs:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/test.yaml@v0.0.13
     with:
-      setup_db_cmd: rake engine_cart:generate
+      setup_db_cmd: bundle exec rake prepare_and_run_tests
   lint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
-    
