@@ -72,17 +72,14 @@ module IiifPrint
           file_id = create_uploaded_file(user, image_path).to_s
 
           file_title = Iiif.config.child_file_title_generator_function.call(
+            image_path: image_path,
             parent_work: parent_work,
             pdf_number: pdf_sequence,
             page_number: idx,
             pdf_padding: number_of_digits(nbr: number_of_pdfs),
-            page_padding: number_of_digits(nbr: pdf_number_of_pages))
+            page_padding: number_of_digits(nbr: pdf_number_of_pages)
+          )
 
-          # file_title = set_title(@parent_work.title.first,
-          #                        pdf_sequence,
-          #                        idx,
-          #                        pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
-          #                        page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
           @uploaded_files << file_id
           @child_work_titles[file_id] = file_title
           # save child work info to create the member relationships
@@ -112,15 +109,6 @@ module IiifPrint
         uf.file = CarrierWave::SanitizedFile.new(path)
         uf.save!
         uf.id
-      end
-
-      def set_title(title, pdf_sequence, idx, pdf_pad_zero:, page_pad_zero:)
-        # TODO: prior_pdfs may cause issues in the future
-        pdf_nbr = (pdf_sequence + 1).to_s.rjust(pdf_pad_zero, "0")
-        page_nbr = (idx + 1).to_s.rjust(page_pad_zero, "0")
-        pdf_index = "Pdf #{pdf_nbr}"
-        page_number = "Page #{page_nbr}"
-        "#{title}: #{pdf_index}, #{page_number}"
       end
 
       # TODO: what attributes do we need to fill in from the parent work? What about AllinsonFlex?

@@ -29,12 +29,12 @@ module IiifPrint
       @excluded_model_name_solr_field_values = []
     end
 
-    attr_writer :child_file_title_generator_function
-    # The function, with arity 5, is responsible for generating the child work file title.
+    attr_writer :child_file_title_generator_function # The function, with 6 keywords (though maybe you'll want to splat ignore a few), is responsible for generating the child work file title.
     # of object ancestry.
     # @return [Proc]
+    # rubocop:disable Lint/UnusedBlockArgument
     def child_file_title_generator_function
-      @child_file_title_generator_function ||= ->(parent_work:, pdf_number:, page_number:, pdf_padding:, page_padding:) {
+      @child_file_title_generator_function ||= lambda { |file_path:, parent_work:, pdf_number:, page_number:, pdf_padding:, page_padding:|
         title = Array(parent_work.title).first
         pdf_nbr = (pdf_number.to_i + 1).to_s.rjust(pdf_padding.to_i, "0")
         page_nbr = (page_number.to_i + 1).to_s.rjust(page_padding.to_i, "0")
@@ -43,6 +43,7 @@ module IiifPrint
         "#{title}: #{pdf_index}, #{page_number}"
       }
     end
+    # rubocop:enable Lint/UnusedBlockArgument
 
     # This method wraps Hyrax's configuration so we can sniff out the correct method to use.  The
     # {Hyrax::Configuration#whitelisted_ingest_dirs} is deprecated in favor of
