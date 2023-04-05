@@ -71,19 +71,17 @@ module IiifPrint
         image_files.each_with_index do |image_path, idx|
           file_id = create_uploaded_file(user, image_path).to_s
 
-          file_title = Iiif.config.child_file_title_generator_function.call(
-            image_path: image_path,
+          child_title = Iiif.config.child_title_generator_function.call(
+            file_path: image_path,
             parent_work: parent_work,
-            pdf_number: pdf_sequence,
             page_number: idx,
-            pdf_padding: number_of_digits(nbr: number_of_pdfs),
             page_padding: number_of_digits(nbr: pdf_number_of_pages)
           )
 
           @uploaded_files << file_id
-          @child_work_titles[file_id] = file_title
+          @child_work_titles[file_id] = child_title
           # save child work info to create the member relationships
-          PendingRelationship.create!(child_title: file_title,
+          PendingRelationship.create!(child_title: child_title,
                                       parent_id: @parent_work.id,
                                       child_order: sort_order(pdf_sequence,
                                                               idx,

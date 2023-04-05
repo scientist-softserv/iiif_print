@@ -29,18 +29,16 @@ module IiifPrint
       @excluded_model_name_solr_field_values = []
     end
 
-    attr_writer :child_file_title_generator_function # The function, with 6 keywords (though maybe you'll want to splat ignore a few), is responsible for generating the child work file title.
+    attr_writer :child_title_generator_function # The function, with 6 keywords (though maybe you'll want to splat ignore a few), is responsible for generating the child work file title.
     # of object ancestry.
     # @return [Proc]
     # rubocop:disable Lint/UnusedBlockArgument
-    def child_file_title_generator_function
-      @child_file_title_generator_function ||= lambda { |file_path:, parent_work:, pdf_number:, page_number:, pdf_padding:, page_padding:|
-        title = Array(parent_work.title).first
-        pdf_nbr = (pdf_number.to_i + 1).to_s.rjust(pdf_padding.to_i, "0")
-        page_nbr = (page_number.to_i + 1).to_s.rjust(page_padding.to_i, "0")
-        pdf_index = "Pdf #{pdf_nbr}"
-        page_number = "Page #{page_nbr}"
-        "#{title}: #{pdf_index}, #{page_number}"
+    def child_title_generator_function
+      @child_title_generator_function ||= lambda { |file_path:, parent_work:, page_number:, page_padding:|
+        identifier = parent_work.id
+        filename = File.basename(file_path)
+        page_suffix = "Page #{(page_number.to_i + 1).to_s.rjust(page_padding.to_i, "0")}"
+        "#{identifier} - #{filename} #{page_suffix}"
       }
     end
     # rubocop:enable Lint/UnusedBlockArgument
