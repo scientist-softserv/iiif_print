@@ -3,11 +3,10 @@ require 'tmpdir'
 
 module IiifPrint
   class ImageTool
-    attr_accessor :path, :ftype
+    attr_accessor :path
 
     def initialize(path)
       @path = path
-      @ftype = magic
       @metadata = nil
     end
 
@@ -75,13 +74,18 @@ module IiifPrint
 
     # @return [Array<String>] lines of output from imagemagick `identify`
     def im_identify
-      cmd = "identify -format 'Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME Type: %m\n' #{path}"
+      cmd = "identify -format 'Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME type: %m\n' #{path}"
       `#{cmd}`.lines
     end
 
     def im_mime(lines)
       return 'application/pdf' if pdf? # workaround older imagemagick bug
-      im_line_select(lines, 'mime type')
+
+      format = im_line_select(lines, 'mime type')
+      return if format.blank?
+
+      # `identify -format` with the `%m` switch only gives the format, we are coercing it into an image mime type
+      Mime::Type.lookup_by_extension(format.downcase).to_s
     end
 
     def populate_im_color!(lines, result)
@@ -105,11 +109,11 @@ module IiifPrint
     end
 
     def magic
-      File.read(@path, 23, 0)
+      @magic ||= File.read(@path, 23, 0)
     end
 
     def jp2?
-      @ftype.end_with?('ftypjp2')
+      magic.end_with?('ftypjp2')
     end
 
     def pdf?
