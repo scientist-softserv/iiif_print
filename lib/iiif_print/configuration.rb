@@ -29,6 +29,33 @@ module IiifPrint
       @excluded_model_name_solr_field_values = []
     end
 
+    attr_writer :unique_child_title_generator_function
+
+    # The function, with keywords (though maybe you'll want to splat ignore a few), is responsible
+    # for generating the child work file title.  of object ancestry.
+    #
+    # The keyword parameters that will be passed to this function are:
+    #
+    # :original_pdf_path - The fully qualified pathname to the original PDF from which the images
+    #                      were split.
+    # :image_path - The fully qualified pathname for an image of the single page from the PDF.
+    # :parent_work - The object in which we're "attaching" the image.
+    # :page_number - The image is of the N-th page_number of the original PDF
+    # :page_padding - A helper number that indicates the number of significant digits of pages
+    #                 (e.g. 150 pages would have a padding of 3).
+    #
+    # @return [Proc]
+    # rubocop:disable Lint/UnusedBlockArgument
+    def unique_child_title_generator_function
+      @unique_child_title_generator_function ||= lambda { |original_pdf_path:, image_path:, parent_work:, page_number:, page_padding:|
+        identifier = parent_work.id
+        filename = File.basename(original_pdf_path)
+        page_suffix = "Page #{(page_number.to_i + 1).to_s.rjust(page_padding.to_i, '0')}"
+        "#{identifier} - #{filename} #{page_suffix}"
+      }
+    end
+    # rubocop:enable Lint/UnusedBlockArgument
+
     # This method wraps Hyrax's configuration so we can sniff out the correct method to use.  The
     # {Hyrax::Configuration#whitelisted_ingest_dirs} is deprecated in favor of
     # {Hyrax::Configuration#registered_ingest_dirs}.
