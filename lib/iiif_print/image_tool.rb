@@ -60,7 +60,7 @@ module IiifPrint
     end
 
     def im_line_select(lines, key)
-      line = lines.find { |l| l.scrub.downcase.strip.start_with?(key) }
+      line = lines.find { |l| l.scrub.downcase.strip.start_with?(key.downcase) }
       # Given "key: value" line, return the value as String stripped of
       #   leading and trailing whitespace
       return line if line.nil?
@@ -75,7 +75,7 @@ module IiifPrint
 
     # @return [Array<String>] lines of output from imagemagick `identify`
     def im_identify
-      cmd = "identify -verbose #{path}"
+      cmd = "identify -format 'Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME Type: %m\n' #{path}"
       `#{cmd}`.lines
     end
 
@@ -88,7 +88,7 @@ module IiifPrint
       bpc = im_line_select(lines, 'depth').split('-')[0].to_i # '1-bit' -> 1
       colorspace = im_line_select(lines, 'colorspace')
       color = colorspace == 'Gray' ? 'gray' : 'color'
-      has_alpha = !im_line_select(lines, 'Alpha').nil?
+      has_alpha = !im_line_select(lines, 'alpha') == 'Undefined'
       result[:num_components] = (color == 'gray' ? 1 : 3) + (has_alpha ? 1 : 0)
       result[:color] = bpc == 1 ? 'monochrome' : color
       result[:bits_per_component] = bpc
