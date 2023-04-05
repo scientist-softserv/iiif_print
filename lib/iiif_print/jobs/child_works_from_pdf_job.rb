@@ -70,11 +70,19 @@ module IiifPrint
         pdf_number_of_pages = image_files.size
         image_files.each_with_index do |image_path, idx|
           file_id = create_uploaded_file(user, image_path).to_s
-          file_title = set_title(@parent_work.title.first,
-                                 pdf_sequence,
-                                 idx,
-                                 pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
-                                 page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
+
+          file_title = Iiif.config.child_file_title_generator_function.call(
+            parent_work: parent_work,
+            pdf_number: pdf_sequence,
+            page_number: idx,
+            pdf_padding: number_of_digits(nbr: number_of_pdfs),
+            page_padding: number_of_digits(nbr: pdf_number_of_pages))
+
+          # file_title = set_title(@parent_work.title.first,
+          #                        pdf_sequence,
+          #                        idx,
+          #                        pdf_pad_zero: number_of_digits(nbr: number_of_pdfs),
+          #                        page_pad_zero: number_of_digits(nbr: pdf_number_of_pages))
           @uploaded_files << file_id
           @child_work_titles[file_id] = file_title
           # save child work info to create the member relationships
