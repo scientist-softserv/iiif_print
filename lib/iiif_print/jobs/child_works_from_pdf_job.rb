@@ -70,7 +70,7 @@ module IiifPrint
         image_files.each_with_index do |image_path, page_number|
           file_id = create_uploaded_file(user, image_path).to_s
 
-          child_title = Iiif.config.child_title_generator_function.call(
+          child_title = IiifPrint.config.child_title_generator_function.call(
             file_path: image_path,
             parent_work: parent_work,
             page_number: page_number,
