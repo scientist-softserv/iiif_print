@@ -37,17 +37,17 @@ module IiifPrint
       end
 
       # Submit the job to split PDF into child works
-      # @param [GenericWork, etc] A valid type of hyrax work
-      # @param [Array<String>] paths to PDF attachments
-      # @param [User] user
-      # @param [Integer] number of pdfs already on existing work's filesets (not yet implemented)
+      # @param work [GenericWork, etc] A valid type of hyrax work
+      # @param file_locations [Array<String>] paths to PDF attachments
+      # @param user [User] user
+      # @param admin_set_id [String]
       def self.queue_job(work:, file_locations:, user:, admin_set_id:)
         work.iiif_print_config.pdf_splitter_job.perform_later(
           work,
           file_locations,
           user,
           admin_set_id,
-          count_existing_pdfs(work)
+          0 # A no longer used parameter; but we need to preserve the method signature (for now)
         )
       end
 
@@ -58,13 +58,9 @@ module IiifPrint
       # Given Hyrax::Upload object, return path to file on local filesystem
       def self.upload_path(upload)
         # so many layers to this onion:
+        # TODO: Write a recursive function to keep calling file until
+        # the file doesn't respond to file then return that file.
         upload.file.file.file
-      end
-
-      # TODO: implement a method to count existing PDFs on a work to support
-      #       adding more PDFs to an existing work.
-      def self.count_existing_pdfs(_work)
-        0
       end
 
       # TODO: Consider other methods to identify a PDF file.

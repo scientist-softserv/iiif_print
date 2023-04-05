@@ -37,7 +37,7 @@ module IiifPrint
       @child_title_generator_function ||= lambda { |file_path:, parent_work:, page_number:, page_padding:|
         identifier = parent_work.id
         filename = File.basename(file_path)
-        page_suffix = "Page #{(page_number.to_i + 1).to_s.rjust(page_padding.to_i, "0")}"
+        page_suffix = "Page #{(page_number.to_i + 1).to_s.rjust(page_padding.to_i, '0')}"
         "#{identifier} - #{filename} #{page_suffix}"
       }
     end
