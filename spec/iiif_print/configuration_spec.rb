@@ -20,7 +20,8 @@ RSpec.describe IiifPrint::Configuration do
     subject(:function) { config.child_title_generator_function }
 
     it "is expected to be a lambda with keyword args" do
-      expect(function.parameters).to eq([[:keyreq, :file_path],
+      expect(function.parameters).to eq([[:keyreq, :original_pdf_path],
+                                         [:keyreq, :image_path],
                                          [:keyreq, :parent_work],
                                          [:keyreq, :page_number],
                                          [:keyreq, :page_padding]])
@@ -29,11 +30,12 @@ RSpec.describe IiifPrint::Configuration do
     it 'works as originally designed' do
       work = double(title: ["My Title"], id: '1234')
       expect(function.call(
-               file_path: __FILE__,
+               original_pdf_path: "/hello/world/nice.pdf",
+               image_path: __FILE__,
                parent_work: work,
                page_number: 23,
                page_padding: 5
-             )).to eq("1234 - configuration_spec.rb Page 00024")
+             )).to eq("1234 - nice.pdf Page 00024")
     end
 
     it "is configurable" do

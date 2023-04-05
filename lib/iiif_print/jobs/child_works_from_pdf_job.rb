@@ -14,8 +14,8 @@ module IiifPrint
         child_model = @parent_work.iiif_print_config.pdf_split_child_model
 
         # handle each input pdf
-        pdf_paths.each do |path|
-          split_pdf(path, user, child_model)
+        pdf_paths.each do |original_pdf_path|
+          split_pdf(original_pdf_path, user, child_model)
         end
 
         # Link newly created child works to the parent
@@ -36,11 +36,11 @@ module IiifPrint
       private
 
       # rubocop:disable Metrics/ParameterLists
-      def split_pdf(path, user, child_model)
-        image_files = @parent_work.iiif_print_config.pdf_splitter_service.new(path).to_a
+      def split_pdf(original_pdf_path, user, child_model)
+        image_files = @parent_work.iiif_print_config.pdf_splitter_service.new(original_pdf_path).to_a
         return if image_files.blank?
 
-        prepare_import_data(image_files, user)
+        prepare_import_data(original_pdf_path, image_files, user)
 
         # submit the job to create all the child works for one PDF
         # @param [User] user
@@ -63,7 +63,7 @@ module IiifPrint
       # rubocop:enable Metrics/ParameterLists
 
       # rubocop:disable Metrics/MethodLength
-      def prepare_import_data(image_files, user)
+      def prepare_import_data(original_pdf_path, image_files, user)
         @uploaded_files = []
         @child_work_titles = {}
         number_of_pages_in_pdf = image_files.size
@@ -71,7 +71,8 @@ module IiifPrint
           file_id = create_uploaded_file(user, image_path).to_s
 
           child_title = IiifPrint.config.child_title_generator_function.call(
-            file_path: image_path,
+            original_pdf_path: original_pdf_path,
+            image_path: image_path,
             parent_work: @parent_work,
             page_number: page_number,
             page_padding: number_of_digits(nbr: number_of_pages_in_pdf)
