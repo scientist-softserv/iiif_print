@@ -16,8 +16,8 @@ RSpec.describe IiifPrint::Configuration do
     end
   end
 
-  describe '#child_title_generator_function' do
-    subject(:function) { config.child_title_generator_function }
+  describe '#unique_child_title_generator_function' do
+    subject(:function) { config.unique_child_title_generator_function }
 
     it "is expected to be a lambda with keyword args" do
       expect(function.parameters).to eq([[:keyreq, :original_pdf_path],
@@ -40,8 +40,8 @@ RSpec.describe IiifPrint::Configuration do
 
     it "is configurable" do
       expect do
-        config.child_title_generator_function = ->(**kwargs) { kwargs }
-      end.to change { config.child_title_generator_function.object_id }
+        config.unique_child_title_generator_function = ->(**kwargs) { kwargs }
+      end.to change { config.unique_child_title_generator_function.object_id }
     end
   end
 

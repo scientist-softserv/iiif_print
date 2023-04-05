@@ -29,7 +29,7 @@ module IiifPrint
       @excluded_model_name_solr_field_values = []
     end
 
-    attr_writer :child_title_generator_function
+    attr_writer :unique_child_title_generator_function
 
     # The function, with keywords (though maybe you'll want to splat ignore a few), is responsible
     # for generating the child work file title.  of object ancestry.
@@ -46,8 +46,8 @@ module IiifPrint
     #
     # @return [Proc]
     # rubocop:disable Lint/UnusedBlockArgument
-    def child_title_generator_function
-      @child_title_generator_function ||= lambda { |original_pdf_path:, image_path:, parent_work:, page_number:, page_padding:|
+    def unique_child_title_generator_function
+      @unique_child_title_generator_function ||= lambda { |original_pdf_path:, image_path:, parent_work:, page_number:, page_padding:|
         identifier = parent_work.id
         filename = File.basename(original_pdf_path)
         page_suffix = "Page #{(page_number.to_i + 1).to_s.rjust(page_padding.to_i, '0')}"

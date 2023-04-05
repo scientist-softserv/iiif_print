@@ -70,7 +70,7 @@ module IiifPrint
         image_files.each_with_index do |image_path, page_number|
           file_id = create_uploaded_file(user, image_path).to_s
 
-          child_title = IiifPrint.config.child_title_generator_function.call(
+          child_title = IiifPrint.config.unique_child_title_generator_function.call(
             original_pdf_path: original_pdf_path,
             image_path: image_path,
             parent_work: @parent_work,
@@ -83,15 +83,10 @@ module IiifPrint
           # save child work info to create the member relationships
           PendingRelationship.create!(child_title: child_title,
                                       parent_id: @parent_work.id,
-                                      child_order: sort_order(page_number,
-                                                              page_pad_zero: number_of_digits(nbr: number_of_pages_in_pdf)))
+                                      child_order: child_title)
         end
       end
       # rubocop:enable Metrics/MethodLength
-
-      def sort_order(page_number, page_pad_zero:)
-        (page_number + 1).to_s.rjust(page_pad_zero, "0")
-      end
 
       def number_of_digits(nbr:)
         nbr.to_s.size
