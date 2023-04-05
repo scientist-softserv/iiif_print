@@ -12,6 +12,14 @@ module IiifPrint
       end
     end
 
+    attr_writer :ancestory_identifier_function
+    # The function, with arity 1, that receives a work and returns it's identifier for the purposes
+    # of object ancestry.
+    # @return [Proc]
+    def ancestory_identifier_function
+      @ancestory_identifier_function ||= ->(work) { work.id }
+    end
+
     attr_writer :excluded_model_name_solr_field_values
     # By default, this uses an array of human readable types
     #   ex: ['Generic Work', 'Image']
