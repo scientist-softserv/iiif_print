@@ -72,7 +72,7 @@ module IiifPrint
 
           child_title = IiifPrint.config.child_title_generator_function.call(
             file_path: image_path,
-            parent_work: parent_work,
+            parent_work: @parent_work,
             page_number: page_number,
             page_padding: number_of_digits(nbr: number_of_pages_in_pdf)
           )
