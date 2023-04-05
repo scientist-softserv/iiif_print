@@ -3,6 +3,19 @@ require 'spec_helper'
 RSpec.describe IiifPrint::Configuration do
   let(:config) { described_class.new }
 
+  describe '#ancestory_identifier_function' do
+    subject(:function) { config.ancestory_identifier_function }
+    it "is expected to be a lambda with an arity of one" do
+      expect(function.arity).to eq(1)
+    end
+
+    it "is configurable" do
+      expect do
+        config.ancestory_identifier_function = ->(w) { w.object_id }
+      end.to change { config.ancestory_identifier_function.object_id }
+    end
+  end
+
   describe "#metadata_fields" do
     subject { config.metadata_fields }
 

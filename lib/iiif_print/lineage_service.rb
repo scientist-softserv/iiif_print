@@ -18,10 +18,21 @@ module IiifPrint
     def self.ancestor_ids_for(object)
       ancestor_ids ||= []
       object.in_works.each do |work|
-        ancestor_ids << work.id
+        ancestor_ids << ancestry_identifier_for(work)
         ancestor_ids += ancestor_ids_for(work) if work.is_child
       end
       ancestor_ids.flatten.compact.uniq
+    end
+
+    ##
+    # @api public
+    #
+    # Given the :work return it's identifier
+    #
+    # @param [Object]
+    # @return [String]
+    def self.ancestry_identifier_for(work)
+      IiifPrint.config.ancestory_identifier_function.call(work)
     end
 
     ##
