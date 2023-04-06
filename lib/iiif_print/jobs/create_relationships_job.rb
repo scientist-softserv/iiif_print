@@ -67,7 +67,7 @@ module IiifPrint
         parent.try(:reindex_extent=, Hyrax::Adapters::NestingIndexAdapter::LIMITED_REINDEX)
         env = Hyrax::Actors::Environment.new(parent, Ability.new(user), attrs)
 
-        Hyrax::CurationConcern.actor.update(env)
+        raise env unless Hyrax::CurationConcern.actor.update(env)
         # need to reindex all file_sets to make all ancestors are indexed
         ordered_children.each do |child_work|
           child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
