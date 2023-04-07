@@ -68,13 +68,12 @@ module IiifPrint
 
     def apply_metadata_to_canvas(canvas:, presenter:)
       return if @child_works.empty?
-
       parent_and_child_solr_hits = parent_and_child_solr_hits(presenter)
       # uses the 'id' property for v3 manifest and `@id' for v2, which is a URL that contains the FileSet id
       file_set_id = (canvas['id'] || canvas['@id']).split('/').last
       # finds the image that the FileSet is attached to and creates metadata on that canvas
       image = parent_and_child_solr_hits.find { |doc| doc[:member_ids_ssim]&.include?(file_set_id) }
-
+      return unless image
       canvas_metadata = IiifPrint.manifest_metadata_from(work: image, presenter: presenter)
       canvas['metadata'] = canvas_metadata
     end
