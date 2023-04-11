@@ -55,6 +55,8 @@ module IiifPrint
       end
       file_set_ids.flatten.uniq.compact
     end
-    alias descendent_file_set_ids_for descendent_member_ids_for
+    class << self
+      alias descendent_file_set_ids_for descendent_member_ids_for
+    end
   end
 end
