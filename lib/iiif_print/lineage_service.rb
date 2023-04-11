@@ -2,7 +2,7 @@ module IiifPrint
   # The purpose of this module is to encode lineage related services:
   #
   # - {.ancestor_ids_for}
-  # - {.descendent_file_set_ids_for}
+  # - {.descendent_member_ids_for}
   #
   # The ancestor and descendent_file_sets are useful for ensuring we index together related items.
   # For example, when I have a work that is a book, and one file set per page of that book, when I
@@ -37,16 +37,24 @@ module IiifPrint
 
     ##
     # @param object [#ordered_works, #file_sets, #member_ids]
-    # @return [Array<String>] the ids of associated file sets
-    def self.descendent_file_set_ids_for(object)
+    # @return [Array<String>] the ids of associated file sets and child works
+    #
+    # @see
+    # https://github.com/samvera/hyrax/blob/2b807fe101176d594129ef8a8fe466d3d03a372b/app/indexers/hyrax/work_indexer.rb#L15-L18
+    # for "clarification" of the comingling of file_set_ids and member_ids
+    def self.descendent_member_ids_for(object)
       # enables us to return parents when searching for child OCR
-      file_set_ids = object.file_sets.map(&:id)
+      #
+      # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/models/concerns/work_behavior.rb#L90-L92
+      #
+      # The Hydara::Works implementation of file_set_ids is "members.select(&:file_set?).map(&:id)";
+      # so no sense doing `object.file_set_ids + object.member_ids`
+      file_set_ids = object.member_ids
       object.ordered_works&.each do |child|
-        file_set_ids += descendent_file_set_ids_for(child)
+        file_set_ids += descendent_member_ids_for(child)
       end
-      # enables us to return parents when searching for child metadata
-      file_set_ids += object.member_ids
       file_set_ids.flatten.uniq.compact
     end
+    alias descendent_file_set_ids_for descendent_member_ids_for
   end
 end
