@@ -1,0 +1,13 @@
+<%# OVERRIDE Hyrax 2.9.6 to show parent_query params if metadata is found in parent record %>
+
+<div class="search-results-title-row">
+  <h3 class="search-result-title">
+  <% if params['q'].present? && document.has_any_highlighting? %>
+    <%= link_to document.title_or_label, [document, { parent_query: params['q'] }] %></h3>
+  <% elsif params['q'].present? %>
+    <%= link_to document.title_or_label, [document, { query: params['q'] }] %></h3>
+  <% else %>
+    <%= link_to document.title_or_label, document %></h3>
+  <% end %>
+  </h3>
+</div>
