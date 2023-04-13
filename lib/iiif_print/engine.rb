@@ -41,6 +41,7 @@ module IiifPrint
       Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
+      Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 
       IiifPrint::ChildIndexer.decorate_work_types!
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
