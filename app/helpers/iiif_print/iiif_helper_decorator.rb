@@ -14,11 +14,11 @@ module IiifPrint
     end
 
     def universal_viewer_base_url
-      "#{request&.base_url}/uv/uv.html"
+      "#{request&.base_url}#{IiifPrint.config.uv_base_path}"
     end
 
     def universal_viewer_config_url
-      "#{request&.base_url}/uv/uv-config.json"
+      "#{request&.base_url}#{IiifPrint.config.uv_config_path}"
     end
 
     # Extract query param from search
