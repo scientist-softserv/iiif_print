@@ -110,9 +110,7 @@ uv = createUV('#uv', {
 }, urlDataProvider);
 ```
 
-* Make sure to remove your application's `app/helpers/hyrax/iiif_helper.rb` and `app/views/hyrax/base/iiif_viewers
-/_universal_viewer.html.erb` (if exists)
-
+* Make sure to remove your application's `app/helpers/hyrax/iiif_helper.rb` and `app/views/hyrax/base/iiif_viewers/_universal_viewer.html.erb` (if exists)
 
 ## Configuration to enable IiifPrint features
 **NOTE: WorkTypes and models are used synonymously here.**
