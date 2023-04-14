@@ -125,5 +125,21 @@ module IiifPrint
     def additional_tessearct_options
       @additional_tessearct_options || ""
     end
+
+    attr_writer :uv_config_path
+    ##
+    # According to https://github.com/samvera/hyrax/wiki/Hyrax-Management-Guide#universal-viewer-config
+    # the name of the UV config file should be /uv/uv_config.json (with an _)
+    # However, in most applications, it is /uv/uv-config.json (with a -)
+    def uv_config_path
+      @uv_config_path || "/uv/uv-config.json"
+    end
+
+    attr_writer :uv_base_path
+    ##
+    # While we're at it, we're going to go ahead and make the base path configurable as well
+    def uv_base_path
+      @uv_base_path || "/uv/uv.html"
+    end
   end
 end

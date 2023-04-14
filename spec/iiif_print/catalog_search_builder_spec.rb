@@ -13,7 +13,7 @@ RSpec.describe IiifPrint::CatalogSearchBuilder do
     before { subject.highlight_search_params(solr_parameters) }
     it 'adds the highlight fields to solr_parameters' do
       expect(solr_parameters[:hl]).to be_truthy
-      expect(solr_parameters[:'hl.fl']).to eq('all_text_tsimv')
+      expect(solr_parameters[:'hl.fl']).to eq('*')
     end
   end
 

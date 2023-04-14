@@ -49,4 +49,8 @@ module IiifPrint::Solr::Document
   def file_set_ids
     self['file_set_ids_ssim']
   end
+
+  def any_highlighting?
+    response&.[]('highlighting')&.[](id)&.present?
+  end
 end

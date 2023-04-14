@@ -89,6 +89,29 @@ IiifPrint easily integrates with your Hyrax 2.x applications.
 
 (It may be helpful to run `git diff` after installation to see all the changes made by the installer.)
 
+## Catalog to Universal Viewer search:
+To enable a feature where the UV automatically picks up the search from the catalog, do the following:
+* Add `highlight: urlDataProvider.get('q'),` into your uv.html in the `<script>` section.
+```js
+uv = createUV('#uv', {
+    root: '.',
+    iiifResourceUri: urlDataProvider.get('manifest'),
+    configUri: 'uv-config.json',
+    collectionIndex: Number(urlDataProvider.get('c', 0)),
+    manifestIndex: Number(urlDataProvider.get('m', 0)),
+    sequenceIndex: Number(urlDataProvider.get('s', 0)),
+    canvasIndex: Number(urlDataProvider.get('cv', 0)),
+    rangeId: urlDataProvider.get('rid', 0),
+    rotation: Number(urlDataProvider.get('r', 0)),
+    xywh: urlDataProvider.get('xywh', ''),
+    embedded: true,
+    highlight: urlDataProvider.get('q'), // <-- here's a good spot
+    locales: formattedLocales
+}, urlDataProvider);
+```
+
+* Make sure to remove your application's `app/helpers/hyrax/iiif_helper.rb` and `app/views/hyrax/base/iiif_viewers/_universal_viewer.html.erb` (if exists)
+
 ## Configuration to enable IiifPrint features
 **NOTE: WorkTypes and models are used synonymously here.**
 
