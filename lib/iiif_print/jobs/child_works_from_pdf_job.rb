@@ -102,12 +102,7 @@ module IiifPrint
 
       # TODO: what attributes do we need to fill in from the parent work? What about AllinsonFlex?
       def attributes
-        {
-          admin_set_id: @child_admin_set_id.to_s,
-          creator: @parent_work.creator.to_a,
-          rights_statement: @parent_work.rights_statement.to_a,
-          visibility: @parent_work.visibility.to_s
-        }
+        IiifPrint.config.child_work_attributes_function.call(parent_work: @parent_work, admin_set_id: @child_admin_set_id)
       end
     end
   end
