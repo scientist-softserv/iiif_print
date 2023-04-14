@@ -141,5 +141,19 @@ module IiifPrint
     def uv_base_path
       @uv_base_path || "/uv/uv.html"
     end
+
+    attr_writer :child_work_attributes_function
+    ##
+    # Here we allow for customization of the child work attributes
+    def child_work_attributes_function
+      @child_work_attributes_function ||= lambda do |parent_work:, admin_set_id:|
+        {
+          admin_set_id: admin_set_id.to_s,
+          creator: parent_work.creator.to_a,
+          rights_statement: parent_work.rights_statement.to_a,
+          visibility: parent_work.visibility.to_s
+        }
+      end
+    end
   end
 end

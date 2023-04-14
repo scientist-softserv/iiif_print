@@ -115,4 +115,13 @@ RSpec.describe IiifPrint::Configuration do
         .to(3)
     end
   end
+
+  describe '#child_work_attributes_function' do
+    subject(:function) { config.child_work_attributes_function }
+
+    it "is expected to be a lambda with keyword args" do
+      expect(function.parameters).to eq([[:keyreq, :parent_work],
+                                         [:keyreq, :admin_set_id]])
+    end
+  end
 end
