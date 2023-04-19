@@ -10,7 +10,7 @@ module IiifPrint
     class PdfImageExtractionService
       def initialize(path)
         @path = path
-        process(command: format('pdfimages -list %<path>s', path: path))
+        process(command: format('pdfimages -list %<path>s 2>/dev/null', path: path))
       end
 
       attr_reader :path, :page_count, :width, :height, :pixels_per_inch
