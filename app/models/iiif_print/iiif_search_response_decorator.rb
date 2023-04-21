@@ -4,9 +4,7 @@ module IiifPrint
     # @see https://github.com/scientist-softserv/louisville-hyku/commit/67467e5cf9fdb755f54419f17d3c24c87032d0af
     def annotation_list
       json_results = super
-
       resources = json_results&.[]('resources')
-      return unless resources
 
       resources&.each do |result_hit|
         next if result_hit['resource'].present?
