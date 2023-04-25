@@ -1,4 +1,5 @@
 module IiifPrint
+  # rubocop:disable Metrics/ModuleLength
   module ManifestBuilderServiceBehavior
     def initialize(*args,
                    version: IiifPrint.config.default_iiif_manifest_version,
@@ -86,6 +87,8 @@ module IiifPrint
     LARGEST_SORT_ORDER_CHAR = '~'.freeze
 
     def sort_canvases_v2(hash:, sort_field:)
+      return sort_by_label_v2(hash) if sort_field == :label
+
       sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
       hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
         selection = canvas['metadata'].select { |h| h['label'] == sort_field }
@@ -109,6 +112,14 @@ module IiifPrint
       hash
     end
 
+    # TODO: implement this for v3
+    def sort_by_label_v2(hash)
+      hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
+        canvas['label']
+      end
+      hash
+    end
+
     def member_ids_for(presenter)
       member_ids = presenter.try(:ordered_ids) || presenter.try(:member_ids)
       member_ids.nil? ? [] : member_ids
@@ -128,4 +139,5 @@ module IiifPrint
       ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: ids.size)
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

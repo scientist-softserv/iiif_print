@@ -157,6 +157,14 @@ module IiifPrint
     end
 
     attr_writer :sort_iiif_manifest_canvases_by
+    ##
+    # Normally, the canvases are sorted by the `ordered_members` association.
+    # However, if you want it to be sorted by another property, you can set this
+    # configuration.  Change `nil` to something like `:title` or `:identifier`.
+    #
+    # Should you want to sort by the filename of the image, you
+    # set `nil` to `:label`.  This looks at the canvas label, which is typically set
+    # to the filename of the image.
     def sort_iiif_manifest_canvases_by
       @sort_iiif_manifest_canvases_by || nil
     end
