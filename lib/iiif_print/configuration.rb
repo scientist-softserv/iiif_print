@@ -155,5 +155,10 @@ module IiifPrint
         }
       end
     end
+
+    attr_writer :sort_iiif_manifest_canvases_by
+    def sort_iiif_manifest_canvases_by
+      @sort_iiif_manifest_canvases_by || nil
+    end
   end
 end
