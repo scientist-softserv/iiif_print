@@ -1,4 +1,5 @@
 module IiifPrint
+  # rubocop:disable Metrics/ModuleLength
   module ManifestBuilderServiceBehavior
     def initialize(*args,
                    version: IiifPrint.config.default_iiif_manifest_version,
@@ -42,6 +43,11 @@ module IiifPrint
       manifest = manifest_factory.new(presenter).to_h
       hash = JSON.parse(manifest.to_json)
       hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter)
+      if @child_works.present? && IiifPrint.config.sort_iiif_manifest_canvases_by
+        send("sort_canvases_v#{@version}",
+             hash: hash,
+             sort_field: IiifPrint.config.sort_iiif_manifest_canvases_by)
+      end
       hash
     end
 
@@ -78,6 +84,42 @@ module IiifPrint
       canvas['metadata'] = canvas_metadata
     end
 
+    LARGEST_SORT_ORDER_CHAR = '~'.freeze
+
+    def sort_canvases_v2(hash:, sort_field:)
+      return sort_by_label_v2(hash) if sort_field == :label
+
+      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
+      hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
+        selection = canvas['metadata'].select { |h| h['label'] == sort_field }
+        fallback = [{ label: sort_field,
+                      value: [LARGEST_SORT_ORDER_CHAR] }]
+        sort_field_metadata = selection.presence || fallback
+        sort_field_metadata.first['value'] if sort_field_metadata.present?
+      end
+      hash
+    end
+
+    def sort_canvases_v3(hash:, sort_field:)
+      sort_field = Hyrax::Renderers::AttributeRenderer.new(sort_field, nil).label
+      hash['items']&.sort_by! do |item|
+        selection = item['metadata'].select { |h| h['label'][I18n.locale.to_s] == [sort_field] }
+        fallback = [{ label: { "#{I18n.locale}": [sort_field] },
+                      value: { none: [LARGEST_SORT_ORDER_CHAR] } }]
+        sort_field_metadata = selection.presence || fallback
+        sort_field_metadata.first['value']['none'] if sort_field_metadata.present?
+      end
+      hash
+    end
+
+    # TODO: implement this for v3
+    def sort_by_label_v2(hash)
+      hash['sequences']&.first&.[]('canvases')&.sort_by! do |canvas|
+        canvas['label']
+      end
+      hash
+    end
+
     def member_ids_for(presenter)
       member_ids = presenter.try(:ordered_ids) || presenter.try(:member_ids)
       member_ids.nil? ? [] : member_ids
@@ -97,4 +139,5 @@ module IiifPrint
       ActiveFedora::SolrService.query(query, fq: "-has_model_ssim:FileSet", rows: ids.size)
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
