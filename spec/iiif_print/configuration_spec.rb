@@ -135,4 +135,12 @@ RSpec.describe IiifPrint::Configuration do
       expect(config.metadata_fields).not_to eq original
     end
   end
+
+  describe "#ocr_coords_from_json_function" do
+    subject(:function) { config.ocr_coords_from_json_function }
+
+    it "is expected to be a lambda with one keyword arg and optional args" do
+      expect(function.parameters).to eq([[:keyreq, :file_set_id], [:keyrest]])
+    end
+  end
 end
