@@ -44,7 +44,7 @@ module IiifPrint
       # return the JSON word-coordinates file contents
       # @return [JSON]
       def fetch_and_parse_coords
-        coords = IiifPrint::Data::WorkDerivatives.data(from: file_set_id, of_type: 'json')
+        coords = IiifPrint.config.ocr_coords_from_json_function.call(file_set_id: file_set_id, document: document)
         return nil if coords.blank?
         begin
           JSON.parse(coords)
