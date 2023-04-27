@@ -19,7 +19,8 @@ module IiifPrint
         # only UV viewable images should have is_page_of, it is only used for iiif search
         solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
         # index for full text search
-        solr_doc['all_text_timv'] = solr_doc['all_text_tsimv'] = all_text
+        solr_doc['all_text_timv'] = all_text
+        solr_doc['all_text_tsimv'] = all_text
         solr_doc['digest_ssim'] = digest_from_content
       end
     end
