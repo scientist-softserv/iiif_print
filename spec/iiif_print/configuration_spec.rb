@@ -143,4 +143,12 @@ RSpec.describe IiifPrint::Configuration do
       expect(function.parameters).to eq([[:keyreq, :file_set_id], [:keyrest]])
     end
   end
+
+  describe "#all_text_generator_function" do
+    subject(:function) { config.all_text_generator_function }
+
+    it "is expected to be a lambda with one keyword arg" do
+      expect(function.parameters).to eq([[:keyreq, :object]])
+    end
+  end
 end
