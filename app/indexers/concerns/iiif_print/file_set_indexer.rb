@@ -19,10 +19,7 @@ module IiifPrint
         # only UV viewable images should have is_page_of, it is only used for iiif search
         solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
         # index for full text search
-        text = IiifPrint::Data::WorkDerivatives.data(from: object, of_type: 'txt')
-        text = text.tr("\n", ' ').squeeze(' ')
-        solr_doc['all_text_timv'] = text
-        solr_doc['all_text_tsimv'] = text
+        solr_doc['all_text_timv'] = solr_doc['all_text_tsimv'] = all_text
         solr_doc['digest_ssim'] = digest_from_content
       end
     end
@@ -32,6 +29,13 @@ module IiifPrint
     def digest_from_content
       return unless object.original_file
       object.original_file.digest.first.to_s
+    end
+
+    def all_text
+      text = IiifPrint.config.all_text_generator_function.call(object: object) || ''
+      return text if text.empty?
+
+      text.tr("\n", ' ').squeeze(' ')
     end
   end
 end
