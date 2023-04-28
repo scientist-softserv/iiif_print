@@ -192,6 +192,8 @@ module IiifPrint
                              .distinct
                              .select(:name, :value, :indexing)
     flex_fields = allinson_flex_relation.to_a
+    # filters out admin_only fields
+    flex_fields.reject! { |profile| profile.indexing.include?('admin_only') }
     unless allinson_flex_relation.exists?(name: 'collection')
       collection_field = CollectionFieldShim.new(name: :collection, value: 'Collection', indexing: [])
       flex_fields << collection_field
