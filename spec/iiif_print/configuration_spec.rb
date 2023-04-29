@@ -151,4 +151,15 @@ RSpec.describe IiifPrint::Configuration do
       expect(function.parameters).to eq([[:keyreq, :object]])
     end
   end
+
+  describe "#iiif_metadata_sorter_fields" do
+    subject { config.iiif_metadata_sorter_fields }
+
+    it { is_expected.to be_a NilClass }
+    it "allows for an override" do
+      original = config.iiif_metadata_sorter_fields
+      config.iiif_metadata_sorter_fields = :title
+      expect(config.iiif_metadata_sorter_fields).not_to eq original
+    end
+  end
 end

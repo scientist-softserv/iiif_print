@@ -155,6 +155,10 @@ module IiifPrint
   end
 
   def self.fields_for_allinson_flex(fields: allinson_flex_fields)
+    sort_order = IiifPrint.config.iiif_metadata_sorter_fields
+    fields = sort_af_fields!(fields, sort_order) if sort_order
+    # removes duplicate named fields
+    fields.uniq!(&:name)
     fields.map do |field|
       # currently only supports the faceted option
       # Why the `render_as:`? This was originally derived from Hyku default attributes
@@ -173,19 +177,6 @@ module IiifPrint
   def self.allinson_flex_fields
     return @allinson_flex_fields if defined?(@allinson_flex_fields)
 
-    # sql query method was refactored to active record
-    # original query:
-    # AllinsonFlex::ProfileProperty
-    #   .find_by_sql(
-    #     "SELECT DISTINCT allinson_flex_profile_texts.value AS label, " \
-    #     "allinson_flex_profile_properties.name AS name " \
-    #     "FROM allinson_flex_profile_properties " \
-    #     "JOIN allinson_flex_profile_texts " \
-    #     "ON allinson_flex_profile_properties.id = " \
-    #       "allinson_flex_profile_texts.profile_property_id " \
-    #     "WHERE allinson_flex_profile_texts.name = 'display_label'"
-    #   )
-    # In this ActiveRecord query, allinson_flex_profile_properties.indexing was added
     allinson_flex_relation = AllinsonFlex::ProfileProperty
                              .joins(:texts)
                              .where(allinson_flex_profile_texts: { name: 'display_label' })
@@ -199,5 +190,12 @@ module IiifPrint
       flex_fields << collection_field
     end
     @allinson_flex_fields = flex_fields
+  end
+
+  def self.sort_af_fields!(fields, sort_order)
+    fields.sort_by do |field|
+      sort_order_index = sort_order.index(field.name.to_sym)
+      sort_order_index.nil? ? sort_order.length : sort_order_index
+    end
   end
 end

@@ -195,6 +195,18 @@ module IiifPrint
         IiifPrint::Data::WorkDerivatives.data(from: object, of_type: 'txt')
       end
     end
+
+    attr_writer :iiif_metadata_sorter_fields
+    ##
+    # This is the default sorter for the metadata.  It will sort by the order of the keys specificied.
+    # By default, this is turned off as it returns nil. If you want to turn it on, you can set this
+    # this to an array of symbols the properties on the work.
+    #
+    # @example [:title, :description, :date_created]
+    # @return [Array<Symbol>]
+    def iiif_metadata_sorter_fields
+      @iiif_metadata_sorter_fields || nil
+    end
   end
   # rubocop:enable Metrics/ModuleLength
 end
