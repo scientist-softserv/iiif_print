@@ -67,7 +67,7 @@ module IiifPrint
     def cast_to_value(field_name:, options:)
       if options&.[](:render_as) == :faceted
         faceted_values_for(field_name: field_name)
-      elsif options&.[](:render_as) == :rights_statement || options&.[](:render_as) == :license
+      elsif qa_field?(field_name: options&.dig(:render_as)) || qa_field?(field_name: field_name)
         authority_values_for(field_name: field_name)
       else
         make_link(values_for(field_name: field_name))
@@ -83,6 +83,12 @@ module IiifPrint
         path += '&include_child_works=true' if work["is_child_bsi"] == true
         "<a href='#{File.join(@base_url, path)}'>#{value}</a>"
       end
+    end
+
+    def qa_field?(field_name:)
+      # assuming that rights_statement and license are fields that use questioning authority
+      # this will allow Allinson Flex applications that don't have render_as options to still use QA
+      ['rights_statement', 'license'].include?(field_name.to_s)
     end
 
     def authority_values_for(field_name:)
