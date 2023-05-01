@@ -19,7 +19,7 @@ module IiifPrint
           indexer.prepend(self)
           indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
         end
-        work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag)
+        work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)
       end
     end
 
