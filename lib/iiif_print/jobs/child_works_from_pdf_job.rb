@@ -15,6 +15,7 @@ module IiifPrint
 
         # handle each input pdf
         pdf_paths.each do |original_pdf_path|
+          extracted_alto_files = extract_original_ocr(original_pdf_path) if has_existing_ocr?(original_pdf_path)
           split_pdf(original_pdf_path, user, child_model)
         end
 
@@ -34,6 +35,19 @@ module IiifPrint
       end
 
       private
+
+      def has_existing_ocr?(original_pdf_path)
+        font_data = IO.popen("pdffonts #{original_pdf_path}").read
+        # when a pdf does not have any text, pdffonts returns:
+        #   name                                 type              encoding         emb sub uni object ID
+        #   ------------------------------------ ----------------- ---------------- --- --- --- ---------
+        # we assume a line count of 2 or more means there is existing ocr
+        font_data.lines.count > 2
+      end
+
+      def extract_original_ocr(original_pdf_path)
+        IiifPrint::TextExtraction::PdfToAlto.new(original_pdf_path).extract_text
+      end
 
       # rubocop:disable Metrics/ParameterLists
       def split_pdf(original_pdf_path, user, child_model)
