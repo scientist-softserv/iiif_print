@@ -207,6 +207,16 @@ module IiifPrint
     def iiif_metadata_sorter_fields
       @iiif_metadata_sorter_fields || nil
     end
+
+    def questioning_authority_fields=(fields)
+      @questioning_authority_fields = Array.wrap(fields).map(&:to_s)
+    end
+    ##
+    # This is used to explicitly set which fields should be rendered as a Questioning Authority in the UV.
+    # By default, we render `rights_statement` and `license` as QA fields.
+    def questioning_authority_fields
+      @questioning_authority_fields ||= ['rights_statement', 'license']
+    end
   end
   # rubocop:enable Metrics/ModuleLength
 end
