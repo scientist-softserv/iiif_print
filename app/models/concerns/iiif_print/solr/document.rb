@@ -53,4 +53,8 @@ module IiifPrint::Solr::Document
   def any_highlighting?
     response&.[]('highlighting')&.[](id)&.present?
   end
+
+  def solr_document
+    self
+  end
 end
