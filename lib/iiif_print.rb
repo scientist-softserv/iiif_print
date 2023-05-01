@@ -155,21 +155,26 @@ module IiifPrint
   end
 
   def self.fields_for_allinson_flex(fields: allinson_flex_fields)
-    sort_order = IiifPrint.config.iiif_metadata_sorter_fields
-    fields = sort_af_fields!(fields, sort_order) if sort_order
-    # removes duplicate named fields
-    fields.uniq!(&:name)
-    fields.map do |field|
+    fields = sort_af_fields!(fields)
+    fields.each_with_object({}) do |field, hash|
+      # filters out admin_only fields
+      next if field.indexing.include?('admin_only')
+
+      # WARNING: This is assuming A LOT
+      # This is taking the Allinson Flex fields that have the same name and only
+      # using the first one while discarding the rest.  There currently no way to
+      # controller which one(s) are discarded but this fits for the moment.
+      next if hash.key?(field.name)
+
       # currently only supports the faceted option
       # Why the `render_as:`? This was originally derived from Hyku default attributes
       # @see https://github.com/samvera/hyku/blob/c702844de4c003eaa88eb5a7514c7a1eae1b289e/app/views/hyrax/base/_attribute_rows.html.erb#L3
-      options = field.indexing.include?('facetable') ? { render_as: :faceted } : nil
-      Field.new(
+      hash[field.name] = Field.new(
         name: field.name,
         label: field.value,
-        options: options
+        options: field.indexing.include?('facetable') ? { render_as: :faceted } : nil
       )
-    end
+    end.values
   end
 
   CollectionFieldShim = Struct.new(:name, :value, :indexing, keyword_init: true)
@@ -183,8 +188,6 @@ module IiifPrint
                              .distinct
                              .select(:name, :value, :indexing)
     flex_fields = allinson_flex_relation.to_a
-    # filters out admin_only fields
-    flex_fields.reject! { |profile| profile.indexing.include?('admin_only') }
     unless allinson_flex_relation.exists?(name: 'collection')
       collection_field = CollectionFieldShim.new(name: :collection, value: 'Collection', indexing: [])
       flex_fields << collection_field
@@ -192,7 +195,9 @@ module IiifPrint
     @allinson_flex_fields = flex_fields
   end
 
-  def self.sort_af_fields!(fields, sort_order)
+  def self.sort_af_fields!(fields, sort_order: IiifPrint.config.iiif_metadata_field_presentation_order)
+    return fields if sort_order.blank?
+
     fields.sort_by do |field|
       sort_order_index = sort_order.index(field.name.to_sym)
       sort_order_index.nil? ? sort_order.length : sort_order_index
