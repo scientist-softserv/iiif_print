@@ -154,11 +154,13 @@ module IiifPrint
     end
   end
 
-  def self.fields_for_allinson_flex(fields: allinson_flex_fields)
-    fields = sort_af_fields!(fields)
+  ##
+  # @param fields [Array<IiifPrint::Field>]
+  def self.fields_for_allinson_flex(fields: allinson_flex_fields, sort_order: IiifPrint.config.iiif_metadata_field_presentation_order)
+    fields = sort_af_fields!(fields, sort_order: sort_order)
     fields.each_with_object({}) do |field, hash|
       # filters out admin_only fields
-      next if field.indexing.include?('admin_only')
+      next if field.indexing&.include?('admin_only')
 
       # WARNING: This is assuming A LOT
       # This is taking the Allinson Flex fields that have the same name and only
@@ -172,13 +174,15 @@ module IiifPrint
       hash[field.name] = Field.new(
         name: field.name,
         label: field.value,
-        options: field.indexing.include?('facetable') ? { render_as: :faceted } : nil
+        options: field.indexing&.include?('facetable') ? { render_as: :faceted } : nil
       )
     end.values
   end
 
   CollectionFieldShim = Struct.new(:name, :value, :indexing, keyword_init: true)
 
+  ##
+  # @return [Array<IiifPrint::Field>]
   def self.allinson_flex_fields
     return @allinson_flex_fields if defined?(@allinson_flex_fields)
 
@@ -195,7 +199,10 @@ module IiifPrint
     @allinson_flex_fields = flex_fields
   end
 
-  def self.sort_af_fields!(fields, sort_order: IiifPrint.config.iiif_metadata_field_presentation_order)
+  ##
+  # @param fields [Array<IiifPrint::Field>]
+  # @param sort_order [Array<Symbol>]
+  def self.sort_af_fields!(fields, sort_order:)
     return fields if sort_order.blank?
 
     fields.sort_by do |field|
