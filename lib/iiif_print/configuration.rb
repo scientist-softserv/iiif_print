@@ -117,14 +117,14 @@ module IiifPrint
     end
     # rubocop:enable Metrics/MethodLength
 
-    attr_writer :additional_tessearct_options
+    attr_writer :additional_tesseract_options
     ##
     # The additional options to pass to the Tesseract configuration
     #
     # @see https://tesseract-ocr.github.io/tessdoc/Command-Line-Usage.html
     # @return [String]
-    def additional_tessearct_options
-      @additional_tessearct_options || ""
+    def additional_tesseract_options
+      @additional_tesseract_options || ""
     end
 
     attr_writer :uv_config_path

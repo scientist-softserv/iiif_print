@@ -81,16 +81,16 @@ RSpec.describe IiifPrint::Configuration do
     end
   end
 
-  describe '#additional_tessearct_options' do
+  describe '#additional_tesseract_options' do
     context "by default" do
-      subject { config.additional_tessearct_options }
+      subject { config.additional_tesseract_options }
       it { is_expected.not_to be_present }
     end
 
     it "can be configured" do
       expect do
-        config.additional_tessearct_options = "-l esperanto"
-      end.to change(config, :additional_tessearct_options)
+        config.additional_tesseract_options = "-l esperanto"
+      end.to change(config, :additional_tesseract_options)
         .from("")
         .to("-l esperanto")
     end
