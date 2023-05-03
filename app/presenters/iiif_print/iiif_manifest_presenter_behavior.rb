@@ -8,7 +8,8 @@ module IiifPrint
     attr_accessor :base_url
 
     def manifest_metadata
-      @manifest_metadata ||= IiifPrint.manifest_metadata_from(work: model, presenter: self)
+      # ensure we are using a SolrDocument
+      @manifest_metadata ||= IiifPrint.manifest_metadata_from(work: model.solr_document, presenter: self)
     end
 
     def search_service

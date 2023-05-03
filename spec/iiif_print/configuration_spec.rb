@@ -151,4 +151,30 @@ RSpec.describe IiifPrint::Configuration do
       expect(function.parameters).to eq([[:keyreq, :object]])
     end
   end
+
+  describe "#iiif_metadata_field_presentation_order" do
+    subject { config.iiif_metadata_field_presentation_order }
+
+    it { is_expected.to be_a NilClass }
+    it "allows for an override" do
+      original = config.iiif_metadata_field_presentation_order
+      config.iiif_metadata_field_presentation_order = :title
+      expect(config.iiif_metadata_field_presentation_order).not_to eq original
+    end
+  end
+
+  describe "#questioning_authority_fields" do
+    subject { config.questioning_authority_fields }
+
+    it { is_expected.to be_a Array }
+    context "by default" do
+      it { is_expected.to eq ['rights_statement', 'license'] }
+    end
+
+    it "allows for an override" do
+      expect do
+        config.questioning_authority_fields = ['rights_statement', 'license', 'subject']
+      end.to change(config, :questioning_authority_fields).from(['rights_statement', 'license']).to(['rights_statement', 'license', 'subject'])
+    end
+  end
 end

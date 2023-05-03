@@ -195,6 +195,29 @@ module IiifPrint
         IiifPrint::Data::WorkDerivatives.data(from: object, of_type: 'txt')
       end
     end
+
+    attr_writer :iiif_metadata_field_presentation_order
+    ##
+    # This is the default sorter for the metadata.  It will sort by the order of the keys specificied.
+    # By default, this is turned off as it returns nil. If you want to turn it on, you can set this
+    # this to an array of symbols the properties on the work.
+    #
+    # @example [:title, :description, :date_created]
+    # @return [Array<Symbol>]
+    def iiif_metadata_field_presentation_order
+      @iiif_metadata_field_presentation_order || nil
+    end
+
+    def questioning_authority_fields=(fields)
+      @questioning_authority_fields = Array.wrap(fields).map(&:to_s)
+    end
+
+    ##
+    # This is used to explicitly set which fields should be rendered as a Questioning Authority in the UV.
+    # By default, we render `rights_statement` and `license` as QA fields.
+    def questioning_authority_fields
+      @questioning_authority_fields ||= ['rights_statement', 'license']
+    end
   end
   # rubocop:enable Metrics/ModuleLength
 end
