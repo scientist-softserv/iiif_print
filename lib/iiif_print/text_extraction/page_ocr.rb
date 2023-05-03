@@ -9,7 +9,7 @@ module IiifPrint
     class PageOCR
       attr_accessor :html, :path
 
-      def initialize(path, additional_tessearct_options: IiifPrint.config.additional_tessearct_options)
+      def initialize(path, additional_tesseract_options: IiifPrint.config.additional_tesseract_options)
         @path = path
         # hOCR html:
         @html = nil
@@ -17,13 +17,13 @@ module IiifPrint
         @source_meta = nil
         @box = nil
         @plain = nil
-        @additional_tessearct_options = additional_tessearct_options
+        @additional_tesseract_options = additional_tesseract_options
       end
 
       def run_ocr
         outfile = File.join(Dir.mktmpdir, 'output_html')
         cmd = "OMP_THREAD_LIMIT=1 tesseract #{path} #{outfile}"
-        cmd += " #{@additional_tessearct_options}" if @additional_tessearct_options.present?
+        cmd += " #{@additional_tesseract_options}" if @additional_tesseract_options.present?
         cmd += " hocr"
         `#{cmd}`
         outfile + '.hocr'
