@@ -43,7 +43,7 @@ module IiifPrint
       manifest = manifest_factory.new(presenter).to_h
       hash = JSON.parse(manifest.to_json)
       parent_and_child_solr_hits = parent_and_child_solr_hits(presenter) if @child_works.present?
-      hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter, hits: parent_and_child_solr_hits)
+      hash = send("sanitize_v#{@version}", hash: hash, presenter: presenter, solr_doc_hits: parent_and_child_solr_hits)
       if @child_works.present? && IiifPrint.config.sort_iiif_manifest_canvases_by
         send("sort_canvases_v#{@version}",
              hash: hash,
@@ -52,34 +52,34 @@ module IiifPrint
       hash
     end
 
-    def sanitize_v2(hash:, presenter:, hits:)
+    def sanitize_v2(hash:, presenter:, solr_doc_hits:)
       hash['label'] = CGI.unescapeHTML(sanitize_value(hash['label'])) if hash.key?('label')
       hash.delete('description') # removes default description since it's in the metadata fields
       hash['sequences']&.each do |sequence|
         sequence['canvases']&.each do |canvas|
           canvas['label'] = CGI.unescapeHTML(sanitize_value(canvas['label']))
-          apply_metadata_to_canvas(canvas: canvas, presenter: presenter, hits: hits)
+          apply_metadata_to_canvas(canvas: canvas, presenter: presenter, solr_doc_hits: solr_doc_hits)
         end
       end
       hash
     end
 
-    def sanitize_v3(hash:, presenter:, hits:)
+    def sanitize_v3(hash:, presenter:, solr_doc_hits:)
       hash['label']['none'].map! { |text| CGI.unescapeHTML(sanitize_value(text)) } if hash.key('label')
       hash['items'].each do |canvas|
         canvas['label']['none'].map! { |text| CGI.unescapeHTML(sanitize_value(text)) }
-        apply_metadata_to_canvas(canvas: canvas, presenter: presenter, hits: hits)
+        apply_metadata_to_canvas(canvas: canvas, presenter: presenter, solr_doc_hits: solr_doc_hits)
       end
       hash
     end
 
-    def apply_metadata_to_canvas(canvas:, presenter:, hits:)
+    def apply_metadata_to_canvas(canvas:, presenter:, solr_doc_hits:)
       return if @child_works.empty?
 
       # uses the 'id' property for v3 manifest and `@id' for v2, which is a URL that contains the FileSet id
       file_set_id = (canvas['id'] || canvas['@id']).split('/').last
       # finds the image that the FileSet is attached to and creates metadata on that canvas
-      image = hits.find { |hit| hit[:member_ids_ssim]&.include?(file_set_id) }
+      image = solr_doc_hits.find { |hit| hit[:member_ids_ssim]&.include?(file_set_id) }
       return unless image
       # prevents duplicating the child and parent metadata
       return if image.id == presenter.id
