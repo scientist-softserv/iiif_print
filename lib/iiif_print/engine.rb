@@ -48,6 +48,7 @@ module IiifPrint
 
       ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
+      ::BlacklightIiifSearch::IiifSearch.prepend(IiifPrint::IiifSearchDecorator)
       Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
 
       Hyrax.config do |config|
