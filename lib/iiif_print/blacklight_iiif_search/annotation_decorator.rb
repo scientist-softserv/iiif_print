@@ -30,6 +30,7 @@ module IiifPrint
         return default_coords if query.blank?
         coords_json = fetch_and_parse_coords
         return default_coords unless coords_json && coords_json['coords']
+        query.gsub!(additional_query_terms, '')
         query_terms = query.split(' ').map(&:downcase)
         matches = coords_json['coords'].select do |k, _v|
           k.downcase =~ /(#{query_terms.join('|')})/
@@ -78,6 +79,19 @@ module IiifPrint
         file_set_ids = document['file_set_ids_ssim']
         raise "#{self.class}: NO FILE SET ID" if file_set_ids.blank?
         file_set_ids.first
+      end
+
+      ##
+      # This method is a workaround to compensate for overriding the solr_params method in
+      # BlacklightIiifSearch::IiifSearch. In the override, the solr_params method adds an additional filter to the query
+      # to include either the object_relation_field OR the parent document's id and removes the :f parameter from the
+      # query. This resulted in the query split here returning more than the actual query term.
+      #
+      # @see IiifPrint::IiifSearchDecorator#solr_params
+      # @return [String] Returns a string containing additional query terms based on the parent document's id.
+      def additional_query_terms
+        parent_id = document['is_page_of_ssim'].first
+        " AND (is_page_of_ssim:\"#{parent_id}\" OR id:\"#{parent_id}\")"
       end
     end
   end
