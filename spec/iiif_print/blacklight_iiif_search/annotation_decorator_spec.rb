@@ -1,13 +1,18 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
-  let(:page_document) { build(:newspaper_page_solr_document) }
+  let(:parent_id) { 'abc123' }
+  let(:page_document) do
+    doc = build(:newspaper_page_solr_document)
+    doc['is_page_of_ssim'] = [parent_id]
+    doc
+  end
   let(:controller) { CatalogController.new }
   let(:coordinates) do
     JSON.parse("{\"coords\":{\"software\":[[2641,4102,512,44]]}}")
   end
   let(:parent_document) do
-    SolrDocument.new('id' => page_document[:issue_id_ssi],
+    SolrDocument.new('id' => parent_id,
                      'has_model_ssim' => ['NewspaperIssue'])
   end
   let(:iiif_search_annotation) do
