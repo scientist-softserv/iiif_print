@@ -152,7 +152,8 @@ module IiifPrint
           admin_set_id: admin_set_id.to_s,
           creator: parent_work.creator.to_a,
           rights_statement: parent_work.rights_statement.to_a,
-          visibility: parent_work.visibility.to_s
+          visibility: parent_work.visibility.to_s,
+          is_child: true
         }
       end
     end
