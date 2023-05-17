@@ -15,8 +15,9 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
     SolrDocument.new('id' => parent_id,
                      'has_model_ssim' => ['NewspaperIssue'])
   end
+  let(:query) { "software AND (is_page_of_ssim:#{parent_id} OR id:#{parent_id})" }
   let(:iiif_search_annotation) do
-    BlacklightIiifSearch::IiifSearchAnnotation.new(page_document, 'software',
+    BlacklightIiifSearch::IiifSearchAnnotation.new(page_document, query,
                                                    0, nil, controller,
                                                    parent_document)
   end
