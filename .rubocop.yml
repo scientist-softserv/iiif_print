@@ -72,6 +72,7 @@ Metrics/MethodLength:
     - 'lib/generators/iiif_print/catalog_controller_generator.rb'
     - 'lib/iiif_print/ingest/ndnp/ndnp_mets_helper.rb'
     - 'lib/iiif_print/ingest/pdf_issue_ingester.rb'
+    - 'lib/iiif_print/jobs/create_relationships_job.rb'
     - 'spec/model_shared.rb'
 
 Naming/PredicateName:
