@@ -109,7 +109,7 @@ class IiifPrint::PluggableDerivativeService
     return Array(default_plugins) if parent.nil?
     return Array(default_plugins) unless parent.respond_to?(:iiif_print_config)
 
-    (file_set.parent.iiif_print_config.derivative_service_plugins + Array(default_plugins)).flatten.compact.uniq
+    (parent.iiif_print_config.derivative_service_plugins + Array(default_plugins)).flatten.compact.uniq
   end
 
   def parent_for(file_set)
