@@ -30,8 +30,8 @@ module IiifPrint
         return default_coords if query.blank?
         coords_json = fetch_and_parse_coords
         return default_coords unless coords_json && coords_json['coords']
-        query.gsub!(additional_query_terms, '')
-        query_terms = query.split(' ').map(&:downcase)
+        sanitized_query = query.match(additional_query_terms_regex)[1].strip
+        query_terms = sanitized_query.split(' ').map(&:downcase)
         matches = coords_json['coords'].select do |k, _v|
           k.downcase =~ /(#{query_terms.join('|')})/
         end
@@ -88,10 +88,11 @@ module IiifPrint
       # query. This resulted in the query split here returning more than the actual query term.
       #
       # @see IiifPrint::IiifSearchDecorator#solr_params
-      # @return [String] Returns a string containing additional query terms based on the parent document's id.
-      def additional_query_terms
-        parent_id = document['is_page_of_ssim'].first
-        " AND (is_page_of_ssim:\"#{parent_id}\" OR id:\"#{parent_id}\")"
+      # @return [Regexp] A regular expression to find the last AND and everything after it
+      # @example
+      #   'foo AND (is_page_of_ssim:\"123123\" OR id:\"123123\")' #=> 'foo'
+      def additional_query_terms_regex
+        /(.*)(?= AND (\(.+\)|\w+)$)/
       end
     end
   end
