@@ -17,7 +17,6 @@ require "iiif_print/works_controller_behavior"
 require "iiif_print/jobs/application_job"
 require "iiif_print/blacklight_iiif_search/annotation_decorator"
 require "iiif_print/jobs/child_works_from_pdf_job"
-require "iiif_print/jobs/create_relationships_job"
 require "iiif_print/split_pdfs/base_splitter"
 require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 
