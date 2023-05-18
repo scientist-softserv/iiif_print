@@ -59,6 +59,7 @@ module IiifPrint
         end
 
         def start_word(attrs)
+          end_word if @current  # end the current word if it exists before starting a new one
           @current = {}
           # will be replaced during #characters method call:
           @current[:word] = nil
@@ -82,8 +83,9 @@ module IiifPrint
 
         def end_word
           # add trailing space to plaintext buffer for between words:
-          @text += ' '
+          @text += ' ' if word_complete?
           @words.push(@current) if word_complete?
+          @current = nil  # clear the current word
         end
 
         def end_line
@@ -120,21 +122,23 @@ module IiifPrint
         #   for current word, and append line endings to plain text:
         #
         # @param name [String] element name.
-        def end_element(_name)
-          end_line if @element_class_name == 'ocr_line'
-          end_word if @element_class_name == 'ocrx_word'
+        def end_element(name)
+          if name == 'span'
+            end_word if @element_class_name == 'ocrx_word'
+            @text += "\n" if @element_class_name == 'ocr_line'
+          end
+          @element_class_name = nil
         end
 
         # Callback for completion of parsing hOCR, used to normalize generated
-        #   text content (strip unneeded whitespace incidental to output).
+        #   text content (strip unneeded whitespace incidental to output and ensure
+        #   a maximum of one blank line between text blocks).
         def end_document
-          # postprocess @text to remove trailing spaces on lines
+          # Postprocess @text to remove trailing spaces on each line.
           @text = @text.split("\n").map(&:strip).join("\n")
-          # remove excess line break
-          @text.gsub!(/\n+/, "\n")
-          @text.delete("\r")
-          # remove trailing whitespace at end of buffer
-          @text.strip!
+          # Replace any instance of three or more consecutive newline characters with
+          #   just two newline characters, allowing for a maximum of one blank line.
+          @text.gsub!(/\n{3,}/, "\n\n")
         end
       end
 
