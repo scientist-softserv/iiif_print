@@ -50,7 +50,7 @@ module IiifPrintHelper
   # rubocop:disable Rails/OutputSafety
   def render_ocr_snippets(options = {})
     snippets = options[:value]
-    snippets_content = [content_tag('div',
+    snippets_content = [ActionController::Base.helpers.content_tag('div',
                                     "... #{snippets.first} ...".html_safe,
                                     class: 'ocr_snippet first_snippet')]
     if snippets.length > 1
