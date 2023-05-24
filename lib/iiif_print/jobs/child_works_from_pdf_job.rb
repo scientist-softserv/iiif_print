@@ -48,6 +48,8 @@ module IiifPrint
 
       # rubocop:disable Metrics/ParameterLists
       def split_pdf(original_pdf_path, user, child_model)
+        # TODO: This is the place to change out the existing service and instead use the derivative
+        # rodeo; we will likely need to look at method signatures to tighten this interface.
         image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path)
         return if image_files.blank?
 
