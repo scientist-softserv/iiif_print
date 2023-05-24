@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
+  gem 'derivative_rodeo', git: "https://github.com/scientist-softserv/derivative_rodeo.git", branch: "main"
+  gem 'active-fedora', git: "https://github.com/scientist-softserv/active_fedora.git", branch: "13.3.x-loosening-faraday-requirements"
+  gem 'valkyrie', git: "https://github.com/scientist-softserv/valkyrie.git", branch: "loosening-faraday-requirements"
   gem 'coveralls', require: false
 end
 
