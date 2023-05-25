@@ -23,8 +23,9 @@ SUMMARY
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
+  spec.add_dependency 'derivative-rodeo'
   spec.add_dependency 'dry-monads', '~> 1.4.0'
-  spec.add_dependency 'hyrax', '>= 2.5', '< 4.0'
+  spec.add_dependency 'hyrax', '>= 2.5', '< 4'
   spec.add_dependency 'reform-rails', '0.2.3'
   spec.add_dependency 'nokogiri', '>=1.13.2'
   spec.add_dependency 'rails', '~> 5.0'
@@ -35,9 +36,10 @@ SUMMARY
   spec.add_development_dependency 'engine_cart', '~> 2.2'
   spec.add_development_dependency "factory_bot", '~> 4.4'
   spec.add_development_dependency 'fcrepo_wrapper', '~> 0.5', '>= 0.5.1'
+  # TODO: We want to remove dependency on this
   spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
-  spec.add_development_dependency 'rspec-rails', '~> 3.1'
+  spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'rspec-activemodel-mocks'
   spec.add_development_dependency 'shoulda-matchers', '~> 3.1'
   spec.add_development_dependency 'solr_wrapper', '>= 1.1', '< 3.0'
