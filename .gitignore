@@ -50,3 +50,7 @@ pkg/
 
 # ignore local config settings
 .vscode/settings.json
+
+# yard generated files
+.yardoc/
+doc/
