@@ -9,28 +9,11 @@ module IiifPrint
         super
 
         if from_url
-          # we have everything we need... queue the job
-          parent = parent_for(file_set: @file_set)
-
-          if service.iiif_print_split?(work: parent) && service.pdfs?(paths: [file_set.import_url])
-            service.queue_job(
-              work: parent,
-              file_locations: [file.path],
-              user: @user,
-              admin_set_id: parent.admin_set_id
-            )
-          end
+          service.conditionally_enqueue(file_set: file_set, file: file, import_url: file_set.import_url, user: @user)
         else
           # we don't have the parent yet... save the paths for later use
-          @pdf_paths = service.pdf_paths(files: [file.try(:id)&.to_s].compact)
+          @file = file
         end
-      end
-
-      # Prior to Hyrax v3.1.0, this method did not exist
-      # @param file_set [FileSet]
-      # @return [ActiveFedora::Base]
-      def parent_for(file_set:)
-        file_set.parent
       end
 
       # Override to add PDF splitting
@@ -38,14 +21,7 @@ module IiifPrint
         # Locks to ensure that only one process is operating on the list at a time.
         super
 
-        return if @pdf_paths.blank?
-        return unless service.iiif_print_split?(work: work)
-        service.queue_job(
-          work: work,
-          file_locations: @pdf_paths,
-          user: @user,
-          admin_set_id: work.admin_set_id
-        )
+        service.conditionally_enqueue(file_set: file_set, work: work, file: @file, user: @user)
       end
 
       def service
