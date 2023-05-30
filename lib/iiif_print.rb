@@ -39,6 +39,15 @@ module IiifPrint
     @config
   end
 
+  ##
+  # @param file_set [FileSet]
+  # @return [#work?, Hydra::PCDM::Work]
+  def self.parent_for(file_set)
+    # fallback to Fedora-stored relationships if work's aggregation of
+    #   file set is not indexed in Solr
+    file_set.parent || file_set.member_of.find(&:work?)
+  end
+
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
