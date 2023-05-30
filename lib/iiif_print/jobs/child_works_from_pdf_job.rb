@@ -1,15 +1,25 @@
 module IiifPrint
   module Jobs
+    # @deprecated
     class ChildWorksFromPdfJob < IiifPrint::Jobs::ApplicationJob
+      ##
       # Break a pdf into individual pages
-      # @param parent_work
+      #
+      # @param candidate_for_parency [FileSet, Hydra::PCDM::Work]
       # @param pdf_paths: [<Array => String>] paths to pdfs
       # @param user: [User]
       # @param admin_set_id: [<String>]
-      #
-      # @todo Deprecate the _count parameter; it was once used but not necessary.
-      def perform(parent_work, pdf_paths, user, admin_set_id, _count)
-        @parent_work = parent_work
+      # rubocop:disable Metrics/MethodLength
+      def perform(candidate_for_parency, pdf_paths, user, admin_set_id, *)
+        ##
+        # We know that we have cases where parent_work is nil, this will definitely raise an
+        # exception; which is fine because we were going to do it later anyway.
+        @parent_work = if candidate_for_parency.work?
+                         candidate_for_parency
+                       else
+                         # We likely have a file set
+                         IiifPrint.parent_for(candidate_for_parency)
+                       end
         @child_admin_set_id = admin_set_id
         child_model = @parent_work.iiif_print_config.pdf_split_child_model
 
@@ -32,12 +42,13 @@ module IiifPrint
 
         # TODO: clean up image_files and pdf_paths
       end
+      # rubocop:enable Metrics/MethodLength
 
       private
 
       # rubocop:disable Metrics/ParameterLists
       def split_pdf(original_pdf_path, user, child_model)
-        image_files = @parent_work.iiif_print_config.pdf_splitter_service.new(original_pdf_path).to_a
+        image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path)
         return if image_files.blank?
 
         prepare_import_data(original_pdf_path, image_files, user)

@@ -9,8 +9,22 @@ module IiifPrint
     #
     # The purpose of this class is to split the PDF into constituent image files.
     #
-    # @see #each
+    # @see .call
     class BaseSplitter
+      ##
+      # @api public
+      #
+      # @param path [String] local path to the PDF that we will split.
+      # @return [Enumerable]
+      #
+      # @see #each
+      #
+      # @note We're including the ** args to provide method conformity; other services require
+      #       additional information (such as the FileSet)
+      def self.call(path, **)
+        new(path).to_a
+      end
+
       class_attribute :image_extension
       class_attribute :compression, default: nil
       class_attribute :quality, default: nil

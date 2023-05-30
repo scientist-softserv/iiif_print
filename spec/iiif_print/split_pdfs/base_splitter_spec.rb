@@ -3,6 +3,9 @@ require 'spec_helper'
 RSpec.describe IiifPrint::SplitPdfs::BaseSplitter do
   let(:path) { __FILE__ }
   let(:splitter) { described_class.new(path) }
+  subject { described_class }
+
+  it { is_expected.to respond_to(:call) }
 
   describe "instance" do
     subject { splitter }

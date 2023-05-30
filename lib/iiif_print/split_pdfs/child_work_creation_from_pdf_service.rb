@@ -23,7 +23,7 @@ module IiifPrint
       # @return [TrueClass] when we actually enqueue the job underlying job.
       # rubocop:disable Metrics/MethodLength
       def self.conditionally_enqueue(file_set:, file:, user:, import_url: nil, work: nil)
-        work ||= parent_for(file_set: file_set)
+        work ||= IiifPrint.parent_for(file_set)
 
         return :no_split_for_parent unless iiif_print_split?(work: work)
         return :no_pdfs_for_import_url if import_url && !pdfs?(paths: [import_url])
@@ -35,7 +35,7 @@ module IiifPrint
         return :no_pdfs if file_locations.empty?
 
         work.iiif_print_config.pdf_splitter_job.perform_later(
-          work,
+          file_set,
           file_locations,
           user,
           admin_set_id,
@@ -114,11 +114,6 @@ module IiifPrint
 
       ##
       # @api private
-      def self.parent_for(file_set:)
-        # fallback to Fedora-stored relationships if work's aggregation of
-        #   file set is not indexed in Solr
-        file_set.parent || file_set.member_of.find(&:work?)
-      end
     end
   end
 end

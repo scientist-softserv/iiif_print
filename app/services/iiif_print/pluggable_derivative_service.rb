@@ -105,16 +105,10 @@ class IiifPrint::PluggableDerivativeService
   # set would use.  That "possibility" is based on the work.  Later, we will check the plugin's
   # "valid?" which would now look at the specific file_set for validity.
   def plugins_for(file_set)
-    parent = parent_for(file_set)
+    parent = IiifPrint.parent_for(file_set)
     return Array(default_plugins) if parent.nil?
     return Array(default_plugins) unless parent.respond_to?(:iiif_print_config)
 
     (parent.iiif_print_config.derivative_service_plugins + Array(default_plugins)).flatten.compact.uniq
-  end
-
-  def parent_for(file_set)
-    # fallback to Fedora-stored relationships if work's aggregation of
-    #   file set is not indexed in Solr
-    file_set.parent || file_set.member_of.find(&:work?)
   end
 end
