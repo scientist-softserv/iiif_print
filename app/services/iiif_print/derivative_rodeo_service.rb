@@ -25,40 +25,48 @@ module IiifPrint
     class_attribute :parent_work_identifier_property_name, default: 'aark_id'
 
     ##
-    # @attr input_location_adapter_name [String] The name of a derivative rodeo storage location;
+    # @attr pre_processed_location_adapter_name [String] The name of a derivative rodeo storage location;
     #       this will must be a registered with the DerivativeRodeo::StorageLocations::BaseLocation.
-    class_attribute :input_location_adapter_name, default: 's3'
+    class_attribute :pre_processed_location_adapter_name, default: 's3'
 
     ##
-    # @attr named_derivatives_and_generators_by_type [Hash<Symbol, #constantize>] the named derivative and it's
-    #       associated generator.  The "name" is important for Hyrax.  The generator is one that
-    #       exists in the DerivativeRodeo.
+    # @attr named_derivatives_and_generators_by_type [Hash<Symbol, #constantize>] the named
+    #       derivative and it's associated generator.  The "name" is important for Hyrax or IIIF
+    #       Print implementations.  The generator is one that exists in the DerivativeRodeo.
     #
     # TODO: Could be nice to have a registry for the DerivativeRodeo::Generators; but that's a
     # tomorrow wish.
     class_attribute(:named_derivatives_and_generators_by_type, default: {
-                      pdf: { thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator" }
+                      pdf: { thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator" },
+                      image: {
+                        thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator",
+                        json: "DerivativeRodeo::Generator::WordCoordinatesGenerator",
+                        xml: "DerivativeRodeo::Generator::AltoGenerator",
+                        txt: "DerivativeRodeo::Generator::PlainTextGenerator"
+                      }
                     })
     # @!endgroup Class Attributes
     ##
 
     ##
-    # This method "hard-codes" some existing assumptions about the input_uri based on
-    # implementations for Adventist.  Those are reasonable assumptions but time will tell how
-    # reasonable.
+    # This method encodes some existing assumptions about the URI based on implementations for
+    # Adventist.  Those are reasonable assumptions but time will tell how reasonable.
+    #
+    # By convention, this method is returning output_location of the SpaceStone::Serverless
+    # processing.  We might know the original location that SpaceStone::Serverless processed, but
+    # that seems to be a tenuous assumption.
+    #
+    # In other words, where would SpaceStone, by convention, have written the original file and by
+    # convention written that original file's derivatives.
+    #
+    # TODO: We also need to account for PDF splitting
     #
     # @param file_set [FileSet]
+    # @param filename [String]
+    # @param extension [String]
+    #
     # @return [String]
-    def self.derivative_rodeo_input_uri(file_set:)
-      return @derivative_rodeo_input_uri if defined?(@derivative_rodeo_input_uri)
-
-      # TODO: URGENT For a child work (e.g. an image split off of a PDF) we will know that the file_set's
-      # parent is a child, and the rules of the URI for those derivatives are different from the
-      # original ingested PDF or the original ingested Image.
-
-      # TODO: This logic will work for an attached PDF; but not for each of the split pages of that
-      # PDF.  How to do that?
-
+    def self.input_uri(file_set:, filename: nil, extension: nil)
       # TODO: This is duplicated logic for another service, consider extracting a helper module;
       # better yet wouldn't it be nice if Hyrax did this right and proper.
       parent = file_set.parent || file_set.member_of.find(&:work?)
@@ -70,20 +78,28 @@ module IiifPrint
       # expendiency, I'm using it.  See
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
       # TODO: Could we get away with filename that is passed in the create_derivatives process?
-      filename = Hydra::Works::DetermineOriginalName.call(file_set.original_file)
+      filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
+      extension ||= File.extname(filename)
+      extension = ".#{extension}" unless extension.start_with?(".")
+      basename = File.basename(filename, extension)
 
       # TODO: What kinds of exceptions might we raise if the location is not configured?  Do we need
       # to "validate" it in another step.
-      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(input_location_adapter_name)
+      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(preprocessed_location_adapter_name)
 
-      # TODO: This is based on the provided output template in
-      # https://github.com/scientist-softserv/space_stone-serverless/blob/0dbe2b6fa13b9f4bf8b9580ec14d0af5c98e2b00/awslambda/bin/sample_post.rb#L1
-      # and is very much hard-coded.  We likely want to "store" the template in a common place for
-      # the application.
-      #
-      # s3://s3-antics/:aark_id/:file_name_with_extension
-      # s3://s3-antics/12345/hello-world.pdf
-      @derivative_rodeo_input_uri = File.join(location.adapter_prefix, dirname, File.basename(filename))
+      if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
+        # In this case the basename will include the "filename--page-\d.extension" type format.
+        File.join(location.adapter_prefix, dirname, basename, "pages", "#{basename}#{extension}")
+      else
+        # TODO: This is based on the provided output template in
+        # https://github.com/scientist-softserv/space_stone-serverless/blob/0dbe2b6fa13b9f4bf8b9580ec14d0af5c98e2b00/awslambda/bin/sample_post.rb#L1
+        # and is very much hard-coded.  We likely want to "store" the template in a common place for
+        # the application.
+        #
+        # s3://s3-antics/:aark_id/:file_name_with_extension
+        # s3://s3-antics/12345/hello-world.pdf
+        File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
+      end
     end
 
     def initialize(file_set)
@@ -131,8 +147,18 @@ module IiifPrint
       named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
         # This is the location that Hyrax expects us to put files that will be added to Fedora.
         output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative)}"
+
+        # The generator knows the output extensions.
         generator = generator_name.constantize
-        generator.new(input_uris: [derivative_rodeo_input_uri], output_location_template: output_location_template).generate_uris
+
+        # This is the location where we hope the derivative rodeo will have generated the file.
+        pre_processed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, extension: generator.output_extension)
+
+        generator.new(
+          input_uris: [input_uri],
+          pre_processed_location_template: pre_processed_location_template,
+          output_location_template: output_location_template
+        ).generate_uris
       end
     end
 
@@ -141,8 +167,8 @@ module IiifPrint
       named_derivatives_and_generators_by_type.keys.flat_map { |type| file_set.class.public_send("#{type}_mime_types") }
     end
 
-    def derivative_rodeo_input_uri
-      @derivative_rodeo_input_uri ||= self.class.derivative_rodeo_input_uri(file_set: file_set)
+    def input_uri
+      @input_uri ||= self.class.derivative_rodeo_uri(file_set: file_set)
     end
 
     def in_the_rodeo?
@@ -150,7 +176,7 @@ module IiifPrint
       # for looking in the rodeo.
       return false unless supported_mime_types.include?(mime_type)
 
-      location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(derivative_rodeo_input_uri)
+      location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(input_uri)
       location.exist?
     end
   end

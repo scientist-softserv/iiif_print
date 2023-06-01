@@ -28,7 +28,7 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
   end
 
   describe '.derivative_rodeo_input_uri' do
-    subject { described_class.derivative_rodeo_input_uri(file_set: file_set) }
+    subject { described_class.derivative_rodeo_pre_processed_uri(file_set: file_set) }
 
     context 'when the file_set does not have a parent' do
       xit 'is expected to raise an error' do
@@ -44,7 +44,7 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
         allow(file_set).to receive(:original_file).and_return(double(original_filename: __FILE__))
       end
 
-      it { is_expected.to start_with("#{described_class.input_location_adapter_name}://") }
+      it { is_expected.to start_with("#{described_class.preprocessed_location_adapter_name}://") }
       it { is_expected.to end_with(File.basename(__FILE__)) }
     end
   end
@@ -64,7 +64,7 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
     end
 
     context 'when derivative rodeo has not pre-processed the file set' do
-      before { instance.input_location_adapter_name = "file" }
+      before { instance.preprocessed_location_adapter_name = "file" }
 
       let(:mime_type) { "application/pdf" }
       it { is_expected.to be_falsey }

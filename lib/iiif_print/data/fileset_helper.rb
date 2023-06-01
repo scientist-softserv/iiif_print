@@ -7,7 +7,7 @@ module IiifPrint
         # if context is itself a string, presume it is a file set id
         return @work if @work.is_a? String
         # if context is not a String, presume a work or fileset context:
-        fileset.nil? ? nil : fileset.id
+        fileset&.id
       end
 
       def first_fileset

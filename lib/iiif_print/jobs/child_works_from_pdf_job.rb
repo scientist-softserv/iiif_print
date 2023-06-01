@@ -15,17 +15,19 @@ module IiifPrint
         # We know that we have cases where parent_work is nil, this will definitely raise an
         # exception; which is fine because we were going to do it later anyway.
         @parent_work = if candidate_for_parency.work?
+                         pdf_file_set = nil
                          candidate_for_parency
                        else
                          # We likely have a file set
+                         pdf_file_set = candidate_for_parency
                          IiifPrint.parent_for(candidate_for_parency)
                        end
         @child_admin_set_id = admin_set_id
         child_model = @parent_work.iiif_print_config.pdf_split_child_model
 
-        # handle each input pdf
+        # handle each input pdf (when input is a file set, we will only have one).
         pdf_paths.each do |original_pdf_path|
-          split_pdf(original_pdf_path, user, child_model)
+          split_pdf(original_pdf_path, user, child_model, pdf_file_set)
         end
 
         # Link newly created child works to the parent
@@ -47,10 +49,8 @@ module IiifPrint
       private
 
       # rubocop:disable Metrics/ParameterLists
-      def split_pdf(original_pdf_path, user, child_model)
-        # TODO: This is the place to change out the existing service and instead use the derivative
-        # rodeo; we will likely need to look at method signatures to tighten this interface.
-        image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path)
+      def split_pdf(original_pdf_path, user, child_model, pdf_file_set)
+        image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path, file_set: pdf_file_set)
         return if image_files.blank?
 
         prepare_import_data(original_pdf_path, image_files, user)
@@ -97,6 +97,13 @@ module IiifPrint
           PendingRelationship.create!(child_title: child_title,
                                       parent_id: @parent_work.id,
                                       child_order: child_title)
+
+          begin
+            # Clean up the temporary image path.
+            File.rm_f(image_path) if File.exist?(image_path)
+          rescue
+            # If we can't delete, let's move on.  Maybe it was already cleaned-up.
+          end
         end
       end
       # rubocop:enable Metrics/MethodLength
