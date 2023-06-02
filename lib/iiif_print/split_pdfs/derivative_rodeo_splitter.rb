@@ -22,13 +22,13 @@ module IiifPrint
       def initialize(path, file_set:, output_tmp_dir: Dir.tmpdir)
         @input_uri = "file://#{path}"
 
-        # We are writing the images to a location that CarrierWave can upload.
-        #
-        # https://github.com/scientist-softserv/iiif_print/blob/b969541de1a0526305b54de37bf7cf100289f088/lib/iiif_print/jobs/child_works_from_pdf_job.rb#L108
+        # We are writing the images to a local location that CarrierWave can upload.  This is a
+        # local file, internal to IiifPrint; it looks like SpaceStone/DerivativeRodeo lingo, but
+        # that's just a convenience.
         output_template_path = File.join(output_tmp_dir, '{{ dir_parts[-1..-1] }}', '{{ filename }}')
 
         @output_location_template = "file://#{output_template_path}"
-        @preprocessed_location_template = IiifPrint::DerivativeRodeoService.derivative_rodeo_input_uri(file_set: file_set, filename: filename)
+        @preprocessed_location_template = IiifPrint::DerivativeRodeoService.derivative_rodeo_uri(file_set: file_set, filename: filename)
       end
 
       ##
@@ -40,7 +40,9 @@ module IiifPrint
       attr_reader :input_uri
 
       ##
-      # This is the location where we're going to write the derivatives that will "go into Fedora".
+      # This is the location where we're going to write the derivatives that will "go into Fedora";
+      # it is a local location, one that IIIF Print's mounting application can directly do
+      # "File.read"
       #
       # @return [String]
       attr_reader :output_location_template

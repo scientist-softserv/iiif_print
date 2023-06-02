@@ -66,10 +66,8 @@ module IiifPrint
     # @param extension [String]
     #
     # @return [String]
-    def self.input_uri(file_set:, filename: nil, extension: nil)
-      # TODO: This is duplicated logic for another service, consider extracting a helper module;
-      # better yet wouldn't it be nice if Hyrax did this right and proper.
-      parent = file_set.parent || file_set.member_of.find(&:work?)
+    def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
+      parent = IiifPrint.parent_for(file_set)
       raise IiifPrint::DataError, "Parent not found for #{file_set.class} ID=#{file_set.id}" unless parent
 
       dirname = parent.public_send(parent_work_identifier_property_name)
@@ -77,7 +75,10 @@ module IiifPrint
       # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
       # expendiency, I'm using it.  See
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
-      # TODO: Could we get away with filename that is passed in the create_derivatives process?
+
+      # These filename, basename, extension name is here to allow for us to take an original file
+      # and see if we've pre-processed the derivative file.  In the pre-processed derivative case,
+      # that would mean we have a different extension than the original.
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
       extension ||= File.extname(filename)
       extension = ".#{extension}" unless extension.start_with?(".")
@@ -87,9 +88,17 @@ module IiifPrint
       # to "validate" it in another step.
       location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(preprocessed_location_adapter_name)
 
+      # Is the given filename one that is of the format of a file that was split off from a PDF.
+      #
+      # In this case the basename will include the "filename--page-\d.extension" type format where
+      # "\d" is a digit.
       if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
-        # In this case the basename will include the "filename--page-\d.extension" type format.
-        File.join(location.adapter_prefix, dirname, basename, "pages", "#{basename}#{extension}")
+        # Note in this case the basename will have a suffix of "--page-<page_number>"
+        #
+        # https://github.com/scientist-softserv/derivative_rodeo/blob/de8ab3993cc9d8719f70c6e990867ceb37d1dfd8/lib/derivative_rodeo/generators/pdf_split_generator.rb#L19-L56
+        parent_pdf_file_basename = basename.sub(%r{--page-\d+$})
+        page_basename = basename
+        File.join(location.adapter_prefix, dirname, parent_pdf_file_basename, "pages", "#{page_basename}#{extension}")
       else
         # TODO: This is based on the provided output template in
         # https://github.com/scientist-softserv/space_stone-serverless/blob/0dbe2b6fa13b9f4bf8b9580ec14d0af5c98e2b00/awslambda/bin/sample_post.rb#L1
@@ -141,7 +150,7 @@ module IiifPrint
 
     private
 
-    def lasso_up_some_derivatives(type:, **)
+    def lasso_up_some_derivatives(type:, filename:)
       # TODO: Can we use the filename instead of the antics of the original_file on the file_set?
       # We have the filename in create_derivatives.
       named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
@@ -151,8 +160,9 @@ module IiifPrint
         # The generator knows the output extensions.
         generator = generator_name.constantize
 
-        # This is the location where we hope the derivative rodeo will have generated the file.
-        pre_processed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, extension: generator.output_extension)
+        # This is the location where we hope the derivative rodeo will have generated the derived
+        # file (e.g. a PDF page's txt file or an image's thumbnail.
+        pre_processed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: generator.output_extension)
 
         generator.new(
           input_uris: [input_uri],
