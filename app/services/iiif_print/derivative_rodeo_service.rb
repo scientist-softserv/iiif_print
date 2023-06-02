@@ -168,7 +168,7 @@ module IiifPrint
           input_uris: [input_uri],
           pre_processed_location_template: pre_processed_location_template,
           output_location_template: output_location_template
-        ).generate_uris
+        ).generated_files
       end
     end
 
