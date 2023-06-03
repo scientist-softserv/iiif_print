@@ -14,7 +14,7 @@ RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
   end
 
   describe "instance" do
-    subject { described_class.new(file_set: file_set) }
+    subject { described_class.new(path, file_set: file_set) }
 
     before do
       allow(file_set).to receive(:parent).and_return(work)
