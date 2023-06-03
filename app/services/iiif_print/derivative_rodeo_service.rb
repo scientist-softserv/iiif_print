@@ -66,6 +66,7 @@ module IiifPrint
     # @param extension [String]
     #
     # @return [String]
+    # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
       parent = IiifPrint.parent_for(file_set)
       raise IiifPrint::DataError, "Parent not found for #{file_set.class} ID=#{file_set.id}" unless parent
@@ -110,6 +111,7 @@ module IiifPrint
         File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def initialize(file_set)
       @file_set = file_set
