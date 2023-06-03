@@ -27,8 +27,8 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
     it { is_expected.to be_a Hash }
   end
 
-  describe '.derivative_rodeo_input_uri' do
-    subject { described_class.derivative_rodeo_pre_processed_uri(file_set: file_set) }
+  describe '.derivative_rodeo_uri' do
+    subject { described_class.derivative_rodeo_uri(file_set: file_set) }
 
     context 'when the file_set does not have a parent' do
       xit 'is expected to raise an error' do
