@@ -15,6 +15,7 @@ RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
 
   describe "instance" do
     subject { described_class.new(path, file_set: file_set) }
+    let(:generator) { double(DerivativeRodeo::Generators::PdfSplitGenerator, generated_files: []) }
 
     before do
       allow(file_set).to receive(:parent).and_return(work)
@@ -26,7 +27,7 @@ RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
     it { is_expected.to respond_to :split_files }
 
     it 'uses the rodeo to split' do
-      expect(DerivativeRodeo::Generators::PdfSplitGenerator).to receive(:new)
+      expect(DerivativeRodeo::Generators::PdfSplitGenerator).to receive(:new).and_return(generator)
       described_class.call(path, file_set: file_set)
     end
   end

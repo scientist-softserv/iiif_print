@@ -12,8 +12,8 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
 
   subject(:klass) { described_class }
 
-  describe '.input_location_adapter_name' do
-    subject { described_class.input_location_adapter_name }
+  describe '.preprocessed_location_adapter_name' do
+    subject { described_class.preprocessed_location_adapter_name }
     it { is_expected.to eq 's3' }
   end
 

@@ -11,16 +11,16 @@ module IiifPrint
     # @see .call
     class DerivativeRodeoSplitter
       ##
-      # @param path [String] the local file location
-      # @param file_set [FileSet] file set containing a PDF file to split
+      # @param filename [String] the local path to the PDFDerivativeServicele
+      # @param file_set [FileSet] file set containing the PDF file to split
       #
       # @return [Array] paths to images split from each page of PDF file
-      def self.call(path, file_set:)
-        new(path, file_set: file_set).split_files
+      def self.call(filename, file_set:)
+        new(filename, file_set: file_set).split_files
       end
 
-      def initialize(path, file_set:, output_tmp_dir: Dir.tmpdir)
-        @input_uri = "file://#{path}"
+      def initialize(filename, file_set:, output_tmp_dir: Dir.tmpdir)
+        @input_uri = "file://#{filename}"
 
         # We are writing the images to a local location that CarrierWave can upload.  This is a
         # local file, internal to IiifPrint; it looks like SpaceStone/DerivativeRodeo lingo, but

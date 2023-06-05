@@ -25,9 +25,9 @@ module IiifPrint
     class_attribute :parent_work_identifier_property_name, default: 'aark_id'
 
     ##
-    # @attr pre_processed_location_adapter_name [String] The name of a derivative rodeo storage location;
+    # @attr preprocessed_location_adapter_name [String] The name of a derivative rodeo storage location;
     #       this will must be a registered with the DerivativeRodeo::StorageLocations::BaseLocation.
-    class_attribute :pre_processed_location_adapter_name, default: 's3'
+    class_attribute :preprocessed_location_adapter_name, default: 's3'
 
     ##
     # @attr named_derivatives_and_generators_by_type [Hash<Symbol, #constantize>] the named
