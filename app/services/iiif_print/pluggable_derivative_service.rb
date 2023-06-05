@@ -39,7 +39,7 @@ class IiifPrint::PluggableDerivativeService
   #   multiple plugins, some of which may or may not be valid, so
   #   validity checks happen within as well.
   def valid?
-    !valid_plugins.size.zero?
+    !valid_plugins.empty?
   end
 
   # get derivative services relevant to method name and file_set context
