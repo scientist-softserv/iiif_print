@@ -21,6 +21,7 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
                                                    0, nil, controller,
                                                    parent_document)
   end
+  let(:file_set) { build(:file_set_solr_document) }
   let(:test_request) { ActionDispatch::TestRequest.new({}) }
 
   before do
@@ -28,6 +29,7 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
     allow(controller).to receive(:polymorphic_url)
       .with(parent_document, host: test_request.base_url, locale: nil)
       .and_return("/#{page_document[:issue_id_ssi]}")
+    allow(SolrDocument).to receive(:find).with(file_set.id).and_return(file_set)
   end
 
   describe '#annotation_id' do
