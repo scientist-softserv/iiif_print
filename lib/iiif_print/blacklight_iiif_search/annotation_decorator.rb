@@ -37,7 +37,7 @@ module IiifPrint
         end
         return default_coords if matches.blank?
         coords_array = matches.values.flatten(1)[hl_index]
-        return default unless coords_array
+        return default_coords unless coords_array
         "#xywh=#{coords_array.join(',')}"
       end
 
