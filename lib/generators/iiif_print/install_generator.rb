@@ -30,6 +30,10 @@ module IiifPrint
       generate 'iiif_print:assets'
     end
 
+    def inject_helper
+      copy_file 'helpers/iiif_print_helper.rb'
+    end
+
     # Blacklight IIIF Search generator has some linting that does not agree with CircleCI on Hyku
     # ref https://github.com/boston-library/blacklight_iiif_search/blob/v1.0.0/lib/generators/blacklight_iiif_search/controller_generator.rb
     # the follow two methods does a clean up to appease Rubocop
