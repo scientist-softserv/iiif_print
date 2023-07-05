@@ -41,7 +41,7 @@ module IiifPrint
           admin_set_id,
           0 # A no longer used parameter; but we need to preserve the method signature (for now)
         )
-        true
+        :enqueued
       end
       # rubocop:enable Metrics/MethodLength
 
