@@ -30,7 +30,7 @@ module IiifPrint
         file_locations = if import_url
                            [file.path]
                          else
-                           pdf_paths([file.try(:id)&.to_s].compact)
+                           pdf_paths(files: [file.try(:id)&.to_s].compact)
                          end
         return :no_pdfs if file_locations.empty?
 
@@ -38,10 +38,10 @@ module IiifPrint
           file_set,
           file_locations,
           user,
-          admin_set_id,
+          work.admin_set_id,
           0 # A no longer used parameter; but we need to preserve the method signature (for now)
         )
-        true
+        :enqueued
       end
       # rubocop:enable Metrics/MethodLength
 

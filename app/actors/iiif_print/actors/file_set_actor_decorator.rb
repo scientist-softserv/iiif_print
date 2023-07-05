@@ -9,7 +9,10 @@ module IiifPrint
         super
 
         if from_url
-          service.conditionally_enqueue(file_set: file_set, file: file, import_url: file_set.import_url, user: @user)
+          args = { file_set: file_set, file: file, import_url: file_set.import_url, user: @user }
+          returned_value = service.conditionally_enqueue(**args)
+          Rails.logger.info("Result of #{returned_value} for conditional enqueueing of #{args.inspect}")
+          true
         else
           # we don't have the parent yet... save the paths for later use
           @file = file
@@ -21,7 +24,10 @@ module IiifPrint
         # Locks to ensure that only one process is operating on the list at a time.
         super
 
-        service.conditionally_enqueue(file_set: file_set, work: work, file: @file, user: @user)
+        args = { file_set: file_set, work: work, file: @file, user: @user }
+        returned_value = service.conditionally_enqueue(**args)
+        Rails.logger.info("Result of #{returned_value} for conditional enqueueing of #{args.inspect}")
+        true
       end
 
       def service
