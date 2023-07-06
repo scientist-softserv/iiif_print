@@ -32,9 +32,9 @@ RSpec.describe IiifPrint::TextExtraction::HOCRReader do
   describe "outputs text derivative formats" do
     it "outputs plain text" do
       plain_text = reader_minimal.text
-      expect(plain_text.slice(0, 40)).to eq "_A  FEARFUL  ADVENTURE.\n‘The  Missouri. "
+      expect(plain_text.slice(0, 40)).to eq "_A FEARFUL ADVENTURE.\n‘The Missouri. Rep"
       expect(reader_minimal.text).to eq reader_minimal.doc_stream.text
-      expect(reader_minimal.text.size).to eq 831
+      expect(reader_minimal.text.size).to eq 723
     end
 
     it "passes args to WordCoordsBuilder and receives output" do
