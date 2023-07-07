@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
-  let(:path) { nil }
+  let(:path) { __FILE__ }
   let(:work) { double(MyWork, aark_id: '12345') }
   let(:file_set) { FileSet.new.tap { |fs| fs.save!(validate: false) } }
 

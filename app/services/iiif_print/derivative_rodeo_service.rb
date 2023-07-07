@@ -68,19 +68,31 @@ module IiifPrint
     # @return [String]
     # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
-      parent = IiifPrint.parent_for(file_set)
-      raise IiifPrint::DataError, "Parent not found for #{file_set.class} ID=#{file_set.id}" unless parent
+      # In the case of a page split from a PDF, we need to know the grandparent's identifier to
+      # find the file(s) in the DerivativeRodeo.
+      ancestor_method = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
+                          :grandparent_for
+                        else
+                          # When not split from a PDF, we can use the parent to find the identifier.
+                          :parent_for
+                        end
 
-      dirname = parent.public_send(parent_work_identifier_property_name)
+      ancestor = IiifPrint.public_send(ancestor_method, file_set)
+      raise IiifPrint::DataError, "#{ancestor_method} not found for #{file_set.class} ID=#{file_set.id}" unless ancestor
+
+      # By convention, we're putting the files of a work in a "directory" that is based on some
+      # identifying value (e.g. an object's AARK ID)
+      dirname = ancestor.public_send(parent_work_identifier_property_name)
 
       # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
       # expendiency, I'm using it.  See
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
-
-      # These filename, basename, extension name is here to allow for us to take an original file
-      # and see if we've pre-processed the derivative file.  In the pre-processed derivative case,
-      # that would mean we have a different extension than the original.
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
+
+      # The aforementioned filename and the following basename and extension are here to allow for
+      # us to take an original file and see if we've pre-processed the derivative file.  In the
+      # pre-processed derivative case, that would mean we have a different extension than the
+      # original.
       extension ||= File.extname(filename)
       extension = ".#{extension}" unless extension.start_with?(".")
       basename = File.basename(filename, extension)
@@ -89,27 +101,7 @@ module IiifPrint
       # to "validate" it in another step.
       location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(preprocessed_location_adapter_name)
 
-      # Is the given filename one that is of the format of a file that was split off from a PDF.
-      #
-      # In this case the basename will include the "filename--page-\d.extension" type format where
-      # "\d" is a digit.
-      if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
-        # Note in this case the basename will have a suffix of "--page-<page_number>"
-        #
-        # https://github.com/scientist-softserv/derivative_rodeo/blob/de8ab3993cc9d8719f70c6e990867ceb37d1dfd8/lib/derivative_rodeo/generators/pdf_split_generator.rb#L19-L56
-        parent_pdf_file_basename = basename.sub(%r{--page-\d+$})
-        page_basename = basename
-        File.join(location.adapter_prefix, dirname, parent_pdf_file_basename, "pages", "#{page_basename}#{extension}")
-      else
-        # TODO: This is based on the provided output template in
-        # https://github.com/scientist-softserv/space_stone-serverless/blob/0dbe2b6fa13b9f4bf8b9580ec14d0af5c98e2b00/awslambda/bin/sample_post.rb#L1
-        # and is very much hard-coded.  We likely want to "store" the template in a common place for
-        # the application.
-        #
-        # s3://s3-antics/:aark_id/:file_name_with_extension
-        # s3://s3-antics/12345/hello-world.pdf
-        File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
-      end
+      File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
     end
     # rubocop:enable Metrics/MethodLength
 
@@ -184,12 +176,11 @@ module IiifPrint
     end
 
     def in_the_rodeo?
-      # We can assume that we are not going to process a supported mime type; and there is a cost
-      # for looking in the rodeo.
-      return false unless supported_mime_types.include?(mime_type)
-
-      location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(input_uri)
-      location.exist?
+      # We can assume that we are not going to have pre-processed an unsupported mime type.  We
+      # could check if the original file is in the rodeo, but the way it's designed thee rodeo is
+      # capable of generating all of the enumerated derivatives (see
+      # .named_derivatives_and_generators_by_type) for the supported mime type.
+      supported_mime_types.include?(mime_type)
     end
   end
 end
