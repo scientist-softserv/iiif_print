@@ -84,6 +84,7 @@ module IiifPrint
           # add trailing space to plaintext buffer for between words:
           @text += ' '
           @words.push(@current) if word_complete?
+          @current = nil # clear the current word
         end
 
         def end_line
@@ -120,9 +121,12 @@ module IiifPrint
         #   for current word, and append line endings to plain text:
         #
         # @param name [String] element name.
-        def end_element(_name)
-          end_line if @element_class_name == 'ocr_line'
-          end_word if @element_class_name == 'ocrx_word'
+        def end_element(name)
+          if name == 'span'
+            end_word if @element_class_name == 'ocrx_word'
+            @text += "\n" if @element_class_name.nil?
+          end
+          @element_class_name = nil
         end
 
         # Callback for completion of parsing hOCR, used to normalize generated
