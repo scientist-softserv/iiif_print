@@ -6,6 +6,10 @@ module IiifPrint
       json_results = super
       resources = json_results&.[]('resources')
 
+      resources.delete_if do |resource|
+        resource["on"].include?(IiifPrint::BlacklightIiifSearch::AnnotationDecorator::INVALID_MATCH_TEXT)
+      end
+
       resources&.each do |result_hit|
         next if result_hit['resource'].present?
         result_hit['resource'] = {
