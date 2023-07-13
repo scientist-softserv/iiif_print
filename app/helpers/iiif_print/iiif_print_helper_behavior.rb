@@ -6,8 +6,9 @@ module IiifPrint::IiifPrintHelperBehavior
   # @return [String] snippets HTML to be rendered
   # rubocop:disable Rails/OutputSafety
   def render_ocr_snippets(options = {})
-# debugger
     snippets = options[:value]
+    return if snippets.blank?
+
     snippets_content = [content_tag('div',
                                     "... #{snippets.first} ...".html_safe,
                                     class: 'ocr_snippet first_snippet')]
