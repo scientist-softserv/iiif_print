@@ -2,7 +2,7 @@
 module IiifPrint
   module BlacklightIiifSearch
     module AnnotationDecorator
-      INVALID_MATCH_TEXT = "xywh=INVALID,INVALID,INVALID,INVALID".freeze
+      INVALID_MATCH_TEXT = "#xywh=INVALID,INVALID,INVALID,INVALID".freeze
       ##
       # Create a URL for the annotation
       # use a Hyrax-y URL syntax:
@@ -30,7 +30,7 @@ module IiifPrint
       def coordinates
         return default_coords if query.blank?
 
-        sanitized_query = query.match(additional_query_terms_regex)[1].strip
+        sanitized_query = sanitize_query
         coords_json = fetch_and_parse_coords
 
         coords_check_result = check_coords_json_and_properties(coords_json, sanitized_query)
@@ -47,6 +47,10 @@ module IiifPrint
         return default_coords unless coords_array
 
         "#xywh=#{coords_array.join(',')}"
+      end
+
+      def sanitize_query
+        query.match(additional_query_terms_regex)[1].strip
       end
 
       ##
@@ -118,6 +122,13 @@ module IiifPrint
       #   'foo AND (is_page_of_ssim:\"123123\" OR id:\"123123\")' #=> 'foo'
       def additional_query_terms_regex
         /(.*)(?= AND (\(.+\)|\w+)$)/
+      end
+
+      ##
+      # @return [IIIF::Presentation::Resource]
+      def text_resource_for_annotation
+        IIIF::Presentation::Resource.new('@type' => 'cnt:ContentAsText',
+                                         'chars' => sanitize_query)
       end
     end
   end
