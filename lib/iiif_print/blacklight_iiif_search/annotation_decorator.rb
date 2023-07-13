@@ -2,6 +2,7 @@
 module IiifPrint
   module BlacklightIiifSearch
     module AnnotationDecorator
+      INVALID_MATCH_TEXT = "#xywh=INVALID,INVALID,INVALID,INVALID".freeze
       ##
       # Create a URL for the annotation
       # use a Hyrax-y URL syntax:
@@ -28,17 +29,26 @@ module IiifPrint
       # @return [String]
       def coordinates
         return default_coords if query.blank?
+
+        sanitized_query = sanitize_query
         coords_json = fetch_and_parse_coords
-        return default_coords unless coords_json && coords_json['coords']
-        sanitized_query = query.match(additional_query_terms_regex)[1].strip
+        return derived_coords_json_and_properties(sanitized_query) unless coords_json && coords_json['coords']
+
         query_terms = sanitized_query.split(' ').map(&:downcase)
+
         matches = coords_json['coords'].select do |k, _v|
           k.downcase =~ /(#{query_terms.join('|')})/
         end
         return default_coords if matches.blank?
+
         coords_array = matches.values.flatten(1)[hl_index]
         return default_coords unless coords_array
+
         "#xywh=#{coords_array.join(',')}"
+      end
+
+      def sanitize_query
+        query.match(additional_query_terms_regex)[1].strip
       end
 
       ##
@@ -52,6 +62,23 @@ module IiifPrint
         rescue JSON::ParserError
           nil
         end
+      end
+
+      # This is a bit hacky but it is checking if any of the properties contain the query term
+      # if there are no coords and there is a metadata property match
+      # then we return the default coords
+      # else we insert a invalid match text to be stripped out at a later point
+      # @see IiifPrint::IiifSearchResponseDecorator#annotation_list
+      def derived_coords_json_and_properties(sanitized_query)
+        property = @document.keys.detect do |key|
+          (key.ends_with?("_tesim") || key.ends_with?("_tsim")) && property_includes_sanitized_query?(key, sanitized_query)
+        end
+
+        property ? default_coords : INVALID_MATCH_TEXT
+      end
+
+      def property_includes_sanitized_query?(property, sanitized_query)
+        @document[property].join.downcase.include?(sanitized_query)
       end
 
       ##
@@ -96,6 +123,13 @@ module IiifPrint
       #   'foo AND (is_page_of_ssim:\"123123\" OR id:\"123123\")' #=> 'foo'
       def additional_query_terms_regex
         /(.*)(?= AND (\(.+\)|\w+)$)/
+      end
+
+      ##
+      # @return [IIIF::Presentation::Resource]
+      def text_resource_for_annotation
+        IIIF::Presentation::Resource.new('@type' => 'cnt:ContentAsText',
+                                         'chars' => sanitize_query)
       end
     end
   end
