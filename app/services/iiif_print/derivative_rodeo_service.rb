@@ -40,9 +40,9 @@ module IiifPrint
                       pdf: { thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator" },
                       image: {
                         thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator",
-                        json: "DerivativeRodeo::Generator::WordCoordinatesGenerator",
-                        xml: "DerivativeRodeo::Generator::AltoGenerator",
-                        txt: "DerivativeRodeo::Generator::PlainTextGenerator"
+                        json: "DerivativeRodeo::Generators::WordCoordinatesGenerator",
+                        xml: "DerivativeRodeo::Generators::AltoGenerator",
+                        txt: "DerivativeRodeo::Generators::PlainTextGenerator"
                       }
                     })
     # @!endgroup Class Attributes
@@ -68,6 +68,12 @@ module IiifPrint
     # @return [String]
     # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
+      # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
+      # expendiency, I'm using it.  See
+      # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
+      filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
+
+
       # In the case of a page split from a PDF, we need to know the grandparent's identifier to
       # find the file(s) in the DerivativeRodeo.
       ancestor_method = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
@@ -84,10 +90,6 @@ module IiifPrint
       # identifying value (e.g. an object's AARK ID)
       dirname = ancestor.public_send(parent_work_identifier_property_name)
 
-      # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
-      # expendiency, I'm using it.  See
-      # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
-      filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
 
       # The aforementioned filename and the following basename and extension are here to allow for
       # us to take an original file and see if we've pre-processed the derivative file.  In the
@@ -131,10 +133,9 @@ module IiifPrint
     # The file_set.class.*_mime_types are carried over from Hyrax.
     def create_derivatives(filename)
       # TODO: Do we need to handle "impending derivatives?"  as per {IiifPrint::PluggableDerivativeService}?
-      case mime_type
-      when file_set.class.pdf_mime_types
+      if file_set.class.pdf_mime_types.include?(mime_type)
         lasso_up_some_derivatives(filename: filename, type: :pdf)
-      when file_set.class.image_mime_types
+      elsif file_set.class.image_mime_types.include?(mime_type)
         lasso_up_some_derivatives(filename: filename, type: :image)
       else
         # TODO: add more mime types but for now image and PDF are the two we accept.
@@ -148,21 +149,32 @@ module IiifPrint
       # TODO: Can we use the filename instead of the antics of the original_file on the file_set?
       # We have the filename in create_derivatives.
       named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
+
         # This is the location that Hyrax expects us to put files that will be added to Fedora.
-        output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative)}"
+        output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative.to_s)}"
 
         # The generator knows the output extensions.
         generator = generator_name.constantize
 
         # This is the location where we hope the derivative rodeo will have generated the derived
         # file (e.g. a PDF page's txt file or an image's thumbnail.
-        pre_processed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: generator.output_extension)
+        preprocessed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: generator.output_extension)
 
-        generator.new(
-          input_uris: [input_uri],
-          pre_processed_location_template: pre_processed_location_template,
-          output_location_template: output_location_template
-        ).generated_files
+        begin
+          generator.new(
+            input_uris: [input_uri],
+            preprocessed_location_template: preprocessed_location_template,
+            output_location_template: output_location_template
+          ).generated_files
+        rescue => e
+          message = "🤠🐮 #{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
+                    "input_uri: #{input_uri.inspect}, " \
+                    "output_location_template: #{output_location_template.inspect}, and " \
+                    "preprocessed_location_template: #{preprocessed_location_template.inspect}."
+          exception = RuntimeError.new(message)
+          exception.set_backtrace(e.backtrace)
+          raise exception
+        end
       end
     end
 
@@ -171,8 +183,27 @@ module IiifPrint
       named_derivatives_and_generators_by_type.keys.flat_map { |type| file_set.class.public_send("#{type}_mime_types") }
     end
 
+    # Where can we find the "original" file that we want to operate on?
+    #
+    # @return [String]
     def input_uri
-      @input_uri ||= self.class.derivative_rodeo_uri(file_set: file_set)
+      return @input_uri if defined?(@input_uri)
+
+      # TODO: I've built up logic to use the derivative_rodeo_uri, however what if we don't need to
+      # look at that location?  If not there, then we need to look to the file associated with the
+      # file set.
+      # QUESTION: Should we skip using the derivative rodeo uri as a candidate for the input_uri?
+      input_uri = self.class.derivative_rodeo_uri(file_set: file_set)
+      location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(input_uri)
+      if location.exist?
+        @input_uri = input_uri
+      elsif file_set.import_url.present?
+        @input_uri = file_set.import_url
+      else
+        # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
+        # have access to this file?
+        @input_uri = file_set.original_file.uri.to_s
+      end
     end
 
     def in_the_rodeo?
