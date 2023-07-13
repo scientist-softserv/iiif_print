@@ -32,9 +32,7 @@ module IiifPrint
 
         sanitized_query = sanitize_query
         coords_json = fetch_and_parse_coords
-
-        coords_check_result = check_coords_json_and_properties(coords_json, sanitized_query)
-        return coords_check_result if coords_check_result
+        return derived_coords_json_and_properties(sanitized_query) unless coords_json && coords_json['coords']
 
         query_terms = sanitized_query.split(' ').map(&:downcase)
 
@@ -71,13 +69,16 @@ module IiifPrint
       # then we return the default coords
       # else we insert a invalid match text to be stripped out at a later point
       # @see IiifPrint::IiifSearchResponseDecorator#annotation_list
-      def check_coords_json_and_properties(coords_json, sanitized_query)
-        return if coords_json && coords_json['coords']
+      def derived_coords_json_and_properties(sanitized_query)
+        property = @document.keys.detect do |key|
+          (key.ends_with?("_tesim") || key.ends_with?("_tsim")) && property_includes_sanitized_query?(key, sanitized_query)
+        end
 
-        properties = @document.keys.select { |key| key.ends_with? "_tesim" }
-        properties.each { |property| return default_coords if @document[property].join.downcase.include?(sanitized_query) }
+        property ? default_coords : INVALID_MATCH_TEXT
+      end
 
-        INVALID_MATCH_TEXT
+      def property_includes_sanitized_query?(property, sanitized_query)
+        @document[property].join.downcase.include?(sanitized_query)
       end
 
       ##
