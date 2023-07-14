@@ -123,7 +123,7 @@ module IiifPrint
     # @see https://github.com/samvera/hyrax/blob/426575a9065a5dd3b30f458f5589a0a705ad7be2/app/services/hyrax/file_set_derivatives_service.rb#L18-L20 Hyrax::FileSetDerivativesService#valid?
     def valid?
       if in_the_rodeo?
-        Rails.logger.info("🤠🐮 Using the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
+        Rails.logger.info("Using the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
         true
       else
         Rails.logger.info("Skipping the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
@@ -171,7 +171,7 @@ module IiifPrint
             output_location_template: output_location_template
           ).generated_files
         rescue => e
-          message = "🤠🐮 #{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
+          message = "#{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
                     "input_uri: #{input_uri.inspect}, " \
                     "output_location_template: #{output_location_template.inspect}, and " \
                     "preprocessed_location_template: #{preprocessed_location_template.inspect}."

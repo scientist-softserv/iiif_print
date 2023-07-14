@@ -68,7 +68,7 @@ module IiifPrint
           preprocessed_location_template: preprocessed_location_template
         ).generated_files.map(&:file_path)
       rescue => e
-        message = "🤠🐮 #{self.class}##{__method__} encountered `#{e.class}' “#{e}” for " \
+        message = "#{self.class}##{__method__} encountered `#{e.class}' “#{e}” for " \
                   "input_uri: #{@input_uri.inspect}, " \
                   "output_location_template: #{output_location_template.inspect}, and" \
                   "preprocessed_location_template: #{preprocessed_location_template.inspect}."
