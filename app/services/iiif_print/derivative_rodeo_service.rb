@@ -64,10 +64,12 @@ module IiifPrint
     # @param file_set [FileSet]
     # @param filename [String]
     # @param extension [String]
+    # @param adapter_name [String] Added as a parameter to make testing just a bit easier.  See
+    #        {.preprocessed_location_adapter_name}
     #
     # @return [String]
     # rubocop:disable Metrics/MethodLength
-    def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
+    def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil, adapter_name: preprocessed_location_adapter_name)
       # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
       # expendiency, I'm using it.  See
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
@@ -97,11 +99,13 @@ module IiifPrint
       # original.
       extension ||= File.extname(filename)
       extension = ".#{extension}" unless extension.start_with?(".")
-      basename = File.basename(filename, extension)
+
+      # We want to strip off the extension of the given filename.
+      basename = File.basename(filename, File.extname(filename))
 
       # TODO: What kinds of exceptions might we raise if the location is not configured?  Do we need
       # to "validate" it in another step.
-      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(preprocessed_location_adapter_name)
+      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(adapter_name)
 
       File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
     end
