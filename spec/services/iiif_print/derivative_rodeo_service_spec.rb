@@ -50,12 +50,19 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
     end
 
     context 'for a thumbnail based on a PDF' do
-      let(:file_set) { double(FileSet, parent: parent) }
-      let(:parent) { double('GenericWork', aark_id: "20121816" ) }
       let(:extension) { DerivativeRodeo::Generators::ThumbnailGenerator.output_extension }
-      let(:filename) { "/tmp/d20230714-1897-1wgmauo/#{parent.aark_id}.ARCHIVAL.pdf" }
+      let(:filename) { "/tmp/d20230714-1897-1wgmauo/#{work.aark_id}.ARCHIVAL.pdf" }
       it 'has the correct filename' do
-        expect(described_class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: extension, adapter_name: 'file')).to eq("file://#{parent.aark_id}/#{parent.aark_id}.ARCHIVAL.#{extension}")
+        expect(described_class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: extension,
+adapter_name: 'file')).to eq("file://#{work.aark_id}/#{work.aark_id}.ARCHIVAL.#{extension}")
+      end
+    end
+
+    context 'for the original file' do
+      let(:extension) { nil }
+      let(:filename) { "/tmp/d20230714-1897-1wgmauo/#{work.aark_id}.ARCHIVAL.pdf" }
+      it 'has the correct filename' do
+        expect(described_class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: extension, adapter_name: 'file')).to eq("file://#{work.aark_id}/#{work.aark_id}.ARCHIVAL.pdf")
       end
     end
   end

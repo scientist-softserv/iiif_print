@@ -75,7 +75,6 @@ module IiifPrint
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
 
-
       # In the case of a page split from a PDF, we need to know the grandparent's identifier to
       # find the file(s) in the DerivativeRodeo.
       ancestor_method = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
@@ -91,7 +90,6 @@ module IiifPrint
       # By convention, we're putting the files of a work in a "directory" that is based on some
       # identifying value (e.g. an object's AARK ID)
       dirname = ancestor.public_send(parent_work_identifier_property_name)
-
 
       # The aforementioned filename and the following basename and extension are here to allow for
       # us to take an original file and see if we've pre-processed the derivative file.  In the
@@ -149,11 +147,11 @@ module IiifPrint
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def lasso_up_some_derivatives(type:, filename:)
       # TODO: Can we use the filename instead of the antics of the original_file on the file_set?
       # We have the filename in create_derivatives.
       named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
-
         # This is the location that Hyrax expects us to put files that will be added to Fedora.
         output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative.to_s)}"
 
@@ -177,10 +175,14 @@ module IiifPrint
                     "preprocessed_location_template: #{preprocessed_location_template.inspect}."
           exception = RuntimeError.new(message)
           exception.set_backtrace(e.backtrace)
+          # Why this?  Because you may splice in a different logger for the Rodeo, and having this
+          # information might be helpful.
+          DerivativeRodeo.logger.error(message)
           raise exception
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def supported_mime_types
       # If we've configured the rodeo
@@ -199,15 +201,15 @@ module IiifPrint
       # QUESTION: Should we skip using the derivative rodeo uri as a candidate for the input_uri?
       input_uri = self.class.derivative_rodeo_uri(file_set: file_set)
       location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(input_uri)
-      if location.exist?
-        @input_uri = input_uri
-      elsif file_set.import_url.present?
-        @input_uri = file_set.import_url
-      else
-        # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
-        # have access to this file?
-        @input_uri = file_set.original_file.uri.to_s
-      end
+      @input_uri = if location.exist?
+                     input_uri
+                   elsif file_set.import_url.present?
+                     file_set.import_url
+                   else
+                     # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
+                     # have access to this file?
+                     file_set.original_file.uri.to_s
+                   end
     end
 
     def in_the_rodeo?
