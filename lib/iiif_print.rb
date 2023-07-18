@@ -59,13 +59,15 @@ module IiifPrint
   # @return [#work?, Hydra::PCDM::Work]
   # @return [NilClass] when no grand parent is found.
   def self.grandparent_for(file_set)
-    parent = parent_for(file_set)
+    parent_of_file_set = parent_for(file_set)
     # HACK: This is an assumption about the file_set structure, namely that an image page split from
     # a PDF is part of a file set that is a child of a work that is a child of a single work.  That
     # is, it only has one grand parent.  Which is a reasonable assumption for IIIF Print but is not
     # valid when extended beyond IIIF Print.  That is GenericWork does not have a parent method but
     # does have a parents method.
-    parent&.parents&.first || parent&.member_of&.find(:work?)
+    parent_of_file_set.try(:parent_works).try(:first) ||
+      parent_of_file_set.try(:parents).try(:first) ||
+      parent_of_file_set&.member_of&.find(&:work?)
   end
 
   DEFAULT_MODEL_CONFIGURATION = {

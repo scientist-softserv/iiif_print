@@ -75,21 +75,7 @@ module IiifPrint
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
 
-      # In the case of a page split from a PDF, we need to know the grandparent's identifier to
-      # find the file(s) in the DerivativeRodeo.
-      ancestor_method = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
-                          :grandparent_for
-                        else
-                          # When not split from a PDF, we can use the parent to find the identifier.
-                          :parent_for
-                        end
-
-      ancestor = IiifPrint.public_send(ancestor_method, file_set)
-      raise IiifPrint::DataError, "#{ancestor_method} not found for #{file_set.class} ID=#{file_set.id}" unless ancestor
-
-      # By convention, we're putting the files of a work in a "directory" that is based on some
-      # identifying value (e.g. an object's AARK ID)
-      dirname = ancestor.public_send(parent_work_identifier_property_name)
+      dirname = derivative_rodeo_preprocessed_directory_for(file_set: file_set, filename: filename)
 
       # The aforementioned filename and the following basename and extension are here to allow for
       # us to take an original file and see if we've pre-processed the derivative file.  In the
@@ -108,6 +94,45 @@ module IiifPrint
       File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
     end
     # rubocop:enable Metrics/MethodLength
+
+    ##
+    # @api public
+    #
+    # @note You may find yourself wanting to override this method.  Please do if you find a better
+    #       way to do this.
+    #
+    # By convention, we're putting the files of a work in a "directory" that is based on some
+    # identifying value (e.g. an object's AARK ID) of the work.
+    #
+    # Because we split PDFs (see {IiifPrint::SplitPdfs::DerivativeRodeoSplitter} we need to consider
+    # that we may be working on the PDF (and that FileSet is directly associated with the work) or
+    # we are working on one of the pages ripped from the PDF (and the FileSet's work is a to be
+    # related child work of the original work).
+    #
+    # @param file_set [FileSet]
+    # @param filename [String]
+    # @return [String] the dirname (without any "/" we hope)
+    def self.derivative_rodeo_preprocessed_directory_for(file_set:, filename:)
+      # In the case of a page split from a PDF, we need to know the grandparent's identifier to
+      # find the file(s) in the DerivativeRodeo.
+      ancestor = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
+                   IiifPrint.grandparent_for(file_set)
+                 else
+                   IiifPrint.parent_for(file_set)
+                 end
+      # Why might we not have an ancestor?  In the case of grandparent_for, we may not yet have run
+      # the create relationships job.  We could sneak a peak in the table to maybe glean some insight.
+      # However, read further the `else` clause to see the novel approach.
+      if ancestor
+        ancestor.public_send(parent_work_identifier_property_name)
+      else
+        # HACK: This makes critical assumptions about how we're creating the title for the file_set;
+        # but we don't have much to fall-back on.  Consider making this a configurable function.  Or
+        # perhaps this entire method should be more configurable.
+        # TODO: Revisit this implementation.
+        file_set.title.first.split(".").first
+      end
+    end
 
     def initialize(file_set)
       @file_set = file_set
@@ -175,8 +200,9 @@ module IiifPrint
                     "preprocessed_location_template: #{preprocessed_location_template.inspect}."
           exception = RuntimeError.new(message)
           exception.set_backtrace(e.backtrace)
-          # Why this?  Because you may splice in a different logger for the Rodeo, and having this
-          # information might be helpful.
+          # Why this additional logging?  Because you may splice in a different logger for the
+          # Rodeo, and having this information might be helpful as you try to debug a very woolly
+          # operation.
           DerivativeRodeo.logger.error(message)
           raise exception
         end

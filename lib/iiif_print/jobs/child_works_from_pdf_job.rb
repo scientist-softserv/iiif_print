@@ -113,6 +113,7 @@ module IiifPrint
       end
 
       def create_uploaded_file(user, path)
+        # TODO: Could we create a remote path?
         uf = Hyrax::UploadedFile.new
         uf.user_id = user.id
         uf.file = CarrierWave::SanitizedFile.new(path)
