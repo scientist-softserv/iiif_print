@@ -48,6 +48,23 @@ RSpec.describe IiifPrint::DerivativeRodeoService do
       it { is_expected.to start_with("#{described_class.preprocessed_location_adapter_name}://") }
       it { is_expected.to end_with(File.basename(__FILE__)) }
     end
+
+    context 'for a thumbnail based on a PDF' do
+      let(:extension) { DerivativeRodeo::Generators::ThumbnailGenerator.output_extension }
+      let(:filename) { "/tmp/d20230714-1897-1wgmauo/#{work.aark_id}.ARCHIVAL.pdf" }
+      it 'has the correct filename' do
+        expect(described_class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: extension,
+adapter_name: 'file')).to eq("file://#{work.aark_id}/#{work.aark_id}.ARCHIVAL.#{extension}")
+      end
+    end
+
+    context 'for the original file' do
+      let(:extension) { nil }
+      let(:filename) { "/tmp/d20230714-1897-1wgmauo/#{work.aark_id}.ARCHIVAL.pdf" }
+      it 'has the correct filename' do
+        expect(described_class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: extension, adapter_name: 'file')).to eq("file://#{work.aark_id}/#{work.aark_id}.ARCHIVAL.pdf")
+      end
+    end
   end
 
   # TODO: Need Faux Bucket for Derivative Rodeo

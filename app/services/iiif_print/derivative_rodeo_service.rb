@@ -64,15 +64,16 @@ module IiifPrint
     # @param file_set [FileSet]
     # @param filename [String]
     # @param extension [String]
+    # @param adapter_name [String] Added as a parameter to make testing just a bit easier.  See
+    #        {.preprocessed_location_adapter_name}
     #
     # @return [String]
     # rubocop:disable Metrics/MethodLength
-    def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil)
+    def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil, adapter_name: preprocessed_location_adapter_name)
       # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
       # expendiency, I'm using it.  See
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/services/add_file_to_file_set.rb#L49-L53
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
-
 
       # In the case of a page split from a PDF, we need to know the grandparent's identifier to
       # find the file(s) in the DerivativeRodeo.
@@ -90,18 +91,19 @@ module IiifPrint
       # identifying value (e.g. an object's AARK ID)
       dirname = ancestor.public_send(parent_work_identifier_property_name)
 
-
       # The aforementioned filename and the following basename and extension are here to allow for
       # us to take an original file and see if we've pre-processed the derivative file.  In the
       # pre-processed derivative case, that would mean we have a different extension than the
       # original.
       extension ||= File.extname(filename)
       extension = ".#{extension}" unless extension.start_with?(".")
-      basename = File.basename(filename, extension)
+
+      # We want to strip off the extension of the given filename.
+      basename = File.basename(filename, File.extname(filename))
 
       # TODO: What kinds of exceptions might we raise if the location is not configured?  Do we need
       # to "validate" it in another step.
-      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(preprocessed_location_adapter_name)
+      location = DerivativeRodeo::StorageLocations::BaseLocation.load_location(adapter_name)
 
       File.join(location.adapter_prefix, dirname, "#{basename}#{extension}")
     end
@@ -119,7 +121,7 @@ module IiifPrint
     # @see https://github.com/samvera/hyrax/blob/426575a9065a5dd3b30f458f5589a0a705ad7be2/app/services/hyrax/file_set_derivatives_service.rb#L18-L20 Hyrax::FileSetDerivativesService#valid?
     def valid?
       if in_the_rodeo?
-        Rails.logger.info("🤠🐮 Using the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
+        Rails.logger.info("Using the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
         true
       else
         Rails.logger.info("Skipping the DerivativeRodeo for FileSet ID=#{file_set.id} with mime_type of #{mime_type}")
@@ -145,11 +147,11 @@ module IiifPrint
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def lasso_up_some_derivatives(type:, filename:)
       # TODO: Can we use the filename instead of the antics of the original_file on the file_set?
       # We have the filename in create_derivatives.
       named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
-
         # This is the location that Hyrax expects us to put files that will be added to Fedora.
         output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative.to_s)}"
 
@@ -167,16 +169,20 @@ module IiifPrint
             output_location_template: output_location_template
           ).generated_files
         rescue => e
-          message = "🤠🐮 #{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
+          message = "#{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
                     "input_uri: #{input_uri.inspect}, " \
                     "output_location_template: #{output_location_template.inspect}, and " \
                     "preprocessed_location_template: #{preprocessed_location_template.inspect}."
           exception = RuntimeError.new(message)
           exception.set_backtrace(e.backtrace)
+          # Why this?  Because you may splice in a different logger for the Rodeo, and having this
+          # information might be helpful.
+          DerivativeRodeo.logger.error(message)
           raise exception
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     def supported_mime_types
       # If we've configured the rodeo
@@ -195,15 +201,15 @@ module IiifPrint
       # QUESTION: Should we skip using the derivative rodeo uri as a candidate for the input_uri?
       input_uri = self.class.derivative_rodeo_uri(file_set: file_set)
       location = DerivativeRodeo::StorageLocations::BaseLocation.from_uri(input_uri)
-      if location.exist?
-        @input_uri = input_uri
-      elsif file_set.import_url.present?
-        @input_uri = file_set.import_url
-      else
-        # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
-        # have access to this file?
-        @input_uri = file_set.original_file.uri.to_s
-      end
+      @input_uri = if location.exist?
+                     input_uri
+                   elsif file_set.import_url.present?
+                     file_set.import_url
+                   else
+                     # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
+                     # have access to this file?
+                     file_set.original_file.uri.to_s
+                   end
     end
 
     def in_the_rodeo?
