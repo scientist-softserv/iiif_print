@@ -52,5 +52,13 @@ module IiifPrint
       contents.insert(0, "# frozen_string_literal: true\n\n")
       File.write(file, contents)
     end
+
+    def add_allinson_flex_fields_method_to_iiif_search_builder
+      file_path = "app/models/iiif_search_builder.rb"
+      contents = File.read(file_path)
+      contents.gsub!('include Blacklight::Solr::SearchBuilderBehavior', "include Blacklight::Solr::SearchBuilderBehavior\n  include IiifPrint::AllinsonFlexFields")
+      contents.gsub!('self.default_processor_chain += [:ocr_search_params]', 'self.default_processor_chain += %i[ocr_search_params include_allinson_flex_fields]')
+      File.write(file_path, contents)
+    end
   end
 end

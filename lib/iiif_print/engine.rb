@@ -51,8 +51,6 @@ module IiifPrint
       ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
       ::BlacklightIiifSearch::IiifSearch.prepend(IiifPrint::IiifSearchDecorator)
-      ::IiifSearchBuilder.prepend(IiifPrint::IiifSearchBuilderDecorator)
-      ::IiifSearchBuilder.default_processor_chain += [:include_allinson_flex_fields]
       Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
 
       Hyrax.config do |config|
