@@ -30,11 +30,11 @@ module IiifPrint
       def coordinates
         return default_coords if query.blank?
 
-        sanitized_query = sanitize_query
+        sanitized_query = sanitize_query.downcase
         coords_json = fetch_and_parse_coords
         return derived_coords_json_and_properties(sanitized_query) unless coords_json && coords_json['coords']
 
-        query_terms = sanitized_query.split(' ').map(&:downcase)
+        query_terms = sanitized_query.split(' ')
 
         matches = coords_json['coords'].select do |k, _v|
           k.downcase =~ /(#{query_terms.join('|')})/
