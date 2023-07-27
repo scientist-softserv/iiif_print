@@ -13,6 +13,7 @@ module IiifPrint
   # It is a companion to {IiifPrint::PluggableDerivativeService}.
   #
   # @see https://github.com/samvera/hyrax/blob/main/app/services/hyrax/derivative_service.rb Hyrax::DerivativesService
+  # rubocop:disable Metrics/ClassLength
   class DerivativeRodeoService
     ##
     # @!group Class Attributes
@@ -49,6 +50,18 @@ module IiifPrint
                     })
     # @!endgroup Class Attributes
     ##
+
+    # @see .named_derivatives_and_generators_by_type
+    def named_derivatives_and_generators
+      @named_derivatives_and_generators ||=
+        if file_set.class.pdf_mime_types.include?(mime_type)
+          named_derivatives_and_generators_by_type.fetch(:pdf)
+        elsif file_set.class.image_mime_types.include?(mime_type)
+          named_derivatives_and_generators_by_type.fetch(:image)
+        else
+          raise "Unexpected mime_type #{mime_type} for #{file_set.class} ID=#{file_set.id.inspect}"
+        end
+    end
 
     ##
     # This method encodes some existing assumptions about the URI based on implementations for
@@ -160,54 +173,85 @@ module IiifPrint
     # @api public
     #
     # The file_set.class.*_mime_types are carried over from Hyrax.
+    #
+    # @note We write derivatives to the {#absolute_derivative_path_for} and should likewise clean
+    #       them up when deleted.
+    # @see #cleanup_derivatives
     def create_derivatives(filename)
       # TODO: Do we need to handle "impending derivatives?"  as per {IiifPrint::PluggableDerivativeService}?
-      if file_set.class.pdf_mime_types.include?(mime_type)
-        lasso_up_some_derivatives(filename: filename, type: :pdf)
-      elsif file_set.class.image_mime_types.include?(mime_type)
-        lasso_up_some_derivatives(filename: filename, type: :image)
-      else
-        # TODO: add more mime types but for now image and PDF are the two we accept.
-        raise "Unexpected mime_type #{mime_type} for filename #{filename}"
+      named_derivatives_and_generators.flat_map do |named_derivative, generator_name|
+        lasso_up_some_derivatives(
+          named_derivative: named_derivative,
+          generator_name: generator_name,
+          filename: filename
+        )
+      end
+    end
+
+    # We need to clean up the derivatives that we created.
+    #
+    # @see #create_derivatives
+    #
+    # @note Due to the configurability and plasticity of the named derivatives, it is possible that
+    #       when we created the derivatives, we had a different configuration (e.g. were we to
+    #       create derivatives again, we might get a set of different files).  So we must ask
+    #       ourselves, is it important to clean up all derivatives (even ones that may not be in
+    #       scope for this service) or to clean up only those presently in scope?  I am favoring
+    #       removing all of them.  In part because of the nature of the valid derivative service.
+    def cleanup_derivatives
+      ## Were we to only delete the derivatives that this service presently creates, this would be
+      ## that code:
+      #
+      # named_derivatives_and_generators.keys.each do |named_derivative|
+      #   path = absolute_derivative_path_for(named_derivative)
+      #   FileUtils.rm_f(path) if File.exist?(path)
+      # end
+
+      ## Instead, let's clean it all up.
+      Hyrax::DerivativePath.derivatives_for_reference(file_set).each do |path|
+        FileUtils.rm_f(path) if File.exist?(path)
       end
     end
 
     private
 
+    def absolute_derivative_path_for(named_derivative:)
+      Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative.to_s)
+    end
+
     # rubocop:disable Metrics/MethodLength
-    def lasso_up_some_derivatives(type:, filename:)
+    def lasso_up_some_derivatives(filename:, named_derivative:, generator_name:)
       # TODO: Can we use the filename instead of the antics of the original_file on the file_set?
       # We have the filename in create_derivatives.
-      named_derivatives_and_generators_by_type.fetch(type).flat_map do |named_derivative, generator_name|
-        # This is the location that Hyrax expects us to put files that will be added to Fedora.
-        output_location_template = "file://#{Hyrax::DerivativePath.derivative_path_for_reference(file_set, named_derivative.to_s)}"
 
-        # The generator knows the output extensions.
-        generator = generator_name.constantize
+      # This is the location that Hyrax expects us to put files that will be added to Fedora.
+      output_location_template = "file://#{absolute_derivative_path_for(named_derivative: named_derivative)}"
 
-        # This is the location where we hope the derivative rodeo will have generated the derived
-        # file (e.g. a PDF page's txt file or an image's thumbnail.
-        preprocessed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: generator.output_extension)
+      # The generator knows the output extensions.
+      generator = generator_name.constantize
 
-        begin
-          generator.new(
-            input_uris: [input_uri],
-            preprocessed_location_template: preprocessed_location_template,
-            output_location_template: output_location_template
-          ).generated_files.first.file_path
-        rescue => e
-          message = "#{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
-                    "input_uri: #{input_uri.inspect}, " \
-                    "output_location_template: #{output_location_template.inspect}, and " \
-                    "preprocessed_location_template: #{preprocessed_location_template.inspect}."
-          exception = RuntimeError.new(message)
-          exception.set_backtrace(e.backtrace)
-          # Why this additional logging?  Because you may splice in a different logger for the
-          # Rodeo, and having this information might be helpful as you try to debug a very woolly
-          # operation.
-          DerivativeRodeo.logger.error(message)
-          raise exception
-        end
+      # This is the location where we hope the derivative rodeo will have generated the derived
+      # file (e.g. a PDF page's txt file or an image's thumbnail.
+      preprocessed_location_template = self.class.derivative_rodeo_uri(file_set: file_set, filename: filename, extension: generator.output_extension)
+
+      begin
+        generator.new(
+          input_uris: [input_uri],
+          preprocessed_location_template: preprocessed_location_template,
+          output_location_template: output_location_template
+        ).generated_files.first.file_path
+      rescue => e
+        message = "#{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
+                  "input_uri: #{input_uri.inspect}, " \
+                  "output_location_template: #{output_location_template.inspect}, and " \
+                  "preprocessed_location_template: #{preprocessed_location_template.inspect}."
+        exception = RuntimeError.new(message)
+        exception.set_backtrace(e.backtrace)
+        # Why this additional logging?  Because you may splice in a different logger for the
+        # Rodeo, and having this information might be helpful as you try to debug a very woolly
+        # operation.
+        DerivativeRodeo.logger.error(message)
+        raise exception
       end
     end
     # rubocop:enable Metrics/MethodLength
@@ -248,4 +292,5 @@ module IiifPrint
       supported_mime_types.include?(mime_type)
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
