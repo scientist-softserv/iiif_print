@@ -54,6 +54,10 @@ module IiifPrint
       # For example, SpaceStone::Serverless will pre-process derivatives and write them into an S3
       # bucket that we then use for IIIF Print.
       #
+      # @note The preprocessed_location_template should end in `.pdf`.  The
+      #       {DerivativeRodeo::BaseGenerator::PdfSplitGenerator#derive_preprocessed_template_from}
+      #       will coerce the template into one that represents the split pages.
+      #
       # @return [String]
       #
       # @see https://github.com/scientist-softserv/space_stone-serverless/blob/7f46dd5b218381739cd1c771183f95408a4e0752/awslambda/handler.rb#L58-L63
