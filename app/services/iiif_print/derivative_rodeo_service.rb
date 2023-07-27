@@ -37,7 +37,9 @@ module IiifPrint
     # TODO: Could be nice to have a registry for the DerivativeRodeo::Generators; but that's a
     # tomorrow wish.
     class_attribute(:named_derivatives_and_generators_by_type, default: {
-                      pdf: { thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator" },
+                      pdf: {
+                        thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator"
+                      },
                       image: {
                         thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator",
                         json: "DerivativeRodeo::Generators::WordCoordinatesGenerator",
@@ -192,7 +194,7 @@ module IiifPrint
             input_uris: [input_uri],
             preprocessed_location_template: preprocessed_location_template,
             output_location_template: output_location_template
-          ).generated_files
+          ).generated_files.first.file_path
         rescue => e
           message = "#{generator}#generated_files encountered `#{e.class}' “#{e}” for " \
                     "input_uri: #{input_uri.inspect}, " \
