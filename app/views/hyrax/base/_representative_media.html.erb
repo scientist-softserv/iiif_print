@@ -1,5 +1,5 @@
 <% if presenter.representative_id.present? && presenter.representative_presenter.present? %>
-  <% if defined?(viewer) && viewer && presenter.iiif_viewer?%>
+  <% if defined?(viewer) && viewer && presenter.iiif_viewer? %>
     <%= iiif_viewer_display presenter %>
   <% else %>
     <%= render media_display_partial(presenter.representative_presenter), file_set: presenter.representative_presenter %>
