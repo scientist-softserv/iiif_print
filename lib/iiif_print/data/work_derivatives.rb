@@ -42,16 +42,16 @@ module IiifPrint
       #
       # @return [String]
       def self.data(from:, of_type:)
-        new(from).data(of_type)
+        new(work: from).data(of_type)
       end
 
       # alternate constructor spelling:
       def self.of(work, fileset = nil, parent = nil)
-        new(work, fileset, parent)
+        new(work: work, fileset: fileset, parent: parent)
       end
 
       # Adapt work and either specific or first fileset
-      def initialize(work, fileset = nil, parent = nil)
+      def initialize(work: nil, fileset: nil, parent: nil)
         # adapted context usually work, may be string id of FileSet
         @work = work
         @fileset = fileset.nil? ? first_fileset : fileset
