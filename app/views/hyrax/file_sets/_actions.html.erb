@@ -32,7 +32,8 @@
       <%= link_to 'Download', hyrax.download_path(file_set),
         title: "Download #{file_set.to_s.inspect}", target: "_blank" %>
     </li>
-    <% IiifPrint::Data::WorkDerivatives.new(file_set.id).keys.each do |name| %>
+    <% work_deriv = IiifPrint::Data::WorkDerivatives.new(fileset: file_set) %>
+    <% work_deriv.keys.each do |name| %>
       <li role="menuitem" tabindex="-1">
         <a href="<%= "/downloads/#{file_set.id}?locale=en&file=#{name}" %>" download>
           Download <em>(as <%= name %>)</em>
