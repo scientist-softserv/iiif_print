@@ -42,7 +42,7 @@ module IiifPrint
       #
       # @return [String]
       def self.data(from:, of_type:)
-        new(from).data(of_type)
+        new(work: from).data(of_type)
       end
 
       # alternate constructor spelling:
