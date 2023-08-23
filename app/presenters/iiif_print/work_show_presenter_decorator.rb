@@ -22,7 +22,7 @@ module IiifPrint
     # by not loading more member_presenters than needed.
     def members_include_viewable_image?
       all_member_ids = (solr_document.try(:file_set_ids) || solr_document.try(:[], 'file_set_ids_ssim'))
-      all_member_ids.each do |id|
+      Array.wrap(all_member_ids).each do |id|
         return true if file_type_and_permissions_valid?(member_presenters_for([id]).first)
       end
       false
