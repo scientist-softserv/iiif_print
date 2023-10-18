@@ -27,7 +27,7 @@ SUMMARY
   spec.add_dependency 'dry-monads', '~> 1.4.0'
   spec.add_dependency 'hyrax', '>= 2.5', '< 4'
   spec.add_dependency 'nokogiri', '>=1.13.2'
-  spec.add_dependency 'rails', '~> 5.0'
+  spec.add_dependency 'rails', '>= 5.0', '< 8.0'
   spec.add_dependency 'rdf-vocab', '~> 3.0'
 
   spec.add_development_dependency 'bixby'
