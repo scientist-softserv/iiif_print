@@ -66,6 +66,8 @@ module IiifPrint
       ##
       # @return [Array<Strings>] the paths to each of the images split off from the PDF.
       def split_files
+        # TODO: If the file is not in the preprocessed_location_template we're in for a world of
+        #       hurt.
         DerivativeRodeo::Generators::PdfSplitGenerator.new(
           input_uris: [@input_uri],
           output_location_template: output_location_template,
@@ -74,7 +76,7 @@ module IiifPrint
       rescue => e
         message = "#{self.class}##{__method__} encountered `#{e.class}' “#{e}” for " \
                   "input_uri: #{@input_uri.inspect}, " \
-                  "output_location_template: #{output_location_template.inspect}, and" \
+                  "output_location_template: #{output_location_template.inspect}, and " \
                   "preprocessed_location_template: #{preprocessed_location_template.inspect}."
         exception = RuntimeError.new(message)
         exception.set_backtrace(e.backtrace)
