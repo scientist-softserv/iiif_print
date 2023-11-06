@@ -6,4 +6,7 @@ module IiifPrint
   # Data transformation or read-error:
   class DataError < IiifPrintError
   end
+
+  class MissingFileError < IiifPrintError
+  end
 end
