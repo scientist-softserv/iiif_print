@@ -21,6 +21,8 @@ module IiifPrint
       #
       # @note We're including the ** args to provide method conformity; other services require
       #       additional information (such as the FileSet)
+      #
+      # @see IiifPrint::SplitPdfs::DerivativeRodeoSplitter
       def self.call(path, **)
         new(path).to_a
       end
