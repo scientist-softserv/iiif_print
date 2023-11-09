@@ -28,7 +28,7 @@ module IiifPrint
       #
       # @param output_tmp_dir [String] where we will be writing things.  In using `Dir.mktmpdir`
       #        we're creating a sudirectory on `Dir.tmpdir`
-      def initialize(filename, file_set:, output_tmp_dir: Dir.mktmpdir)
+      def initialize(filename, file_set:, output_tmp_dir: Dir.tmpdir)
         @filename = filename
         @file_set = file_set
 
