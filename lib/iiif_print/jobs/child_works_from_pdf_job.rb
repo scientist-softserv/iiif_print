@@ -98,7 +98,8 @@ module IiifPrint
                                       parent_id: @parent_work.id,
                                       child_order: child_title, 
                                       parent_model: @parent_work.class,
-                                      child_model: @parent_work.iiif_print_config.pdf_split_child_model)
+                                      child_model: @parent_work.iiif_print_config.pdf_split_child_model, 
+                                      file_id: file_id)
 
           begin
             # Clean up the temporary image path.
