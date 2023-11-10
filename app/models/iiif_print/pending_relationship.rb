@@ -5,4 +5,5 @@ module IiifPrint
     validates :child_order, presence: true
     validates :parent_model, presence: true
     validates :child_model, presence: true
+  end
 end
