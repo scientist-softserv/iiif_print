@@ -53,6 +53,7 @@ module IiifPrint
         image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path, file_set: pdf_file_set)
         return if image_files.blank?
 
+        @split_from_pdf_id = pdf_file_set.nil? ? nil : pdf_file_set.id
         prepare_import_data(original_pdf_path, image_files, user)
 
         # submit the job to create all the child works for one PDF
@@ -70,7 +71,7 @@ module IiifPrint
                                      @child_work_titles,
                                      {},
                                      @uploaded_files,
-                                     attributes.merge!(model: child_model.to_s).with_indifferent_access,
+                                     attributes.merge!(model: child_model.to_s, split_from_pdf_id: @split_from_pdf_id).with_indifferent_access,
                                      operation)
       end
       # rubocop:enable Metrics/ParameterLists
@@ -99,7 +100,7 @@ module IiifPrint
                                       child_order: child_title,
                                       parent_model: @parent_work.class,
                                       child_model: @parent_work.iiif_print_config.pdf_split_child_model,
-                                      file_id: file_id)
+                                      file_id: @split_from_pdf_id)
 
           begin
             # Clean up the temporary image path.
