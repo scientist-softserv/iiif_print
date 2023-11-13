@@ -22,12 +22,11 @@ SUMMARY
   spec.license = 'Apache-2.0'
   spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
-  spec.add_dependency 'blacklight_iiif_search', '~> 1.0'
+  spec.add_dependency 'blacklight_iiif_search', '>= 1.0', '< 3.0'
   spec.add_dependency 'derivative-rodeo', "~> 0.5"
-  spec.add_dependency 'dry-monads', '~> 1.4.0'
-  spec.add_dependency 'hyrax', '>= 2.5', '< 4'
+  spec.add_dependency 'hyrax', '>= 2.5', '< 6'
   spec.add_dependency 'nokogiri', '>=1.13.2'
-  spec.add_dependency 'rails', '~> 5.0'
+  spec.add_dependency 'rails', '>= 5.0', '< 8.0'
   spec.add_dependency 'rdf-vocab', '~> 3.0'
 
   spec.add_development_dependency 'bixby'

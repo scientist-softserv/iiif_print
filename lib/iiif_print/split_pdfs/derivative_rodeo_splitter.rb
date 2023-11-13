@@ -20,6 +20,9 @@ module IiifPrint
       end
 
       def initialize(filename, file_set:, output_tmp_dir: Dir.tmpdir)
+        @filename = filename
+        @file_set = file_set
+
         @input_uri = "file://#{filename}"
 
         # We are writing the images to a local location that CarrierWave can upload.  This is a
@@ -28,8 +31,9 @@ module IiifPrint
         output_template_path = File.join(output_tmp_dir, '{{ dir_parts[-1..-1] }}', '{{ filename }}')
 
         @output_location_template = "file://#{output_template_path}"
-        @preprocessed_location_template = IiifPrint::DerivativeRodeoService.derivative_rodeo_uri(file_set: file_set, filename: filename)
       end
+
+      attr_reader :filename, :file_set
 
       ##
       # This is where, in "Fedora" we have the original file.  This is not the original file in the
@@ -48,8 +52,11 @@ module IiifPrint
       attr_reader :output_location_template
 
       ##
-      # Where can we find, in the DerivativeRodeo's storage, what has already been done regarding
-      # derivative generation.
+      # Where can we find the file that represents the pre-processing template.  In this case, the
+      # original PDF file.
+      #
+      # The logic handles a case where SpaceStone successfully fetched the file to then perform
+      # processing.
       #
       # For example, SpaceStone::Serverless will pre-process derivatives and write them into an S3
       # bucket that we then use for IIIF Print.
@@ -61,19 +68,63 @@ module IiifPrint
       # @return [String]
       #
       # @see https://github.com/scientist-softserv/space_stone-serverless/blob/7f46dd5b218381739cd1c771183f95408a4e0752/awslambda/handler.rb#L58-L63
-      attr_reader :preprocessed_location_template
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
+      def preprocessed_location_template
+        return @preprocessed_location_template if defined?(@preprocessed_location_template)
+
+        derivative_rodeo_candidate = IiifPrint::DerivativeRodeoService.derivative_rodeo_uri(file_set: file_set, filename: filename)
+
+        @preprocessed_location_template =
+          if rodeo_conformant_uri_exists?(derivative_rodeo_candidate)
+            Rails.logger.debug("#{self.class}##{__method__} found existing file at location #{derivative_rodeo_candidate}.  High five partner!")
+            derivative_rodeo_candidate
+          elsif file_set.import_url
+            message = "#{self.class}##{__method__} did not find #{derivative_rodeo_candidate.inspect} to exist.  " \
+                      "Moving on to check the #{file_set.class}#import_url of #{file_set.import_url.inspect}"
+            Rails.logger.warn(message)
+            # If the DerivativeRodeo doesn't know about the adapter for the import, this will raise
+            # an error.
+            #
+            # Since the file was not pre-processed, we're likely now going to be downloading that
+            # file and running all of the derivatives locally.
+            if rodeo_conformant_uri_exists?(file_set.import_url)
+              message = "#{self.class}##{__method__} found #{file_set.class}#import_url of #{file_set.import_url.inspect} to exist.  " \
+                        "Perhaps there was a problem in SpaceStone downloading the file?  Things should be okay."
+              Rails.logger.info(message)
+              file_set.import_url
+            else
+              message = "#{self.class}##{__method__} expected #{file_set.import_url.inspect} as specified " \
+                        "by #{file_set.class}#import_url to exist at remote location, but it did not."
+              raise MissingFileError, message
+            end
+          else
+            message = "#{self.class}##{__method__} could not find an existing file at #{derivative_rodeo_candidate} " \
+                      "nor a remote_url for #{file_set.class} ID=#{file_set.id}.  Returning `nil' as we have no possible preprocess.  " \
+                      "Maybe the input_uri #{input_uri.inspect} will be adequate."
+            Rails.logger.warn(message)
+            nil
+          end
+      end
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
+
+      def rodeo_conformant_uri_exists?(uri)
+        DerivativeRodeo::StorageLocations::BaseLocation.from_uri(uri).exist?
+      end
+      private :rodeo_conformant_uri_exists?
 
       ##
       # @return [Array<Strings>] the paths to each of the images split off from the PDF.
       def split_files
         DerivativeRodeo::Generators::PdfSplitGenerator.new(
-          input_uris: [@input_uri],
+          input_uris: [input_uri],
           output_location_template: output_location_template,
           preprocessed_location_template: preprocessed_location_template
         ).generated_files.map(&:file_path)
       rescue => e
         message = "#{self.class}##{__method__} encountered `#{e.class}' “#{e}” for " \
-                  "input_uri: #{@input_uri.inspect}, " \
+                  "input_uri: #{input_uri.inspect}, " \
                   "output_location_template: #{output_location_template.inspect}, and" \
                   "preprocessed_location_template: #{preprocessed_location_template.inspect}."
         exception = RuntimeError.new(message)

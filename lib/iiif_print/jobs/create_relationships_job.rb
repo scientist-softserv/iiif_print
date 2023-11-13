@@ -32,7 +32,7 @@ module IiifPrint
           else
             raise "CreateRelationshipsJob failed for parent id: #{@parent_id} " \
                   "had #{@number_of_successes} successes & #{@number_of_failures} failures, " \
-                  "with errors: #{@errors}"
+                  "with errors: #{@errors}. Wanted #{@pending_children} children."
           end
         else
           # if we aren't ready yet, reschedule the job and end this one normally
