@@ -29,7 +29,14 @@ module IiifPrint
           if @number_of_failures.zero? && @number_of_successes == @pending_children.count
             # remove pending relationships upon valid completion
             @pending_children.each(&:destroy)
+          elsif @number_of_failures.zero? && @number_of_successes > @pending_children.count
+            # remove pending relationships but raise error that too many relationships formed
+            @pending_children.each(&:destroy)
+            raise "CreateRelationshipsJob for parent id: #{@parent_id} " \
+                  "added #{@number_of_successes} children, " \
+                  "expected #{@pending_children} children."
           else
+            # report failures & keep pending relationships
             raise "CreateRelationshipsJob failed for parent id: #{@parent_id} " \
                   "had #{@number_of_successes} successes & #{@number_of_failures} failures, " \
                   "with errors: #{@errors}. Wanted #{@pending_children} children."
