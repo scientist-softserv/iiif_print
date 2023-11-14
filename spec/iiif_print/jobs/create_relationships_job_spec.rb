@@ -13,22 +13,26 @@ module IiifPrint::Jobs
     let(:parent_record) { WorkWithIiifPrintConfig.new(title: ['required title']) }
     let(:child_record1) { WorkWithIiifPrintConfig.new(title: ["Child of #{parent_record.id} page 01"]) }
     let(:child_record2) { WorkWithIiifPrintConfig.new(title: ["Child of #{parent_record.id} page 02"]) }
-    let(:pending_rel1) { IiifPrint::PendingRelationship.new(
+    let(:pending_rel1) do
+      IiifPrint::PendingRelationship.new(
       parent_id: parent_record.id,
       child_title: "Child of #{parent_record.id} page 01",
       child_order: "Child of #{parent_record.id} page 01",
       parent_model: parent_model,
       child_model: child_model,
       file_id: file.id
-    ) }
-    let(:pending_rel2) { IiifPrint::PendingRelationship.new(
+    )
+    end
+    let(:pending_rel2) do
+      IiifPrint::PendingRelationship.new(
       parent_id: parent_record.id,
       child_title: "Child of #{parent_record.id} page 02",
       child_order: "Child of #{parent_record.id} page 02",
       parent_model: parent_model,
       child_model: child_model,
       file_id: file.id
-    ) }
+    )
+    end
 
     describe '#perform' do
       before do

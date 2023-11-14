@@ -12,9 +12,9 @@ module IiifPrint
         file_sets.each do |file_set|
           # we destroy the children before the file_set, because we need the parent relationship
           IiifPrint::SplitPdfs::DestroyPdfChildWorksService.conditionally_destroy_spawned_children_of(
-              file_set: file_set, 
-              work: env.curation_concern
-              )
+            file_set: file_set,
+            work: env.curation_concern
+          )
         end
         # and now back to your regularly scheduled programming
         super

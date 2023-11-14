@@ -7,23 +7,27 @@ RSpec.describe IiifPrint::SplitPdfs::DestroyPdfChildWorksService do
 
   let(:work) { WorkWithIiifPrintConfig.new(title: ['required title'], id: '123') }
   let(:fileset) { FileSet.new.tap { |fs| fs.save!(validate: false) } }
-  let(:child_work) { WorkWithIiifPrintConfig.new(title: ["Child of #{work.id} file.pdf page 01"], id: '456', is_child: true ) }
-  let(:pending_rel1) { IiifPrint::PendingRelationship.new(
+  let(:child_work) { WorkWithIiifPrintConfig.new(title: ["Child of #{work.id} file.pdf page 01"], id: '456', is_child: true) }
+  let(:pending_rel1) do
+    IiifPrint::PendingRelationship.new(
     parent_id: work.id,
     child_title: "Child of #{work.id} file.pdf page 01",
     child_order: "Child of #{work.id} file.pdf page 01",
     parent_model: WorkWithIiifPrintConfig,
     child_model: WorkWithIiifPrintConfig,
     file_id: fileset.id
-  ) }
-  let(:pending_rel2) { IiifPrint::PendingRelationship.new(
+  )
+  end
+  let(:pending_rel2) do
+    IiifPrint::PendingRelationship.new(
     parent_id: work.id,
     child_title: "Child of #{work.id} another.pdf page 01",
     child_order: "Child of #{work.id} another.pdf page 01",
     parent_model: WorkWithIiifPrintConfig,
     child_model: WorkWithIiifPrintConfig,
     file_id: 'another'
-  ) }
+  )
+  end
   # let(:uploaded_pdf_file) { create(:uploaded_pdf_file) }
   # let(:uploaded_file_ids) { [uploaded_pdf_file.id] }
 
@@ -81,7 +85,7 @@ RSpec.describe IiifPrint::SplitPdfs::DestroyPdfChildWorksService do
       end
 
       it 'deletes only records associated with the specific fileset PDF file' do
-        expect{ subject }.to change(IiifPrint::PendingRelationship,:count).by(-1)
+        expect { subject }.to change(IiifPrint::PendingRelationship, :count).by(-1)
       end
     end
   end
