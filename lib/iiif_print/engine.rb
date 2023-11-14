@@ -52,6 +52,7 @@ module IiifPrint
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
       ::BlacklightIiifSearch::IiifSearch.prepend(IiifPrint::IiifSearchDecorator)
       Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
+      Hyrax::Actors::CleanupFileSetsActor.prepend(IiifPrint::Actors::CleanupFileSetsActorDecorator)
 
       Hyrax.config do |config|
         config.callback.set(:after_create_fileset) do |file_set, user|
