@@ -14,10 +14,9 @@ module IiifPrint
 
         IiifPrint::PendingRelationship.where(parent_id: work.id, file_id: file_set.id).each(&:destroy)
         destroy_spawned_children(model: child_model, file_set: file_set, work: work)
-        true
       end
 
-      def self.destroy_spawned_children(model:, file_set:, work:)
+      private_class_method def self.destroy_spawned_children(model:, file_set:, work:)
         # look first for children by the file set id they were split from
         children = model.where(split_from_pdf_id: file_set.id)
         if children.blank?
