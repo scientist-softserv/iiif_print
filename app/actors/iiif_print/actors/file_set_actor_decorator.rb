@@ -38,9 +38,9 @@ module IiifPrint
       def destroy
         # we destroy the children before the file_set, because we need the parent relationship
         IiifPrint::SplitPdfs::DestroyPdfChildWorksService.conditionally_destroy_spawned_children_of(
-          file_set: file_set, 
+          file_set: file_set,
           work: file_set.parent
-          )
+        )
         # and now back to your regularly scheduled programming
         super
       end

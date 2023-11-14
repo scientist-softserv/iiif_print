@@ -4,6 +4,7 @@ module RDF
   class CustomIsChildTerm < Vocabulary('http://id.loc.gov/vocabulary/identifiers/')
     property 'is_child'
   end
+
   class FromPdfIdTerm < Vocabulary('http://id.loc.gov/vocabulary/identifiers/')
     property 'split_from_pdf_id'
   end
