@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# override to add PDF splitting for file sets
+# override to add PDF splitting for file sets and remove splitting upon fileset delete
 module IiifPrint
   module Actors
     module FileSetActorDecorator
@@ -32,6 +32,17 @@ module IiifPrint
 
       def service
         IiifPrint::SplitPdfs::ChildWorkCreationFromPdfService
+      end
+
+      # Clean up children when removing the fileset
+      def destroy
+        # we destroy the children before the file_set, because we need the parent relationship
+        IiifPrint::SplitPdfs::DestroyPdfChildWorksService.conditionally_destroy_spawned_children_of(
+          file_set: file_set, 
+          work: file_set.parent
+          )
+        # and now back to your regularly scheduled programming
+        super
       end
     end
   end
