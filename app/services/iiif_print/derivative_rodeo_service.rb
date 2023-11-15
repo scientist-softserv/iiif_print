@@ -113,6 +113,20 @@ module IiifPrint
     ##
     # @api public
     #
+    # Figure out the ancestor type and ancestor
+    def self.get_ancestor(filename: nil, file_set:)
+      # In the case of a page split from a PDF, we need to know the grandparent's identifier to
+      # find the file(s) in the DerivativeRodeo.
+      if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
+        [IiifPrint.grandparent_for(file_set), :grandparent]
+      else
+        [IiifPrint.parent_for(file_set), :parent]
+      end
+    end
+
+    ##
+    # @api public
+    #
     # @note You may find yourself wanting to override this method.  Please do if you find a better
     #       way to do this.
     #
@@ -128,19 +142,12 @@ module IiifPrint
     # @param filename [String]
     # @return [String] the dirname (without any "/" we hope)
     def self.derivative_rodeo_preprocessed_directory_for(file_set:, filename:)
-      # In the case of a page split from a PDF, we need to know the grandparent's identifier to
-      # find the file(s) in the DerivativeRodeo.
-      ancestor_type = nil
-      ancestor = if DerivativeRodeo::Generators::PdfSplitGenerator.filename_for_a_derived_page_from_a_pdf?(filename: filename)
-                   ancestor_type = :grandparent
-                   IiifPrint.grandparent_for(file_set)
-                 else
-                   ancestor_type = :parent
-                   IiifPrint.parent_for(file_set)
-                 end
+      ancestor, ancestor_type = get_ancestor(filename: filename, file_set: file_set)
+
       # Why might we not have an ancestor?  In the case of grandparent_for, we may not yet have run
       # the create relationships job.  We could sneak a peak in the table to maybe glean some insight.
       # However, read further the `else` clause to see the novel approach.
+      # rubocop:disable Style/GuardClause
       if ancestor
         message = "#{self.class}.#{__method__} #{file_set.class} ID=#{file_set.id} and filename: #{filename.inspect}" \
                   "has #{ancestor_type} of #{ancestor.class} ID=#{ancestor.id}"
@@ -156,6 +163,7 @@ module IiifPrint
         file_set.title.first.split(".").first ||
           raise("#{file_set.class} ID=#{file_set.id} has title #{file_set.title.first} from which we cannot infer information.")
       end
+      # rubocop:enable Style/GuardClause
     end
 
     def initialize(file_set)
