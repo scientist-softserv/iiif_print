@@ -1,0 +1,19 @@
+include:
+- "**/*.rb"
+exclude:
+- spec/**/*
+- test/**/*
+- vendor/**/*
+- ".bundle/**/*"
+require:
+- derivative-rodeo
+- hyrax
+- iiif-presentation
+- iiif_manifest
+- blacklight_iiif_search
+- blacklight
+domains: []
+reporters:
+- rubocop
+- require_not_found
+max_files: 5000
