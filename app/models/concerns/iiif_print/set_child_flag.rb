@@ -4,6 +4,10 @@ module RDF
   class CustomIsChildTerm < Vocabulary('http://id.loc.gov/vocabulary/identifiers/')
     property 'is_child'
   end
+
+  class FromPdfIdTerm < Vocabulary('http://id.loc.gov/vocabulary/identifiers/')
+    property 'split_from_pdf_id'
+  end
 end
 
 module IiifPrint
@@ -15,6 +19,11 @@ module IiifPrint
       try(:after_save, :set_children)
       property :is_child,
               predicate: ::RDF::CustomIsChildTerm.is_child,
+              multiple: false do |index|
+                index.as :stored_searchable
+              end
+      property :split_from_pdf_id,
+              predicate: ::RDF::FromPdfIdTerm.split_from_pdf_id,
               multiple: false do |index|
                 index.as :stored_searchable
               end
