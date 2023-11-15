@@ -20,6 +20,7 @@ require "iiif_print/jobs/child_works_from_pdf_job"
 require "iiif_print/split_pdfs/base_splitter"
 require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 require "iiif_print/split_pdfs/derivative_rodeo_splitter"
+require "iiif_print/split_pdfs/destroy_pdf_child_works_service"
 
 module IiifPrint
   extend ActiveSupport::Autoload
