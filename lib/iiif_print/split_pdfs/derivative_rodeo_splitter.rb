@@ -14,11 +14,20 @@ module IiifPrint
       # @param filename [String] the local path to the PDFDerivativeServicele
       # @param file_set [FileSet] file set containing the PDF file to split
       #
-      # @return [Array] paths to images split from each page of PDF file
+      # @return [Array<String>] paths to images split from each page of PDF file
+      #
+      # @see IiifPrint::SplitPdfs::BaseSplitter
       def self.call(filename, file_set:)
         new(filename, file_set: file_set).split_files
       end
 
+      ##
+      # @param filename [String] path to the original file.  Note that we use {#filename} to
+      #        derivate {#input_uri}
+      # @param file_set [FileSet] the container for the original file and its derivatives.
+      #
+      # @param output_tmp_dir [String] where we will be writing things.  In using `Dir.mktmpdir`
+      #        we're creating a sudirectory on `Dir.tmpdir`
       def initialize(filename, file_set:, output_tmp_dir: Dir.tmpdir)
         @filename = filename
         @file_set = file_set
@@ -68,7 +77,6 @@ module IiifPrint
       # @return [String]
       #
       # @see https://github.com/scientist-softserv/space_stone-serverless/blob/7f46dd5b218381739cd1c771183f95408a4e0752/awslambda/handler.rb#L58-L63
-      # rubocop:disable Metrics/AbcSize
       # rubocop:disable Metrics/MethodLength
       def preprocessed_location_template
         return @preprocessed_location_template if defined?(@preprocessed_location_template)
@@ -83,21 +91,7 @@ module IiifPrint
             message = "#{self.class}##{__method__} did not find #{derivative_rodeo_candidate.inspect} to exist.  " \
                       "Moving on to check the #{file_set.class}#import_url of #{file_set.import_url.inspect}"
             Rails.logger.warn(message)
-            # If the DerivativeRodeo doesn't know about the adapter for the import, this will raise
-            # an error.
-            #
-            # Since the file was not pre-processed, we're likely now going to be downloading that
-            # file and running all of the derivatives locally.
-            if rodeo_conformant_uri_exists?(file_set.import_url)
-              message = "#{self.class}##{__method__} found #{file_set.class}#import_url of #{file_set.import_url.inspect} to exist.  " \
-                        "Perhaps there was a problem in SpaceStone downloading the file?  Things should be okay."
-              Rails.logger.info(message)
-              file_set.import_url
-            else
-              message = "#{self.class}##{__method__} expected #{file_set.import_url.inspect} as specified " \
-                        "by #{file_set.class}#import_url to exist at remote location, but it did not."
-              raise MissingFileError, message
-            end
+            handle_original_file_not_in_derivative_rodeo
           else
             message = "#{self.class}##{__method__} could not find an existing file at #{derivative_rodeo_candidate} " \
                       "nor a remote_url for #{file_set.class} ID=#{file_set.id}.  Returning `nil' as we have no possible preprocess.  " \
@@ -106,8 +100,35 @@ module IiifPrint
             nil
           end
       end
-      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
+
+      ##
+      # @api private
+      #
+      # When the file does not exist in the pre-processed location (e.g. "SpaceStone") we need to
+      # ensure that we have something locally.  We copy the {FileSet#import_url} to the {#input_uri}
+      # location.
+      #
+      # @return [String] should be the {#input_uri}
+      # @raise [DerivativeRodeo::Errors::FileMissingError] when the input_uri does not exist
+      def handle_original_file_not_in_derivative_rodeo
+        # A quick short-circuit.  Don't attempt to copy.  Likely already covered by the DerivativeRodeo::Generators::CopyGenerator
+        return input_uri if rodeo_conformant_uri_exists?(input_uri)
+
+        message = "#{self.class}##{__method__} found #{file_set.class}#import_url of #{file_set.import_url.inspect} to exist.  " \
+                  "Perhaps there was a problem in SpaceStone downloading the file?  " \
+                  "Regardless, we'll use DerivativeRodeo::Generators::CopyGenerator to ensure #{input_uri.inspect} exists.  " \
+                  "However, we'll almost certainly be generating child pages locally."
+        Rails.logger.info(message)
+
+        # This ensures that we have a copy of the file_set.import_uri at the input_uri location;
+        # we likely have this.
+        DerivativeRodeo::Generators::CopyGenerator.new(
+          input_uris: [file_set.import_url],
+          output_location_template: input_uri
+        ).generated_uris.first
+      end
+      # private :handle_original_file_not_in_derivative_rodeo
 
       def rodeo_conformant_uri_exists?(uri)
         DerivativeRodeo::StorageLocations::BaseLocation.from_uri(uri).exist?

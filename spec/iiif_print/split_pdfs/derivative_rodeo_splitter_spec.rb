@@ -18,7 +18,7 @@ RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
     it { is_expected.to respond_to(:call) }
   end
 
-  subject(:instance) { described_class.new(filename, file_set: file_set) }
+  subject(:instance) { described_class.new(filename, file_set: file_set, output_tmp_dir: Dir.tmpdir) }
   let(:generator) { double(DerivativeRodeo::Generators::PdfSplitGenerator, generated_files: []) }
 
   before do
@@ -46,22 +46,25 @@ RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
       end
     end
 
-    context 'when the s3 file does not exist in the rodeo and the file sets import url exists' do
+    context 'when the s3 file does not exist in the rodeo and we have the local file' do
       it 'is the import_url' do
+        expect_any_instance_of(DerivativeRodeo::Generators::CopyGenerator).not_to receive(:generated_uris)
         file_set.import_url = import_url
         expect(instance).to receive(:rodeo_conformant_uri_exists?).with(derivative_rodeo_preprocessed_file).and_return(false)
-        expect(instance).to receive(:rodeo_conformant_uri_exists?).with(file_set.import_url).and_return(true)
-        expect(subject).to eq(file_set.import_url)
+        expect(instance).to receive(:rodeo_conformant_uri_exists?).with(instance.input_uri).and_return(true)
+        expect(subject).to eq(instance.input_uri)
       end
     end
 
-    context 'when the s3 file does not exist and the given import url does NOT exist' do
-      it 'will raise a IiifPrint::MissingFileError' do
+    context 'when the s3 file does not exist and we do not have the input URI nor the given import url does NOT exist' do
+      let(:generator) { double(DerivativeRodeo::Generators::CopyGenerator, generated_uris: ["file:///generated/uri"]) }
+      it 'will invoke the DerivativeRodeo::Generators::CopyGenerator to bring the file locally' do
+        allow(DerivativeRodeo::Generators::CopyGenerator).to receive(:new).and_return(generator)
         file_set.import_url = import_url
         expect(instance).to receive(:rodeo_conformant_uri_exists?).with(derivative_rodeo_preprocessed_file).and_return(false)
-        expect(instance).to receive(:rodeo_conformant_uri_exists?).with(file_set.import_url).and_return(false)
+        expect(instance).to receive(:rodeo_conformant_uri_exists?).with(instance.input_uri).and_return(false)
 
-        expect { subject }.to raise_error(IiifPrint::MissingFileError)
+        expect(subject).to eq(generator.generated_uris.first)
       end
     end
 
