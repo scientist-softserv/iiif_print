@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 # override to add PDF splitting for file sets and remove splitting upon fileset delete
+
+# Depending on whether we have an uploaded file or a remote url, the sequence of calling 
+# attach_to_work and create_content will switch.  
 module IiifPrint
   module Actors
     module FileSetActorDecorator
@@ -9,7 +12,9 @@ module IiifPrint
         super
 
         if from_url
-          args = { file_set: file_set, file: file, import_url: file_set.import_url, user: @user }
+          # in this case, the file that came in is a temp file, and we need to use the actual file.
+          # the file was attached to the file_set in Hyrax::ImportUrlJob so we can just access it.
+          args = { file_set: file_set, file: file_set.files.first, import_url: file_set.import_url, user: @user }
           returned_value = service.conditionally_enqueue(**args)
           Rails.logger.info("Result of #{returned_value} for conditional enqueueing of #{args.inspect}")
           true
@@ -23,6 +28,10 @@ module IiifPrint
       def attach_to_work(work, file_set_params = {})
         # Locks to ensure that only one process is operating on the list at a time.
         super
+
+        # when we are importing a remote_url, this method is called before the file is attached.
+        # We want to short-circuit the process and prevent unnecessarily confusing logging.
+        return unless @file
 
         args = { file_set: file_set, work: work, file: @file, user: @user }
         returned_value = service.conditionally_enqueue(**args)

@@ -28,7 +28,7 @@ module IiifPrint
         return :no_split_for_parent unless iiif_print_split?(work: work)
         return :no_pdfs_for_import_url if import_url && !pdfs?(paths: [import_url])
         file_locations = if import_url
-                           [file.path]
+                           [Hyrax::WorkingDirectory.find_or_retrieve(file.id, file_set.id)]
                          else
                            pdf_paths(files: [file.try(:id)&.to_s].compact)
                          end
