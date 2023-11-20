@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::DerivativeRodeoService do
-  let(:work) { double({ described_class.parent_work_identifier_property_name => 'hello-1234-id' }) }
+  let(:work) { double("Work", { :id => 'work-5678', described_class.parent_work_identifier_property_name => 'hello-1234-id' }) }
   let(:file_set) { FileSet.new.tap { |fs| fs.save!(validate: false) } }
   let(:generator) { DerivativeRodeo::Generators::CopyGenerator }
   let(:output_extension) { "rb" }
