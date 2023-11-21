@@ -2,8 +2,8 @@
 
 # override to add PDF splitting for file sets and remove splitting upon fileset delete
 
-# Depending on whether we have an uploaded file or a remote url, the sequence of calling 
-# attach_to_work and create_content will switch.  
+# Depending on whether we have an uploaded file or a remote url, the sequence of calling
+# attach_to_work and create_content will switch.
 module IiifPrint
   module Actors
     module FileSetActorDecorator

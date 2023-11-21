@@ -25,6 +25,11 @@ module IiifPrint
         @child_admin_set_id = admin_set_id
         child_model = @parent_work.iiif_print_config.pdf_split_child_model
 
+        # When working with remote files, we have put the PDF file into the correct path before submitting this job.
+        # However, there seem to be cases where we still don't have the file when we get here, so to be sure, we
+        # re-do the same command that was previously used to prepare the file path. If the file is already here, it
+        # simply returns the path, but if not it will copy the file there, giving us one more chance to have what we need.
+        pdf_paths = [Hyrax::WorkingDirectory.find_or_retrieve(pdf_file_set.files.first.id, pdf_file_set.id, pdf_paths.first)] if pdf_file_set
         # handle each input pdf (when input is a file set, we will only have one).
         pdf_paths.each do |original_pdf_path|
           split_pdf(original_pdf_path, user, child_model, pdf_file_set)
@@ -51,7 +56,12 @@ module IiifPrint
       # rubocop:disable Metrics/ParameterLists
       def split_pdf(original_pdf_path, user, child_model, pdf_file_set)
         image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path, file_set: pdf_file_set)
-        return if image_files.blank?
+
+        # give as much info as possible if we don't have image files to work with.
+        raise "#{@parent_work.class} (ID=#{@parent_work.id} " +
+              "to_param:#{@parent_work.to_param}) " +
+              "original_pdf_path #{original_pdf_path.inspect} " +
+              "pdf_file_set #{pdf_file_set.inspect}" if image_files.blank?
 
         @split_from_pdf_id = pdf_file_set.nil? ? nil : pdf_file_set.id
         prepare_import_data(original_pdf_path, image_files, user)
