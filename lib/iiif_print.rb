@@ -113,7 +113,8 @@ module IiifPrint
   # @option kwargs [Class] pdf_splitter_service the specific service that splits the PDF.  Options are:
   #         {IiifPrint::SplitPdfs::PagesToJpgsSplitter},
   #         {IiifPrint::SplitPdfs::PagesToTiffsSplitter},
-  #         {IiifPrint::SplitPdfs::PagesToPngsSplitter}
+  #         {IiifPrint::SplitPdfs::PagesToPngsSplitter},
+  #         {IiifPrint::SplitPdfs::DerivativeRodeoSplitter}
   #
   # @return [Module]
   #
