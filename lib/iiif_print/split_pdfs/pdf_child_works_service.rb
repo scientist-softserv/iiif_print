@@ -7,7 +7,7 @@ module IiifPrint
       def self.create_pdf_child_works_for(file_set:, user:)
         locations = pdfs_only_for([Hyrax::WorkingDirectory.find_or_retrieve(file.id, file_set.id)])
         return if locations.empty?
-        work = file_set.parent
+        work = IiifPrint.parent_for(file_set)
 
         # clean up any existing spawned child works of this file_set
         IiifPrint::SplitPdfs::DestroyPdfChildWorksService.conditionally_destroy_spawned_children_of(
