@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe IiifPrint::SplitPdfs::DerivativeRodeoSplitter do
   let(:filename) { __FILE__ }
-  let(:work) { double(MyWork, aark_id: '12345') }
+  let(:work) { double(MyWork, id: 'id-12345', aark_id: '12345') }
   let(:file_set) { FileSet.new.tap { |fs| fs.save!(validate: false) } }
   let(:location_stub) { double(DerivativeRodeo::StorageLocations::BaseLocation, exist?: true) }
 
