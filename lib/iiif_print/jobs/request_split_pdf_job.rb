@@ -8,7 +8,7 @@ module IiifPrint
       # @param user [User]
       # rubocop:disable Metrics/MethodLength
       def perform(file_set:, user:)
-        return true if file_set.pdf?
+        return true unless file_set.pdf?
 
         work = IiifPrint.parent_for(file_set)
 
