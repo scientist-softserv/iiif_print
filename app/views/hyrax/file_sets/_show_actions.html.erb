@@ -1,0 +1,24 @@
+<div class="form-actions">
+  <% if Hyrax.config.analytics? %>
+    <% # turbolinks needs to be turned off or the page will use the cache and the %>
+    <% # analytics graph will not show unless the page is refreshed. %>
+    <%= link_to t('.analytics'), @presenter.stats_path, id: 'stats', class: 'btn btn-default', data: { turbolinks: false } %>
+  <% end %>
+
+  <%# Hyrax 2.9.6 does not respond to workflow_restriction; that is something added in later versions. %>
+  <% if @presenter.editor? && (!respond_to?(:workflow_restriction?) || !workflow_restriction?(@presenter)) %>
+      <%= link_to t(".edit_this", type: @presenter.human_readable_type), edit_polymorphic_path([main_app, @presenter]),
+                  class: 'btn btn-default' %>
+      <%= link_to t(".delete_this", type: @presenter.human_readable_type), [main_app, @presenter],
+                  class: 'btn btn-danger', data: { confirm: t(".confirm_delete_this", type: @presenter.human_readable_type) },
+                  method: :delete %>
+  <% end %>
+
+  <% if @presenter.editor? && @presenter.pdf? %>
+    <%= link_to t("iiif_print.file_set.split_this"), iiif_print.split_pdf_path(@presenter),
+     class: 'btn btn-default', data: { confirm: t("iiif_print.file_set.confirm_split_this") },
+     method: :post %>
+  <% end %>
+
+  <%= render 'social_media' %>
+</div>
