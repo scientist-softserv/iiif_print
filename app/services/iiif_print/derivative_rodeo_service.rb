@@ -141,20 +141,35 @@ module IiifPrint
     # @param file_set [FileSet]
     # @param filename [String]
     # @return [String] the dirname (without any "/" we hope)
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_preprocessed_directory_for(file_set:, filename:)
+      # SpaceStone does not know about lineage; it makes assumptions based on the URL of the work.
+      # If we have an import_url, let's follow the same assumption that SpaceStone would make.
+      #
+      # NOTE: We're assuming that a page ripped from a PDF will not have an import_url.  This may
+      # not be the case.
+      return file_set.split("/")[-2] if file_set.import_url.presence && file_set.split("/")[-2].presence
+
       ancestor, ancestor_type = get_ancestor(filename: filename, file_set: file_set)
 
       # Why might we not have an ancestor?  In the case of grandparent_for, we may not yet have run
       # the create relationships job.  We could sneak a peak in the table to maybe glean some insight.
       # However, read further the `else` clause to see the novel approach.
+      #
+      # Why might the ancestor not respond (nor have) a configured
+      # parent_work_identifier_property_name?  Because data is sloppy.  And we're trying to "guess"
+      # how this data was written in SpaceStone; a non-trivial task.
+      #
+      # TODO: Perhaps we could use the original remote_url to sniff that out the space stone
+      # directory?
+      #
       # rubocop:disable Style/GuardClause
-      if ancestor
+      if ancestor && ancestor.try(parent_work_identifier_property_name).presence
         message = "#{self.class}.#{__method__} #{file_set.class} ID=#{file_set.id} and filename: #{filename.inspect}" \
                   "has #{ancestor_type} of #{ancestor.class} ID=#{ancestor.id}"
         Rails.logger.info(message)
-        ancestor.public_send(parent_work_identifier_property_name) ||
-          raise("Expected #{ancestor.class} ID=#{ancestor.id} (#{ancestor_type} of #{file_set.class} ID=#{file_set.id}) " \
-                "to have a present #{parent_work_identifier_property_name.inspect}")
+        ancestor.public_send(parent_work_identifier_property_name)
       else
         # HACK: This makes critical assumptions about how we're creating the title for the file_set;
         # but we don't have much to fall-back on.  Consider making this a configurable function.  Or
@@ -165,6 +180,8 @@ module IiifPrint
       end
       # rubocop:enable Style/GuardClause
     end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
     def initialize(file_set)
       @file_set = file_set
