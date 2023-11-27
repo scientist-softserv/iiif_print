@@ -1,0 +1,7 @@
+secret:
+  ignored-matches:
+  - match: 482ff525fad5752fc89e4fa3eb252dac53290fdcb6180ad43df4113818823ed1
+    name: Rails Master Key - /Users/jeremy/git/iiif_print/.internal_test_app/config/master.key
+  - match: bbbe487a7d2f7e0da6e71682a17a9ee265aeee01dab4c6fc990fe04e9352da4a
+    name: Generic High Entropy Secret - /Users/jeremy/git/iiif_print/.internal_test_app/config/initializers/devise.rb
+version: 2
