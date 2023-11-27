@@ -36,9 +36,6 @@ fits.log
 # Ignore all RubyMine temp files
 .idea/
 
-# Ignore Gemfile.lock
-Gemfile.lock
-
 # Ignore wrapper downloads
 fcrepo-webapp-*
 

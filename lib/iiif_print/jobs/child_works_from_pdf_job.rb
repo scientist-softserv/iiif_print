@@ -54,14 +54,17 @@ module IiifPrint
       private
 
       # rubocop:disable Metrics/ParameterLists
+      # rubocop:disable Metrics/MethodLength
       def split_pdf(original_pdf_path, user, child_model, pdf_file_set)
         image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path, file_set: pdf_file_set)
 
         # give as much info as possible if we don't have image files to work with.
-        raise "#{@parent_work.class} (ID=#{@parent_work.id} " +
-              "to_param:#{@parent_work.to_param}) " +
-              "original_pdf_path #{original_pdf_path.inspect} " +
-              "pdf_file_set #{pdf_file_set.inspect}" if image_files.blank?
+        if image_files.blank?
+          raise "#{@parent_work.class} (ID=#{@parent_work.id} " /
+                "to_param:#{@parent_work.to_param}) " /
+                "original_pdf_path #{original_pdf_path.inspect} " /
+                "pdf_file_set #{pdf_file_set.inspect}"
+        end
 
         @split_from_pdf_id = pdf_file_set.nil? ? nil : pdf_file_set.id
         prepare_import_data(original_pdf_path, image_files, user)
@@ -84,6 +87,7 @@ module IiifPrint
                                      attributes.merge!(model: child_model.to_s, split_from_pdf_id: @split_from_pdf_id).with_indifferent_access,
                                      operation)
       end
+      # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/ParameterLists
 
       # rubocop:disable Metrics/MethodLength
