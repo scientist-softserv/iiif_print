@@ -187,6 +187,41 @@ To remove child works from recent works on homepage
     end
 ```
 
+### Derivative Rodeo Configuration
+
+The Derivative Rodeo is used in two ways:
+
+- Configuring the `Hyrax::DerivativeService` by adding `IiifPrint::DerivativeRodeoService`
+- Enable Derivative Rodeo PDF Splitting service by `IiifPrint.model_configuration`
+
+#### Configuring Hyrax::Derivative
+
+In the application initializer:
+
+```ruby
+      Hyrax::DerivativeService.services = [
+        IiifPrint::DerivativeRodeoService,
+        Hyrax::FileSetDerivativesService]
+```
+
+#### Enabling Derivative Rodeo PDF Splitting
+
+The [IiifPrint.model\_configuration  method](./lib/iiif_print.rb) allows for specifying the `pdf\_splitter\_service` as below:
+
+```ruby
+class Book < ActiveFedora::Base
+  include IiifPrint.model_configuration(
+            pdf_splitter_service: IiifPrint::SplitPdfs::DerivativeRodeoSplitter
+          )
+end
+```
+
+#### Pre-Process Location
+
+The [DerivativeRodeo](https://github.com/scientist-softserv/derivative_rodeo) allows for specifying a location where you've done pre-processing (e.g. you ran splitting and derivative generation in AWS's Lambda).
+
+By default the preprocess location is S3, as that is where SoftServ has been running pre-processing.  However that default may not be adequate for local development.
+
 # Ingesting Content
 
 IiifPrint supports a range of different ingest workflows:
