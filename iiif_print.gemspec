@@ -26,7 +26,6 @@ SUMMARY
   spec.add_dependency 'derivative-rodeo', "~> 0.5"
   spec.add_dependency 'hyrax', '>= 2.5', '< 6'
   spec.add_dependency 'nokogiri', '>=1.13.2'
-  spec.add_dependency 'rails', '>= 5.0', '< 8.0'
   spec.add_dependency 'rdf-vocab', '~> 3.0'
 
   spec.add_development_dependency 'bixby'
