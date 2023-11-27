@@ -217,6 +217,8 @@ The above will build the test application (if it doesn't already exist).  During
 
 To rebuild the test application, delete the `.internal_test_app` directory.
 
+You will need to review the meaningless secrets that are part of the `.internal_test_app` and amend the `.gitguardian.yaml` file to reflect the new secret value.
+
 ## Contributing
 
 If you're working on a PR for this project, create a feature branch off of `main`.
