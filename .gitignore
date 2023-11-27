@@ -31,7 +31,7 @@ fits.log
 .byebug_history
 
 # Ignore generated engine_cart testing app:
-.internal_test_app
+# .internal_test_app
 
 # Ignore all RubyMine temp files
 .idea/
