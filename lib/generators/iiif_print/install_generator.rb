@@ -39,7 +39,7 @@ module IiifPrint
     end
 
     def inject_helper
-      copy_file 'helpers/iiif_print_helper.rb'
+      copy_file 'helpers/iiif_print_helper.rb' 'app/helpers/iiif_print_helper.rb'
     end
 
     # Blacklight IIIF Search generator has some linting that does not agree with CircleCI on Hyku
