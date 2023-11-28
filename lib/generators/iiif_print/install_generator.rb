@@ -22,6 +22,14 @@ module IiifPrint
       generate 'iiif_print:catalog_controller'
     end
 
+    def install_routes
+      return if IO.read('config/routes.rb').include?('mount IiifPrint::Engine')
+
+      inject_into_file 'config/routes.rb', after: /mount Hyrax::Engine\s*\n/ do
+        "  mount IiifPrint::Engine, at: '/'\n"\
+      end
+    end
+
     def inject_configuration
       copy_file 'config/initializers/iiif_print.rb'
     end

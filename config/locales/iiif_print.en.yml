@@ -52,6 +52,10 @@ en:
         label: 'Place of publication'
       publication_title:
         label: 'Publication'
+    file_set:
+      split_this: 'Re-Split PDF'
+      confirm_split_this: 'Re-Split PDF'
+      split_submitted: 'Submitted PDF re-splitting job for FileSet ID=%{id}'
     newspapers_search:
       title:                    'Search Newspapers'
       text:                     'Use this form to search for full-text newspaper content.'
