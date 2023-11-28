@@ -84,7 +84,13 @@ module IiifPrint
         derivative_rodeo_candidate = IiifPrint::DerivativeRodeoService.derivative_rodeo_uri(file_set: file_set, filename: filename)
 
         @preprocessed_location_template =
-          if rodeo_conformant_uri_exists?(derivative_rodeo_candidate)
+          if derivative_rodeo_candidate.blank?
+            message = "#{self.class}##{__method__} could not establish derivative_rodeo_candidate for " \
+                      "#{file_set.class} ID=#{file_set&.id} #to_param=#{file_set&.to_param} with filename #{filename.inspect}.  " \
+                      "Move along little buddy."
+            Rails.logger.debug(message)
+            nil
+          elsif rodeo_conformant_uri_exists?(derivative_rodeo_candidate)
             Rails.logger.debug("#{self.class}##{__method__} found existing file at location #{derivative_rodeo_candidate}.  High five partner!")
             derivative_rodeo_candidate
           elsif file_set.import_url
@@ -94,7 +100,8 @@ module IiifPrint
             handle_original_file_not_in_derivative_rodeo
           else
             message = "#{self.class}##{__method__} could not find an existing file at #{derivative_rodeo_candidate} " \
-                      "nor a remote_url for #{file_set.class} ID=#{file_set.id}.  Returning `nil' as we have no possible preprocess.  " \
+                      "nor a remote_url for #{file_set.class} ID=#{file_set.id} #to_param=#{file_set&.to_param}.  " \
+                      "Returning `nil' as we have no possible preprocess.  " \
                       "Maybe the input_uri #{input_uri.inspect} will be adequate."
             Rails.logger.warn(message)
             nil
@@ -146,7 +153,7 @@ module IiifPrint
       rescue => e
         message = "#{self.class}##{__method__} encountered `#{e.class}' “#{e}” for " \
                   "input_uri: #{input_uri.inspect}, " \
-                  "output_location_template: #{output_location_template.inspect}, and" \
+                  "output_location_template: #{output_location_template.inspect}, and " \
                   "preprocessed_location_template: #{preprocessed_location_template.inspect}."
         exception = RuntimeError.new(message)
         exception.set_backtrace(e.backtrace)
