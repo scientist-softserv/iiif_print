@@ -12,7 +12,7 @@ module IiifPrint
         return unless child_model
         return unless file_set.class.pdf_mime_types.include?(file_set.mime_type)
 
-        IiifPrint::PendingRelationship.where(parent_id: work.id, file_id: file_set.id).each(&:destroy)
+        IiifPrint::PendingRelationship.where(parent_id: work.id, file_id: file_set.id).find_each(&:destroy)
         destroy_spawned_children(model: child_model, file_set: file_set, work: work)
       end
 

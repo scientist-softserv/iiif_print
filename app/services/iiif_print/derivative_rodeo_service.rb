@@ -144,6 +144,7 @@ module IiifPrint
     # @param filename [String]
     # @return [String] the dirname (without any "/" we hope)
     # @return [NilClass] when we cannot infer a URI from the object.
+    # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_preprocessed_directory_for(file_set:, filename:)
       ancestor, ancestor_type = get_ancestor(filename: filename, file_set: file_set)
 
@@ -171,6 +172,7 @@ module IiifPrint
       end
       # rubocop:enable Style/GuardClause
     end
+    # rubocop:enable Metrics/MethodLength
 
     def initialize(file_set)
       @file_set = file_set

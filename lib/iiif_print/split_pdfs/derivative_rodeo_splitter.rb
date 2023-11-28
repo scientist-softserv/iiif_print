@@ -78,6 +78,7 @@ module IiifPrint
       #
       # @see https://github.com/scientist-softserv/space_stone-serverless/blob/7f46dd5b218381739cd1c771183f95408a4e0752/awslambda/handler.rb#L58-L63
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/AbcSize
       def preprocessed_location_template
         return @preprocessed_location_template if defined?(@preprocessed_location_template)
 
@@ -107,6 +108,7 @@ module IiifPrint
             nil
           end
       end
+      # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
 
       ##
