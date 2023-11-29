@@ -18,25 +18,42 @@ module IiifPrint
     ##
     # @!group Class Attributes
     #
-    # @attr parent_work_identifier_property_name [String] the property we use to identify the unique
-    #       identifier of the parent work as it went through the SpaceStone pre-process.
+    # @!attribute parent_work_identifier_property_name [r|w]
+    #   @return [String] the property we use to identify the unique identifier of the parent work as
+    #           it went through the SpaceStone pre-process.
     #
-    # TODO: The default of :aark_id is a quick hack for adventist.  By exposing a configuration
-    # value, my hope is that this becomes easier to configure.
+    #   @todo The default of :aark_id is a quick hack for adventist.  By exposing a configuration
+    #         value, my hope is that this becomes easier to configure.
+    #   @api public
     class_attribute :parent_work_identifier_property_name, default: 'aark_id'
 
     ##
-    # @attr preprocessed_location_adapter_name [String] The name of a derivative rodeo storage location;
-    #       this will must be a registered with the DerivativeRodeo::StorageLocations::BaseLocation.
+    # @!attribute preprocessed_location_adapter_name [r|w]
+    #   @return [String] The name of a derivative rodeo storage location; this will must be a
+    #           registered with the DerivativeRodeo::StorageLocations::BaseLocation.
+    #   @api public
     class_attribute :preprocessed_location_adapter_name, default: 's3'
 
     ##
-    # @attr named_derivatives_and_generators_by_type [Hash<Symbol, #constantize>] the named
-    #       derivative and it's associated generator.  The "name" is important for Hyrax or IIIF
-    #       Print implementations.  The generator is one that exists in the DerivativeRodeo.
+    # @!attribute named_derivatives_and_generators_by_type [r|w]
+    #   @return [Hash<Symbol, #constantize>] the named derivative and it's associated generator.
+    #           The "name" is important for Hyrax or IIIF Print implementations.  The generator is
+    #           one that exists in the DerivativeRodeo.
     #
-    # TODO: Could be nice to have a registry for the DerivativeRodeo::Generators; but that's a
-    # tomorrow wish.
+    #   @example
+    #     # In this case there are two changes:
+    #     #   1. Do not use the DerivativeRodeo to process PDFs; instead fallback to another
+    #     #      applicable service.
+    #     #   2. For Images, we will use the DerivativeRodeo but will only generate the thumbnail.
+    #     #      We will skip the JSON, XML, and TXT for an image.
+    #     #
+    #     # NOTE: Changing the behavior in this way may create broken assumptions in Hyrax.
+    #     IiifPrint::DerivativeRodeoService.named_derivatives_and_generators_by_type =
+    #        { image: { thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator" } }
+    #
+    #   @todo Could be nice to have a registry for the DerivativeRodeo::Generators; but that's a
+    #         tomorrow wish.
+    #   @api public
     class_attribute(:named_derivatives_and_generators_by_type, default: {
                       pdf: {
                         thumbnail: "DerivativeRodeo::Generators::ThumbnailGenerator"
@@ -48,18 +65,56 @@ module IiifPrint
                         txt: "DerivativeRodeo::Generators::PlainTextGenerator"
                       }
                     })
+
+    ##
+    # @!attribute named_derivatives_and_generators_filter [r|w]
+    #   @return [#call] with three named parameters: :filename, :candidates, :file_set
+    #
+    #       - :file_set is a {FileSet}
+    #       - :filename is a String
+    #       - :named_derivatives_and_generators is an entry from
+    #         {.named_derivatives_and_generators_by_type} as pulled from
+    #         {#named_derivatives_and_generators}
+    #
+    #       The lambda is responsible for filtering any named generators that should or should not
+    #       be run.  It should return a data structure similar to the provided
+    #       :named_derivatives_and_generators
+    #
+    #   @example
+    #     # The following configured filter will skip thumbnail generation for any files that
+    #     # end in '.tn.jpg'
+    #     IiifPrint::DerivativeRodeoService.named_derivatives_and_generators_filter =
+    #       ->(file_set:, filename:, named_derivatives_and_generators:) do
+    #         named_derivatives_and_generators.reject do |named_derivative, generators|
+    #           named_derivative == :thumbnail && filename.downcase.ends_with?('.tn.jpg')
+    #         end
+    #       end
+    #
+    #   @see .named_derivatives_and_generators_by_type
+    #   @see #named_derivatives_and_generators
+    #   @api public
+    # rubocop:disable Lint/UnusedBlockArgument
+    class_attribute(:named_derivatives_and_generators_filter,
+                    default: ->(file_set:, filename:, named_derivatives_and_generators:) { named_derivatives_and_generators })
+
+    # rubocop:enable Lint/UnusedBlockArgument
     # @!endgroup Class Attributes
     ##
 
+    ##
     # @see .named_derivatives_and_generators_by_type
+    #
+    # @return [Hash<Symbol,String] The named derivative types and their corresponding generators.
+    # @raise [IiifPrint::UnexpectedMimeTypeError] when the {#file_set}'s {#mime_type} is not one
+    #        that is part of {.named_derivatives_and_generators_by_type}
     def named_derivatives_and_generators
       @named_derivatives_and_generators ||=
         if file_set.class.pdf_mime_types.include?(mime_type)
-          named_derivatives_and_generators_by_type.fetch(:pdf)
+          named_derivatives_and_generators_by_type.fetch(:pdf).deep_dup
         elsif file_set.class.image_mime_types.include?(mime_type)
-          named_derivatives_and_generators_by_type.fetch(:image)
+          named_derivatives_and_generators_by_type.fetch(:image).deep_dup
         else
-          raise "Unexpected mime_type #{mime_type} for #{file_set.class} ID=#{file_set.id.inspect}"
+          raise UnexpectedMimeTypeError.new(file_set: file_set, mime_type: mime_type)
         end
     end
 
@@ -202,9 +257,15 @@ module IiifPrint
     # @note We write derivatives to the {#absolute_derivative_path_for} and should likewise clean
     #       them up when deleted.
     # @see #cleanup_derivatives
+    #
+    # @param filename [String]
+    #
+    # @see .named_derivatives_and_generators_filter
+    # @see #named_derivatives_and_generators
     def create_derivatives(filename)
-      # TODO: Do we need to handle "impending derivatives?"  as per {IiifPrint::PluggableDerivativeService}?
-      named_derivatives_and_generators.flat_map do |named_derivative, generator_name|
+      named_derivatives_and_generators_filter
+        .call(file_set: file_set, filename: filename, named_derivatives_and_generators: named_derivatives_and_generators)
+        .flat_map do |named_derivative, generator_name|
         lasso_up_some_derivatives(
           named_derivative: named_derivative,
           generator_name: generator_name,
