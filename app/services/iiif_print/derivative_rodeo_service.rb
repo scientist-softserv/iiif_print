@@ -82,7 +82,8 @@ module IiifPrint
     # @param adapter_name [String] Added as a parameter to make testing just a bit easier.  See
     #        {.preprocessed_location_adapter_name}
     #
-    # @return [String]
+    # @return [String] when we have a possible candidate.
+    # @return [NilClass] when we could not derive a candidate.
     # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_uri(file_set:, filename: nil, extension: nil, adapter_name: preprocessed_location_adapter_name)
       # TODO: This is a hack that knows about the inner workings of Hydra::Works, but for
@@ -91,6 +92,7 @@ module IiifPrint
       filename ||= Hydra::Works::DetermineOriginalName.call(file_set.original_file)
 
       dirname = derivative_rodeo_preprocessed_directory_for(file_set: file_set, filename: filename)
+      return nil unless dirname
 
       # The aforementioned filename and the following basename and extension are here to allow for
       # us to take an original file and see if we've pre-processed the derivative file.  In the
@@ -141,6 +143,8 @@ module IiifPrint
     # @param file_set [FileSet]
     # @param filename [String]
     # @return [String] the dirname (without any "/" we hope)
+    # @return [NilClass] when we cannot infer a URI from the object.
+    # rubocop:disable Metrics/MethodLength
     def self.derivative_rodeo_preprocessed_directory_for(file_set:, filename:)
       ancestor, ancestor_type = get_ancestor(filename: filename, file_set: file_set)
 
@@ -152,19 +156,23 @@ module IiifPrint
         message = "#{self.class}.#{__method__} #{file_set.class} ID=#{file_set.id} and filename: #{filename.inspect}" \
                   "has #{ancestor_type} of #{ancestor.class} ID=#{ancestor.id}"
         Rails.logger.info(message)
-        ancestor.public_send(parent_work_identifier_property_name) ||
-          raise("Expected #{ancestor.class} ID=#{ancestor.id} (#{ancestor_type} of #{file_set.class} ID=#{file_set.id}) " \
-                "to have a present #{parent_work_identifier_property_name.inspect}")
+        parent_work_identifier = ancestor.public_send(parent_work_identifier_property_name)
+        return parent_work_identifier if parent_work_identifier.present?
+        Rails.logger.warn("Expected #{ancestor.class} ID=#{ancestor.id} (#{ancestor_type} of #{file_set.class} ID=#{file_set.id}) " \
+                          "to have a present #{parent_work_identifier_property_name.inspect}")
+        nil
       else
         # HACK: This makes critical assumptions about how we're creating the title for the file_set;
         # but we don't have much to fall-back on.  Consider making this a configurable function.  Or
         # perhaps this entire method should be more configurable.
         # TODO: Revisit this implementation.
-        file_set.title.first.split(".").first ||
-          raise("#{file_set.class} ID=#{file_set.id} has title #{file_set.title.first} from which we cannot infer information.")
+        candidate = file_set.title.first.split(".").first
+        return candidate if candidate.present?
+        nil
       end
       # rubocop:enable Style/GuardClause
     end
+    # rubocop:enable Metrics/MethodLength
 
     def initialize(file_set)
       @file_set = file_set
