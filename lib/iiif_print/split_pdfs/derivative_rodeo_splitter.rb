@@ -71,7 +71,7 @@ module IiifPrint
       # bucket that we then use for IIIF Print.
       #
       # @note The preprocessed_location_template should end in `.pdf`.  The
-      #       {DerivativeRodeo::BaseGenerator::PdfSplitGenerator#derive_preprocessed_template_from}
+      #       DerivativeRodeo::BaseGenerator::PdfSplitGenerator#derive_preprocessed_template_from
       #       will coerce the template into one that represents the split pages.
       #
       # @return [String]

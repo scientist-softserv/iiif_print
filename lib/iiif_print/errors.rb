@@ -18,4 +18,10 @@ module IiifPrint
       super(message)
     end
   end
+
+  class UnexpectedMimeTypeError < IiifPrintError
+    def initialize(file_set:, mime_type:)
+      super "Unexpected mime_type #{mime_type} for #{file_set.class} ID=#{file_set.id.inspect}"
+    end
+  end
 end

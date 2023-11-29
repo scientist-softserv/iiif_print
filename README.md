@@ -222,6 +222,19 @@ The [DerivativeRodeo](https://github.com/scientist-softserv/derivative_rodeo) al
 
 By default the preprocess location is S3, as that is where SoftServ has been running pre-processing.  However that default may not be adequate for local development.
 
+#### Conditional Derivative Generation
+
+The [IiifPrint::DerivativeRodeoService][./app/services/iiif_print/derivative_rodeo_service.rb] provides a means of specifying the derivatives to generate via two configuration points:
+
+- `IiifPrint::DerivativeRodeoService.named_derivatives_and_generators_by_type`
+- `IiifPrint::DerivativeRodeoService.named_derivatives_and_generators_filter`
+
+In the case of `named_derivatives_and_generators_by_type`, we're saying all mime categories will generate these derivatives.
+
+In the case of `named_derivatives_and_generators_filter`, we're providing a point where we can specify for each file_set and filename the specific derivatives to accept/reject/append to the named derivative generation.
+
+See their examples for further configuration guidance.
+
 # Ingesting Content
 
 IiifPrint supports a range of different ingest workflows:
