@@ -26,7 +26,7 @@ module IiifPrint
     def generate_solr_document
       super.tap do |solr_doc|
         solr_doc['is_child_bsi'] ||= object.is_child
-        solr_doc['split_from_pdf_id_tsi'] ||= object.split_from_pdf_id
+        solr_doc['split_from_pdf_id_ssi'] ||= object.split_from_pdf_id
         solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object)
 
         # Due to a long-standing hack in Hyrax, the file_set_ids_ssim contains both file_set_ids and

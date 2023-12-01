@@ -19,7 +19,7 @@ module IiifPrint::Solr::Document
   def self.decorate(base)
     base.prepend(self)
     base.send(:attribute, :is_child, Hyrax::SolrDocument::Metadata::Solr::String, 'is_child_bsi')
-    base.send(:attribute, :split_from_pdf_id, Hyrax::SolrDocument::Metadata::Solr::String, 'split_from_pdf_id_tsi')
+    base.send(:attribute, :split_from_pdf_id, Hyrax::SolrDocument::Metadata::Solr::String, 'split_from_pdf_id_ssi')
     base.send(:attribute, :digest, Hyrax::SolrDocument::Metadata::Solr::String, 'digest_ssim')
 
     # @note These properties came from the newspaper_works gem.  They are configurable.
