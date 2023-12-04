@@ -187,6 +187,16 @@ To remove child works from recent works on homepage
     end
 ```
 
+### Skipping Certain File Suffixes for PDF Splitting
+
+By default when a work is configured for splitting PDFs, we will split all PDFs.  However, in some cases you don't want to split based on the file name's suffix.  In that case, configure code as follows:
+
+```ruby
+IiifPrint.config do |config|
+  config.skip_splitting_pdf_files_that_end_with_these_texts = ['.reader.pdf']
+end
+```
+
 ### Derivative Rodeo Configuration
 
 The Derivative Rodeo is used in two ways:

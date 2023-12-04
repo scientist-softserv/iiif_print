@@ -23,6 +23,7 @@ require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 require "iiif_print/split_pdfs/derivative_rodeo_splitter"
 require "iiif_print/split_pdfs/destroy_pdf_child_works_service"
 
+# rubocop:disable Metrics/ModuleLength
 module IiifPrint
   extend ActiveSupport::Autoload
   autoload :Configuration
@@ -40,6 +41,10 @@ module IiifPrint
     @config ||= IiifPrint::Configuration.new
     yield @config if block
     @config
+  end
+
+  class << self
+    delegate :skip_splitting_pdf_files_that_end_with_these_texts, to: :config
   end
 
   ##
@@ -243,4 +248,44 @@ module IiifPrint
       sort_order_index.nil? ? sort_order.length : sort_order_index
     end
   end
+
+  ##
+  # @api public
+  #
+  # @param work [ActiveFedora::Base]
+  # @param file_set [FileSet]
+  # @param locations [Array<String>]
+  # @param user [User]
+  #
+  # @return [Symbol] when none of the locations are to be split.
+  def self.conditionally_submit_split_for(work:, file_set:, locations:, user:, skip_these_endings: skip_splitting_pdf_files_that_end_with_these_texts)
+    locations = locations.select { |location| split_for_path_suffix?(location, skip_these_endings: skip_these_endings) }
+    return :no_pdfs_for_splitting if locations.empty?
+
+    work.try(:iiif_print_config)&.pdf_splitter_job&.perform_later(
+      file_set,
+      locations,
+      user,
+      work.admin_set_id,
+      0 # A no longer used parameter; but we need to preserve the method signature (for now)
+    )
+  end
+
+  ##
+  # @api public
+  #
+  # @param path [String] the path, hopefully with an extension, to the file we're considering
+  #        splitting.
+  # @param skip_these_endings [Array<#downcase>] the endings that we should skip for splitting
+  #        purposes.
+  # @return [TrueClass] when the path is one we should split
+  # @return [FalseClass] when the path is one we should not split
+  #
+  # @see .skip_splitting_pdf_files_that_end_with_these_texts
+  def self.split_for_path_suffix?(path, skip_these_endings: skip_splitting_pdf_files_that_end_with_these_texts)
+    return false unless path.downcase.end_with?('.pdf')
+    return true if skip_these_endings.empty?
+    !path.downcase.end_with?(*skip_these_endings.map(&:downcase))
+  end
 end
+# rubocop:enable Metrics/ModuleLength

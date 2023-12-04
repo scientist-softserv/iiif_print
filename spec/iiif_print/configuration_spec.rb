@@ -177,4 +177,17 @@ RSpec.describe IiifPrint::Configuration do
       end.to change(config, :questioning_authority_fields).from(['rights_statement', 'license']).to(['rights_statement', 'license', 'subject'])
     end
   end
+
+  describe '#skip_splitting_pdf_files_that_end_with_these_texts' do
+    subject { config.skip_splitting_pdf_files_that_end_with_these_texts }
+    context 'by default' do
+      it { is_expected.to be_empty }
+    end
+
+    context 'is configurable' do
+      before { config.skip_splitting_pdf_files_that_end_with_these_texts = ['.READER.pdf'] }
+
+      it { is_expected.not_to be_empty }
+    end
+  end
 end

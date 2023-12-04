@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint do
+  describe '.skip_splitting_pdf_files_that_end_with_these_texts' do
+    subject { described_class }
+    it { is_expected.to respond_to :skip_splitting_pdf_files_that_end_with_these_texts }
+  end
+
   describe ".manifest_metadata_for" do
     let(:attributes) do
       { "id" => "abc123",
@@ -110,6 +115,56 @@ RSpec.describe IiifPrint do
 
       it "returns the fields in the order specified and puts unspecified fields last" do
         expect(sort_af_fields).to eq([:date_created, :title, :creator].map { |name| IiifPrint::Field.new(name: name) })
+      end
+    end
+  end
+
+  describe '.conditionally_submit_split_for' do
+    context 'when the file suffix is one that we skip' do
+      subject do
+        described_class.conditionally_submit_split_for(
+          work: double,
+          file_set: double,
+          locations: ['hello.reader.pdf'],
+          skip_these_endings: ['.reader.pdf'],
+          user: double
+        )
+      end
+
+      it { is_expected.to eq(:no_pdfs_for_splitting) }
+    end
+  end
+
+  describe '.split_for_path_suffix?' do
+    context 'with default .skip_splitting_pdf_files_that_end_with_these_texts' do
+      subject { described_class.split_for_path_suffix?(path) }
+      [
+        ["hello.pdf", true],
+        ["hello.PDF", true],
+        ["hello.reader.pdf", true],
+        ["hello.png", false],
+        ["hello.pdf.png", false]
+      ].each do |given_path, expected_value|
+        context "with #{given_path.inspect}" do
+          let(:path) { given_path }
+          it { is_expected.to eq(expected_value) }
+        end
+      end
+    end
+
+    context 'with customized .skip_splitting_pdf_files_that_end_with_these_texts' do
+      subject { described_class.split_for_path_suffix?(path, skip_these_endings: ['.READER.pdf']) }
+      [
+        ["hello.pdf", true],
+        ["hello.PDF", true],
+        ["hello.reader.pdf", false],
+        ["hello.png", false],
+        ["hello.pdf.png", false]
+      ].each do |given_path, expected_value|
+        context "with #{given_path.inspect}" do
+          let(:path) { given_path }
+          it { is_expected.to eq(expected_value) }
+        end
       end
     end
   end
