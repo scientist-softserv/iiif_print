@@ -118,7 +118,7 @@ module IiifPrint
 
           begin
             # Clean up the temporary image path.
-            File.rm_f(image_path) if File.exist?(image_path)
+            FileUtils.rm_f(image_path) if File.exist?(image_path)
           rescue
             # If we can't delete, let's move on.  Maybe it was already cleaned-up.
           end
