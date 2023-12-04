@@ -26,21 +26,16 @@ module IiifPrint
         work ||= IiifPrint.parent_for(file_set)
 
         return :no_split_for_parent unless iiif_print_split?(work: work)
-        return :no_pdfs_for_import_url if import_url && !pdfs?(paths: [import_url])
+        return :no_pdfs_to_split_for_import_url if import_url && !pdfs?(paths: [import_url])
+
         file_locations = if import_url
                            [Hyrax::WorkingDirectory.find_or_retrieve(file.id, file_set.id)]
                          else
                            pdf_paths(files: [file.try(:id)&.to_s].compact)
                          end
-        return :no_pdfs if file_locations.empty?
+        return :no_pdfs_to_split if file_locations.empty?
 
-        work.iiif_print_config.pdf_splitter_job.perform_later(
-          file_set,
-          file_locations,
-          user,
-          work.admin_set_id,
-          0 # A no longer used parameter; but we need to preserve the method signature (for now)
-        )
+        IiifPrint.conditionally_submit_split_for(work: work, file_set: file_set, locations: file_locations, user: user)
         :enqueued
       end
       # rubocop:enable Metrics/MethodLength
@@ -109,11 +104,8 @@ module IiifPrint
       #       This sub-selection may need to be moved to use mimetype if there
       #       is a need to support paths not ending in .pdf (i.e. remote_urls)
       def self.pdfs_only_for(paths)
-        paths.select { |path| path.end_with?('.pdf', '.PDF') }
+        paths.select { |path| IiifPrint.split_for_path_suffix?(path) }
       end
-
-      ##
-      # @api private
     end
   end
 end

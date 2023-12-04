@@ -23,14 +23,7 @@ module IiifPrint
 
         location = Hyrax::WorkingDirectory.find_or_retrieve(file_set.files.first.id, file_set.id)
 
-        # submit a job to split pdf into child works
-        work.iiif_print_config.pdf_splitter_job.perform_later(
-          file_set,
-          [location],
-          user,
-          work.admin_set_id,
-          0 # A no longer used parameter; but we need to preserve the method signature (for now)
-        )
+        IiifPrint.conditionally_submit_split_for(work: work, file_set: file_set, locations: [location], user: user)
       end
       # rubocop:enable Metrics/MethodLength
     end

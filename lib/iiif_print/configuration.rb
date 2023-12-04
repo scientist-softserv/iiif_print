@@ -30,6 +30,18 @@ module IiifPrint
       @excluded_model_name_solr_field_values = []
     end
 
+    def skip_splitting_pdf_files_that_end_with_these_texts=(values)
+      @skip_splitting_pdf_files_that_end_with_these_texts = Array.wrap(values).map(&:downcase)
+    end
+
+    ##
+    #   @return [Array<String>] the file suffixes (e.g. [".reader.pdf"]) that we will skip.  Per
+    #           the implementation of {.split_for_path_suffix?}, these values are cast to
+    #           downcase.
+    def skip_splitting_pdf_files_that_end_with_these_texts
+      @skip_splitting_pdf_files_that_end_with_these_texts || []
+    end
+
     attr_writer :unique_child_title_generator_function
 
     # The function, with keywords (though maybe you'll want to splat ignore a few), is responsible
