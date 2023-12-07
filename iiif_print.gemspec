@@ -36,6 +36,7 @@ SUMMARY
   # TODO: We want to remove dependency on this
   spec.add_development_dependency 'newspaper_works_fixtures', '~> 0.3', '>=0.3.1'
   spec.add_development_dependency 'rails-controller-testing', '~> 1'
+  spec.add_development_dependency 'json-canonicalization', '0.3.1'
   spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'rspec-activemodel-mocks'
   spec.add_development_dependency 'shoulda-matchers', '~> 3.1'
