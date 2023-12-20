@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   (primarily scanned) content.
 SUMMARY
   spec.license = 'Apache-2.0'
-  spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
+  spec.files = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR).select { |f| File.dirname(f) !~ %r{\A"?spec\/?} && f != 'bin/rails' }
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.add_dependency 'blacklight_iiif_search', '>= 1.0', '< 3.0'
   spec.add_dependency 'derivative-rodeo', "~> 0.5"
