@@ -42,6 +42,8 @@ module IiifPrint
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
       Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
+      # Hyku::WorksControllerBehavior was introduced in Hyku v6.0.0+
+      'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 
