@@ -129,8 +129,10 @@ module IiifPrint
   #       an alternative splitting method to create new filesets on the existing work instead of new child works.
   def self.model_configuration(**kwargs)
     Module.new do
-      def iiif_print_config?
-        true
+      extend ActiveSupport::Concern
+
+      included do
+        class_attribute :iiif_print_config, default: true
       end
 
       # We don't know what you may want in your configuration, but from this gems implementation,
