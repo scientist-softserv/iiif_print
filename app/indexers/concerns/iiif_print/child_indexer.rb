@@ -13,7 +13,8 @@ module IiifPrint
       #
 
       Hyrax.config.curation_concerns.each do |work_type|
-        next unless work_type.respond_to?(:iiif_print_config)
+        next unless work_type.respond_to?(:iiif_print_config?)
+        next unless work_type.iiif_print_config?
 
         work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
         indexer = work_type.indexer

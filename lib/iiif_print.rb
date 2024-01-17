@@ -131,8 +131,8 @@ module IiifPrint
     Module.new do
       extend ActiveSupport::Concern
 
-      included do
-        class_attribute :iiif_print_config, default: true
+      class_method do
+        def iiif_print_config?; true; end
       end
 
       # We don't know what you may want in your configuration, but from this gems implementation,
@@ -144,6 +144,8 @@ module IiifPrint
       define_method(:iiif_print_config) do
         @iiif_print_config ||= ModelConfig.new(**kwargs)
       end
+
+      def iiif_print_config?; true; end
     end
   end
 
