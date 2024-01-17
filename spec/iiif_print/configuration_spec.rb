@@ -3,6 +3,12 @@ require 'spec_helper'
 RSpec.describe IiifPrint::Configuration do
   let(:config) { described_class.new }
 
+  describe '#persistence_adapter' do
+    subject { config.persistence_adapter }
+
+    it { is_expected.to eq(IiifPrint::PersistenceLayer::ActiveFedoraAdapter) }
+  end
+
   describe '#ancestory_identifier_function' do
     subject(:function) { config.ancestory_identifier_function }
     it "is expected to be a lambda with an arity of one" do
