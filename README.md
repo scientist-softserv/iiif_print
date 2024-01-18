@@ -115,6 +115,10 @@ uv = createUV('#uv', {
 ## Configuration to enable IiifPrint features
 **NOTE: WorkTypes and models are used synonymously here.**
 
+### Persistence Layer Adapter
+
+We created IiifPrint with an assumption of ActiveFedora.  However, as Hyrax now supports Valkyrie, we need an alternate approach.  We introduced `IiifPrint::Configuration#persistence_layer` as a configuration option.  By default it will use `ActiveFedora` methods; but you can switch adapters to use Valkyrie instead.  (See `IiifPrint::PersistentLayer` for more details).
+
 ### IIIF URL configuration
 
 If you set EXTERNAL_IIIF_URL in your environment, then IiifPrint will use that URL as the root for your IIIF URLs. It will also switch from using the file set ID to using the SHA1 of the file as the identifier. This enables using serverless_iiif or Cantaloupe (refered to as the service) by pointing the service to the same S3 bucket that FCREPO writes the uploaded files to. By setting it up that way you do not need the service to connect to FCREPO or Hyrax at all, both natively support connecting to an S3 bucket to get their data.

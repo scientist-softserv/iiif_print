@@ -1,0 +1,65 @@
+module IiifPrint
+  module PersistenceLayer
+    class ActiveFedoraAdapter < AbstractAdapter
+      ##
+      # Return the immediate parent of the given :file_set.
+      #
+      # @param file_set [FileSet]
+      # @return [#work?, Hydra::PCDM::Work]
+      # @return [NilClass] when no parent is found.
+      def self.parent_for(file_set)
+        # fallback to Fedora-stored relationships if work's aggregation of
+        #   file set is not indexed in Solr
+        file_set.parent || file_set.member_of.find(&:work?)
+      end
+
+      ##
+      # Return the parent's parent of the given :file_set.
+      #
+      # @param file_set [FileSet]
+      # @return [#work?, Hydra::PCDM::Work]
+      # @return [NilClass] when no grand parent is found.
+      def self.grandparent_for(file_set)
+        parent_of_file_set = parent_for(file_set)
+        # HACK: This is an assumption about the file_set structure, namely that an image page split from
+        # a PDF is part of a file set that is a child of a work that is a child of a single work.  That
+        # is, it only has one grand parent.  Which is a reasonable assumption for IIIF Print but is not
+        # valid when extended beyond IIIF Print.  That is GenericWork does not have a parent method but
+        # does have a parents method.
+        parent_of_file_set.try(:parent_works).try(:first) ||
+          parent_of_file_set.try(:parents).try(:first) ||
+          parent_of_file_set&.member_of&.find(&:work?)
+      end
+
+      def self.solr_construct_query(*args)
+        if defined?(Hyrax::SolrQueryBuilderService)
+          Hyrax::SolrQueryBuilderService.construct_query(*args)
+        else
+          ActiveFedora::SolrQueryBuilderService.construct_query(*args)
+        end
+      end
+
+      def self.clean_for_tests!
+        super do
+          ActiveFedora::Cleaner.clean!
+        end
+      end
+
+      def self.solr_query(*args)
+        if defined?(Hyrax::SolrService)
+          Hyrax::SolrService.query(*args)
+        else
+          ActiveFedora::SolrService.query(*args)
+        end
+      end
+
+      def self.solr_name(field_name)
+        if defined?(Hyrax) && Hyrax.config.respond_to?(:index_field_mapper)
+          Hyrax.config.index_field_mapper.solr_name(field_name.to_s)
+        else
+          ::ActiveFedora.index_field_mapper.solr_name(field_name.to_s)
+        end
+      end
+    end
+  end
+end

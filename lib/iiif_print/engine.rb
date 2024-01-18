@@ -11,6 +11,12 @@ module IiifPrint
   class Engine < ::Rails::Engine
     isolate_namespace IiifPrint
 
+    initializer 'requires' do
+      require 'iiif_print/persistence_layer'
+      require 'iiif_print/persistence_layer/active_fedora_adapter' if defined?(ActiveFedora)
+      require 'iiif_print/persistence_layer/valkyrie_adapter' if defined?(Valkyrie)
+    end
+
     # rubocop:disable Metrics/BlockLength
     config.to_prepare do
       require "iiif_print/jobs/create_relationships_job"

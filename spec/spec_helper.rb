@@ -50,7 +50,7 @@ RSpec.configure do |config|
     ::Noid::Rails.config.minter_class = minter_class
     Hyrax.config.noid_minter_class = minter_class
 
-    ActiveFedora::Cleaner.clean!
+    IiifPrint.clean_for_tests!
     DatabaseCleaner.clean_with(:truncation)
 
     begin
