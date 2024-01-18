@@ -44,8 +44,22 @@ module IiifPrint
   end
 
   class << self
-    delegate :skip_splitting_pdf_files_that_end_with_these_texts, :persistence_adapter, to: :config
-    delegate :parent_for, :grandparent_for, :solr_construct_query, :solr_query, :solr_name, :clean_for_tests!, to: :persistence_adapter
+    delegate(
+      :persistence_adapter,
+      :skip_splitting_pdf_files_that_end_with_these_texts,
+      to: :config
+    )
+
+    delegate(
+      :clean_for_tests!,
+      :destroy_children_split_from,
+      :grandparent_for,
+      :solr_construct_query,
+      :solr_name,
+      :solr_query,
+      :parent_for,
+      to: :persistence_adapter
+    )
   end
 
   DEFAULT_MODEL_CONFIGURATION = {

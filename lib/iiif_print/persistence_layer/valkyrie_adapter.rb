@@ -40,6 +40,12 @@ module IiifPrint
       def self.solr_name(field_name)
         Hyrax.config.index_field_mapper.solr_name(field_name.to_s)
       end
+
+      ##
+      # @todo implement this logic
+      def self.destroy_children_split_from(file_set:, work:, model:)
+        super
+      end
     end
   end
 end

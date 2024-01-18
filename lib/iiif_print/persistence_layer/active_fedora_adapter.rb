@@ -60,6 +60,24 @@ module IiifPrint
           ::ActiveFedora.index_field_mapper.solr_name(field_name.to_s)
         end
       end
+
+      ##
+      # @param file_set [Object]
+      # @param work [Object]
+      # @param model [Class] The class name for which we'll split children.
+      def self.destroy_children_split_from(file_set:, work:, model:)
+        # look first for children by the file set id they were split from
+        children = model.where(split_from_pdf_id: file_set.id)
+        if children.blank?
+          # find works where file name and work `to_param` are both in the title
+          children = model.where(title: file_set.label).where(title: work.to_param)
+        end
+        return if children.blank?
+        children.each do |rcd|
+          rcd.destroy(eradicate: true)
+        end
+        true
+      end
     end
   end
 end

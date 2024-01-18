@@ -11,7 +11,10 @@ module IiifPrint
   class Engine < ::Rails::Engine
     isolate_namespace IiifPrint
 
+    config.eager_load_paths += %W[#{config.root}/app/transactions]
+
     initializer 'requires' do
+      require 'hyrax/transactions/iiif_print_container_decorator'
       require 'iiif_print/persistence_layer'
       require 'iiif_print/persistence_layer/active_fedora_adapter' if defined?(ActiveFedora)
       require 'iiif_print/persistence_layer/valkyrie_adapter' if defined?(Valkyrie)
