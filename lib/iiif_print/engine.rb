@@ -46,6 +46,8 @@ module IiifPrint
         IiifPrint::PluggableDerivativeService
       )
 
+      Hyrax.publisher.subscribe(IiifPrint::Listener.new)
+
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
