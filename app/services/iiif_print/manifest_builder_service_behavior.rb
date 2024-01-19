@@ -142,7 +142,7 @@ module IiifPrint
       results = []
       ids.each_slice(SOLR_QUERY_PAGE_SIZE) do |paged_ids|
         query = "id:(#{paged_ids.join(' OR ')})"
-        results += ActiveFedora::SolrService.query(
+        results += IiifPrint.solr_query(
           query,
           { fq: "-has_model_ssim:FileSet", rows: paged_ids.size, method: :post }
         )

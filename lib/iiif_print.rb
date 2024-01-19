@@ -44,37 +44,22 @@ module IiifPrint
   end
 
   class << self
-    delegate :skip_splitting_pdf_files_that_end_with_these_texts, to: :config
-  end
+    delegate(
+      :persistence_adapter,
+      :skip_splitting_pdf_files_that_end_with_these_texts,
+      to: :config
+    )
 
-  ##
-  # Return the immediate parent of the given :file_set.
-  #
-  # @param file_set [FileSet]
-  # @return [#work?, Hydra::PCDM::Work]
-  # @return [NilClass] when no parent is found.
-  def self.parent_for(file_set)
-    # fallback to Fedora-stored relationships if work's aggregation of
-    #   file set is not indexed in Solr
-    file_set.parent || file_set.member_of.find(&:work?)
-  end
-
-  ##
-  # Return the parent's parent of the given :file_set.
-  #
-  # @param file_set [FileSet]
-  # @return [#work?, Hydra::PCDM::Work]
-  # @return [NilClass] when no grand parent is found.
-  def self.grandparent_for(file_set)
-    parent_of_file_set = parent_for(file_set)
-    # HACK: This is an assumption about the file_set structure, namely that an image page split from
-    # a PDF is part of a file set that is a child of a work that is a child of a single work.  That
-    # is, it only has one grand parent.  Which is a reasonable assumption for IIIF Print but is not
-    # valid when extended beyond IIIF Print.  That is GenericWork does not have a parent method but
-    # does have a parents method.
-    parent_of_file_set.try(:parent_works).try(:first) ||
-      parent_of_file_set.try(:parents).try(:first) ||
-      parent_of_file_set&.member_of&.find(&:work?)
+    delegate(
+      :clean_for_tests!,
+      :destroy_children_split_from,
+      :grandparent_for,
+      :solr_construct_query,
+      :solr_name,
+      :solr_query,
+      :parent_for,
+      to: :persistence_adapter
+    )
   end
 
   def self.use_valkyrie?(obj)

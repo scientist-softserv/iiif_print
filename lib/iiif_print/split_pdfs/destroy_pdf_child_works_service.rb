@@ -12,21 +12,10 @@ module IiifPrint
         return unless child_model
         return unless file_set.class.pdf_mime_types.include?(file_set.mime_type)
 
+        # NOTE: The IiifPrint::PendingRelationship is an ActiveRecord object; hence we don't need to
+        # leverage an adapter.
         IiifPrint::PendingRelationship.where(parent_id: work.id, file_id: file_set.id).find_each(&:destroy)
-        destroy_spawned_children(model: child_model, file_set: file_set, work: work)
-      end
-
-      private_class_method def self.destroy_spawned_children(model:, file_set:, work:)
-        # look first for children by the file set id they were split from
-        children = model.where(split_from_pdf_id: file_set.id)
-        if children.blank?
-          # find works where file name and work `to_param` are both in the title
-          children = model.where(title: file_set.label).where(title: work.to_param)
-        end
-        return if children.blank?
-        children.each do |rcd|
-          rcd.destroy(eradicate: true)
-        end
+        IiifPrint.destroy_children_split_from(file_set: file_set, work: work, model: child_model)
       end
     end
   end

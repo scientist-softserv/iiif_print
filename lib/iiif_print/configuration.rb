@@ -3,6 +3,22 @@ module IiifPrint
   class Configuration
     attr_writer :after_create_fileset_handler
 
+    attr_writer :persistence_adapter
+    def persistence_adapter
+      @persistent_adapter || default_persistence_adapter
+    end
+
+    def default_persistence_adapter
+      # There's probably some configuration of Hyrax we could use to better refine this; but it's
+      # likely a reasonable guess.  The main goal is to not break existing implementations and
+      # maintain an upgrade path.
+      if Gem::Version.new(Hyrax::VERSION) >= Gem::Version.new('6.0.0')
+        IiifPrint::PersistenceLayer::ValkyrieAdapter
+      else
+        IiifPrint::PersistenceLayer::ActiveFedoraAdapter
+      end
+    end
+
     # @param file_set [FileSet]
     # @param user [User]
     def handle_after_create_fileset(file_set, user)
