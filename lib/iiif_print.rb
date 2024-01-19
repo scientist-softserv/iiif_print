@@ -77,6 +77,13 @@ module IiifPrint
       parent_of_file_set&.member_of&.find(&:work?)
   end
 
+  def self.use_valkyrie?(obj)
+    return obj.ancestors.include?(Valkyrie::Resource) if obj.is_a? Class
+    return obj.is_a? Valkyrie::Resource if obj.is_a? Valkyrie::Resource
+
+    false
+  end
+
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
     pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
@@ -127,12 +134,15 @@ module IiifPrint
   # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
   # @todo Because not every job will split PDFs and write to a child model. May want to introduce
   #       an alternative splitting method to create new filesets on the existing work instead of new child works.
+  # rubocop:disable Metrics/MethodLength
   def self.model_configuration(**kwargs)
     Module.new do
       extend ActiveSupport::Concern
 
-      class_method do
-        def iiif_print_config?; true; end
+      class_methods do
+        def iiif_print_config?
+          true
+        end
       end
 
       # We don't know what you may want in your configuration, but from this gems implementation,
@@ -145,9 +155,12 @@ module IiifPrint
         @iiif_print_config ||= ModelConfig.new(**kwargs)
       end
 
-      def iiif_print_config?; true; end
+      def iiif_print_config?
+        true
+      end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   # @api public
   #

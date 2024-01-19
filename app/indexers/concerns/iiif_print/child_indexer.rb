@@ -16,13 +16,37 @@ module IiifPrint
         next unless work_type.respond_to?(:iiif_print_config?)
         next unless work_type.iiif_print_config?
 
-        work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
-        indexer = work_type.indexer
-        unless indexer.respond_to?(:iiif_print_lineage_service)
-          indexer.prepend(self)
-          indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService)
+        if IiifPrint.use_valkyrie?(work_type)
+          decorate_valkyrie_resource(work_type)
+        else
+          decorate_af_object(work_type)
         end
+
+        @indexer.prepend(self).class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService) unless @indexer.respond_to?(:iiif_print_lineage_service)
         work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)
+      end
+    end
+
+    def self.decorate_valkyrie_resource(work_type)
+      work_type.send(:include, Hyrax::Schema(:child_works_from_pdf_splitting)) unless work_type.included_modules.include?(Hyrax::Schema(:child_works_from_pdf_splitting))
+      @indexer = "#{work_type.to_s}Indexer".constantize
+      @indexer.send(:include, Hyrax::Indexer(:child_works_from_pdf_splitting)) unless @indexer.included_modules.include?(Hyrax::Indexer(:child_works_from_pdf_splitting))
+    end
+
+    def self.decorate_af_object(work_type)
+      work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
+      @indexer = work_type.indexer
+    end
+
+    def to_solr
+      super.tap do |index_document|
+        index_document['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(resource)
+
+        # Due to a long-standing hack in Hyrax, the file_set_ids_ssim contains both file_set_ids and
+        # child work ids.
+        #
+        # See https://github.com/samvera/hyrax/blob/2b807fe101176d594129ef8a8fe466d3d03a372b/app/indexers/hyrax/work_indexer.rb#L15-L18
+        index_document['file_set_ids_ssim'] = iiif_print_lineage_service.descendent_member_ids_for(resource)
       end
     end
 
