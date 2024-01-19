@@ -239,7 +239,7 @@ module IiifPrint
           #   of the first assigned file path for single-file work.
           work_file = parent
           return if work_file.nil?
-          work_files = work_file.parent
+          work_files = IiifPrint.parent_for(work_file)
           return if work_files.nil?
           work_files.assigned[0]
         else

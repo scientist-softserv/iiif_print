@@ -10,16 +10,30 @@ module IiifPrint
     # @abstract
     class AbstractAdapter
       ##
-      # @abstract
-      def self.parent_for(*); end
+      # @param file_set [Object]
+      # @param work [Object]
+      # @param model [Class] The class name for which we'll split children.
+      def self.destroy_children_split_from(file_set:, work:, model:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
 
       ##
       # @abstract
-      def self.grandparent_for(*); end
+      def self.parent_for(*)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
 
       ##
       # @abstract
-      def self.solr_field_query(*); end
+      def self.grandparent_for(*)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      ##
+      # @abstract
+      def self.solr_field_query(*)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
 
       ##
       # @abstract
@@ -30,11 +44,15 @@ module IiifPrint
 
       ##
       # @abstract
-      def self.solr_query(*args); end
+      def self.solr_query(*args)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
 
       ##
       # @abstract
-      def self.solr_name(*args); end
+      def self.solr_name(*args)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
     end
   end
 end
