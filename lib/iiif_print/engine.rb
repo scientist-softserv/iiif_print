@@ -51,11 +51,17 @@ module IiifPrint
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
-      Hyrax::SimpleSchemaLoader.prepend(IiifPrint::SimpleSchemaLoaderDecorator)
+
+      # Hyrax::SimpleSchemaLoader was introduced in Hyrax 3.0; as this gem supports Hyrax 2.9.6 we need to be cautious
+      'Hyrax::SimpleSchemaLoader'.safe_constantize&.prepend(IiifPrint::SimpleSchemaLoaderDecorator)
+
       Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
-      # Hyku::WorksControllerBehavior was introduced in Hyku v6.0.0+
+
+      # Hyku::WorksControllerBehavior was introduced in Hyku v6.0.0+.  Yes we don't depend on Hyku,
+      # but this allows us to do minimal Hyku antics with IiifPrint.
       'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
+
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 
