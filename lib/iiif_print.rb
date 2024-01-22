@@ -55,19 +55,14 @@ module IiifPrint
       :decorate_with_adapter_logic,
       :destroy_children_split_from,
       :grandparent_for,
+      :object_in_works,
+      :object_ordered_works,
+      :parent_for,
       :solr_construct_query,
       :solr_name,
       :solr_query,
-      :parent_for,
       to: :persistence_adapter
     )
-  end
-
-  def self.use_valkyrie?(obj)
-    return obj.ancestors.include?(Valkyrie::Resource) if obj.is_a? Class
-    return obj.is_a? Valkyrie::Resource if obj.is_a? Valkyrie::Resource
-
-    false
   end
 
   DEFAULT_MODEL_CONFIGURATION = {

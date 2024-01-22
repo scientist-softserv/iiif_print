@@ -17,19 +17,13 @@ module IiifPrint
     # @return [Array<String>]
     def self.ancestor_ids_for(object)
       ancestor_ids ||= []
-      object_in_works(object).each do |work|
+      # Yes, we're fetching the works, then compressing those into identifiers.  Because in the case
+      # of slugs, we need not the identifier, but the slug as the id.
+      IiifPrint.object_in_works(object).each do |work|
         ancestor_ids << ancestry_identifier_for(work)
         ancestor_ids += ancestor_ids_for(work) if work.is_child
       end
       ancestor_ids.flatten.compact.uniq
-    end
-
-    def self.object_in_works(object)
-      if IiifPrint.use_valkyrie?(object)
-        Array.wrap(Hyrax.custom_queries.find_parent_work(resource: object))
-      else
-        object.in_works
-      end
     end
 
     ##
@@ -58,23 +52,13 @@ module IiifPrint
       # The Hydara::Works implementation of file_set_ids is "members.select(&:file_set?).map(&:id)";
       # so no sense doing `object.file_set_ids + object.member_ids`
       file_set_ids = object.member_ids
-      object_ordered_works(object)&.each do |child|
+      IiifPrint.object_ordered_works(object)&.each do |child|
         file_set_ids += descendent_member_ids_for(child)
       end
       file_set_ids.flatten.uniq.compact
     end
     class << self
       alias descendent_file_set_ids_for descendent_member_ids_for
-    end
-
-    def self.object_ordered_works(object)
-      if IiifPrint.use_valkyrie?(object)
-        child_file_set_ids = Hyrax.custom_queries.find_child_file_set_ids(resource: object).to_a
-        child_work_ids = Hyrax.custom_queries.find_child_work_ids(resource: object).to_a
-        child_file_set_ids + child_work_ids
-      else
-        object.ordered_works
-      end
     end
   end
 end

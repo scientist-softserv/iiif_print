@@ -9,6 +9,21 @@ module IiifPrint
   module PersistenceLayer
     # @abstract
     class AbstractAdapter
+
+      ##
+      # @param object [Object]
+      # @return [Array<Object>]
+      def self.object_in_works(object)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      ##
+      # @param object [Object]
+      # @return [Array<Object>]
+      def self.object_ordered_works(object)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
       ##
       # @param work_type [Class]
       def self.decorate_with_adapter_logic(work_type:)

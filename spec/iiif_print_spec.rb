@@ -152,42 +152,6 @@ RSpec.describe IiifPrint do
       end
     end
 
-    describe '.use_valkyrie?' do
-      context 'with valkyrie' do
-        class SomeValkyrieResource < Hyrax::Work; end
-        context 'with a valkyrie class' do
-          let(:obj) { SomeValkyrieResource }
-          it 'returns true' do
-            expect(described_class.use_valkyrie?(obj)).to be true
-          end
-        end
-
-        context 'with a valkyrie instance' do
-          let(:obj) { SomeValkyrieResource.new }
-          it 'returns true' do
-            expect(described_class.use_valkyrie?(obj)).to be true
-          end
-        end
-      end
-
-      context 'with active fedora' do
-        class SomeAfWork < ActiveFedora::Base; end
-        context 'with an af class' do
-          let(:obj) { SomeAfWork }
-          it 'returns false' do
-            expect(described_class.use_valkyrie?(obj)).to be false
-          end
-        end
-
-        context 'with an af instance' do
-          let(:obj) { SomeAfWork.new }
-          it 'returns false' do
-            expect(described_class.use_valkyrie?(obj)).to be false
-          end
-        end
-      end
-    end
-
     context 'with customized .skip_splitting_pdf_files_that_end_with_these_texts' do
       subject { described_class.split_for_path_suffix?(path, skip_these_endings: ['.READER.pdf']) }
       [
