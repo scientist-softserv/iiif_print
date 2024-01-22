@@ -10,6 +10,12 @@ module IiifPrint
     # @abstract
     class AbstractAdapter
       ##
+      # @param work_type [Class]
+      def self.decorate_with_adapter_logic(work_type:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      ##
       # @param file_set [Object]
       # @param work [Object]
       # @param model [Class] The class name for which we'll split children.

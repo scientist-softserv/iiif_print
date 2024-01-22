@@ -1,6 +1,11 @@
 module IiifPrint
   module PersistenceLayer
     class ActiveFedoraAdapter < AbstractAdapter
+      def self.decorate_with_adapter_logic(work_type:)
+        work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
+        work_type.indexer
+      end
+
       ##
       # Return the immediate parent of the given :file_set.
       #

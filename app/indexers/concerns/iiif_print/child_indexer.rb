@@ -16,28 +16,11 @@ module IiifPrint
         next unless work_type.respond_to?(:iiif_print_config?)
         next unless work_type.iiif_print_config?
 
-        if IiifPrint.use_valkyrie?(work_type)
-          indexer = decorate_valkyrie_resource(work_type)
-        else
-          indexer = decorate_af_object(work_type)
-        end
+        IiifPrint.decorate_with_adapter_logic(work_type: work_type)
 
         indexer.prepend(self).class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService) unless indexer.respond_to?(:iiif_print_lineage_service)
         work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)
       end
-    end
-
-    def self.decorate_valkyrie_resource(work_type)
-      work_type.send(:include, Hyrax::Schema(:child_works_from_pdf_splitting)) unless work_type.included_modules.include?(Hyrax::Schema(:child_works_from_pdf_splitting))
-      # TODO: Use `Hyrax::ValkyrieIndexer.indexer_class_for` once changes are merged.
-      indexer = "#{work_type.to_s}Indexer".constantize
-      indexer.send(:include, Hyrax::Indexer(:child_works_from_pdf_splitting)) unless indexer.included_modules.include?(Hyrax::Indexer(:child_works_from_pdf_splitting))
-      indexer
-    end
-
-    def self.decorate_af_object(work_type)
-      work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
-      work_type.indexer
     end
 
     def to_solr
