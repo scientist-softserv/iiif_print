@@ -52,7 +52,6 @@ module IiifPrint
 
     delegate(
       :clean_for_tests!,
-      :decorate_with_adapter_logic,
       :destroy_children_split_from,
       :grandparent_for,
       :object_in_works,

@@ -10,13 +10,15 @@ module IiifPrint
     def self.decorate_work_types!
       # TODO: This method is in the wrong location; says indexing but there's also the SetChildFlag
       # consideration.  Consider refactoring this stuff into a single nested module.
-      #
-
       Hyrax.config.curation_concerns.each do |work_type|
         next unless work_type.respond_to?(:iiif_print_config?)
         next unless work_type.iiif_print_config?
 
-        IiifPrint.decorate_with_adapter_logic(work_type: work_type)
+        if work_type < Valkyrie::Resource
+          IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_with_adapter_logic(work_type: work_type)
+        else
+          IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_with_adapter_logic(work_type: work_type)
+        end
 
         indexer.prepend(self).class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService) unless indexer.respond_to?(:iiif_print_lineage_service)
         work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)
