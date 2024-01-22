@@ -4,10 +4,8 @@
 
 module IiifPrint
   module SimpleSchemaLoaderDecorator
-    private
-
     def config_search_paths
-      super << IiifPrint::Engine.root
+      super + [IiifPrint::Engine.root]
     end
   end
 end
