@@ -9,7 +9,6 @@ module IiifPrint
   module PersistenceLayer
     # @abstract
     class AbstractAdapter
-
       ##
       # @param object [Object]
       # @return [Array<Object>]

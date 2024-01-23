@@ -1,7 +1,6 @@
 module IiifPrint
   module PersistenceLayer
     class ActiveFedoraAdapter < AbstractAdapter
-
       ##
       # @param object [ActiveFedora::Base]
       # @return [Array<SolrDocument>]
