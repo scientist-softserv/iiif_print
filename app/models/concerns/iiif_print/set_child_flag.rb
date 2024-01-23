@@ -30,7 +30,7 @@ module IiifPrint
     end
 
     def set_children
-      ordered_works.each do |child_work|
+      IiifPrint.object_ordered_works(self).each do |child_work|
         child_work.update(is_child: true) unless child_work.is_child
       end
     end

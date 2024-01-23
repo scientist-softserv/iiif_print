@@ -3,6 +3,7 @@ module IiifPrint
   #
   # - {.ancestor_ids_for}
   # - {.descendent_member_ids_for}
+  # - {.ancestor_identifier_for}
   #
   # The ancestor and descendent_file_sets are useful for ensuring we index together related items.
   # For example, when I have a work that is a book, and one file set per page of that book, when I

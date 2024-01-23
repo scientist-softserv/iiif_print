@@ -119,10 +119,23 @@ module IiifPrint
     Module.new do
       extend ActiveSupport::Concern
 
-      class_methods do
-        def iiif_print_config?
-          true
-        end
+      included do
+        work_type = self # In this case self is the class we're mixing the new module into.
+
+        # Ensure that the work_type and corresponding indexer are properly decorated for IiifPrint
+        indexer = if work_type < Valkyrie::Resource
+                    IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_with_adapter_logic(work_type: work_type)
+                  elsif work_type < ActiveFedora::Base
+                    IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_with_adapter_logic(work_type: work_type)
+                  else
+                    raise "Unable to mix '.model_configuration' into #{work_type}"
+                  end
+
+        # Deriving lineage of objects is a potentially complicated thing.  We provide a default
+        # service but each work_type's indexer can be configured by amending it's
+        # {.iiif_print_lineage_service}.
+        indexer.class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService) unless indexer.respond_to?(:iiif_print_lineage_service)
+        work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)
       end
 
       # We don't know what you may want in your configuration, but from this gems implementation,
