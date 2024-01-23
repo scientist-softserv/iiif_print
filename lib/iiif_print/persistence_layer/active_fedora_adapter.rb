@@ -1,7 +1,6 @@
 module IiifPrint
   module PersistenceLayer
     class ActiveFedoraAdapter < AbstractAdapter
-
       ##
       # @param object [ActiveFedora::Base]
       # @return [Array<SolrDocument>]
@@ -16,6 +15,9 @@ module IiifPrint
         object.ordered_works
       end
 
+      ##
+      # @param work_type [Class<ActiveFedora::Base>]
+      # @return indexer for the given :work_type
       def self.decorate_with_adapter_logic(work_type:)
         work_type.send(:include, IiifPrint::SetChildFlag) unless work_type.included_modules.include?(IiifPrint::SetChildFlag)
         work_type.indexer

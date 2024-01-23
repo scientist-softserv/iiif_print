@@ -14,11 +14,11 @@ module IiifPrint
         next unless work_type.respond_to?(:iiif_print_config?)
         next unless work_type.iiif_print_config?
 
-        if work_type < Valkyrie::Resource
-          IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_with_adapter_logic(work_type: work_type)
-        else
-          IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_with_adapter_logic(work_type: work_type)
-        end
+        indexer = if work_type < Valkyrie::Resource
+                    IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_with_adapter_logic(work_type: work_type)
+                  else
+                    IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_with_adapter_logic(work_type: work_type)
+                  end
 
         indexer.prepend(self).class_attribute(:iiif_print_lineage_service, default: IiifPrint::LineageService) unless indexer.respond_to?(:iiif_print_lineage_service)
         work_type::GeneratedResourceSchema.send(:include, IiifPrint::SetChildFlag) if work_type.const_defined?(:GeneratedResourceSchema)

@@ -9,7 +9,6 @@ module IiifPrint
   module PersistenceLayer
     # @abstract
     class AbstractAdapter
-
       ##
       # @param object [Object]
       # @return [Array<Object>]
@@ -26,6 +25,7 @@ module IiifPrint
 
       ##
       # @param work_type [Class]
+      # @return the corresponding indexer for the work_type
       def self.decorate_with_adapter_logic(work_type:)
         raise NotImplementedError, "#{self}.{__method__}"
       end
