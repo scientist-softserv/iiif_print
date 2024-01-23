@@ -29,5 +29,20 @@ module IiifPrint
 
       service.conditionally_enqueue(file_set: file_set, work: work, file: file, user: user)
     end
+
+    ##
+    # Responsible for setting the is_child flag on the work when a child work is created.
+    #
+    # @param event [#[]] a hash like construct with :object key
+    def on_object_deposited(event)
+      object = event[:object]
+
+      Hyrax.custom_queries.find_child_works(resource: object).each do |child_work|
+        unless child_work.is_child
+          child_work.is_child = true
+          Hyrax.persister.save(resource: child_work)
+        end
+      end
+    end
   end
 end
