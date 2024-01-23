@@ -1,0 +1,21 @@
+attributes:
+  is_child:
+    type: bool
+    multiple: false
+    index_keys:
+      - "is_child_bsi"
+    form:
+      required: false
+      primary: false
+      multiple: false
+    predicate: "http://id.loc.gov/vocabulary/identifiers/isChild"
+  split_from_pdf_id:
+    type: string
+    multiple: false
+    index_keys:
+      - "split_from_pdf_id_ssi"
+    form:
+      required: false
+      primary: false
+      multiple: false
+    predicate: "http://id.loc.gov/vocabulary/identifiers/splitFromPdfId"

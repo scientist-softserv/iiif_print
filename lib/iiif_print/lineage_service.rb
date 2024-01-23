@@ -17,7 +17,9 @@ module IiifPrint
     # @return [Array<String>]
     def self.ancestor_ids_for(object)
       ancestor_ids ||= []
-      object.in_works.each do |work|
+      # Yes, we're fetching the works, then compressing those into identifiers.  Because in the case
+      # of slugs, we need not the identifier, but the slug as the id.
+      IiifPrint.object_in_works(object).each do |work|
         ancestor_ids << ancestry_identifier_for(work)
         ancestor_ids += ancestor_ids_for(work) if work.is_child
       end
@@ -50,7 +52,7 @@ module IiifPrint
       # The Hydara::Works implementation of file_set_ids is "members.select(&:file_set?).map(&:id)";
       # so no sense doing `object.file_set_ids + object.member_ids`
       file_set_ids = object.member_ids
-      object.ordered_works&.each do |child|
+      IiifPrint.object_ordered_works(object)&.each do |child|
         file_set_ids += descendent_member_ids_for(child)
       end
       file_set_ids.flatten.uniq.compact

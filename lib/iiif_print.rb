@@ -54,10 +54,12 @@ module IiifPrint
       :clean_for_tests!,
       :destroy_children_split_from,
       :grandparent_for,
+      :object_in_works,
+      :object_ordered_works,
+      :parent_for,
       :solr_construct_query,
       :solr_name,
       :solr_query,
-      :parent_for,
       to: :persistence_adapter
     )
   end
@@ -112,10 +114,15 @@ module IiifPrint
   # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
   # @todo Because not every job will split PDFs and write to a child model. May want to introduce
   #       an alternative splitting method to create new filesets on the existing work instead of new child works.
+  # rubocop:disable Metrics/MethodLength
   def self.model_configuration(**kwargs)
     Module.new do
-      def iiif_print_config?
-        true
+      extend ActiveSupport::Concern
+
+      class_methods do
+        def iiif_print_config?
+          true
+        end
       end
 
       # We don't know what you may want in your configuration, but from this gems implementation,
@@ -127,8 +134,13 @@ module IiifPrint
       define_method(:iiif_print_config) do
         @iiif_print_config ||= ModelConfig.new(**kwargs)
       end
+
+      def iiif_print_config?
+        true
+      end
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   # @api public
   #

@@ -2,6 +2,33 @@ module IiifPrint
   module PersistenceLayer
     class ValkyrieAdapter < AbstractAdapter
       ##
+      # @param object [Valkyrie::Resource]
+      # @return [Array<Valkyrie::Resource>]
+      def self.object_in_works(object)
+        Array.wrap(Hyrax.custom_queries.find_parent_work(resource: object))
+      end
+
+      ##
+      # @param object [Valkyrie::Resource]
+      # @return [Array<Valkyrie::Resource>]
+      def self.object_ordered_works(object)
+        child_file_sets = Hyrax.custom_queries.find_child_file_sets(resource: object).to_a
+        child_works = Hyrax.custom_queries.find_child_works(resource: object).to_a
+        child_works + child_file_sets
+      end
+
+      ##
+      # @param work_type [Class<Valkyrie::Resource>]
+      # @return the indexer for the given :work_type
+      def self.decorate_with_adapter_logic(work_type:)
+        work_type.send(:include, Hyrax::Schema(:child_works_from_pdf_splitting)) unless work_type.included_modules.include?(Hyrax::Schema(:child_works_from_pdf_splitting))
+        # TODO: Use `Hyrax::ValkyrieIndexer.indexer_class_for` once changes are merged.
+        indexer = "#{work_type}Indexer".constantize
+        indexer.send(:include, Hyrax::Indexer(:child_works_from_pdf_splitting)) unless indexer.included_modules.include?(Hyrax::Indexer(:child_works_from_pdf_splitting))
+        indexer
+      end
+
+      ##
       # Return the immediate parent of the given :file_set.
       #
       # @param file_set [FileSet]
