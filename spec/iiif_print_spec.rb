@@ -26,7 +26,7 @@ RSpec.describe IiifPrint do
   describe ".model_configuration" do
     context "default configuration" do
       let(:model) do
-        Class.new do
+        Class.new(ActiveFedora::Base) do
           include IiifPrint.model_configuration(pdf_split_child_model: Class.new)
         end
       end
