@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Hyrax
   module Transactions
     ##
@@ -23,6 +25,20 @@ module Hyrax
             steps: (['file_set.iiif_print_conditionally_destroy_spawned_children'] +
               Hyrax::Transactions::FileSetDestroy::DEFAULT_STEPS)
           )
+        end
+      end
+
+      namespace 'change_set' do |ops|
+        ops.register 'update_work' do
+          steps = Hyrax::Transactions::WorkUpdate::DEFAULT_STEPS.dup
+          steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
+          Hyrax::Transactions::WorkUpdate.new(steps: steps)
+        end
+      end
+
+      namespace 'work_resource' do |ops|
+        ops.register 'set_child_flag' do
+          Steps::SetChildFlag.new
         end
       end
     end
