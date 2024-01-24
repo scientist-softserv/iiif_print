@@ -22,28 +22,35 @@ module IiifPrint
     # @param base [Class]
     # @return [Class]
     def self.decorate_index_document_method(base)
-      method_names = []
-      method_names << :generate_solr_document if base.instance_methods.include?(:generate_solr_document)
-      method_names << :to_solr if base.instance_methods.include?(:to_solr)
+      ##
+      # We want to first favor extending :to_solr, then favor :generate_solr_document
+      #
+      # What if the underlying class doesn't have :generate_solr_document?  There are other
+      # problems.
+      #
+      # https://github.com/samvera/hyrax/blob/3a82b3d513047e270848cd394c97fa4ac60e5b14/app/indexers/hyrax/indexers/resource_indexer.rb#L66-L85
+      method_name = if base.instance_methods.include?(:to_solr)
+                      :to_solr
+                    else
+                      :generate_solr_document
+                    end
 
-      raise "Unexpected class #{base} provided to #{self}.decorate" if method_names.blank?
-
-      method_names.each do |method_name|
-        # Providing these as wayfinding for searching projects:
-        #
-        # def to_solr
-        # def generate_solr_document
-        base.define_method(method_name) do |*args|
-          super(*args).tap do |solr_doc|
-            # only UV viewable images should have is_page_of, it is only used for iiif search
-            solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
-            # index for full text search
-            solr_doc['all_text_timv'] = all_text
-            solr_doc['all_text_tsimv'] = all_text
-            solr_doc['digest_ssim'] = digest_from_content
-          end
+      # Providing these as wayfinding for searching projects:
+      #
+      # def to_solr
+      # def generate_solr_document
+      base.define_method(method_name) do |*args|
+        super(*args).tap do |solr_doc|
+          # only UV viewable images should have is_page_of, it is only used for iiif search
+          solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
+          # index for full text search
+          solr_doc['all_text_timv'] = all_text
+          solr_doc['all_text_tsimv'] = all_text
+          solr_doc['digest_ssim'] = digest_from_content
         end
       end
+
+      base
     end
     private_class_method :decorate_index_document_method
 
