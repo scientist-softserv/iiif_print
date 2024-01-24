@@ -36,6 +36,16 @@ module Hyrax
         end
       end
 
+      if defined?(Bulkrax::Container)
+        namespace 'work_resource' do |ops|
+          ops.register Bulkrax::Container::UPDATE_WITH_BULK_BEHAVIOR do 
+            steps = Bulkrax::Container::UPDATE_WITH_BULK_BEHAVIOR_STEPS.dup
+            steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
+            Hyrax::Transactions::WorkUpdate.new(steps: steps)    
+          end
+        end
+      end
+
       namespace 'work_resource' do |ops|
         ops.register 'set_child_flag' do
           Steps::SetChildFlag.new
