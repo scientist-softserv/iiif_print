@@ -22,6 +22,9 @@ require "iiif_print/split_pdfs/base_splitter"
 require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 require "iiif_print/split_pdfs/derivative_rodeo_splitter"
 require "iiif_print/split_pdfs/destroy_pdf_child_works_service"
+require "iiif_print/persistence_layer"
+require "iiif_print/persistence_layer/active_fedora_adapter"
+require "iiif_print/persistence_layer/valkyrie_adapter"
 
 # rubocop:disable Metrics/ModuleLength
 module IiifPrint

@@ -21,6 +21,9 @@ module IiifPrint
       # @param work_type [Class<Valkyrie::Resource>]
       # @return the indexer for the given :work_type
       def self.decorate_with_adapter_logic(work_type:)
+        # Originally prepended in the engine.rb but this placement loads it sooner.
+        'Hyrax::SimpleSchemaLoader'.safe_constantize&.prepend(IiifPrint::SimpleSchemaLoaderDecorator)
+
         work_type.send(:include, Hyrax::Schema(:child_works_from_pdf_splitting)) unless work_type.included_modules.include?(Hyrax::Schema(:child_works_from_pdf_splitting))
         # TODO: Use `Hyrax::ValkyrieIndexer.indexer_class_for` once changes are merged.
         indexer = "#{work_type}Indexer".constantize

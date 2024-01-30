@@ -45,16 +45,11 @@ module IiifPrint
       Hyrax::DerivativeService.services.unshift(
         IiifPrint::PluggableDerivativeService
       )
-
       Hyrax.publisher.subscribe(IiifPrint::Listener.new)
 
       Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
       Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
-
-      # Hyrax::SimpleSchemaLoader was introduced in Hyrax 3.0; as this gem supports Hyrax 2.9.6 we need to be cautious
-      'Hyrax::SimpleSchemaLoader'.safe_constantize&.prepend(IiifPrint::SimpleSchemaLoaderDecorator)
-
       Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
 
