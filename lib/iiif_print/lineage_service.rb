@@ -22,7 +22,7 @@ module IiifPrint
       # of slugs, we need not the identifier, but the slug as the id.
       IiifPrint.object_in_works(object).each do |work|
         ancestor_ids << ancestry_identifier_for(work)
-        ancestor_ids += ancestor_ids_for(work) if work.is_child
+        ancestor_ids += ancestor_ids_for(work) if work.respond_to?(:is_child) && work.is_child
       end
       ancestor_ids.flatten.compact.uniq
     end
