@@ -31,15 +31,19 @@ module Hyrax
       namespace 'change_set' do |ops|
         ops.register 'update_work' do
           steps = Hyrax::Transactions::WorkUpdate::DEFAULT_STEPS.dup
+          # NOTE: applications that don't want the file splitting of IIIF Print will want to remove
+          # this step from their transactions.
           steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
           Hyrax::Transactions::WorkUpdate.new(steps: steps)
         end
       end
 
-      if defined?(Bulkrax::Container)
+      if defined?(Bulkrax::Transactions::Container)
         namespace 'work_resource' do |ops|
-          ops.register Bulkrax::Container::UPDATE_WITH_BULK_BEHAVIOR do
-            steps = Bulkrax::Container::UPDATE_WITH_BULK_BEHAVIOR_STEPS.dup
+          ops.register Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR do
+            steps = Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR_STEPS.dup
+            # NOTE: applications that don't want the file splitting of IIIF Print will want to remove
+            # this step from their transactions.
             steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
             Hyrax::Transactions::WorkUpdate.new(steps: steps)
           end
