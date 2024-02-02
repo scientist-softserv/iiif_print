@@ -28,29 +28,31 @@ module Hyrax
         end
       end
 
-      if ENV['HYKU_IIIF_PRINT']
-        namespace 'change_set' do |ops|
-          ops.register 'update_work' do
-            steps = Hyrax::Transactions::WorkUpdate::DEFAULT_STEPS.dup
+      namespace 'change_set' do |ops|
+        ops.register 'update_work' do
+          steps = Hyrax::Transactions::WorkUpdate::DEFAULT_STEPS.dup
+          # NOTE: applications that don't want the file splitting of IIIF Print will want to remove
+          # this step from their transactions.
+          steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
+          Hyrax::Transactions::WorkUpdate.new(steps: steps)
+        end
+      end
+
+      if defined?(Bulkrax::Transactions::Container)
+        namespace 'work_resource' do |ops|
+          ops.register Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR do
+            steps = Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR_STEPS.dup
+            # NOTE: applications that don't want the file splitting of IIIF Print will want to remove
+            # this step from their transactions.
             steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
             Hyrax::Transactions::WorkUpdate.new(steps: steps)
           end
         end
+      end
 
-        if defined?(Bulkrax::Transactions::Container)
-          namespace 'work_resource' do |ops|
-            ops.register Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR do
-              steps = Bulkrax::Transactions::Container::UPDATE_WITH_BULK_BEHAVIOR_STEPS.dup
-              steps.insert(steps.index('work_resource.update_work_members') + 1, 'work_resource.set_child_flag')
-              Hyrax::Transactions::WorkUpdate.new(steps: steps)
-            end
-          end
-        end
-
-        namespace 'work_resource' do |ops|
-          ops.register 'set_child_flag' do
-            Steps::SetChildFlag.new
-          end
+      namespace 'work_resource' do |ops|
+        ops.register 'set_child_flag' do
+          Steps::SetChildFlag.new
         end
       end
     end
