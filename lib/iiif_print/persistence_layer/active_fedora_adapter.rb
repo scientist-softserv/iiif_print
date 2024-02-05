@@ -57,7 +57,7 @@ module IiifPrint
         if defined?(Hyrax::SolrQueryBuilderService)
           Hyrax::SolrQueryBuilderService.construct_query(*args)
         else
-          ActiveFedora::SolrQueryBuilderService.construct_query(*args)
+          ActiveFedora::SolrQueryBuilder.construct_query(*args)
         end
       end
 
