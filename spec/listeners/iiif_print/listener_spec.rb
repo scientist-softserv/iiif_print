@@ -30,4 +30,38 @@ RSpec.describe IiifPrint::Listener do
       end
     end
   end
+
+  describe '#on_object_membership_updated' do
+    class Work < Hyrax::Work
+      include Hyrax::Schema(:child_works_from_pdf_splitting)
+
+      def iiif_print_config?
+        true
+      end
+    end
+
+    subject { described_class.new.on_object_membership_updated(event) }
+
+    let(:event) { { object: parent_work } }
+    let(:parent_work) do
+      parent_work = Work.new
+      parent_work.title = ['Parent Work']
+      Hyrax.persister.save(resource: parent_work)
+    end
+    let(:child_work) do
+      child_work = Work.new
+      child_work.title = ['Child Work']
+      Hyrax.persister.save(resource: child_work)
+    end
+
+    before do
+      parent_work.member_ids << child_work.id
+      Hyrax.persister.save(resource: parent_work)
+      Hyrax.index_adapter.save(resource: parent_work)
+    end
+
+    it 'sets the is_child flag on the child work' do
+      expect { subject }.to change { Hyrax.query_service.find_by(id: child_work.id).is_child }.to(true)
+    end
+  end
 end

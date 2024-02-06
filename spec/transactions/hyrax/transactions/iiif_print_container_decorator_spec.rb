@@ -26,13 +26,7 @@ RSpec.describe Hyrax::Transactions::Container do
       expect(transaction_step.steps).to match_array(["change_set.apply",
                                                      "work_resource.save_acl",
                                                      "work_resource.add_file_sets",
-                                                     "work_resource.update_work_members",
-                                                     "work_resource.set_child_flag"])
+                                                     "work_resource.update_work_members"])
     end
-  end
-
-  describe 'work_resource.set_child_flag' do
-    subject(:transaction_step) { described_class['work_resource.set_child_flag'] }
-    it { is_expected.to be_a Hyrax::Transactions::Steps::SetChildFlag }
   end
 end
