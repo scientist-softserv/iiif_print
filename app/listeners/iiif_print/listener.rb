@@ -39,10 +39,10 @@ module IiifPrint
       return unless object.respond_to?(:iiif_print_config?) && object.iiif_print_config?
 
       Hyrax.custom_queries.find_child_works(resource: object).each do |child_work|
-        unless child_work.is_child
-          child_work.is_child = true
-          Hyrax.persister.save(resource: child_work)
-        end
+        next if child_work.is_child
+        child_work.is_child = true
+        Hyrax.persister.save(resource: child_work)
+        Hyrax.index_adapter.save(resource: child_work)
       end
     end
   end
