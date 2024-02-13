@@ -5,7 +5,7 @@ module IiifPrint
 
     attr_writer :persistence_adapter
     def persistence_adapter
-      @persistent_adapter || default_persistence_adapter
+      @persistence_adapter || default_persistence_adapter
     end
 
     def default_persistence_adapter

@@ -35,7 +35,7 @@ module IiifPrint
       # @return [#work?, Hydra::PCDM::Work]
       # @return [NilClass] when no parent is found.
       def self.parent_for(file_set)
-        Hyrax.index_adapter.find_parents(resource: file_set).first
+        Hyrax.query_service.find_parents(resource: file_set).first
       end
 
       ##
@@ -45,9 +45,9 @@ module IiifPrint
       # @return [#work?, Hydra::PCDM::Work]
       # @return [NilClass] when no grand parent is found.
       def self.grandparent_for(file_set)
-        parent = Hyrax.index_adapter.find_parents(resource: file_set).first
+        parent = Hyrax.query_service.find_parents(resource: file_set).first
         return nil unless parent
-        Hyrax.index_adapter.find_parents(resource: parent).first
+        Hyrax.query_service.find_parents(resource: parent).first
       end
 
       def self.solr_construct_query(*args)
@@ -60,8 +60,8 @@ module IiifPrint
         raise NotImplementedError
       end
 
-      def self.solr_query(*args)
-        Hyrax::SolrService.query(*args)
+      def self.solr_query(query, **args)
+        Hyrax::SolrService.query(query, **args)
       end
 
       def self.solr_name(field_name)
