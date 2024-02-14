@@ -127,7 +127,7 @@ module IiifPrint
         work_type = self # In this case self is the class we're mixing the new module into.
 
         # Ensure that the work_type and corresponding indexer are properly decorated for IiifPrint
-        indexer = if work_type < Valkyrie::Resource
+        indexer = if defined?(Valkyrie::Resource) && work_type < Valkyrie::Resource
                     IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_with_adapter_logic(work_type: work_type)
                   elsif work_type < ActiveFedora::Base
                     IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_with_adapter_logic(work_type: work_type)
