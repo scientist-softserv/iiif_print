@@ -144,7 +144,9 @@ module IiifPrint
         query = "id:(#{paged_ids.join(' OR ')})"
         results += IiifPrint.solr_query(
           query,
-          { fq: "-has_model_ssim:FileSet", rows: paged_ids.size, method: :post }
+          fq: "-has_model_ssim:FileSet",
+          rows: paged_ids.size,
+          method: :post
         )
       end
       results
