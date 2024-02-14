@@ -14,10 +14,7 @@ require "iiif_print/tiff_derivative_service"
 require "iiif_print/lineage_service"
 require "iiif_print/metadata"
 require "iiif_print/works_controller_behavior"
-require "iiif_print/jobs/application_job"
 require "iiif_print/blacklight_iiif_search/annotation_decorator"
-require "iiif_print/jobs/child_works_from_pdf_job"
-require "iiif_print/jobs/request_split_pdf_job"
 require "iiif_print/split_pdfs/base_splitter"
 require "iiif_print/split_pdfs/child_work_creation_from_pdf_service"
 require "iiif_print/split_pdfs/derivative_rodeo_splitter"
@@ -77,13 +74,17 @@ module IiifPrint
       parent_of_file_set&.member_of&.find(&:work?)
   end
 
+  # NOTE: We use lambdas so we can have default values but also provide a lazy configuration.
+  # There are certainly better ways but this is the least intrusive refactor from prior state.
   DEFAULT_MODEL_CONFIGURATION = {
     # Split a PDF into individual page images and create a new child work for each image.
-    pdf_splitter_job: IiifPrint::Jobs::ChildWorksFromPdfJob,
-    pdf_splitter_service: IiifPrint::SplitPdfs::PagesToJpgsSplitter,
-    derivative_service_plugins: [
-      IiifPrint::TextExtractionDerivativeService
-    ]
+    pdf_splitter_job: -> { IiifPrint::Jobs::ChildWorksFromPdfJob },
+    pdf_splitter_service: -> { IiifPrint::SplitPdfs::PagesToJpgsSplitter },
+    derivative_service_plugins: lambda {
+                                  [
+                                    IiifPrint::TextExtractionDerivativeService
+                                  ]
+                                }
   }.freeze
 
   # This is the record level configuration for PDF split handling.
@@ -136,7 +137,7 @@ module IiifPrint
       # We don't know what you may want in your configuration, but from this gems implementation,
       # we're going to provide the defaults to ensure that it works.
       DEFAULT_MODEL_CONFIGURATION.each_pair do |key, default_value|
-        kwargs[key] ||= default_value
+        kwargs[key] ||= default_value.call
       end
 
       define_method(:iiif_print_config) do
