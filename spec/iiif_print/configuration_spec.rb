@@ -3,6 +3,9 @@ require 'spec_helper'
 RSpec.describe IiifPrint::Configuration do
   let(:config) { described_class.new }
 
+  it { is_expected.to respond_to :ingest_queue_name }
+  it { is_expected.to respond_to :ingest_queue_name= }
+
   describe '#persistence_adapter' do
     subject { config.persistence_adapter }
 
