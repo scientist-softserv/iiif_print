@@ -68,10 +68,10 @@ module IiifPrint
       end
 
       def self.solr_query(query, **args)
-        if defined?(Hyrax::SolrService)
-          Hyrax::SolrService.query(query, **args)
-        else
+        if defined?(ActiveFedora::SolrService)
           ActiveFedora::SolrService.query(query, **args)
+        else
+          Hyrax::SolrService.query(query, **args)
         end
       end
 
