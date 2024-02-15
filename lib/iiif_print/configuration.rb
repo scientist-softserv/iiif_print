@@ -3,6 +3,20 @@ module IiifPrint
   class Configuration
     attr_writer :after_create_fileset_handler
 
+    attr_writer :ingest_queue_name
+    ##
+    # @return [Symbol, Proc]
+    def ingest_queue_name
+      return @ingest_queue_name if @ingest_queue_name.present?
+      if defined?(Hyrax)
+        Hyrax.config.ingest_queue_name
+      elsif defined?(Bulkrax) && Bulkrax.config.respond_to?(:ingest_queue_name)
+        Bulkrax.config.ingest_queue_name
+      else
+        :ingest
+      end
+    end
+
     attr_writer :persistence_adapter
     def persistence_adapter
       @persistence_adapter || default_persistence_adapter

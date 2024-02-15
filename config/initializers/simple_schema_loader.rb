@@ -1,1 +1,1 @@
-Hyrax::SimpleSchemaLoader.prepend(IiifPrint::SimpleSchemaLoaderDecorator)
+"Hyrax::SimpleSchemaLoader".safe_constantize&.prepend(IiifPrint::SimpleSchemaLoaderDecorator)

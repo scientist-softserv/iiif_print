@@ -1,3 +1,5 @@
+require 'iiif_print/jobs/application_job'
+
 module IiifPrint
   module Jobs
     # @deprecated

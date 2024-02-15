@@ -31,4 +31,4 @@ module Hyrax
   end
 end
 
-Hyrax::Transactions::Container.merge(Hyrax::Transactions::IiifPrintContainerDecorator)
+"Hyrax::Transactions::Container".safe_constantize&.merge(Hyrax::Transactions::IiifPrintContainerDecorator)
