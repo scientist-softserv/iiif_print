@@ -206,7 +206,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise-guests (0.8.1)
+    devise-guests (0.8.2)
       devise
     diff-lcs (1.5.0)
     disposable (0.4.7)
@@ -913,7 +913,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.9)
+    sqlite3 (1.7.2)
       mini_portile2 (~> 2.8.0)
     ssrf_filter (1.0.8)
     sxp (1.2.4)

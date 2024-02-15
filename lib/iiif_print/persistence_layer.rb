@@ -74,6 +74,10 @@ module IiifPrint
       def self.solr_name(*args)
         raise NotImplementedError, "#{self}.{__method__}"
       end
+
+      def self.pdf?(_file_set)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
     end
   end
 end

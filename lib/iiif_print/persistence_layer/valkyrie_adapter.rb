@@ -68,10 +68,24 @@ module IiifPrint
         Hyrax.config.index_field_mapper.solr_name(field_name.to_s)
       end
 
-      ##
-      # @todo implement this logic
-      def self.destroy_children_split_from(file_set:, work:, model:)
-        super
+      def self.destroy_children_split_from(file_set:, work:, model:, user:)
+        # look first for children by the file set id they were split from
+        children = Hyrax.query_service.find_all_of_model(model: model).select { |m| m.split_from_pdf_id == file_set.id }
+        if children.blank?
+          # find works where file name and work `to_param` are both in the title
+          children = Hyrax.query_service.find_all_of_model(model: model).select { |m| m.title.include?(file_set.label) && m.title.include?(work.to_param) }
+        end
+        return if children.blank?
+        children.each do |rcd|
+          Hyrax.persister.delete(resource: rcd)
+          Hyrax.indexing_service.delete(resource: rcd)
+          Hyrax.publisher.publish('object.deleted', object: rcd, user: user)
+        end
+        true
+      end
+
+      def self.pdf?(file_set)
+        file_set.original_file.pdf?
       end
     end
   end

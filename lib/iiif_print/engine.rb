@@ -53,7 +53,7 @@ module IiifPrint
       Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
       Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
       Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
-
+      "Hyrax::Transactions::Steps::DeleteAllFileSets".safe_constantize&.prepend(Hyrax::Transactions::Steps::DeleteAllFileSetsDecorator)
       # Hyku::WorksControllerBehavior was introduced in Hyku v6.0.0+.  Yes we don't depend on Hyku,
       # but this allows us to do minimal Hyku antics with IiifPrint.
       'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
