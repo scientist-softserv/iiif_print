@@ -57,6 +57,7 @@ module IiifPrint
       :object_in_works,
       :object_ordered_works,
       :parent_for,
+      :pdf?,
       :solr_construct_query,
       :solr_name,
       :solr_query,

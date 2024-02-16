@@ -10,7 +10,7 @@ module Hyrax
 
         ##
         # @param resource [Hyrax::FileSet]
-        def call(resource)
+        def call(resource, user: nil)
           return Failure(:resource_not_persisted) unless resource.persisted?
 
           parent = IiifPrint.persistence_adapter.parent_for(resource)
@@ -20,10 +20,11 @@ module Hyrax
           # to destroy.
           IiifPrint::SplitPdfs::DestroyPdfChildWorksService.conditionally_destroy_spawned_children_of(
             file_set: resource,
-            work: parent
+            work: parent,
+            user: user
           )
 
-          Success(true)
+          Success(resource)
         end
       end
     end

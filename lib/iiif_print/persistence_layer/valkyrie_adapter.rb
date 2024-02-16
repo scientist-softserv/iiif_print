@@ -68,10 +68,18 @@ module IiifPrint
         Hyrax.config.index_field_mapper.solr_name(field_name.to_s)
       end
 
-      ##
-      # @todo implement this logic
-      def self.destroy_children_split_from(file_set:, work:, model:)
-        super
+      def self.destroy_children_split_from(file_set:, _work:, model:, user:)
+        # look for child records by the file set id they were split from
+        Hyrax.query_service.find_inverse_references_by(resource: file_set, property: :split_from_pdf_id, model: model).each do |child|
+          Hyrax.persister.delete(resource: child)
+          Hyrax.indexing_service.delete(resource: child)
+          Hyrax.publisher.publish('object.deleted', object: child, user: user)
+        end
+        true
+      end
+
+      def self.pdf?(file_set)
+        file_set.original_file.pdf?
       end
     end
   end

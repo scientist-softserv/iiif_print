@@ -87,7 +87,7 @@ module IiifPrint
       # @param file_set [Object]
       # @param work [Object]
       # @param model [Class] The class name for which we'll split children.
-      def self.destroy_children_split_from(file_set:, work:, model:)
+      def self.destroy_children_split_from(file_set:, work:, model:, **_args)
         # look first for children by the file set id they were split from
         children = model.where(split_from_pdf_id: file_set.id)
         if children.blank?
@@ -99,6 +99,10 @@ module IiifPrint
           rcd.destroy(eradicate: true)
         end
         true
+      end
+
+      def self.pdf?(file_set)
+        file_set.class.pdf_mime_types.include?(file_set.mime_type)
       end
     end
   end

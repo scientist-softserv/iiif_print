@@ -25,7 +25,7 @@ RSpec.describe Hyrax::Transactions::Steps::ConditionallyDestroyChildrenFromSplit
         let(:parent) { double(Valkyrie::Resource) }
         it do
           expect(IiifPrint::SplitPdfs::DestroyPdfChildWorksService).to receive(:conditionally_destroy_spawned_children_of)
-            .with(file_set: file_set, work: parent)
+            .with(file_set: file_set, work: parent, user: nil)
           is_expected.to be_success
         end
       end

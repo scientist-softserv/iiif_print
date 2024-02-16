@@ -3,10 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe IiifPrint::SplitPdfs::DestroyPdfChildWorksService do
-  let(:subject) { described_class.conditionally_destroy_spawned_children_of(file_set: fileset, work: work) }
+  let(:subject) { described_class.conditionally_destroy_spawned_children_of(file_set: fileset, work: work, user: user) }
 
+  let(:user) { double('User') }
   let(:work) { WorkWithIiifPrintConfig.new(title: ['required title'], id: '123') }
   let(:fileset) { FileSet.new.tap { |fs| fs.save!(validate: false) } }
+  let(:solr_document) { SolrDocument.find(fileset.id) }
   let(:child_work) { WorkWithIiifPrintConfig.new(title: ["Child of #{work.id} file.pdf page 01"], id: '456', is_child: true) }
   let(:pending_rel1) do
     IiifPrint::PendingRelationship.new(
@@ -35,6 +37,8 @@ RSpec.describe IiifPrint::SplitPdfs::DestroyPdfChildWorksService do
     allow(fileset).to receive(:parent).and_return(work)
     allow(fileset).to receive(:label).and_return('file.pdf')
     allow(fileset).to receive(:mime_type).and_return('application/pdf')
+    allow(solr_document).to receive(:pdf?).and_return(true)
+    allow(SolrDocument).to receive(:find).with(fileset.id).and_return(solr_document)
   end
 
   describe 'class' do
