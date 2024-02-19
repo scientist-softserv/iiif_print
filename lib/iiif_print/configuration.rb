@@ -44,11 +44,14 @@ module IiifPrint
     end
 
     attr_writer :ancestory_identifier_function
-    # The function, with arity 1, that receives a work and returns it's identifier for the purposes
-    # of object ancestry.
+    # The function, with arity 1, that receives a work and returns it's identifier (as a string) for
+    # the purposes of object ancestry.
+    #
     # @return [Proc]
     def ancestory_identifier_function
-      @ancestory_identifier_function ||= ->(work) { work.id }
+      # If the work.id is nil, keep it nil.  Otherwise cast that id to a string; to deal with the
+      # `Valkyrie::ID`.
+      @ancestory_identifier_function ||= ->(work) { work.id&.to_s }
     end
 
     attr_writer :excluded_model_name_solr_field_values

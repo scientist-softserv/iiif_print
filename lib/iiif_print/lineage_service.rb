@@ -16,6 +16,9 @@ module IiifPrint
     #
     # @param object [#in_works] An object that responds to #in_works
     # @return [Array<String>]
+    #
+    # @note For those implementing their own lineage service, verify that you are not returning
+    #       an array of
     def self.ancestor_ids_for(object)
       ancestor_ids ||= []
       # Yes, we're fetching the works, then compressing those into identifiers.  Because in the case
@@ -24,7 +27,10 @@ module IiifPrint
         ancestor_ids << ancestry_identifier_for(work)
         ancestor_ids += ancestor_ids_for(work) if work.respond_to?(:is_child) && work.is_child
       end
-      ancestor_ids.flatten.compact.uniq
+      # We must convert these to strings as Valkyrie's identifiers will be cast to hashes when we
+      # attempt to write the SolrDocument.  Also, per documentation we return an Array of strings, not
+      # an Array that might include Valkyrie::ID objects.
+      ancestor_ids.flatten.compact.uniq.map(&:to_s)
     end
 
     ##
@@ -56,7 +62,9 @@ module IiifPrint
       IiifPrint.object_ordered_works(object)&.each do |child|
         file_set_ids += descendent_member_ids_for(child)
       end
-      file_set_ids.flatten.uniq.compact
+      # We must convert these to strings as Valkyrie's identifiers will be cast to hashes when we
+      # attempt to write the SolrDocument.
+      file_set_ids.flatten.uniq.compact.map(&:to_s)
     end
     class << self
       alias descendent_file_set_ids_for descendent_member_ids_for
