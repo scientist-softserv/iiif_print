@@ -14,7 +14,7 @@ module IiifPrint
           presenter_class.for(solr_doc)
         elsif Hyrax.config.curation_concerns.include?(solr_doc.hydra_model)
           # look up file set ids and loop through those
-          file_set_docs = load_file_set_docs(solr_doc.try(:file_set_ids) || solr_doc.try(:[], 'file_set_ids_ssim'))
+          file_set_docs = load_file_set_docs(solr_doc.try(:member_ids) || solr_doc.try(:[], 'member_ids_ssim'))
           file_set_docs.map { |doc| presenter_class.for(doc) } if file_set_docs.length
         end
       end.flatten.compact

@@ -46,9 +46,11 @@ module IiifPrint::Solr::Document
     iiif_print_solr_field_names.include?(method_name.to_s) || super
   end
 
-  # TODO: consider configuring this field name; we use the magic field in lots of places.
+  # @see https://github.com/samvera/hyrax/commit/7108409c619cd2ba4ae8c836b9f3b429a7e9837b
   def file_set_ids
-    self['file_set_ids_ssim']
+    # Yes, this looks a little odd.  But the truth is the prior key (e.g. `file_set_ids_ssim`) was
+    # an alias of `member_ids_ssim`.
+    self['member_ids_ssim']
   end
 
   def any_highlighting?

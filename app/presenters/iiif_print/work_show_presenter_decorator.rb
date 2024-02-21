@@ -2,7 +2,8 @@
 
 module IiifPrint
   module WorkShowPresenterDecorator
-    delegate :file_set_ids, to: :solr_document
+    delegate :member_ids, to: :solr_document
+    alias file_set_ids member_ids
 
     # OVERRIDE Hyrax 2.9.6 to remove check for representative_presenter.image?
     # @return [Boolean] render a IIIF viewer
@@ -20,8 +21,10 @@ module IiifPrint
     # overriding Hyrax to include file sets for both work and child works (file set ids include both)
     # process each id, short-circuiting the loop once one true value is found. This speeds up the test
     # by not loading more member_presenters than needed.
+    #
+    # @todo Review if this is necessary for Hyrax 5.
     def members_include_viewable_image?
-      all_member_ids = solr_document.try(:file_set_ids) || solr_document.try(:[], 'file_set_ids_ssim')
+      all_member_ids = solr_document.try(:member_ids) || solr_document.try(:[], 'member_ids_ssim')
       Array.wrap(all_member_ids).each do |id|
         return true if file_type_and_permissions_valid?(member_presenters_for([id]).first)
       end
