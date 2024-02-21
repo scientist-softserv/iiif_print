@@ -103,10 +103,10 @@ module IiifPrint
       def file_set_id
         return document['id'] if document.file_set?
 
-        file_set_ids = document['file_set_ids_ssim']
+        file_set_ids = document['member_ids_ssim']
         raise "#{self.class}: NO FILE SET ID" if file_set_ids.blank?
 
-        # Since a parent work's `file_set_ids_ssim` can contain child work ids as well as file set ids,
+        # Since a parent work's `member_ids_ssim` can contain child work ids as well as file set ids,
         # this will ensure that the file set id is indeed a `FileSet`
         file_set_ids.detect { |id| SolrDocument.find(id).file_set? }
       end

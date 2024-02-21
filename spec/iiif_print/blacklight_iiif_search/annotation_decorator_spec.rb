@@ -35,7 +35,7 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
   describe '#annotation_id' do
     subject { iiif_search_annotation.annotation_id }
     it 'returns a properly formatted URL' do
-      expect(subject).to include("#{page_document[:issue_id_ssi]}/manifest/canvas/#{page_document[:file_set_ids_ssim].first}/annotation/0")
+      expect(subject).to include("#{page_document[:issue_id_ssi]}/manifest/canvas/#{page_document[:member_ids_ssim].first}/annotation/0")
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe IiifPrint::BlacklightIiifSearch::AnnotationDecorator do
 
     subject { iiif_search_annotation.canvas_uri_for_annotation }
     it 'returns a properly formatted URL' do
-      expect(subject).to include("#{page_document[:issue_id_ssi]}/manifest/canvas/#{page_document[:file_set_ids_ssim].first}")
+      expect(subject).to include("#{page_document[:issue_id_ssi]}/manifest/canvas/#{page_document[:member_ids_ssim].first}")
     end
 
     describe 'private methods' do

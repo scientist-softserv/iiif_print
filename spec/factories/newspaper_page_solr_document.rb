@@ -13,7 +13,7 @@ FactoryBot.define do
           title_tesim: ['Page 1'],
           has_model_ssim: ['NewspaperPage'],
           issue_id_ssi: 'abc123',
-          file_set_ids_ssim: [file_set.id],
+          member_ids_ssim: [file_set.id],
           thumbnail_path_ss: '/downloads/123456?file=thumbnail')
     end
   end
