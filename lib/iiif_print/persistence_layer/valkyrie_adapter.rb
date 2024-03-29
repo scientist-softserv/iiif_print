@@ -68,7 +68,9 @@ module IiifPrint
         Hyrax.config.index_field_mapper.solr_name(field_name.to_s)
       end
 
-      def self.destroy_children_split_from(file_set:, _work:, model:, user:)
+      # rubocop:disable Lint/UnusedMethodArgument
+      def self.destroy_children_split_from(file_set:, work:, model:, user:)
+        # rubocop:enable Lint/UnusedMethodArgument
         # look for child records by the file set id they were split from
         Hyrax.query_service.find_inverse_references_by(resource: file_set, property: :split_from_pdf_id, model: model).each do |child|
           Hyrax.persister.delete(resource: child)
