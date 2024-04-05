@@ -29,9 +29,10 @@ module IiifPrint
         return :no_pdfs_to_split_for_import_url if import_url && !pdfs?(paths: [import_url])
 
         file_locations = if import_url
+                           # TODO: Fix this logic, currently unsupported in Bulkrax
                            [Hyrax::WorkingDirectory.find_or_retrieve(file.id, file_set.id)]
                          else
-                           pdf_paths(files: [file.try(:id)&.to_s].compact)
+                           pdf_paths(file: file)
                          end
         return :no_pdfs_to_split if file_locations.empty?
 
@@ -57,15 +58,21 @@ module IiifPrint
       # Load an array of paths to pdf files
       # @param [Array > Hyrax::Upload file ids]
       # @return [Array > String] file paths to temp directory
-      def self.pdf_paths(files:)
-        return [] if files.all?(&:empty?) # assumes an array
+      def self.pdf_paths(file:)
+        return [] unless file
 
-        upload_ids = filter_file_ids(files)
-        return [] if upload_ids.empty?
+        if file.class < Valkyrie::Resource
+          # assuming that if one PDF is uploaded to a Valkyrie resource then all of them should be
+          paths = [Hyrax.storage_adapter.file_path(file.file_identifier)]
+          pdfs_only_for(paths)
+        else
+          upload_ids = filter_file_ids(file.id.to_s)
+          return [] if upload_ids.empty?
 
-        uploads = Hyrax::UploadedFile.find(upload_ids)
-        paths = uploads.map(&method(:upload_path))
-        pdfs_only_for(paths)
+          uploads = Hyrax::UploadedFile.find(upload_ids)
+          paths = uploads.map(&method(:upload_path))
+          pdfs_only_for(paths)
+        end
       end
 
       ##

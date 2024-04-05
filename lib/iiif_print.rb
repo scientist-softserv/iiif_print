@@ -277,11 +277,15 @@ module IiifPrint
     locations = locations.select { |location| split_for_path_suffix?(location, skip_these_endings: skip_these_endings) }
     return :no_pdfs_for_splitting if locations.empty?
 
+    # Hyrax::FileSet ids are Valkyrie::ID's which can't be passed, so we call id on that and get the string id
+    file_set_id = file_set.id.try(:id) || file_set.id
+    work_admin_set_id = work.admin_set_id.try(:id) || work.admin_set_id
+
     work.try(:iiif_print_config)&.pdf_splitter_job&.perform_later(
-      file_set,
+      file_set_id,
       locations,
       user,
-      work.admin_set_id,
+      work_admin_set_id,
       0 # A no longer used parameter; but we need to preserve the method signature (for now)
     )
   end

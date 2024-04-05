@@ -34,12 +34,12 @@ module IiifPrint
             @pending_children.each(&:destroy)
             raise "CreateRelationshipsJob for parent id: #{@parent_id} " \
                   "added #{@number_of_successes} children, " \
-                  "expected #{@pending_children} children."
+                  "expected #{@pending_children.count} children."
           else
             # report failures & keep pending relationships
             raise "CreateRelationshipsJob failed for parent id: #{@parent_id} " \
                   "had #{@number_of_successes} successes & #{@number_of_failures} failures, " \
-                  "with errors: #{@errors}. Wanted #{@pending_children} children."
+                  "with errors: #{@errors}. Wanted #{@pending_children.count} children."
           end
         else
           # if we aren't ready yet, reschedule the job and end this one normally
@@ -71,12 +71,21 @@ module IiifPrint
       end
 
       def find_children_by_title_for(title, model)
-        # We should only find one, but there is no guarantee of that and `:where` returns an array.
-        model.constantize.where(title: title)
+        work_type = model.constantize
+        if work_type.respond_to?(:where)
+          # We should only find one, but there is no guarantee of that and `:where` returns an array.
+          work_type.where(title: title)
+        else
+          # TODO: This creates a hard dependency on Bulkrax because that is where this custom query is defined
+          #       Is this adequate?
+          Array.wrap(Hyrax.query_service.custom_query.find_by_model_and_property_value(model: work_type,
+                                                                                       property: :title,
+                                                                                       value: title))
+        end
       end
 
       def add_children_to_parent
-        parent_work = @parent_model.constantize.find(@parent_id)
+        parent_work = Hyrax.query_service.find_by(id: @parent_id)
         create_relationships(parent: parent_work, ordered_children: @child_works)
       end
 
@@ -103,24 +112,46 @@ module IiifPrint
               @errors << e
             end
           end
-          parent.save! if @parent_record_members_added && @number_of_failures.zero?
+
+          if @parent_record_members_added && @number_of_failures.zero?
+            if parent.respond_to?(:save!)
+              parent.save!
+            else
+              Hyrax.persister.save(resource: parent)
+            end
+          end
         end
 
         # Bulkrax no longer reindexes file_sets, but IiifPrint needs both to add is_page_of_ssim for universal viewer.
         # This is where child works need to be indexed (AFTER the parent save), as opposed to how Bulkrax does it.
         ordered_children.each do |child_work|
-          child_work.update_index
-          child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
+          if child_work.respond_to?(:update_index)
+            child_work.update_index
+            child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
+          else
+            Hyrax.index_adapter.save(resource: child_work)
+            Hyrax.custom_queries.find_child_file_sets(resource: child_work).each do |file_set|
+              Hyrax.index_adapter.save(resource: file_set)
+            end
+          end
         end
       end
 
       def add_to_work(child_record:, parent_record:)
-        return true if parent_record.ordered_members.to_a.include?(child_record)
+        if parent_record.respond_to?(:ordered_members)
+          return true if parent_record.ordered_members.to_a.include?(child_record)
 
-        parent_record.ordered_members << child_record
-        @parent_record_members_added = true
-        # Bulkrax does child_record.save! here, but it makes no sense
-        # as there is nothing to save or index at this point.
+          parent_record.ordered_members << child_record
+          @parent_record_members_added = true
+          # Bulkrax does child_record.save! here, but it makes no sense
+          # as there is nothing to save or index at this point.
+        else
+          return true if parent_record.member_ids.include?(child_record.id)
+
+          parent_record.member_ids << child_record.id
+          Hyrax.persister.save(resource: parent_record)
+          Hyrax.index_adapter.save(resource: parent_record)
+        end
       end
     end
   end
