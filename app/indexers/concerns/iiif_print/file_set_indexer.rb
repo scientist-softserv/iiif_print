@@ -9,9 +9,11 @@ module IiifPrint
     # @param base [Class]
     # @return [Class] the given base, now decorated in all of it's glory
     def self.decorate(base)
+      return unless base
+
       base.prepend(self)
       base.class_attribute :iiif_print_lineage_service, default: IiifPrint::LineageService
-      decorate_index_document_method(base)
+      # decorate_index_document_method(base)
       base
     end
 
@@ -41,12 +43,13 @@ module IiifPrint
       # def generate_solr_document
       base.define_method(method_name) do |*args|
         super(*args).tap do |solr_doc|
+          object ||= @object || resource
+
           # only UV viewable images should have is_page_of, it is only used for iiif search
-          solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if object.mime_type&.match(/image/)
+          solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if image?(object)
           # index for full text search
-          solr_doc['all_text_timv'] = all_text
-          solr_doc['all_text_tsimv'] = all_text
-          solr_doc['digest_ssim'] = digest_from_content
+          solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
+          solr_doc['digest_ssim'] = digest_from_content(object)
         end
       end
 
@@ -54,16 +57,34 @@ module IiifPrint
     end
     private_class_method :decorate_index_document_method
 
-    private
-
-    def digest_from_content
-      return unless object.original_file
-      object.original_file.digest.first.to_s
+    def to_solr
+      super.tap do |solr_doc|
+        object ||= @object || resource
+        # only UV viewable images should have is_page_of, it is only used for iiif search
+        solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if image?(object)
+        # index for full text search
+        solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
+        solr_doc['digest_ssim'] = digest_from_content(object)
+      end
     end
 
-    def all_text
+    private
+
+    def image?(object)
+      mime_type = object.try(:mime_type) || object.file_metadata.mime_type
+      mime_type&.match(/image/)
+    end
+
+    def digest_from_content(object)
+      digest = object.original_file.try(:digest)&.first || object.original_file.try(:checksum)&.first
+      return unless digest
+
+      digest.to_s
+    end
+
+    def all_text(object)
       text = IiifPrint.config.all_text_generator_function.call(object: object) || ''
-      return text if text.empty?
+      return if text.empty?
 
       text.tr("\n", ' ').squeeze(' ')
     end

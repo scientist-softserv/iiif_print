@@ -64,17 +64,28 @@ module IiifPrint
       # The ActiveFedora::Base indexer for FileSets
       IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
 
-      if defined? Hyrax::Indexers::FileSetIndexer
-        # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
-        # `Hyrax::ValkyrieFileSetIndexer`.
-        IiifPrint::FileSetIndexer.decorate(Hyrax::Indexers::FileSetIndexer)
-      elsif defined? Hyrax::ValkyrieFileSetIndexer
-        # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
-        # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
-        # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
-        # `def initialize(*args); super; end`
-        IiifPrint::FileSetIndexer.decorate(Hyrax::ValkyrieFileSetIndexer)
-      end
+      # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
+      # `Hyrax::ValkyrieFileSetIndexer`.
+      IiifPrint::FileSetIndexer.decorate('Hyrax::Indexers::FileSetIndexer'.safe_constantize)
+
+      # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
+      # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
+      # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
+      # `def initialize(*args); super; end`
+      IiifPrint::FileSetIndexer.decorate('Hyrax::ValkyrieFileSetIndexer'.safe_constantize)
+
+      # # The ActiveFedora::Base indexer for Works
+      # IiifPrint::ChildWorkIndexer.decorate(Hyrax::WorkIndexer)
+
+      # # Newer versions of Hyrax favor `Hyrax::Indexers::PcdmObjectIndexer` and deprecate
+      # # `Hyrax::ValkyrieWorkIndexer`
+      # IiifPrint::ChildWorkIndexer.decorate('Hyrax::Indexers::PcdmObjectIndexer'.safe_constantize)
+
+      # # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieWorkIndexer` so we want to decorate that as
+      # # well.  We want to use the elsif construct because later on Hyrax::ValkyrieWorkIndexer
+      # # inherits from Hyrax::Indexers::PcdmObjectIndexer and only implements:
+      # # `def initialize(*args); super; end`
+      # IiifPrint::ChildWorkIndexer.decorate('Hyrax::ValkyrieWorkIndexer'.safe_constantize)
 
       ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
       ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
