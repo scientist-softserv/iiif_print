@@ -57,21 +57,10 @@ module IiifPrint
     end
     private_class_method :decorate_index_document_method
 
-    def to_solr
-      super.tap do |solr_doc|
-        object ||= @object || resource
-        # only UV viewable images should have is_page_of, it is only used for iiif search
-        solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if image?(object)
-        # index for full text search
-        solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
-        solr_doc['digest_ssim'] = digest_from_content(object)
-      end
-    end
-
     private
 
     def image?(object)
-      mime_type = object.try(:mime_type) || object.file_metadata.mime_type
+      mime_type = object.try(:mime_type) || object.original_file.mime_type
       mime_type&.match(/image/)
     end
 

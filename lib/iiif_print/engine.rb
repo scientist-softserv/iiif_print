@@ -61,18 +61,20 @@ module IiifPrint
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 
-      # The ActiveFedora::Base indexer for FileSets
-      IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+      if ActiveModel::Type::Boolean.new.cast(ENV.fetch('HYRAX_VALKYRIE', false))
+        # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
+        # `Hyrax::ValkyrieFileSetIndexer`.
+        IiifPrint::FileSetIndexer.decorate('Hyrax::Indexers::FileSetIndexer'.safe_constantize)
 
-      # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
-      # `Hyrax::ValkyrieFileSetIndexer`.
-      IiifPrint::FileSetIndexer.decorate('Hyrax::Indexers::FileSetIndexer'.safe_constantize)
-
-      # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
-      # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
-      # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
-      # `def initialize(*args); super; end`
-      IiifPrint::FileSetIndexer.decorate('Hyrax::ValkyrieFileSetIndexer'.safe_constantize)
+        # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
+        # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
+        # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
+        # `def initialize(*args); super; end`
+        IiifPrint::FileSetIndexer.decorate('Hyrax::ValkyrieFileSetIndexer'.safe_constantize)
+      else
+        # The ActiveFedora::Base indexer for FileSets
+        IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
+      end
 
       # # The ActiveFedora::Base indexer for Works
       # IiifPrint::ChildWorkIndexer.decorate(Hyrax::WorkIndexer)
