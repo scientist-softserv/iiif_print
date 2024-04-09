@@ -71,7 +71,7 @@ module IiifPrint
                 "pdf_file_set #{pdf_file_set.inspect}"
         end
 
-        @split_from_pdf_id = pdf_file_set&.id&.try(:id) || pdf_file_set&.id
+        @split_from_pdf_id = pdf_file_set&.id.to_s
         prepare_import_data(original_pdf_path, image_files, user)
 
         # submit the job to create all the child works for one PDF

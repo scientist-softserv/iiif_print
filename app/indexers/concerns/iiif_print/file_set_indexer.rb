@@ -35,7 +35,7 @@ module IiifPrint
     end
 
     def image?(object)
-      mime_type = object.try(:mime_type) || object.original_file.mime_type
+      mime_type = object.try(:mime_type) || object.original_file&.mime_type
       mime_type&.match(/image/)
     end
 

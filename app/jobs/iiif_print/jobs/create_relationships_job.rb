@@ -151,6 +151,8 @@ module IiifPrint
           parent_record.member_ids << child_record.id
           Hyrax.persister.save(resource: parent_record)
           Hyrax.index_adapter.save(resource: parent_record)
+
+          Hyrax.publisher.publish('object.membership.updated', object: parent_record, user: parent_record.depositor)
         end
       end
     end
