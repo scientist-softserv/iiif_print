@@ -2,62 +2,37 @@
 
 module IiifPrint
   module FileSetIndexer
-    # Why `.decorate`?  In my tests for Rails 5.2, I'm not able to use the prepended nor included
-    # blocks to assign a class_attribute when I "prepend" a module to the base class.  This method
-    # allows me to handle that behavior.
-    #
-    # @param base [Class]
-    # @return [Class] the given base, now decorated in all of it's glory
-    def self.decorate(base)
-      return unless base
+    extend ActiveSupport::Concern
 
-      base.prepend(self)
-      base.class_attribute :iiif_print_lineage_service, default: IiifPrint::LineageService
-      # decorate_index_document_method(base)
-      base
+    prepended do
+      class_attribute :iiif_print_lineage_service, default: IiifPrint::LineageService
     end
 
-    ##
-    # Decorate the appropriate indexing document based on the type of indexer; namely whether it
-    # responds to `#to_solr` or `#generate_solr_document`.
-    #
-    # @param base [Class]
-    # @return [Class]
-    def self.decorate_index_document_method(base)
-      ##
-      # We want to first favor extending :to_solr, then favor :generate_solr_document
-      #
-      # What if the underlying class doesn't have :generate_solr_document?  There are other
-      # problems.
-      #
-      # https://github.com/samvera/hyrax/blob/3a82b3d513047e270848cd394c97fa4ac60e5b14/app/indexers/hyrax/indexers/resource_indexer.rb#L66-L85
-      method_name = if base.instance_methods.include?(:to_solr)
-                      :to_solr
-                    else
-                      :generate_solr_document
-                    end
-
-      # Providing these as wayfinding for searching projects:
-      #
-      # def to_solr
-      # def generate_solr_document
-      base.define_method(method_name) do |*args|
-        super(*args).tap do |solr_doc|
-          object ||= @object || resource
-
-          # only UV viewable images should have is_page_of, it is only used for iiif search
-          solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if image?(object)
-          # index for full text search
-          solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
-          solr_doc['digest_ssim'] = digest_from_content(object)
-        end
+    # for Valkyrie indexers
+    def to_solr
+      super.tap do |index_document|
+        index_solr_doc(index_document)
       end
-
-      base
     end
-    private_class_method :decorate_index_document_method
+
+    # for ActiveFedora indexers
+    def generate_solr_document
+      super.tap do |solr_doc|
+        index_solr_doc(solr_doc)
+      end
+    end
 
     private
+
+    def index_solr_doc(solr_doc)
+      object ||= @object || resource
+
+      # only UV viewable images should have is_page_of, it is only used for iiif search
+      solr_doc['is_page_of_ssim'] = iiif_print_lineage_service.ancestor_ids_for(object) if image?(object)
+      # index for full text search
+      solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
+      solr_doc['digest_ssim'] = digest_from_content(object)
+    end
 
     def image?(object)
       mime_type = object.try(:mime_type) || object.original_file.mime_type

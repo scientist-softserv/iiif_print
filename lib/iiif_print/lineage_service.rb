@@ -52,6 +52,8 @@ module IiifPrint
     # https://github.com/samvera/hyrax/blob/2b807fe101176d594129ef8a8fe466d3d03a372b/app/indexers/hyrax/work_indexer.rb#L15-L18
     # for "clarification" of the comingling of file_set_ids and member_ids
     def self.descendent_member_ids_for(object)
+      return unless object.respond_to?(:member_ids)
+
       # enables us to return parents when searching for child OCR
       #
       # https://github.com/samvera/hydra-works/blob/c9b9dd0cf11de671920ba0a7161db68ccf9b7f6d/lib/hydra/works/models/concerns/work_behavior.rb#L90-L92
@@ -60,7 +62,7 @@ module IiifPrint
       # so no sense doing `object.file_set_ids + object.member_ids`
       file_set_ids = object.member_ids
       IiifPrint.object_ordered_works(object)&.each do |child|
-        file_set_ids += descendent_member_ids_for(child)
+        file_set_ids += Array.wrap(descendent_member_ids_for(child))
       end
       # We must convert these to strings as Valkyrie's identifiers will be cast to hashes when we
       # attempt to write the SolrDocument.
