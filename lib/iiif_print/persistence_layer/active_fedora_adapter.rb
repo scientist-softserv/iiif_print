@@ -24,6 +24,13 @@ module IiifPrint
       end
 
       ##
+      # @param work_type [Class<ActiveFedora::Base>]
+      # @return indexer for the given :work_type
+      def self.decorate_form_with_adapter_logic(work_type:)
+        work_type.indexer
+      end
+
+      ##
       # Return the immediate parent of the given :file_set.
       #
       # @param file_set [FileSet]

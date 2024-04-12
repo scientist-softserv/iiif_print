@@ -29,6 +29,15 @@ module IiifPrint
       end
 
       ##
+      # @param work_type [Class<ActiveFedora::Base>]
+      # @return form for the given :work_type
+      def self.decorate_form_with_adapter_logic(work_type:)
+        form = "#{work_type}Form".constantize
+        form.send(:include, Hyrax::FormFields(:child_works_from_pdf_splitting)) unless form.included_modules.include?(Hyrax::FormFields(:child_works_from_pdf_splitting))
+        form
+      end
+
+      ##
       # Return the immediate parent of the given :file_set.
       #
       # @param file_set [FileSet]

@@ -136,6 +136,14 @@ module IiifPrint
                     raise "Unable to mix '.model_configuration' into #{work_type}"
                   end
 
+        form = if defined?(Valkyrie::Resource) && work_type < Valkyrie::Resource
+                  IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+                elsif work_type < ActiveFedora::Base
+                  IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+                else
+                  raise "Unable to mix '.model_configuration' into #{work_type}"
+                end
+
         # Deriving lineage of objects is a potentially complicated thing.  We provide a default
         # service but each work_type's indexer can be configured by amending it's
         # {.iiif_print_lineage_service}.

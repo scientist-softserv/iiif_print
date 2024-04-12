@@ -31,6 +31,13 @@ module IiifPrint
       end
 
       ##
+      # @param work_type [Class]
+      # @return the corresponding indexer for the work_type
+      def self.decorate_form_with_adapter_logic(work_type:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      ##
       # @param file_set [Object]
       # @param work [Object]
       # @param model [Class] The class name for which we'll split children.
