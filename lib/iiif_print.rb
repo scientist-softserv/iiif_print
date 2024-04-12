@@ -119,7 +119,7 @@ module IiifPrint
   # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
   # @todo Because not every job will split PDFs and write to a child model. May want to introduce
   #       an alternative splitting method to create new filesets on the existing work instead of new child works.
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def self.model_configuration(**kwargs)
     Module.new do
       extend ActiveSupport::Concern
@@ -136,13 +136,14 @@ module IiifPrint
                     raise "Unable to mix '.model_configuration' into #{work_type}"
                   end
 
-        form = if defined?(Valkyrie::Resource) && work_type < Valkyrie::Resource
-                  IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_form_with_adapter_logic(work_type: work_type)
-                elsif work_type < ActiveFedora::Base
-                  IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_form_with_adapter_logic(work_type: work_type)
-                else
-                  raise "Unable to mix '.model_configuration' into #{work_type}"
-                end
+        # Ensure that the work_type and corresponding indexer are properly decorated for IiifPrint
+        if defined?(Valkyrie::Resource) && work_type < Valkyrie::Resource
+          IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+        elsif work_type < ActiveFedora::Base
+          IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+        else
+          raise "Unable to mix '.model_configuration' into #{work_type}"
+        end
 
         # Deriving lineage of objects is a potentially complicated thing.  We provide a default
         # service but each work_type's indexer can be configured by amending it's
@@ -315,4 +316,4 @@ module IiifPrint
     !path.downcase.end_with?(*skip_these_endings.map(&:downcase))
   end
 end
-# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

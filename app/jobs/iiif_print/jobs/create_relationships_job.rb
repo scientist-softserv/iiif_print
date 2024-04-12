@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 module IiifPrint
   module Jobs
     # Link newly created child works to the parent
@@ -157,4 +158,5 @@ module IiifPrint
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

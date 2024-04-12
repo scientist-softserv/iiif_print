@@ -77,7 +77,7 @@ module IiifPrint
         indexers = Hyrax.config.curation_concerns.map do |concern|
           "#{concern}ResourceIndexer".safe_constantize
         end
-        indexers.each { |indexer| indexer.prepend(IiifPrint::ChildWorkIndexer)}
+        indexers.each { |indexer| indexer.prepend(IiifPrint::ChildWorkIndexer) }
 
         # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieWorkIndexer` so we want to decorate that as
         # well.  We want to use the elsif construct because later on Hyrax::ValkyrieWorkIndexer
