@@ -15,7 +15,7 @@ module IiifPrint
     end
 
     private
-  
+
     def index_solr_doc(solr_doc)
       object ||= @object || resource
       # only UV viewable images should have is_page_of, it is only used for iiif search
