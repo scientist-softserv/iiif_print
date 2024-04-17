@@ -111,6 +111,60 @@ module IiifPrint
       def self.pdf?(file_set)
         file_set.class.pdf_mime_types.include?(file_set.mime_type)
       end
+
+      ##
+      # Add a child record as a member of a parent record
+      # 
+      # @param model [child_record] an ActiveFedora::Base model
+      # @param model [parent_record] an ActiveFedora::Base model
+      # @return [TrueClass]
+      def self.create_relationship_between(child_record:, parent_record:)
+        return true if parent_record.ordered_members.to_a.include?(child_record)
+        parent_record.ordered_members << child_record
+        true
+      end
+
+      ##
+      # find a work by title
+      # We should only find one, but there is no guarantee of that and `:where` returns an array.
+      #
+      # @param title [String]
+      # @param model [String] an ActiveFedora::Base model
+      def self.find_by_title_for(title:, model:)
+        work_type = model.constantize
+
+        work_type.where(title: title)
+      end
+
+      ##
+      # find a work or file_set
+      #
+      # @param id [String]
+      # @return [Array<ActiveFedora::Base]
+      def self.find_by(id:)
+        ActiveFedora::Base.find(id:)
+      end
+
+      ##
+      # save a work
+      #
+      # @param object [Array<ActiveFedora::Base]
+      def self.save(object:)
+        object.save!
+      end
+
+      ##
+      # reindex an array of works and their file_sets
+      #
+      # @param objects [Array<ActiveFedora::Base]
+      # @return [TrueClass]
+      def self.index_works(objects:)
+        objects.each do |work|
+          work.update_index
+          work.file_sets.each(&:update_index) if work.respond_to?(:file_sets)
+        end
+        true
+      end
     end
   end
 end

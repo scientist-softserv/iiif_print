@@ -13,7 +13,7 @@ module IiifPrint
       # @param admin_set_id: [<String>]
       # rubocop:disable Metrics/MethodLength
       def perform(id, pdf_paths, user, admin_set_id, *)
-        candidate_for_parency = Hyrax.query_service.find_by(id: id)
+        candidate_for_parency = IiifPrint.find_by(id: id)
 
         ##
         # We know that we have cases where parent_work is nil, this will definitely raise an

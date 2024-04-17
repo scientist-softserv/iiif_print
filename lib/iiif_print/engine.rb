@@ -58,6 +58,7 @@ module IiifPrint
       # but this allows us to do minimal Hyku antics with IiifPrint.
       'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
 
+      Hyrax::FileSetPresenter.prepend(IiifPrint::FileSetPresenterDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 

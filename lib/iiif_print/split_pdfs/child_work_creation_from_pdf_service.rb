@@ -82,8 +82,11 @@ module IiifPrint
       # @param [GenericWork, etc] A valid type of hyrax work
       # @return [Boolean]
       def self.iiif_print_split?(work:)
+        config = work.try(:iiif_print_config)
+        return false unless config
+        return false if config.pdf_splitter_service.try(:never_split_pdfs?)
         # defined only if work has include IiifPrint.model_configuration with pdf_split_child_model
-        return true if work.try(:iiif_print_config)&.pdf_split_child_model
+        return true if config&.pdf_split_child_model
         false
       end
 

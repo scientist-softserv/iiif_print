@@ -85,6 +85,26 @@ module IiifPrint
       def self.pdf?(_file_set)
         raise NotImplementedError, "#{self}.{__method__}"
       end
+
+      def self.create_relationship_between(child_record:, parent_record:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def self.find_by_title_for(title:, model:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def self.find_by(id:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def self.save(object:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def index_works(objects:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
     end
   end
 end

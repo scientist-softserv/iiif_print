@@ -52,12 +52,17 @@ module IiifPrint
 
     delegate(
       :clean_for_tests!,
+      :create_relationship_between,
       :destroy_children_split_from,
+      :find_by,
+      :find_by_title_for,
       :grandparent_for,
+      :index_works,
       :object_in_works,
       :object_ordered_works,
       :parent_for,
       :pdf?,
+      :save,
       :solr_construct_query,
       :solr_name,
       :solr_query,
