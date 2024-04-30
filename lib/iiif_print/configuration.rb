@@ -191,17 +191,44 @@ module IiifPrint
     attr_writer :child_work_attributes_function
     ##
     # Here we allow for customization of the child work attributes
+    # rubocop:disable Metrics/MethodLength, Metrics/BlockLength
     def child_work_attributes_function
       @child_work_attributes_function ||= lambda do |parent_work:, admin_set_id:|
-        {
+        embargo = parent_work.embargo
+        lease = parent_work.lease
+        embargo_params = {}
+        lease_params = {}
+        visibility_params = {}
+
+        if embargo
+          embargo_params = {
+            visibility: 'embargo',
+            visibility_after_embargo: embargo.visibility_after_embargo,
+            visibility_during_embargo: embargo.visibility_during_embargo,
+            embargo_release_date: embargo.embargo_release_date
+          }
+        elsif lease
+          lease_params = {
+            visibility: 'lease',
+            visibility_after_lease: lease.visibility_after_lease,
+            visibility_during_lease: lease.visibility_during_lease,
+            lease_release_date: lease.lease_release_date
+          }
+        else
+          visibility_params = { visibility: parent_work.visibility.to_s }
+        end
+
+        params = {
           admin_set_id: admin_set_id.to_s,
           creator: parent_work.creator.to_a,
           rights_statement: parent_work.rights_statement.to_a,
-          visibility: parent_work.visibility.to_s,
           is_child: true
         }
+
+        params.merge!(embargo_params).merge!(lease_params).merge!(visibility_params)
       end
     end
+    # rubocop:enable Metrics/MethodLength, Metrics/BlockLength
 
     attr_writer :sort_iiif_manifest_canvases_by
     ##
