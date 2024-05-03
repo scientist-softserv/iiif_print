@@ -126,7 +126,7 @@ module IiifPrint
       #
       # @param id [String]
       def self.find_by(id:)
-        Hyrax.query_service.find_by(id:)
+        Hyrax.query_service.find_by(id: id)
       end
 
       ##

@@ -114,7 +114,7 @@ module IiifPrint
 
       ##
       # Add a child record as a member of a parent record
-      # 
+      #
       # @param model [child_record] an ActiveFedora::Base model
       # @param model [parent_record] an ActiveFedora::Base model
       # @return [TrueClass]
@@ -142,7 +142,7 @@ module IiifPrint
       # @param id [String]
       # @return [Array<ActiveFedora::Base]
       def self.find_by(id:)
-        ActiveFedora::Base.find(id:)
+        ActiveFedora::Base.find(id)
       end
 
       ##
