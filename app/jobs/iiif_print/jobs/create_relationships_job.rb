@@ -100,9 +100,7 @@ module IiifPrint
             end
           end
 
-          if @parent_record_members_added && @number_of_failures.zero?
-            IiifPrint.save(object: parent)
-          end
+          IiifPrint.save(object: parent) if @parent_record_members_added && @number_of_failures.zero?
         end
 
         # Bulkrax no longer reindexes file_sets, but IiifPrint needs both to add is_page_of_ssim for universal viewer.

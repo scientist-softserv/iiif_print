@@ -96,7 +96,7 @@ module IiifPrint
 
       ##
       # Add a child record as a member of a parent record
-      # 
+      #
       # @param model [child_record] a Valkyrie::Resource model
       # @param model [parent_record] a Valkyrie::Resource model
       # @return [TrueClass]
