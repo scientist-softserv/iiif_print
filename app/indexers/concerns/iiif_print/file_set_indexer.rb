@@ -22,7 +22,7 @@ module IiifPrint
       solr_doc['is_page_of_ssim'] = IiifPrint::LineageService.ancestor_ids_for(object) if image?(object)
       # index for full text search
       solr_doc['all_text_tsimv'] = solr_doc['all_text_timv'] = all_text(object)
-      solr_doc['digest_ssim'] = digest_from_content(object)
+      solr_doc['digest_ssim'] = find_checksum(object)
     end
 
     def image?(object)
@@ -30,11 +30,17 @@ module IiifPrint
       mime_type&.match(/image/)
     end
 
-    def digest_from_content(object)
+    def find_checksum(object)
       file = object.original_file
       return unless file
 
-      digest = file.try(:digest)&.first || file.try(:checksum)&.first
+      digest ||= begin
+        if file.is_a?(Hyrax::FileMetadata) 
+          file.checksum
+        else # file is a Hydra::PCDM::File (ActiveFedora)
+          file.digest.first
+        end
+      end
       return unless digest
 
       digest.to_s
