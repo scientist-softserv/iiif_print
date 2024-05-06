@@ -111,7 +111,7 @@ module IiifPrint
       end
 
       def add_to_work(child_record:, parent_record:)
-        @parent_record_members_added = IiifPrint.create_relationship_between(child_record:, parent_record:)
+        @parent_record_members_added = IiifPrint.create_relationship_between(child_record: child_record, parent_record: parent_record)
       end
     end
   end
