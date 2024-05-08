@@ -14,7 +14,7 @@
                   method: :delete %>
   <% end %>
 
-  <% if @presenter.editor? && @presenter.pdf? %>
+  <% if @presenter.show_split_button? && @presenter.editor? && @presenter.pdf? %>
     <%= link_to t("iiif_print.file_set.split_this"), iiif_print.split_pdf_path(@presenter),
      class: 'btn btn-default', data: { confirm: t("iiif_print.file_set.confirm_split_this") },
      method: :post %>

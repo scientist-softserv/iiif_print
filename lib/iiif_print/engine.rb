@@ -58,22 +58,38 @@ module IiifPrint
       # but this allows us to do minimal Hyku antics with IiifPrint.
       'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
 
+      Hyrax::FileSetPresenter.prepend(IiifPrint::FileSetPresenterDecorator)
       Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
       Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
 
-      # The ActiveFedora::Base indexer for FileSets
-      IiifPrint::FileSetIndexer.decorate(Hyrax::FileSetIndexer)
-
-      if defined? Hyrax::Indexers::FileSetIndexer
+      if ActiveModel::Type::Boolean.new.cast(ENV.fetch('HYRAX_VALKYRIE', false))
         # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
         # `Hyrax::ValkyrieFileSetIndexer`.
-        IiifPrint::FileSetIndexer.decorate(Hyrax::Indexers::FileSetIndexer)
-      elsif defined? Hyrax::ValkyrieFileSetIndexer
+        'Hyrax::Indexers::FileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexer)
+
         # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
         # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
         # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
         # `def initialize(*args); super; end`
-        IiifPrint::FileSetIndexer.decorate(Hyrax::ValkyrieFileSetIndexer)
+        'Hyrax::ValkyrieFileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexer)
+
+        # Newer versions of Hyrax favor `Hyrax::Indexers::PcdmObjectIndexer` and deprecate
+        # `Hyrax::ValkyrieWorkIndexer`
+        indexers = Hyrax.config.curation_concerns.map do |concern|
+          "#{concern}ResourceIndexer".safe_constantize
+        end
+        indexers.each { |indexer| indexer.prepend(IiifPrint::ChildWorkIndexer) }
+
+        # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieWorkIndexer` so we want to decorate that as
+        # well.  We want to use the elsif construct because later on Hyrax::ValkyrieWorkIndexer
+        # inherits from Hyrax::Indexers::PcdmObjectIndexer and only implements:
+        # `def initialize(*args); super; end`
+        'Hyrax::ValkyrieWorkIndexer'.safe_constantize&.prepend(IiifPrint::ChildWorkIndexer)
+      else
+        # The ActiveFedora::Base indexer for FileSets
+        Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexer)
+        # The ActiveFedora::Base indexer for Works
+        Hyrax::WorkIndexer.prepend(IiifPrint::ChildWorkIndexer)
       end
 
       ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)

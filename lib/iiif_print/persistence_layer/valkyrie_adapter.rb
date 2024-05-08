@@ -29,23 +29,33 @@ module IiifPrint
       end
 
       ##
+      # @param work_type [Class<ActiveFedora::Base>]
+      # @return form for the given :work_type
+      def self.decorate_form_with_adapter_logic(work_type:)
+        form = "#{work_type}Form".constantize
+        form.send(:include, Hyrax::FormFields(:child_works_from_pdf_splitting)) unless form.included_modules.include?(Hyrax::FormFields(:child_works_from_pdf_splitting))
+        form
+      end
+
+      ##
       # Return the immediate parent of the given :file_set.
       #
-      # @param file_set [FileSet]
+      # @param file_set [Hyrax::FileMetadata or FileSet]
       # @return [#work?, Hydra::PCDM::Work]
       # @return [NilClass] when no parent is found.
       def self.parent_for(file_set)
+        file_set = Hyrax.query_service.find_by(id: file_set.file_set_id) if file_set.is_a?(Hyrax::FileMetadata)
         Hyrax.query_service.find_parents(resource: file_set).first
       end
 
       ##
       # Return the parent's parent of the given :file_set.
       #
-      # @param file_set [FileSet]
+      # @param file_set [Hyrax::FileMetadata or FileSet]
       # @return [#work?, Hydra::PCDM::Work]
       # @return [NilClass] when no grand parent is found.
       def self.grandparent_for(file_set)
-        parent = Hyrax.query_service.find_parents(resource: file_set).first
+        parent = parent_for(file_set)
         return nil unless parent
         Hyrax.query_service.find_parents(resource: parent).first
       end
@@ -82,6 +92,67 @@ module IiifPrint
 
       def self.pdf?(file_set)
         file_set.original_file.pdf?
+      end
+
+      ##
+      # Add a child record as a member of a parent record
+      #
+      # @param model [child_record] a Valkyrie::Resource model
+      # @param model [parent_record] a Valkyrie::Resource model
+      # @return [TrueClass]
+      def self.create_relationship_between(child_record:, parent_record:)
+        return true if parent_record.member_ids.include?(child_record.id)
+        parent_record.member_ids << child_record.id
+        true
+      end
+
+      ##
+      # find a work by title
+      # We should only find one, but there is no guarantee of that
+      # @param title [String]
+      # @param model [String] a Valkyrie::Resource model
+      # @return [Array<Valkyrie::Resource]
+      def self.find_by_title_for(title:, model:)
+        work_type = model.constantize
+        # TODO: This creates a hard dependency on Bulkrax because that is where this custom query is defined
+        #       Is this adequate?
+        Array.wrap(Hyrax.query_service.custom_query.find_by_model_and_property_value(model: work_type,
+                                                                                     property: :title,
+                                                                                     value: title))
+      end
+
+      ##
+      # find a work or file_set
+      #
+      # @param id [String]
+      def self.find_by(id:)
+        Hyrax.query_service.find_by(id: id)
+      end
+
+      ##
+      # save a work
+      #
+      # @param object [Array<Valkyrie::Resource]
+      def self.save(object:)
+        Hyrax.persister.save(resource: object)
+        Hyrax.index_adapter.save(resource: object)
+
+        Hyrax.publisher.publish('object.membership.updated', object: object, user: object.depositor)
+      end
+
+      ##
+      # reindex an array of works and their file_sets
+      #
+      # @param objects [Array<Valkyrie::Resource]
+      # @return [TrueClass]
+      def self.index_works(objects:)
+        objects.each do |work|
+          Hyrax.index_adapter.save(resource: work)
+          Hyrax.custom_queries.find_child_file_sets(resource: work).each do |file_set|
+            Hyrax.index_adapter.save(resource: file_set)
+          end
+        end
+        true
       end
     end
   end

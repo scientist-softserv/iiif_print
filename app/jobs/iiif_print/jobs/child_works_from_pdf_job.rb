@@ -12,7 +12,9 @@ module IiifPrint
       # @param user: [User]
       # @param admin_set_id: [<String>]
       # rubocop:disable Metrics/MethodLength
-      def perform(candidate_for_parency, pdf_paths, user, admin_set_id, *)
+      def perform(id, pdf_paths, user, admin_set_id, *)
+        candidate_for_parency = IiifPrint.find_by(id: id)
+
         ##
         # We know that we have cases where parent_work is nil, this will definitely raise an
         # exception; which is fine because we were going to do it later anyway.
@@ -31,7 +33,7 @@ module IiifPrint
         # However, there seem to be cases where we still don't have the file when we get here, so to be sure, we
         # re-do the same command that was previously used to prepare the file path. If the file is already here, it
         # simply returns the path, but if not it will copy the file there, giving us one more chance to have what we need.
-        pdf_paths = [Hyrax::WorkingDirectory.find_or_retrieve(pdf_file_set.files.first.id, pdf_file_set.id, pdf_paths.first)] if pdf_file_set
+        pdf_paths = [Hyrax::WorkingDirectory.find_or_retrieve(pdf_file_set.original_file.id, pdf_file_set.id, pdf_paths.first)] if pdf_file_set
         # handle each input pdf (when input is a file set, we will only have one).
         pdf_paths.each do |original_pdf_path|
           split_pdf(original_pdf_path, user, child_model, pdf_file_set)
@@ -44,7 +46,7 @@ module IiifPrint
         # @param child_model: [<String>] child model
         IiifPrint::Jobs::CreateRelationshipsJob.set(wait: 10.minutes).perform_later(
           user: user,
-          parent_id: @parent_work.id,
+          parent_id: @parent_work.id.to_s,
           parent_model: @parent_work.class.to_s,
           child_model: child_model.to_s
         )
@@ -58,17 +60,18 @@ module IiifPrint
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength
       def split_pdf(original_pdf_path, user, child_model, pdf_file_set)
-        image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path, file_set: pdf_file_set)
+        user = User.find_by_user_key(user) unless user.is_a?(User)
+        image_files = @parent_work.iiif_print_config.pdf_splitter_service.call(original_pdf_path)
 
         # give as much info as possible if we don't have image files to work with.
         if image_files.blank?
-          raise "#{@parent_work.class} (ID=#{@parent_work.id} " /
-                "to_param:#{@parent_work.to_param}) " /
-                "original_pdf_path #{original_pdf_path.inspect} " /
+          raise "#{@parent_work.class} (ID=#{@parent_work.id} " \
+                "to_param:#{@parent_work.to_param}) " \
+                "original_pdf_path #{original_pdf_path.inspect} " \
                 "pdf_file_set #{pdf_file_set.inspect}"
         end
 
-        @split_from_pdf_id = pdf_file_set&.id
+        @split_from_pdf_id = pdf_file_set&.id.to_s
         prepare_import_data(original_pdf_path, image_files, user)
 
         # submit the job to create all the child works for one PDF
@@ -135,7 +138,7 @@ module IiifPrint
       def create_uploaded_file(user, path)
         # TODO: Could we create a remote path?
         uf = Hyrax::UploadedFile.new
-        uf.user_id = user.id
+        uf.user_id = user.try(:id) || user
         uf.file = CarrierWave::SanitizedFile.new(path)
         uf.save!
         uf.id

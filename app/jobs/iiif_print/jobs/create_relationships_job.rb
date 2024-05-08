@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 module IiifPrint
   module Jobs
     # Link newly created child works to the parent
@@ -34,12 +35,12 @@ module IiifPrint
             @pending_children.each(&:destroy)
             raise "CreateRelationshipsJob for parent id: #{@parent_id} " \
                   "added #{@number_of_successes} children, " \
-                  "expected #{@pending_children} children."
+                  "expected #{@pending_children.count} children."
           else
             # report failures & keep pending relationships
             raise "CreateRelationshipsJob failed for parent id: #{@parent_id} " \
                   "had #{@number_of_successes} successes & #{@number_of_failures} failures, " \
-                  "with errors: #{@errors}. Wanted #{@pending_children} children."
+                  "with errors: #{@errors}. Wanted #{@pending_children.count} children."
           end
         else
           # if we aren't ready yet, reschedule the job and end this one normally
@@ -61,7 +62,7 @@ module IiifPrint
         # find child works (skip out if any haven't yet been created)
         @pending_children.each do |child|
           # find by title... if any aren't found, the child works are not yet ready
-          found_children = find_children_by_title_for(child.child_title, @child_model)
+          found_children = IiifPrint.find_by_title_for(title: child.child_title, model: @child_model)
           found_all_children = false if found_children.empty?
           break unless found_all_children == true
           @child_works += found_children
@@ -70,13 +71,8 @@ module IiifPrint
         found_all_children
       end
 
-      def find_children_by_title_for(title, model)
-        # We should only find one, but there is no guarantee of that and `:where` returns an array.
-        model.constantize.where(title: title)
-      end
-
       def add_children_to_parent
-        parent_work = @parent_model.constantize.find(@parent_id)
+        parent_work = IiifPrint.find_by(id: @parent_id)
         create_relationships(parent: parent_work, ordered_children: @child_works)
       end
 
@@ -103,25 +99,19 @@ module IiifPrint
               @errors << e
             end
           end
-          parent.save! if @parent_record_members_added && @number_of_failures.zero?
+
+          IiifPrint.save(object: parent) if @parent_record_members_added && @number_of_failures.zero?
         end
 
         # Bulkrax no longer reindexes file_sets, but IiifPrint needs both to add is_page_of_ssim for universal viewer.
         # This is where child works need to be indexed (AFTER the parent save), as opposed to how Bulkrax does it.
-        ordered_children.each do |child_work|
-          child_work.update_index
-          child_work.file_sets.each(&:update_index) if child_work.respond_to?(:file_sets)
-        end
+        IiifPrint.index_works(objects: ordered_children)
       end
 
       def add_to_work(child_record:, parent_record:)
-        return true if parent_record.ordered_members.to_a.include?(child_record)
-
-        parent_record.ordered_members << child_record
-        @parent_record_members_added = true
-        # Bulkrax does child_record.save! here, but it makes no sense
-        # as there is nothing to save or index at this point.
+        @parent_record_members_added = IiifPrint.create_relationship_between(child_record: child_record, parent_record: parent_record)
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end

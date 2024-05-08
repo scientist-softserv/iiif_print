@@ -27,6 +27,17 @@ module IiifPrint
         new(path).to_a
       end
 
+      ##
+      # @api public
+      #
+      # Added to allow for fine-tuning of splitting decision such as tenant-based omission
+      # @see https://github.com/samvera/hyku/blob/main/app/services/iiif_print/tenant_config.rb
+      #
+      # @return [Boolean] returns false to not limit the splitting of PDFs
+      def self.never_split_pdfs?
+        false
+      end
+
       class_attribute :image_extension
       class_attribute :compression, default: nil
       class_attribute :quality, default: nil

@@ -52,12 +52,17 @@ module IiifPrint
 
     delegate(
       :clean_for_tests!,
+      :create_relationship_between,
       :destroy_children_split_from,
+      :find_by,
+      :find_by_title_for,
       :grandparent_for,
+      :index_works,
       :object_in_works,
       :object_ordered_works,
       :parent_for,
       :pdf?,
+      :save,
       :solr_construct_query,
       :solr_name,
       :solr_query,
@@ -119,7 +124,7 @@ module IiifPrint
   # @see IiifPrint::DEFAULT_MODEL_CONFIGURATION
   # @todo Because not every job will split PDFs and write to a child model. May want to introduce
   #       an alternative splitting method to create new filesets on the existing work instead of new child works.
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def self.model_configuration(**kwargs)
     Module.new do
       extend ActiveSupport::Concern
@@ -135,6 +140,15 @@ module IiifPrint
                   else
                     raise "Unable to mix '.model_configuration' into #{work_type}"
                   end
+
+        # Ensure that the work_type and corresponding indexer are properly decorated for IiifPrint
+        if defined?(Valkyrie::Resource) && work_type < Valkyrie::Resource
+          IiifPrint::PersistenceLayer::ValkyrieAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+        elsif work_type < ActiveFedora::Base
+          IiifPrint::PersistenceLayer::ActiveFedoraAdapter.decorate_form_with_adapter_logic(work_type: work_type)
+        else
+          raise "Unable to mix '.model_configuration' into #{work_type}"
+        end
 
         # Deriving lineage of objects is a potentially complicated thing.  We provide a default
         # service but each work_type's indexer can be configured by amending it's
@@ -277,11 +291,15 @@ module IiifPrint
     locations = locations.select { |location| split_for_path_suffix?(location, skip_these_endings: skip_these_endings) }
     return :no_pdfs_for_splitting if locations.empty?
 
+    # Hyrax::FileSet ids are Valkyrie::ID's which can't be passed, so we call id on that and get the string id
+    file_set_id = file_set.id.try(:id) || file_set.id
+    work_admin_set_id = work.admin_set_id.try(:id) || work.admin_set_id
+
     work.try(:iiif_print_config)&.pdf_splitter_job&.perform_later(
-      file_set,
+      file_set_id,
       locations,
       user,
-      work.admin_set_id,
+      work_admin_set_id,
       0 # A no longer used parameter; but we need to preserve the method signature (for now)
     )
   end
@@ -303,4 +321,4 @@ module IiifPrint
     !path.downcase.end_with?(*skip_these_endings.map(&:downcase))
   end
 end
-# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/ModuleLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

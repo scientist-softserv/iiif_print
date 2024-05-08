@@ -15,9 +15,9 @@ module IiifPrint
         #   get the fileset from that id
         return FileSet.find(@work) if @work.is_a?(String)
         # if "work" context is a FileSet, not actual work, return it
-        return @work if @work.is_a? FileSet
+        return @work if @work.is_a?(Hyrax::FileSet) || @work.is_a?(FileSet)
         # in most cases, get from work's members:
-        filesets = @work.members.select { |m| m.is_a? FileSet }
+        filesets = @work.members.select { |m| m.is_a?(Hyrax::FileSet) || m.is_a?(FileSet) }
         filesets.empty? ? nil : filesets[0]
       end
     end
