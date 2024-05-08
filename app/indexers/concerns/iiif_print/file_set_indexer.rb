@@ -34,13 +34,11 @@ module IiifPrint
       file = object.original_file
       return unless file
 
-      digest ||= begin
-        if file.is_a?(Hyrax::FileMetadata) 
-          file.checksum
-        else # file is a Hydra::PCDM::File (ActiveFedora)
-          file.digest.first
-        end
-      end
+      digest ||= if file.is_a?(Hyrax::FileMetadata)
+                   file.checksum
+                 else # file is a Hydra::PCDM::File (ActiveFedora)
+                   file.digest.first
+                 end
       return unless digest
 
       digest.to_s
