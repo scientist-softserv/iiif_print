@@ -27,7 +27,11 @@ class IiifPrint::PluggableDerivativeService
   class_attribute :derivative_path_factory, default: Hyrax::DerivativePath
 
   def initialize(file_set, plugins: plugins_for(file_set))
-    @file_set = file_set
+    @file_set = if file_set.is_a?(Hyrax::FileMetadata)
+                  Hyrax.query_service.find_by(id: file_set.file_set_id)
+                else
+                  file_set
+                end
     @plugins = Array.wrap(plugins)
     @valid_plugins = plugins.map { |plugin| plugin.new(file_set) }.select(&:valid?)
   end

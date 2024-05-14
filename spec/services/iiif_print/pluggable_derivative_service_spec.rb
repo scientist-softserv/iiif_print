@@ -2,6 +2,7 @@ require 'fileutils'
 require 'spec_helper'
 
 RSpec.describe IiifPrint::PluggableDerivativeService do
+  let(:work) { MyWork.new }
   let(:persisted_file_set) do
     fs = FileSet.new
     work.title = ['This is a page!']
@@ -11,11 +12,15 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
     work.save!(validate: false)
     fs
   end
-
+  let(:image_file) { double(image?: true) }
   let(:fixture_path) do
     File.join(
       IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
+  end
+
+  before do
+    allow(persisted_file_set).to receive(:original_file).and_return(image_file)
   end
 
   describe "service registration" do
@@ -29,7 +34,8 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       file_set = double(FileSet,
                         class: FileSet,
                         mime_type: 'application/pdf',
-                        parent: MyIiifConfiguredWorkWithAllDerivativeServices.new)
+                        parent: MyIiifConfiguredWorkWithAllDerivativeServices.new,
+                        original_file: image_file)
       found = Hyrax::DerivativeService.for(file_set)
       expect(found).to be_a described_class
     end
@@ -40,14 +46,13 @@ RSpec.describe IiifPrint::PluggableDerivativeService do
       allow(persisted_file_set).to receive(:in_works).and_return([work])
     end
 
-    let(:work) { MyWork.new }
-
     describe "#plugins" do
       it "uses the default derivatives service" do
         file_set = double(FileSet,
                           class: FileSet,
                           mime_type: 'application/pdf',
-                          parent: MyWork.new)
+                          parent: MyWork.new,
+                          original_file: image_file)
         service = described_class.new(file_set)
         expect(service.plugins).to eq [Hyrax::FileSetDerivativesService]
       end

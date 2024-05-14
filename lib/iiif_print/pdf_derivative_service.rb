@@ -24,7 +24,9 @@ module IiifPrint
     #   JP2 source, and whether we have color or grayscale material.
     def convert_cmd
       template = use_color? ? COLOR_PDF_CMD : GRAY_PDF_CMD
-      format(template, source_file: @source_path, out_file: @dest_path)
+      data = format(template, source_file: @source_path, out_file: @dest_path)
+      IiifPrint.copy_derivatives_from_data_store(stream: data, directives: { url: file_set.id.to_s, container: 'service_file', mime_type: mime_type_for(target_extension) })
+      data
     end
 
     def create_derivatives(filename)

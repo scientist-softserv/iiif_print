@@ -102,7 +102,15 @@ module IiifPrint
         raise NotImplementedError, "#{self}.{__method__}"
       end
 
-      def index_works(objects:)
+      def self.index_works(objects:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def self.copy_derivatives_from_data_store(stream:, directives:)
+        raise NotImplementedError, "#{self}.{__method__}"
+      end
+
+      def self.extract_text_for(file_set:)
         raise NotImplementedError, "#{self}.{__method__}"
       end
     end

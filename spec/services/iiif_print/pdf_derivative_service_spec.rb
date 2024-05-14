@@ -5,11 +5,15 @@ RSpec.describe IiifPrint::PDFDerivativeService do
     file_set.save!(validate: false)
     file_set
   end
-
+  let(:image_file) { double(image?: true) }
   let(:fixture_path) do
     File.join(
       IiifPrint::GEM_PATH, 'spec', 'fixtures', 'files'
     )
+  end
+
+  before do
+    allow(valid_file_set).to receive(:original_file).and_return(image_file)
   end
 
   describe "Creates PDF derivatives" do

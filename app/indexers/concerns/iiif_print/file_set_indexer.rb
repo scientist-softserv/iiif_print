@@ -35,7 +35,7 @@ module IiifPrint
       return unless file
 
       digest ||= if file.is_a?(Hyrax::FileMetadata)
-                   file.checksum
+                   Array.wrap(file.checksum).first
                  else # file is a Hydra::PCDM::File (ActiveFedora)
                    file.digest.first
                  end
@@ -48,8 +48,8 @@ module IiifPrint
       file = object.original_file
       return unless file
 
-      text = IiifPrint.config.all_text_generator_function.call(object: object) || ''
-      return text if text.empty?
+      text = IiifPrint.extract_text_for(file_set: object)
+      return text if text.blank?
 
       text.tr("\n", ' ').squeeze(' ')
     end
