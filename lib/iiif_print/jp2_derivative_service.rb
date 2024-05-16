@@ -53,7 +53,10 @@ module IiifPrint
       render_cmd = opj_command
 
       # Run the generated command to make derivative file at @dest_path
-      `#{render_cmd}`
+      data = `#{render_cmd}`
+
+      # Create Hyrax::FileMetadata object for the derivatives (if Valkyrie)
+      IiifPrint.copy_derivatives_from_data_store(stream: data, directives: { url: file_set.id.to_s, container: 'service_file', mime_type: mime_type_for(target_extension) })
 
       # Clean up any intermediate files or symlinks used during creation
       cleanup_intermediate

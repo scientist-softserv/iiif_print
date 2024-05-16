@@ -7,7 +7,11 @@ module IiifPrint
     class_attribute :target_extension, default: nil
 
     def initialize(file_set)
-      @file_set = file_set
+      @file_set = if file_set.is_a?(Hyrax::FileMetadata)
+                    Hyrax.query_service.find_by(id: file_set.file_set_id)
+                  else
+                    file_set
+                  end
       @dest_path = nil
       @source_path = nil
       @source_meta = nil
@@ -26,7 +30,10 @@ module IiifPrint
     # @return [Boolean]
     def valid?
       # @note We are taking a shortcut because currently we are only concerned about images.
-      file_set.class.image_mime_types.include?(file_set.mime_type)
+      # @TODO: verify if this works for ActiveFedora and if so, remove commented code.
+      #        If not, modify to use adapter.
+      # file_set.class.image_mime_types.include?(file_set.mime_type)
+      file_set.original_file.image?
     end
 
     def derivative_path_factory
@@ -109,6 +116,10 @@ module IiifPrint
       @source_path = intermediate_path
       # intermediate -> PDF
       im_convert
+    end
+
+    def mime_type_for(extension)
+      Marcel::MimeType.for extension: extension
     end
   end
 end

@@ -52,8 +52,10 @@ module IiifPrint
 
     delegate(
       :clean_for_tests!,
+      :copy_derivatives_from_data_store,
       :create_relationship_between,
       :destroy_children_split_from,
+      :extract_text_for,
       :find_by,
       :find_by_title_for,
       :grandparent_for,

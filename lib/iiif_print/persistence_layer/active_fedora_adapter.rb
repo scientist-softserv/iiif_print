@@ -165,6 +165,25 @@ module IiifPrint
         end
         true
       end
+
+      ##
+      # does nothing for ActiveFedora;
+      # allows valkyrie works to have an extra step to create the Hyrax::Metadata objects.
+      #
+      # @param []
+      # @return [TrueClass]
+      def self.copy_derivatives_from_data_store(*)
+        true
+      end
+
+      ##
+      # Extract text from the derivatives
+      #
+      # @param [FileSet] an ActiveFedora fileset
+      # @return [String] Text from fileset's file
+      def self.extract_text_for(file_set:)
+        IiifPrint.config.all_text_generator_function.call(object: file_set) || ''
+      end
     end
   end
 end

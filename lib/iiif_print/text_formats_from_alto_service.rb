@@ -4,9 +4,10 @@ module IiifPrint
   #   NOTE: to keep this from conflicting with TextExtractionDerivativeService,
   #         this class should be invoked by it, not PluggableDerivativeService.
   class TextFormatsFromALTOService < BaseDerivativeService
-    self.target_extension = 'tiff'.freeze
+    self.target_extension = 'txt'.freeze
 
     def save_derivative(destination, data)
+      mime_type = mime_type_for(destination)
       # Load/prepare base of "pairtree" dir structure for extension, fileset
       prepare_path(destination)
       #
@@ -17,6 +18,7 @@ module IiifPrint
       # Write data as UTF-8 encoded text
       File.open(save_path, "w:UTF-8") do |f|
         f.write(data)
+        IiifPrint.copy_derivatives_from_data_store(stream: data, directives: { url: file_set.id.to_s, container: 'extracted_text', mime_type: mime_type })
       end
     end
 

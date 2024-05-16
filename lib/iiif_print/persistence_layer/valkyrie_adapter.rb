@@ -154,6 +154,30 @@ module IiifPrint
         end
         true
       end
+
+      ##
+      # Performs an extra step to create the Hyrax::Metadata objects
+      # for derivatives.
+      #
+      # @param []
+      # @return [TrueClass]
+      def self.copy_derivatives_from_data_store(stream:, directives:)
+        Hyrax::ValkyriePersistDerivatives.call(stream, directives)
+      end
+
+      ##
+      # Extract text from the derivatives
+      #
+      # @param [Hyrax::FileSet] a Valkyrie fileset
+      # @return [String] Text from fileset's file
+      def self.extract_text_for(file_set:)
+        fm = Hyrax.custom_queries.find_many_file_metadata_by_use(resource: file_set,
+        use: Hyrax::FileMetadata::Use.uri_for(use: :extracted_file))
+        return if fm.empty?
+        text_fm = fm.find { |t| t.mime_type == Marcel::MimeType.for(extension: 'txt') }
+        return if text_fm.nil?
+        text_fm.content
+      end
     end
   end
 end

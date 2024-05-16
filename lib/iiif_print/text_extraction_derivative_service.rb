@@ -28,13 +28,15 @@ module IiifPrint
 
       ocr_derivatives.each do |extension, method_name|
         path = prepare_path(extension.to_s)
-        write(content: ocr.public_send(method_name), path: path)
+        write(content: ocr.public_send(method_name), path: path, extension: extension)
       end
     end
 
-    def write(content:, path:)
+    def write(content:, path:, extension:)
+      mime_type = mime_type_for(extension)
       File.open(path, 'w') do |outfile|
         outfile.write(content)
+        IiifPrint.copy_derivatives_from_data_store(stream: content, directives: { url: path, container: 'extracted_text', mime_type: mime_type })
       end
     end
 
