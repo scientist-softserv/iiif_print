@@ -22,3 +22,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::Actors::CleanupFileSetsActor.prepend(IiifPrint::Actors::CleanupFileSetsActorDecorator)

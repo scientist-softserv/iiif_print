@@ -1,6 +1,6 @@
 # mixin to provide URL for IIIF Content Search service
 module IiifPrint
-  module IiifManifestPresenterBehavior
+  module IiifManifestPresenterDecorator
     extend ActiveSupport::Concern
 
     # Extending the presenter to the base url which includes the protocol.
@@ -128,3 +128,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterDecorator)

@@ -48,55 +48,14 @@ module IiifPrint
 
       Hyrax.publisher.subscribe(IiifPrint::Listener.new) if Hyrax.respond_to?(:publisher)
 
-      Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterBehavior)
-      Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryBehavior)
-      Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceBehavior)
-      Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
-      Hyrax::WorksControllerBehavior.prepend(IiifPrint::WorksControllerBehaviorDecorator)
-      "Hyrax::Transactions::Steps::DeleteAllFileSets".safe_constantize&.prepend(Hyrax::Transactions::Steps::DeleteAllFileSetsDecorator)
-      # Hyku::WorksControllerBehavior was introduced in Hyku v6.0.0+.  Yes we don't depend on Hyku,
-      # but this allows us to do minimal Hyku antics with IiifPrint.
-      'Hyku::WorksControllerBehavior'.safe_constantize&.prepend(IiifPrint::WorksControllerBehaviorDecorator)
-
-      Hyrax::FileSetPresenter.prepend(IiifPrint::FileSetPresenterDecorator)
-      Hyrax::WorkShowPresenter.prepend(IiifPrint::WorkShowPresenterDecorator)
-      Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)
-
-      if ActiveModel::Type::Boolean.new.cast(ENV.fetch('HYRAX_VALKYRIE', false))
-        # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
-        # `Hyrax::ValkyrieFileSetIndexer`.
-        'Hyrax::Indexers::FileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexer)
-
-        # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
-        # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
-        # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
-        # `def initialize(*args); super; end`
-        'Hyrax::ValkyrieFileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexer)
-
-        # Newer versions of Hyrax favor `Hyrax::Indexers::PcdmObjectIndexer` and deprecate
-        # `Hyrax::ValkyrieWorkIndexer`
-        indexers = Hyrax.config.curation_concerns.map do |concern|
-          "#{concern}ResourceIndexer".safe_constantize
-        end
-        indexers.each { |indexer| indexer.prepend(IiifPrint::ChildWorkIndexer) }
-
-        # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieWorkIndexer` so we want to decorate that as
-        # well.  We want to use the elsif construct because later on Hyrax::ValkyrieWorkIndexer
-        # inherits from Hyrax::Indexers::PcdmObjectIndexer and only implements:
-        # `def initialize(*args); super; end`
-        'Hyrax::ValkyrieWorkIndexer'.safe_constantize&.prepend(IiifPrint::ChildWorkIndexer)
-      else
-        # The ActiveFedora::Base indexer for FileSets
-        Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexer)
-        # The ActiveFedora::Base indexer for Works
-        Hyrax::WorkIndexer.prepend(IiifPrint::ChildWorkIndexer)
+      # Allows us to use decorator files
+      Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")).sort.each do |c|
+        Rails.configuration.cache_classes ? require(c) : load(c)
       end
 
-      ::BlacklightIiifSearch::IiifSearchResponse.prepend(IiifPrint::IiifSearchResponseDecorator)
-      ::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
-      ::BlacklightIiifSearch::IiifSearch.prepend(IiifPrint::IiifSearchDecorator)
-      Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)
-      Hyrax::Actors::CleanupFileSetsActor.prepend(IiifPrint::Actors::CleanupFileSetsActorDecorator)
+      Dir.glob(File.join(File.dirname(__FILE__), "../../lib/**/*_decorator*.rb")).sort.each do |c|
+        Rails.configuration.cache_classes ? require(c) : load(c)
+      end
 
       Hyrax.config do |config|
         config.callback.set(:after_create_fileset) do |file_set, user|
@@ -108,7 +67,7 @@ module IiifPrint
     config.after_initialize do
       IiifPrint::Solr::Document.decorate(SolrDocument)
       Hyrax::IiifManifestPresenter::DisplayImagePresenter
-        .prepend(IiifPrint::IiifManifestPresenterBehavior::DisplayImagePresenterBehavior)
+        .prepend(IiifPrint::IiifManifestPresenterDecorator::DisplayImagePresenterDecorator)
     end
     # rubocop:enable Metrics/BlockLength
   end
