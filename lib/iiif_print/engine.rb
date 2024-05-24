@@ -66,8 +66,6 @@ module IiifPrint
 
     config.after_initialize do
       IiifPrint::Solr::Document.decorate(SolrDocument)
-      Hyrax::IiifManifestPresenter::DisplayImagePresenter
-        .prepend(IiifPrint::IiifManifestPresenterDecorator::DisplayImagePresenterDecorator)
     end
     # rubocop:enable Metrics/BlockLength
   end
