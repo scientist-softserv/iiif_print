@@ -91,7 +91,7 @@ module IiifPrint
       end
 
       def self.pdf?(file_set)
-        file_set.original_file.pdf?
+        file_set.original_file&.pdf?
       end
 
       ##
