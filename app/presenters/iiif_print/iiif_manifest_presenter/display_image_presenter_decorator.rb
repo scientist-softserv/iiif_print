@@ -2,7 +2,7 @@
 module IiifPrint
   module IiifManifestPresenter
     # OVERRIDE: Hyrax v3.x
-    module DisplayImagePresenterBehavior
+    module DisplayImagePresenterDecorator
       extend ActiveSupport::Concern
      # Extending the presenter to the base url which includes the protocol.
       # We need the base url to render the facet links and normalize the interface.
