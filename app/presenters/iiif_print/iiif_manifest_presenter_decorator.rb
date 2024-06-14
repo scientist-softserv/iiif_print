@@ -30,7 +30,6 @@ module IiifPrint
           'label' => I18n.t("hyrax.manifest.download_text") + (rendering.label || '') }
       end.flatten
     end
-
   end
 end
 Hyrax::IiifManifestPresenter.prepend(IiifPrint::IiifManifestPresenterDecorator)
