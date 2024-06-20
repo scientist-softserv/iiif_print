@@ -10,8 +10,4 @@ attributes:
     multiple: false
     index_keys:
       - "split_from_pdf_id_ssi"
-    form:
-      required: false
-      primary: false
-      multiple: false
     predicate: "http://id.loc.gov/vocabulary/identifiers/splitFromPdfId"
