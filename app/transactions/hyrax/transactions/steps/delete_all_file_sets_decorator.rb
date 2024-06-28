@@ -33,3 +33,5 @@ module Hyrax
     end
   end
 end
+
+"Hyrax::Transactions::Steps::DeleteAllFileSets".safe_constantize&.prepend(Hyrax::Transactions::Steps::DeleteAllFileSetsDecorator)

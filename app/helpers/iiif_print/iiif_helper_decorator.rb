@@ -30,3 +30,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::IiifHelper.prepend(IiifPrint::IiifHelperDecorator)

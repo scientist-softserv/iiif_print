@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-RSpec.describe IiifPrint::ManifestBuilderServiceBehavior do
+RSpec.describe IiifPrint::ManifestBuilderServiceDecorator do
   context '#initialize' do
     it 'uses defaults to set the version' do
       builder_service = Hyrax::ManifestBuilderService.new

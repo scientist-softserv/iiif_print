@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module IiifPrint
-  module FileSetIndexer
+  module FileSetIndexerDecorator
     def to_solr
       super.tap do |index_document|
         index_solr_doc(index_document)
@@ -54,4 +54,18 @@ module IiifPrint
       text.tr("\n", ' ').squeeze(' ')
     end
   end
+end
+if ActiveModel::Type::Boolean.new.cast(ENV.fetch('HYRAX_VALKYRIE', false))
+  # Newer versions of Hyrax favor `Hyrax::Indexers::FileSetIndexer` and deprecate
+  # `Hyrax::ValkyrieFileSetIndexer`.
+  'Hyrax::Indexers::FileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexerDecorator)
+
+  # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieFileSetIndexer` so we want to decorate that as
+  # well.  We want to use the elsif construct because later on Hyrax::ValkyrieFileSetIndexer
+  # inherits from Hyrax::Indexers::FileSetIndexer and only implements:
+  # `def initialize(*args); super; end`
+  'Hyrax::ValkyrieFileSetIndexer'.safe_constantize&.prepend(IiifPrint::FileSetIndexerDecorator)
+else
+  # The ActiveFedora::Base indexer for FileSets
+  Hyrax::FileSetIndexer.prepend(IiifPrint::FileSetIndexerDecorator)
 end

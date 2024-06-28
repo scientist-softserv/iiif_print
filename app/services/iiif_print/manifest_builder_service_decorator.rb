@@ -1,6 +1,6 @@
 module IiifPrint
   # rubocop:disable Metrics/ModuleLength
-  module ManifestBuilderServiceBehavior
+  module ManifestBuilderServiceDecorator
     def initialize(*args,
                    version: IiifPrint.config.default_iiif_manifest_version,
                    iiif_manifest_factory: iiif_manifest_factory_for(version),
@@ -154,3 +154,4 @@ module IiifPrint
   end
   # rubocop:enable Metrics/ClassLength
 end
+Hyrax::ManifestBuilderService.prepend(IiifPrint::ManifestBuilderServiceDecorator)

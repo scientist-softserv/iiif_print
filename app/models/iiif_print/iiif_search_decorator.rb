@@ -33,3 +33,4 @@ module IiifPrint
     end
   end
 end
+::BlacklightIiifSearch::IiifSearch.prepend(IiifPrint::IiifSearchDecorator)

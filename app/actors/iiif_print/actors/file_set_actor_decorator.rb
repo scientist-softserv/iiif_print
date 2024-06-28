@@ -56,3 +56,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::Actors::FileSetActor.prepend(IiifPrint::Actors::FileSetActorDecorator)

@@ -9,3 +9,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::FileSetPresenter.prepend(IiifPrint::FileSetPresenterDecorator)
