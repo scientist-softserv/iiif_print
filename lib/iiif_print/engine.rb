@@ -63,10 +63,6 @@ module IiifPrint
         end
       end
     end
-
-    config.after_initialize do
-      IiifPrint::Solr::Document.decorate(SolrDocument)
-    end
     # rubocop:enable Metrics/BlockLength
   end
 end
