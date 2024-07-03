@@ -13,7 +13,7 @@ module IiifPrint
       def first_fileset
         # if context is fileset id (e.g. caller is view partial) string,
         #   get the fileset from that id
-        return FileSet.find(@work) if @work.is_a?(String)
+        return Hyrax.query_service.find_by(id: @work) if @work.is_a?(String)
         # if "work" context is a FileSet, not actual work, return it
         return @work if @work.is_a?(Hyrax::FileSet) || @work.is_a?(FileSet)
         # in most cases, get from work's members:
