@@ -5,6 +5,7 @@ attributes:
     index_keys:
       - "is_child_bsi"
     form:
+      display: false
       required: false
       primary: false
       multiple: false
@@ -15,6 +16,7 @@ attributes:
     index_keys:
       - "split_from_pdf_id_ssi"
     form:
+      display: false
       required: false
       primary: false
       multiple: false

@@ -87,7 +87,7 @@ module IiifPrint
         )
         BatchCreateJob.perform_later(user,
                                      @child_work_titles,
-                                     {},
+                                     @resource_types,
                                      @uploaded_files,
                                      attributes.merge!(model: child_model.to_s, split_from_pdf_id: @split_from_pdf_id).with_indifferent_access,
                                      operation)
@@ -99,6 +99,7 @@ module IiifPrint
       def prepare_import_data(original_pdf_path, image_files, user)
         @uploaded_files = []
         @child_work_titles = {}
+        @resource_types = {}
         number_of_pages_in_pdf = image_files.size
         image_files.each_with_index do |image_path, page_number|
           file_id = create_uploaded_file(user, image_path).to_s
@@ -111,6 +112,7 @@ module IiifPrint
             page_padding: number_of_digits(nbr: number_of_pages_in_pdf)
           )
 
+          @resource_types[file_id] = resource_types
           @uploaded_files << file_id
           @child_work_titles[file_id] = child_title
           # save child work info to create the member relationships
@@ -144,9 +146,13 @@ module IiifPrint
         uf.id
       end
 
-      # TODO: what attributes do we need to fill in from the parent work? What about AllinsonFlex?
       def attributes
         IiifPrint.config.child_work_attributes_function.call(parent_work: @parent_work, admin_set_id: @child_admin_set_id)
+      end
+
+      # TODO: Does this method need to be configurable?
+      def resource_types
+        @parent_work.try(:resource_type)
       end
     end
   end

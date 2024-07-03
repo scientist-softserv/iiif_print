@@ -366,7 +366,7 @@ module IiifPrint
                    else
                      # TODO: This is the fedora URL representing the file we uploaded; is that adequate?  Will we
                      # have access to this file?
-                     file_set.original_file.uri.to_s
+                     file_set.original_file&.uri&.to_s
                    end
     end
 
