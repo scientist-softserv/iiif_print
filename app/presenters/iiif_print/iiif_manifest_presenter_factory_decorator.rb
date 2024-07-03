@@ -1,5 +1,5 @@
 module IiifPrint
-  module IiifManifestPresenterFactoryBehavior
+  module IiifManifestPresenterFactoryDecorator
     # This will override Hyrax::IiifManifestPresenter::Factory#build and introducing
     # the expected behavior:
     # - child work images show as canvases in the parent work manifest
@@ -31,3 +31,4 @@ module IiifPrint
     end
   end
 end
+Hyrax::IiifManifestPresenter::Factory.prepend(IiifPrint::IiifManifestPresenterFactoryDecorator)

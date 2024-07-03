@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe IiifPrint::IiifManifestPresenterBehavior do
+RSpec.describe IiifPrint::IiifManifestPresenterDecorator do
   let(:parent_fs_attributes) do
     { "id" => "parent_fs123",
       "title_tesim" => ["My Parent FileSet"],
@@ -35,7 +35,7 @@ RSpec.describe IiifPrint::IiifManifestPresenterBehavior do
     it "returns an Array of DisplayImagePresenters" do
       allow_any_instance_of(Hyrax::IiifManifestPresenter::Factory)
         .to receive(:load_docs).and_return([parent_fs_solr_doc, child_work_solr_doc])
-      allow_any_instance_of(IiifPrint::IiifManifestPresenterFactoryBehavior)
+      allow_any_instance_of(IiifPrint::IiifManifestPresenterFactoryDecorator)
         .to receive(:load_file_set_docs).and_return([child_fs_solr_doc])
       allow(child_work_solr_doc).to receive(:hydra_model).and_return(MyWork)
       allow(Hyrax.config).to receive(:curation_concerns).and_return([MyWork])

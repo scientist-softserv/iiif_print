@@ -16,3 +16,4 @@ module Hyrax
     end
   end
 end
+Hyrax::Renderers::FacetedAttributeRenderer.prepend(Hyrax::Renderers::FacetedAttributeRendererDecorator)
