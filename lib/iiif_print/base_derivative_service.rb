@@ -33,7 +33,7 @@ module IiifPrint
       # @TODO: verify if this works for ActiveFedora and if so, remove commented code.
       #        If not, modify to use adapter.
       # file_set.class.image_mime_types.include?(file_set.mime_type)
-      file_set.original_file.image?
+      file_set.original_file&.image?
     end
 
     def derivative_path_factory
