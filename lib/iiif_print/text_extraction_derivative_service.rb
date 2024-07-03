@@ -28,7 +28,10 @@ module IiifPrint
 
       ocr_derivatives.each do |extension, method_name|
         path = prepare_path(extension.to_s)
-        write(content: ocr.public_send(method_name), path: path, extension: extension)
+        content = ocr.public_send(method_name)
+        return unless content.present?
+
+        write(content: content, path: path, extension: extension)
       end
     end
 
