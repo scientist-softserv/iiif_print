@@ -48,6 +48,10 @@ module IiifPrint
 
       Hyrax.publisher.subscribe(IiifPrint::Listener.new) if Hyrax.respond_to?(:publisher)
 
+      # Load locales early so decorators can use them during initialization
+      I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml'),
+                            IiifPrint::Engine.root.join('config', 'locales', '**', '*.yml')]
+
       # Allows us to use decorator files
       Dir.glob(File.join(File.dirname(__FILE__), "../../app/**/*_decorator*.rb")).sort.each do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
