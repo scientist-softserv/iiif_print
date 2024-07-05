@@ -134,3 +134,4 @@ module IiifPrint
     end
   end
 end
+::BlacklightIiifSearch::IiifSearchAnnotation.prepend(IiifPrint::BlacklightIiifSearch::AnnotationDecorator)
