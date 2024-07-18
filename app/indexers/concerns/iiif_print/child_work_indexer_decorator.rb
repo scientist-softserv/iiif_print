@@ -31,7 +31,7 @@ if ActiveModel::Type::Boolean.new.cast(ENV.fetch('HYRAX_VALKYRIE', false))
   # `Hyrax::ValkyrieWorkIndexer`
   indexers = Hyrax.config.curation_concerns.map do |concern|
     "#{concern}ResourceIndexer".safe_constantize
-  end
+  end.compact!
   indexers.each { |indexer| indexer.prepend(IiifPrint::ChildWorkIndexerDecorator) }
 
   # Versions 3.0+ of Hyrax have `Hyrax::ValkyrieWorkIndexer` so we want to decorate that as
