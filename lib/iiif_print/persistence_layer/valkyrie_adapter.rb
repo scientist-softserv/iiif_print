@@ -12,9 +12,7 @@ module IiifPrint
       # @param object [Valkyrie::Resource]
       # @return [Array<Valkyrie::Resource>]
       def self.object_ordered_works(object)
-        child_file_sets = Hyrax.custom_queries.find_child_file_sets(resource: object).to_a
-        child_works = Hyrax.custom_queries.find_child_works(resource: object).to_a
-        child_works + child_file_sets
+        Hyrax.custom_queries.find_child_works(resource: object).to_a
       end
 
       ##
