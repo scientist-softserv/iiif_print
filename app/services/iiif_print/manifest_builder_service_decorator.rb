@@ -79,7 +79,7 @@ module IiifPrint
       # uses the 'id' property for v3 manifest and `@id' for v2, which is a URL that contains the FileSet id
       file_set_id = (canvas['id'] || canvas['@id']).split('/').last
       # finds the image that the FileSet is attached to and creates metadata on that canvas
-      image = solr_doc_hits.find { |hit| hit[:descendent_member_ids_ssim]&.include?(file_set_id) }
+      image = solr_doc_hits.find { |hit| (hit[:descendent_member_ids_ssim] || hit[:member_ids_ssim])&.include?(file_set_id) }
       return unless image
       # prevents duplicating the child and parent metadata
       return if image.id == presenter.id
