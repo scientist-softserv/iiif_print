@@ -33,9 +33,9 @@ module IiifPrint
 
     def load_file_set_ids(solr_doc)
       solr_doc.try(:descendent_member_ids_ssim) ||
-      solr_doc.try(:[], 'descendent_member_ids_ssim') ||
-      solr_doc.try(:member_ids_ssim) ||
-      solr_doc.try(:[], 'member_ids_ssim')
+        solr_doc.try(:[], 'descendent_member_ids_ssim') ||
+        solr_doc.try(:member_ids_ssim) ||
+        solr_doc.try(:[], 'member_ids_ssim')
     end
 
     # This method allows for overriding to add additional file types to mix in with IiifAv
