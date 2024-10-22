@@ -25,7 +25,7 @@ module IiifPrint
     end
 
     def any_highlighting_in_all_text_fields?
-      ['all_text_timv', 'all_text_tsimv'].any? do |field|
+      [CatalogController.blacklight_config.iiif_search[:full_text_field]].any? do |field|
         highlights = response&.dig('highlighting', id, field)
         highlights&.any? { |text| text.include?("<span class='highlight'>") }
       end
