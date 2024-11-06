@@ -49,12 +49,12 @@
   -->
 
   <!-- IiifPrint: allow more than default Ubuntu policy, re: RAM, Disk -->
-  <policy domain="resource" name="memory" value="512MiB"/>
-  <policy domain="resource" name="map" value="1GiB"/>
-  <policy domain="resource" name="width" value="20KP"/>
-  <policy domain="resource" name="height" value="20KP"/>
-  <policy domain="resource" name="area" value="128MB"/>
-  <policy domain="resource" name="disk" value="2GiB"/>
+  <policy domain="resource" name="memory" value="16GiB"/>
+  <policy domain="resource" name="map" value="32GiB"/>
+  <policy domain="resource" name="disk" value="200GiB"/>
+  <policy domain="resource" name="width" value="100KP"/>
+  <policy domain="resource" name="height" value="100KP"/>
+  <policy domain="resource" name="area" value="500GiB"/>
 
   <policy domain="cache" name="shared-secret" value="passphrase"/>
   <policy domain="coder" rights="none" pattern="EPHEMERAL" />
