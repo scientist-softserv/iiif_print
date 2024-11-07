@@ -74,7 +74,18 @@ module IiifPrint
 
     # @return [Array<String>] lines of output from imagemagick `identify`
     def im_identify
-      cmd = "identify -limit memory 8GiB -limit map 16GiB -limit disk 50GiB -format 'Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME type: %m\n' #{path}"
+      memory_limit = IiifPrint.config.memory_limit
+      map_limit = IiifPrint.config.map_limit
+      disk_limit = IiifPrint.config.disk_limit
+    
+      cmd = "identify"
+      
+      cmd += " -limit memory #{memory_limit}" if memory_limit.present?
+      cmd += " -limit map #{map_limit}" if map_limit.present?
+      cmd += " -limit disk #{disk_limit}" if disk_limit.present?
+    
+      cmd += " -format 'Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME type: %m\n' #{path}"
+      
       output, status = Open3.capture2(cmd)
       Rails.logger.info "Identify command output: #{output}"
       Rails.logger.info "Identify command status: #{status}"
