@@ -63,7 +63,7 @@ module IiifPrint
 
         if file.class < Valkyrie::Resource
           # assuming that if one PDF is uploaded to a Valkyrie resource then all of them should be
-          paths = [Hyrax.storage_adapter.file_path(file.file_identifier)]
+          paths = [file.file.disk_path.to_s]
           pdfs_only_for(paths)
         else
           upload_ids = filter_file_ids(file.id.to_s)
