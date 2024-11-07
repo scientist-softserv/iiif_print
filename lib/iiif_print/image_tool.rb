@@ -74,12 +74,12 @@ module IiifPrint
 
     # @return [Array<String>] lines of output from imagemagick `identify`
     def im_identify
-      memory_limit = ENV["IM_MEMORY_LIMIT"]
-      map_limit = ENV["IM_MAP_LIMIT"]
-      disk_limit = ENV["IM_DISK_LIMIT"]
+      memory_limit = IiifPrint.config.memory_limit
+      map_limit = IiifPrint.config.map_limit
+      disk_limit = IiifPrint.config.disk_limit
     
       cmd = "identify"
-    
+      
       cmd += " -limit memory #{memory_limit}" if memory_limit.present?
       cmd += " -limit map #{map_limit}" if map_limit.present?
       cmd += " -limit disk #{disk_limit}" if disk_limit.present?
