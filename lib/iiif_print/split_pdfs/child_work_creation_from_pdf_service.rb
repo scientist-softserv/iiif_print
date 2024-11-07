@@ -63,8 +63,8 @@ module IiifPrint
 
         if file.class < Valkyrie::Resource
           # assuming that if one PDF is uploaded to a Valkyrie resource then all of them should be
-          paths = [file.file.disk_path.to_s]
-          pdfs_only_for(paths)
+          return [] unless file.pdf?
+          [file.file.disk_path.to_s]
         else
           upload_ids = filter_file_ids(file.id.to_s)
           return [] if upload_ids.empty?
