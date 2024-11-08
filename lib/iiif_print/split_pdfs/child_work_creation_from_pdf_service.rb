@@ -36,8 +36,16 @@ module IiifPrint
                          end
         return :no_pdfs_to_split if file_locations.empty?
 
-        IiifPrint.conditionally_submit_split_for(work: work, file_set: file_set, locations: file_locations, user: user)
-        :enqueued
+        file_set_id = file_set.id.try(:id) || file_set.id
+        work_admin_set_id = work.admin_set_id.try(:id) || work.admin_set_id
+        job = work.try(:iiif_print_config)&.pdf_splitter_job&.perform_later(
+          file_set_id,
+          file_locations,
+          user,
+          work_admin_set_id,
+          0 # A no longer used parameter; but we need to preserve the method signature (for now)
+        )
+        job ? :enqueued : :pdf_job_failed_enqueue
       end
       # rubocop:enable Metrics/MethodLength
 
