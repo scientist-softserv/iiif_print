@@ -21,7 +21,7 @@ module IiifPrint
       #
       # @return [Symbol] when we don't enqueue the job
       # @return [TrueClass] when we actually enqueue the job underlying job.
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def self.conditionally_enqueue(file_set:, file:, user:, import_url: nil, work: nil)
         work ||= IiifPrint.parent_for(file_set)
 
@@ -47,7 +47,7 @@ module IiifPrint
         )
         job ? :enqueued : :pdf_job_failed_enqueue
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
       ##
       # @api private
